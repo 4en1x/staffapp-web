@@ -2,7 +2,7 @@ import React from 'react'
 import {Button} from 'semantic-ui-react'
 import {Form} from 'semantic-ui-react'
 
-export default class EmailForm extends React.Component {
+export default class EmailInputForm extends React.Component {
 
   constructor(props) {
     super(props);
@@ -10,9 +10,9 @@ export default class EmailForm extends React.Component {
     this.onNextClicked = this.onNextClicked.bind(this);
   }
 
-  onNextClicked() {
+  onNextClicked = () => {
     this.props.inputHandle(this.input.value);
-  }
+  };
 
   render() {
     return (

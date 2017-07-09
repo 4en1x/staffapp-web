@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainPage from './main/launch-page';
+import SignInComponent from './main/auth/sign-in/sign-in.component'
 
-ReactDOM.render(<MainPage />, document.getElementById('root'));
+ReactDOM.render(<SignInComponent />, document.getElementById('root'));
