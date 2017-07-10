@@ -34,12 +34,14 @@ async function login(req, res) {
   }
 }
 
-async function logout(req, res) {
-  try {
+function logout(req, res) {
+  req.session.destroy(function (err) {
+    if (err) {
+      res.status(500).end();
+      return;
+    }
     res.end();
-  } catch (err) {
-    res.status(500).end();
-  }
+  });
 }
 
 module.exports = {
