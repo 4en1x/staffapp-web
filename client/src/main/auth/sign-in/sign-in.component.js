@@ -3,8 +3,8 @@ import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
 import { Divider } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
-import logos from "../../../assets/images";
-import "../../../index.css";
+import logos from '../../../assets/images'
+import '../../../index.css';
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
