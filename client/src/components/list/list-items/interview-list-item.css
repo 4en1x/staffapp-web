@@ -1,0 +1,27 @@
+.flex-interview-list-item {
+    display: flex;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.interview-list-item-header, .interview-list-item-extra {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    font-size: medium;
+}
+.interview-list-item-header .name {
+    margin-bottom: 10px;
+}
+
+.interview-list-item-description {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+
+
