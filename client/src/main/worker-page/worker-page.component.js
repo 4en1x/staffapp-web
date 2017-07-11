@@ -100,7 +100,6 @@ export default class WorkerPage extends React.Component {
     return (
       <div className="worker-page">
         <HeaderComponent user={user}/>
-        <div className="clear"></div>
         <div className="content">
           <MenuComponent className="menu-component" items={['Interviews']} menuItemClickHandle={this.menuItemClickHandle}/>
           <ListComponent listItem interviews={interviews}/>
