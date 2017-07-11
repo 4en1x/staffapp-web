@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
   port: 3306,
   user: 'root',
   password: 'toor',
-  database: 'exadel-team-db',
+  database: 'exdl',
 });
 connection.connect((err) => {
   if (err) {
