@@ -1,0 +1,28 @@
+.worker-page {
+    display: flex;
+    flex-direction: column;
+    background-color: #eeeeee;
+    height: 100%;
+    width: 100%;
+}
+
+.worker-page .header {
+    overflow: auto;
+}
+
+.worker-page .image {
+    float: left;
+    width: 100px;
+}
+
+.worker-page .content {
+    width: 80%;
+    margin-top: 2%;
+    margin-left: 5%;
+    margin-bottom: 10%;
+    background-color: white;
+}
+
+
+
+
