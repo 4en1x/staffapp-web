@@ -2,7 +2,7 @@
     display: flex;
     margin-left: 20px;
     margin-right: 20px;
-    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .interview-list-item-header, .interview-list-item-extra {
@@ -12,8 +12,10 @@
     align-items: stretch;
     font-size: medium;
 }
-.interview-list-item-header .name {
-    margin-bottom: 10px;
+
+.interview-list-item-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .interview-list-item-description {
