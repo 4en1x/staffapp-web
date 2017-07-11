@@ -14,8 +14,8 @@ async function getUsers() {
 async function checkUserEmail(email) {
   try {
     const rows = await connection.queryAsync({
-      sql: `SELECT * FROM users 
-            WHERE email = ? 
+      sql: `SELECT * FROM users
+            WHERE email = ?
             LIMIT 1`,
       values: [email],
     });
@@ -27,8 +27,8 @@ async function checkUserEmail(email) {
 async function checkUser(user) {
   try {
     const rows = await connection.queryAsync({
-      sql: `SELECT * FROM users 
-            WHERE email = ? AND password = ? 
+      sql: `SELECT * FROM users
+            WHERE email = ? AND password = ?
             LIMIT 1`,
       values: [user.email, user.password],
     });

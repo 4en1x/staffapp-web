@@ -16,7 +16,7 @@ const sessionOptions = {
 
 const strategyOptions = {
   usernameField: 'email',
-}
+};
 
 function promisifiedAuthenticate(req, res) {
   return new Promise((resolve, reject) => {
@@ -37,9 +37,7 @@ function init(app) {
       if (user) {
         return done(null, user);
       }
-      if (!user) {
-        return done({ message: 'auth-error' }, false);
-      }
+      return done({ message: '401' }, false);
     } catch (err) {
       return done(err.message);
     }
@@ -72,7 +70,7 @@ function init(app) {
 
   app.use(passport.initialize());
   app.use(passport.session());
-};
+}
 
 module.exports = {
   init,

@@ -12,6 +12,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 services(app);
 router(app);
 
-const server = app.listen(app.get('port'), () => {
+app.listen(app.get('port'), () => {
   console.log(`Exadel.Axel server has been started on port ${app.get('port')}`);
 });

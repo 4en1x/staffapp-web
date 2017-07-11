@@ -1,41 +1,55 @@
 const users = require('../dao/users');
 const service = require('../services/auth');
 
-async function email(req, res) {
+async function checkEmail(req, res) {
   try {
     const email = await users.checkUserEmail(req.body.email);
     if (email) {
       res.send();
       return;
     }
-    throw new Error('no-user');
-  } catch (err) {
     res.status(401).end();
+  } catch (err) {
+    res.status(500).end();
   }
 }
 
 async function login(req, res) {
   try {
+    if (!req.body.email || !req.body.password) {
+      throw new Error('400');
+    }
     const user = await service.promisifiedAuthenticate(req, res);
     if (!user) {
-      res.status(401).send('auth-error');
+      res.status(401).end();
       return;
     }
     req.logIn(user, (error) => {
       if (error) {
-        res.send(error.message);
+        res.status(401).end();
         return;
       }
       res.end();
     });
   } catch (err) {
-    res.status(401).send(err.message);
-    return;
+    if (err.message === '401') {
+      res.status(401).end();
+      return;
+    }
+    if (err.message === '400') {
+      res.status(400).end();
+      return;
+    }
+    res.status(500).send(err.message);
   }
 }
 
 function logout(req, res) {
-  req.session.destroy(function (err) {
+  if (!req.user) {
+    res.status(401).end();
+    return;
+  }
+  req.session.destroy((err) => {
     if (err) {
       res.status(500).end();
       return;
@@ -45,7 +59,7 @@ function logout(req, res) {
 }
 
 module.exports = {
-  email,
+  checkEmail,
   login,
   logout,
 };
