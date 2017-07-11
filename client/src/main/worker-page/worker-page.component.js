@@ -102,7 +102,7 @@ export default class WorkerPage extends React.Component {
         <HeaderComponent user={user}/>
         <div className="content">
           <MenuComponent className="menu-component" items={['Interviews']} menuItemClickHandle={this.menuItemClickHandle}/>
-          <ListComponent listItem interviews={interviews}/>
+          <ListComponent interviews={interviews}/>
         </div>
       </div>
     )

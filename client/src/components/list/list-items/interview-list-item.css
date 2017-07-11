@@ -10,9 +10,6 @@
     font-size: medium;
 }
 
-.interview-list-item-header {
-}
-
 .interview-list-item-description {
     display: flex;
     flex-direction: row;
