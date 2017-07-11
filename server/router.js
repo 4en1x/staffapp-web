@@ -1,8 +1,6 @@
 const auth = require('./routes/auth');
 
 const router = (app) => {
-  app.set('port', process.env.PORT || 80);
-
   app.get('/', (req, res) => {
     res.send('Auth page should be here...');
   });
