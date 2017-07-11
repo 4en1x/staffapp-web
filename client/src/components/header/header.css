@@ -1,6 +1,7 @@
 .header-component {
     background-color: #fafafa;
-    overflow: auto;
+    width: 100%;
+    height: 20%;
 }
 
 .header-component .image {
