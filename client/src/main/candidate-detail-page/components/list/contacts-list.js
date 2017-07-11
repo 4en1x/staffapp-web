@@ -1,7 +1,7 @@
 import React from 'react';
 import {List} from 'semantic-ui-react';
 
-const CommunicationList = (props) => {
+const ContactsList = (props) => {
 
   const contactInfo = {
     id: '1',
@@ -23,4 +23,4 @@ const CommunicationList = (props) => {
   )
 };
 
-export default CommunicationList;
+export default ContactsList;
