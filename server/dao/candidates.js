@@ -155,9 +155,3 @@ module.exports = {
   deleteCandidate,
   updateCandidate,
 };
-async function d() {
-  // console.log(await candidateById(1));
-   console.log(await candidates(1));
-}
-
-d();
