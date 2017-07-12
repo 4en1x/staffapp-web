@@ -14,7 +14,6 @@ async function getHiringsByUserId(id) {
     throw err;
   }
 }
-
 async function isAnyOpenHiringsForCandidate(id) {
   try {
     const rows = await connection.queryAsync({
@@ -40,7 +39,6 @@ async function addHiring(hiring) {
     throw err;
   }
 }
-
 async function getHiringsByCandidateId(id) {
   try {
     const rows = await connection.queryAsync({
@@ -54,7 +52,6 @@ async function getHiringsByCandidateId(id) {
     throw err;
   }
 }
-
 async function updateHiring(id, hiring) {
   try {
     await connection.queryAsync({
@@ -66,11 +63,23 @@ async function updateHiring(id, hiring) {
     throw err;
   }
 }
-
+async function deleteHiring(id) {
+  try {
+    await connection.queryAsync({
+      sql: `DELETE FROM hirings 
+            WHERE id = ?`,
+      values: [id],
+    });
+  } catch (error) {
+    throw error;
+  }
+  return null;
+}
 module.exports = {
   getHiringsByUserId,
   addHiring,
   updateHiring,
   getHiringsByCandidateId,
   isAnyOpenHiringsForCandidate,
+  deleteHiring,
 };
