@@ -8,16 +8,14 @@
     box-sizing: border-box;
 }
 
-.addFeedback {
+.add-feedback {
     float: right;
     margin: 10px 30px 30px 30px
 }
 
-body{ background: #f6f6f6; }
-
 #content{ margin: 0 5% 30px 5% }
 
-.candidateTitle{
-font-size: 2.5vmax;
+.candidate-title{
+font-size: 2.5em;
     margin: 20px 0 10px 0;
 }

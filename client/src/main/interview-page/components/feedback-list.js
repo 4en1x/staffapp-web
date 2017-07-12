@@ -13,7 +13,7 @@ export default class FeedbackList extends React.Component {
             <List divided relaxed>
                 {this.props.feedbacks.map((step, move) => {
                     return (
-                        < FeedbackListElement feedback={step} key={move} teacherHR={this.props.authorFeedback[move]}/>
+                        < FeedbackListElement feedback={step} key={move} authorFeedback={this.props.authorFeedback[move]}/>
                     );
                 })}
             </List>

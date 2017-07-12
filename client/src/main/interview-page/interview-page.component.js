@@ -19,115 +19,115 @@ const data = {
     feedbacks : [
         [
             {
-                tecknology: "JavaScript",
+                technology: "JavaScript",
                 grade: "5"
             },
             {
-                tecknology: "c++",
+                technology: "c++",
                 grade: "2"
             },
             {
-                tecknology: "pithon",
+                technology: "pithon",
                 grade: "7"
             },
             {
-                tecknology: ".net",
+                technology: ".net",
                 grade: "5"
             },
             {
-                tecknology: "angular",
+                technology: "angular",
                 grade: "9"
             }
 
         ],
         [
             {
-                tecknology: "JavaScript",
+                technology: "JavaScript",
                 grade: "6"
             },
             {
-                tecknology: "c++",
+                technology: "c++",
                 grade: "9"
             },
             {
-                tecknology: "pithon",
+                technology: "pithon",
                 grade: "2"
             },
             {
-                tecknology: ".net",
+                technology: ".net",
                 grade: "4"
             },
             {
-                tecknology: "angular",
+                technology: "angular",
                 grade: "7"
             }
 
         ],
         [
             {
-                tecknology: "JavaScript",
+                technology: "JavaScript",
                 grade: "5"
             },
             {
-                tecknology: "c++",
+                technology: "c++",
                 grade: "2"
             },
             {
-                tecknology: "pithon",
+                technology: "pithon",
                 grade: "7"
             },
             {
-                tecknology: ".net",
+                technology: ".net",
                 grade: "5"
             },
             {
-                tecknology: "angular",
+                technology: "angular",
                 grade: "9"
             }
 
         ],
         [
             {
-                tecknology: "JavaScript",
+                technology: "JavaScript",
                 grade: "9"
             },
             {
-                tecknology: "c++",
+                technology: "c++",
                 grade: "3"
             },
             {
-                tecknology: "pithon",
+                technology: "pithon",
                 grade: "6"
             },
             {
-                tecknology: ".net",
+                technology: ".net",
                 grade: "7"
             },
             {
-                tecknology: "angular",
+                technology: "angular",
                 grade: "8"
             }
 
         ],
         [
             {
-                tecknology: "JavaScript",
+                technology: "JavaScript",
                 grade: "10"
             },
             {
-                tecknology: "c++",
+                technology: "c++",
                 grade: "3"
             },
             {
-                tecknology: "pithon",
+                technology: "pithon",
                 grade: "6"
             },
             {
-                tecknology: ".net",
+                technology: ".net",
                 grade: "3"
             },
             {
-                tecknology: "angular",
+                technology: "angular",
                 grade: "2"
             }
 
@@ -145,8 +145,12 @@ export default class InterviewPageComponent extends React.Component {
         super(props);
     }
 
-    handleSearchChange = (e, value) => { console.log(value.value); }
-    addFeedback = () => { console.log("Feedback was sent"); }
+    handleSearchChange = (e, value) => {
+        // TODO: ... some action needed ...
+    }
+    addFeedback = () => {
+        // TODO: ... some action needed ...
+    }
 
     render() {
         return (
@@ -154,7 +158,7 @@ export default class InterviewPageComponent extends React.Component {
                 <Header user={data.user}/>
 
                 <div className="title">
-                    <div className="candidateTitle"> {data.candidate} </div>
+                    <div className="candidate-title"> {data.candidate} </div>
                     <Search onSearchChange={this.handleSearchChange} />
                 </div>
 
@@ -162,7 +166,7 @@ export default class InterviewPageComponent extends React.Component {
 
                 <Segment id="content">
 
-                    <Label as='a' color='teal' ribbon='right' size="huge"> data.status </Label>
+                    <Label as='a' color='teal' ribbon='right' size="huge"> {data.status} </Label>
 
                     <List size="huge">
                         <List.Item>
@@ -182,8 +186,8 @@ export default class InterviewPageComponent extends React.Component {
                     </List>
                 </Segment>
 
-                <div className="addFeedback">
-                    <Button primary  onClick={() => data.addFeedback()}> Feedback </Button>
+                <div className="add-feedback">
+                    <Button primary  onClick={this.addFeedback()}> Feedback </Button>
                 </div>
             </div>
         );

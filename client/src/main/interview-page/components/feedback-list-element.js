@@ -21,14 +21,14 @@ export default class FeedbackListElement extends React.Component {
     render() {
         return (
             <List.Item  onClick={this.handleClick}>
-                <List.Header as='a'>{this.props.teacherHR}</List.Header>
+                <List.Header as='a'>{this.props.authorFeedback}</List.Header>
                 { this.state.needOpen && this.props.feedback && <Message>
                     <List>
                         {this.props.feedback.map((step, move) => {
                             return (
                                 <List.Item key = {move}>
                                     <div className="content">
-                                        <p>{step.tecknology} </p>
+                                        <p>{step.technology} </p>
                                         <p>{step.grade}</p>
                                     </div>
                                 </List.Item>
