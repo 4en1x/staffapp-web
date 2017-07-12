@@ -1,6 +1,5 @@
 const Bluebird = require('bluebird');
 const connection = Bluebird.promisifyAll(require('./connection/connect'));
-const fecha = require('fecha');
 
 async function getHiringsByUserId(id) {
   try {
@@ -32,7 +31,6 @@ async function isAnyOpenHiringsForCandidate(id) {
 }
 async function addHiring(hiring) {
   try {
-    hiring.date_open = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     const data = await connection.queryAsync({
       sql: 'INSERT INTO hirings SET ?',
       values: [hiring],
@@ -57,13 +55,12 @@ async function getHiringsByCandadateId(id) {
   }
 }
 
-async function closeHiring(id) {
+async function updateHiring(id, hiring) {
   try {
-    const dateClose = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
     await connection.queryAsync({
-      sql: `UPDATE hirings SET date_close = ?
+      sql: `UPDATE hirings SET ?
             WHERE id = ?`,
-      values: [dateClose, id],
+      values: [hiring, id],
     });
   } catch (err) {
     throw err;
@@ -73,7 +70,7 @@ async function closeHiring(id) {
 module.exports = {
   getHiringsByUserId,
   addHiring,
-  closeHiring,
+  updateHiring,
   getHiringsByCandadateId,
   isAnyOpenHiringsForCandidate,
 };
