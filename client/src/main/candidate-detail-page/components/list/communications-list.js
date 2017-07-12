@@ -13,29 +13,29 @@ const communicationInfo = {
 
 const CommunicationsList = props => {
   return (
-    <List bulleted>
-      <List.Item>
-        {communicationInfo.last_HR}
-      </List.Item>
-      <List.Item>
-        {communicationInfo.lastConnectionDate.toDateString()}
-      </List.Item>
-      <List.Item>
-        {communicationInfo.vacancy}
-      </List.Item>
-      <List.Item>
-        {communicationInfo.lastMeetingDate.toDateString()}
-      </List.Item>
-      <List.Item>
-        {communicationInfo.feedBacks}
-      </List.Item>
-      <List.Item href="#">
-        {communicationInfo.resume}
-      </List.Item>
-      <List.Item>
-        {communicationInfo.nextConnectionTime}
-      </List.Item>
-    </List>
+      <List bulleted>
+        <List.Item>
+          {communicationInfo.last_HR}
+        </List.Item>
+        <List.Item>
+          {communicationInfo.lastConnectionDate.toDateString()}
+        </List.Item>
+        <List.Item>
+          {communicationInfo.vacancy}
+        </List.Item>
+        <List.Item>
+          {communicationInfo.lastMeetingDate.toDateString()}
+        </List.Item>
+        <List.Item>
+          {communicationInfo.feedBacks}
+        </List.Item>
+        <List.Item href="#">
+          {communicationInfo.resume}
+        </List.Item>
+        <List.Item>
+          {communicationInfo.nextConnectionTime}
+        </List.Item>
+      </List>
   );
 };
 
