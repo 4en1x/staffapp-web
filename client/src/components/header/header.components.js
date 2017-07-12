@@ -15,7 +15,7 @@ export default class HeaderComponent extends React.Component {
     return (
       <div className="header-component">
         <Image className="image" src={images.logo1} />
-        <Header className="header-label">
+        <Header id="header-label">
           {user.name + " " + user.surname}
         </Header>
       </div>
