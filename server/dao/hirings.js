@@ -41,7 +41,7 @@ async function addHiring(hiring) {
   }
 }
 
-async function getHiringsByCandadateId(id) {
+async function getHiringsByCandidateId(id) {
   try {
     const rows = await connection.queryAsync({
       sql: `SELECT * FROM hirings 
@@ -71,6 +71,6 @@ module.exports = {
   getHiringsByUserId,
   addHiring,
   updateHiring,
-  getHiringsByCandadateId,
+  getHiringsByCandidateId,
   isAnyOpenHiringsForCandidate,
 };
