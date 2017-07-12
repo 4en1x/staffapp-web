@@ -18,8 +18,8 @@ app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
-services(app);
-router(app);
+services.init(app);
+router.init(app);
 
 app.listen(app.get('port'), () => {
   console.log(`Exadel.Axel server has been started on port ${app.get('port')}`);

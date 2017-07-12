@@ -1,5 +1,5 @@
-const users = require('../dao/users');
-const service = require('../services/auth');
+const users = require('../dao/users.dao');
+const service = require('../services/auth.service');
 
 async function checkEmail(req, res) {
   try {
