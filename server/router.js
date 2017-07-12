@@ -1,4 +1,5 @@
 const auth = require('./routes/auth.route');
+const candidates = require('./routes/candidates.route');
 
 function init(app) {
   app.get('/', (req, res) => {
@@ -6,6 +7,7 @@ function init(app) {
   });
 
   auth.init(app);
+  candidates.init(app);
 
   app.use((req, res) => {
     res.status(404).send('Uh oh! 404:(');
