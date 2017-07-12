@@ -3,13 +3,14 @@ const SQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const users = require('../dao/users');
+const config = require('../config');
 
 const sessionOptions = {
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: 'toor',
-  database: 'exadel-team-db',
+  host: config.db.host,
+  port: config.db.port,
+  user: config.db.user,
+  password: config.db.password,
+  database: config.db.database,
   checkExpirationInterval: 900000,
   expiration: 86400000,
 };
