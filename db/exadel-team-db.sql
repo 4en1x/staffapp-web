@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`candidates` (
   `city_id` INT(11) NULL DEFAULT NULL,
   `salary` VARCHAR(45) NULL DEFAULT NULL,
   `notification_date` DATETIME NULL DEFAULT NULL,
+  `primary_skill_year_start` YEAR NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_candidates_users1_idx` (`user_id` ASC),
   INDEX `fk_candidates_cities1_idx` (`city_id` ASC),
@@ -78,16 +79,18 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `exadel-team-db`.`vacancy`
+-- Table `exadel-team-db`.`vacancies`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancy` (
-  `id` INT(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancies` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `city_id` INT(11) NOT NULL,
   `name` VARCHAR(120) NOT NULL,
   `status` SET('On hold', 'Active', 'CV provided', 'Waiting for interview with customer', 'Interview with customer', 'Candidate declined', 'Candidate approved', 'Closed', 'Cancelled') NOT NULL,
   `job_start` DATE NULL DEFAULT NULL,
   `created_date` DATETIME NOT NULL,
   `salary` VARCHAR(45) NULL,
+  `primary_skill` VARCHAR(45) NULL,
+  `description` LONGTEXT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_vacancy_cities1_idx` (`city_id` ASC),
   CONSTRAINT `fk_vacancy_cities1`
@@ -125,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`hirings` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_hirings_vacancy1`
     FOREIGN KEY (`vacancy_id`)
-    REFERENCES `exadel-team-db`.`vacancy` (`id`)
+    REFERENCES `exadel-team-db`.`vacancies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -321,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancy_has_skills` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_vacancy_has_skills_vacancy1`
     FOREIGN KEY (`vacancy_id`)
-    REFERENCES `exadel-team-db`.`vacancy` (`id`)
+    REFERENCES `exadel-team-db`.`vacancies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
