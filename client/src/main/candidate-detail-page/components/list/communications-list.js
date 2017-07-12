@@ -1,5 +1,6 @@
 import React from "react";
 import { List } from "semantic-ui-react";
+import './communications-list.css';
 
 const communicationInfo = {
   last_HR: "Sergey",
@@ -13,7 +14,7 @@ const communicationInfo = {
 
 const CommunicationsList = props => {
   return (
-      <List bulleted>
+      <List className='communications-list'>
         <List.Item>
           {communicationInfo.last_HR}
         </List.Item>

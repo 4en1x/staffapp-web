@@ -1,6 +1,7 @@
 import React from "react";
 import { List } from "semantic-ui-react";
 import Collapsible from "react-collapsible";
+import './skills.css';
 
 const SkillsList = props => {
   const skillsInfo = {
@@ -11,8 +12,8 @@ const SkillsList = props => {
   };
 
   return (
-    <List as="ul">
-      <Collapsible trigger={skillsInfo.primary_skill}>
+    <List className='skills-list'>
+      <Collapsible className='collapse' trigger={skillsInfo.primary_skill}>
         {skillsInfo.skills.map(skill => {
           return (
             <List.Item key={skill.toString()}>
@@ -21,7 +22,7 @@ const SkillsList = props => {
           );
         })}
       </Collapsible>
-      <List.Item as="li">
+      <List.Item>
         {skillsInfo.english_level}
       </List.Item>
     </List>

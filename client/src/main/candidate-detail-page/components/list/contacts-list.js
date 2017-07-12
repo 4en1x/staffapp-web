@@ -1,5 +1,6 @@
 import React from 'react';
 import {List} from 'semantic-ui-react';
+import './contacts-list.css';
 
 const ContactsList = props => {
 
@@ -13,12 +14,12 @@ const ContactsList = props => {
   };
 
   return (
-    <List as="ul">
-      <List.Item as='li'>{contactInfo.email}</List.Item>
-      <List.Item as='li'>{contactInfo.phone_number}</List.Item>
-      <List.Item as='li'>{contactInfo.skype}</List.Item>
-      <List.Item as='li'>{contactInfo.city}</List.Item>
-      <List.Item as='li'>{contactInfo.linked_link}</List.Item>
+    <List className='contacts-list'>
+      <List.Item>{contactInfo.email}</List.Item>
+      <List.Item>{contactInfo.phone_number}</List.Item>
+      <List.Item>{contactInfo.skype}</List.Item>
+      <List.Item>{contactInfo.city}</List.Item>
+      <List.Item>{contactInfo.linked_link}</List.Item>
     </List>
   )
 };
