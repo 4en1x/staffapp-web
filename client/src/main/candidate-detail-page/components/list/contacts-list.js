@@ -19,7 +19,7 @@ const ContactsList = props => {
       <List.Item>{contactInfo.phone_number}</List.Item>
       <List.Item>{contactInfo.skype}</List.Item>
       <List.Item>{contactInfo.city}</List.Item>
-      <List.Item>{contactInfo.linked_link}</List.Item>
+      <List.Item href="#">{contactInfo.linked_link}</List.Item>
     </List>
   )
 };

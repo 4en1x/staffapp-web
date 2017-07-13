@@ -13,17 +13,17 @@
 
 /* content top styles*/
 
-.candidate-detail-page .content .content-top {
+.content .content-top {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.candidate-detail-page .content .content-top .name-label {
+.content-top .name-label {
     margin: 0;
 }
 
-.candidate-detail-page .content .content-top .position-label {
+.content-top .position-label {
     margin: 0;
 }
 
