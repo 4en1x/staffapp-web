@@ -1,47 +1,54 @@
 .candidate-detail-page {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow: auto;
 }
 
 .candidate-detail-page .content {
-    margin-top: 2%;
     display: flex;
     flex-direction: inherit;
     width: 80%;
     margin-left: 2%;
-    min-width: 582px;
+    margin-top: 2%;
 }
 
-.candidate-detail-page .content .user-info {
+/* content top styles*/
+
+.candidate-detail-page .content .content-top {
     display: flex;
     flex-direction: column;
     text-align: left;
-    padding: 0;
 }
 
-.candidate-detail-page .content .user-info .name-label {
-    margin-bottom: 0;
+.candidate-detail-page .content .content-top .name-label {
+    margin: 0;
 }
 
-.candidate-detail-page .content .user-info .position-label {
-    margin-top: 0;
+.candidate-detail-page .content .content-top .position-label {
+    margin: 0;
 }
 
-.candidate-detail-page .content .segment{
+/* content description styles*/
+
+.candidate-detail-page .content .content-description{
     display: flex;
     flex-direction: column;
 }
 
-.candidate-detail-page .content .segment .label{
+.candidate-detail-page .content .content-description .label{
     margin-bottom: 5%;
     width: 20%;
 }
 
-.candidate-detail-page .content .segment .lists-content {
+/* list container styles */
+
+.candidate-detail-page .content .content-description .list-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     overflow: auto;
+    flex-wrap: wrap;
+}
+
+.candidate-detail-page .content .content-description .list-container .contacts{
+    margin-bottom: 6%;
 }

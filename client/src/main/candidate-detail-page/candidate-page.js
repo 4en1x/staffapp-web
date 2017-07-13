@@ -21,7 +21,7 @@ export default class CandidatePage extends React.Component {
       <div className="candidate-detail-page">
         <HeaderComponent user={user} />
         <div className="content">
-          <div className="user-info">
+          <div className="content-top">
             <Header as="h2" className="name-label">
               Sergey Moiseyenko
             </Header>
@@ -30,7 +30,7 @@ export default class CandidatePage extends React.Component {
               Java Junior Developer
             </Header>
           </div>
-          <Segment className="segment" raised>
+          <Segment className="content-description" raised>
             <Label
               as="a"
               color="red"
@@ -40,7 +40,7 @@ export default class CandidatePage extends React.Component {
             >
               Overview
             </Label>
-            <div className="lists-content">
+            <div className="list-container">
               <div className="contacts">
                 <Header as="h4">Contacts</Header>
                 <Contacts />

@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import InterviewPage from './main/interview-page/interview-page.component';
+import CandidateDetailPage from './main/candidate-detail-page/candidate-page';
 
-ReactDOM.render(<InterviewPage />, document.getElementById("root"));
+ReactDOM.render(<CandidateDetailPage />, document.getElementById("root"));
