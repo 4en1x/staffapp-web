@@ -23,7 +23,8 @@ export default class ListComponent extends React.Component {
 
     return (
       <List className="list-component">
-        {/*this.props.interviews.map(interview =>
+        {
+          /*this.props.interviews.map(interview =>
           <InterviewListItem interview={interview} key={interview.id} />
           )*/
           <VacancyListItem vacancy={VACANCY} key={VACANCY.id} />
