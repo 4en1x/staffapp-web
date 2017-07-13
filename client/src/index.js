@@ -1,7 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SignInComponent from "./main/auth/sign-in/sign-in.component";
-import InterviewListItem from './components/list/list-items/interview-list-item';
-import WorkerPage from './main/worker-page/worker-page.component';
+import CandidateDetailPage from './main/candidate-detail-page/candidate-page';
+import HeaderComponent from './components/header/header.components';
+import './index.css'
 
-ReactDOM.render(<WorkerPage />, document.getElementById("root"));
+ReactDOM.render(
+  <div>
+    <HeaderComponent user={{ name: 'Sergey', surname: 'Moiseyenko' }} />
+    <CandidateDetailPage />
+  </div>,
+  document.getElementById("root"));

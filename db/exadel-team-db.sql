@@ -60,14 +60,15 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`candidates` (
   `city_id` INT(11) NULL DEFAULT NULL,
   `salary` VARCHAR(45) NULL DEFAULT NULL,
   `notification_date` DATETIME NULL DEFAULT NULL,
+  `primary_skill_year_start` YEAR NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_candidates_users1_idx` (`user_id` ASC),
   INDEX `fk_candidates_cities1_idx` (`city_id` ASC),
   CONSTRAINT `fk_candidates_cities1`
     FOREIGN KEY (`city_id`)
     REFERENCES `exadel-team-db`.`cities` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE SET NULL
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_candidates_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `exadel-team-db`.`users` (`id`)
@@ -78,16 +79,18 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `exadel-team-db`.`vacancy`
+-- Table `exadel-team-db`.`vacancies`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancy` (
-  `id` INT(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancies` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `city_id` INT(11) NOT NULL,
   `name` VARCHAR(120) NOT NULL,
   `status` SET('On hold', 'Active', 'CV provided', 'Waiting for interview with customer', 'Interview with customer', 'Candidate declined', 'Candidate approved', 'Closed', 'Cancelled') NOT NULL,
   `job_start` DATE NULL DEFAULT NULL,
   `created_date` DATETIME NOT NULL,
   `salary` VARCHAR(45) NULL,
+  `primary_skill` VARCHAR(45) NULL,
+  `description` LONGTEXT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_vacancy_cities1_idx` (`city_id` ASC),
   CONSTRAINT `fk_vacancy_cities1`
@@ -116,18 +119,18 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`hirings` (
   CONSTRAINT `fk_hirings_candidates1`
     FOREIGN KEY (`candidate_id`)
     REFERENCES `exadel-team-db`.`candidates` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_users`
     FOREIGN KEY (`user_id`)
     REFERENCES `exadel-team-db`.`users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_vacancy1`
     FOREIGN KEY (`vacancy_id`)
-    REFERENCES `exadel-team-db`.`vacancy` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `exadel-team-db`.`vacancies` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -155,14 +158,13 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`interviews` (
   `date` DATETIME NULL DEFAULT NULL,
   `place` VARCHAR(45) NULL DEFAULT NULL,
   `hiring_id` INT(11) NOT NULL,
-  `status` TINYINT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_interviews_hirings1_idx` (`hiring_id` ASC),
   CONSTRAINT `fk_interviews_hirings1`
     FOREIGN KEY (`hiring_id`)
     REFERENCES `exadel-team-db`.`hirings` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -207,6 +209,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `exadel-team-db`.`interviews_has_users` (
   `interviews_id` INT(11) NOT NULL,
   `users_id` INT(11) NOT NULL,
+  `status` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`interviews_id`, `users_id`),
   INDEX `fk_interviews_has_users_users1_idx` (`users_id` ASC),
   INDEX `fk_interviews_has_users_interviews1_idx` (`interviews_id` ASC),
@@ -236,8 +239,8 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`links` (
   CONSTRAINT `fk_links_candidates1`
     FOREIGN KEY (`candidate_id`)
     REFERENCES `exadel-team-db`.`candidates` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -321,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`vacancy_has_skills` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_vacancy_has_skills_vacancy1`
     FOREIGN KEY (`vacancy_id`)
-    REFERENCES `exadel-team-db`.`vacancy` (`id`)
+    REFERENCES `exadel-team-db`.`vacancies` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -337,6 +340,7 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`feedback` (
   `interviews_id` INT NOT NULL,
   `candidate_id` INT NOT NULL,
   `comment` VARCHAR(45) NULL,
+  `status` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_feedback_tech_users1_idx` (`users_id` ASC),
   INDEX `fk_feedback_tech_interviews1_idx` (`interviews_id` ASC),
@@ -349,8 +353,8 @@ CREATE TABLE IF NOT EXISTS `exadel-team-db`.`feedback` (
   CONSTRAINT `fk_feedback_tech_interviews1`
     FOREIGN KEY (`interviews_id`)
     REFERENCES `exadel-team-db`.`interviews` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_feedback_candidates1`
     FOREIGN KEY (`candidate_id`)
     REFERENCES `exadel-team-db`.`candidates` (`id`)

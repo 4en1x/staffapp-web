@@ -1,6 +1,5 @@
 import React from "react";
-import { List } from "semantic-ui-react";
-import { Divider } from "semantic-ui-react";
+import { List, Divider } from "semantic-ui-react";
 import "./interview-list-item.css";
 
 const InterviewListItem = props => {
@@ -10,7 +9,7 @@ const InterviewListItem = props => {
     <List.Item className="flex-interview-list-item">
       <div className="interview-list-item-header">
         <div className="name">
-          {interview.name + " " + interview.surname}
+          {`${interview.name} ${interview.surname}`}
         </div>
         <div className="time">
           {interview.time}
@@ -18,7 +17,7 @@ const InterviewListItem = props => {
       </div>
       <div className="interview-list-item-description">
         <div className="description">
-          {interview.primary_skill}
+          {interview.primarySkill}
         </div>
       </div>
       <div className="interview-list-item-extra">
