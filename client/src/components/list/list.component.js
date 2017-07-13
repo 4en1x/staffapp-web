@@ -8,7 +8,7 @@ let VACANCY = {
   id: '1',
   name: 'Project',
   dateStart: '09.90.2017',
-  primary_skill: 'primary_skill',
+  primarySkill: 'primarySkill',
   status:'status',
   location: 'location'
 };
@@ -23,7 +23,8 @@ export default class ListComponent extends React.Component {
 
     return (
       <List className="list-component">
-        {/*this.props.interviews.map(interview =>
+        {
+          /*this.props.interviews.map(interview =>
           <InterviewListItem interview={interview} key={interview.id} />
           )*/
           <VacancyListItem vacancy={VACANCY} key={VACANCY.id} />

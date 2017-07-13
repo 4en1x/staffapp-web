@@ -10,7 +10,6 @@
 	],
 	"rules": {
 		"prettier/prettier": "error",
-		"linebreak-style": 0,
-		"react/jsx-filename-extension": ".js"
+		"linebreak-style": 0
 	}
 }

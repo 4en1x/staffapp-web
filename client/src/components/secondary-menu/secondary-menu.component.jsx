@@ -11,16 +11,14 @@ export default class SecondaryMenuComponent extends React.Component {
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
   render() {
-
     // const ItemsList = this.props.itemsList.map(item => {
     //   return { key: item, name: item };
     // });
 
-    const ItemsList = ["my interviews", "assigments", "all"].map(item => {
-      return { key: item, name: item };
-    });
-
-    const { activeItem } = this.state;
+    const ItemsList = ["my interviews", "assigments", "all"].map(item => ({
+      key: item,
+      name: item
+    }));
 
     return (
       <Menu

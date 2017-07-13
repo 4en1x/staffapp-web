@@ -1,0 +1,16 @@
+.hr-page_content{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5% 3%;
+}
+.ui.pointing.secondary.menu-component.menu{
+    font-size: 1.5rem;
+}
+.hr-page_content-description{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
