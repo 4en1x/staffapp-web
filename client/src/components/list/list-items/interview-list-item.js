@@ -18,7 +18,7 @@ const InterviewListItem = props => {
       </div>
       <div className="interview-list-item-description">
         <div className="description">
-          {interview.primary_skill}
+          {interview.primarySkill}
         </div>
       </div>
       <div className="interview-list-item-extra">

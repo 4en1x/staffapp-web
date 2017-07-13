@@ -1,15 +1,12 @@
-import React from "react";
-import CommunicationsList from "./components/list/communications-list";
-import Contacts from "./components/list/contacts-list";
-import SkillsList from "./components/list/skills-list";
-import { Segment } from "semantic-ui-react";
-import { Label } from "semantic-ui-react";
-import { Divider } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
-import HeaderComponent from "../../components/header/header.components";
-import "./candidate-page.css";
-
-let user = { name: "Sergey", surname: "Moiseyenko" };
+import React from 'react';
+import CommunicationsList from './components/list/communications-list';
+import Contacts from './components/list/contacts-list';
+import SkillsList from './components/list/skills-list';
+import { Segment } from 'semantic-ui-react';
+import { Label } from 'semantic-ui-react';
+import { Divider } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
+import './candidate-page.css';
 
 export default class CandidatePage extends React.Component {
   constructor(props) {
@@ -19,7 +16,6 @@ export default class CandidatePage extends React.Component {
   render() {
     return (
       <div className="candidate-detail-page">
-        <HeaderComponent user={user} />
         <div className="content">
           <div className="content-top">
             <Header as="h2" className="name-label">

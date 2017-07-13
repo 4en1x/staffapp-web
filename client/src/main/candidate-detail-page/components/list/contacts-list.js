@@ -7,19 +7,19 @@ const ContactsList = props => {
   const contactInfo = {
     id: '1',
     email: 'smoiseyenko@gmail.com',
-    phone_number: '1234567890',
+    phoneNumber: '1234567890',
     skype: 'sergey_moiseyenko',
     city: 'Minsk',
-    linked_link: 'http://linked_in'
+    linkedIn: 'http://linked_in'
   };
 
   return (
     <List className='contacts-list'>
       <List.Item>{contactInfo.email}</List.Item>
-      <List.Item>{contactInfo.phone_number}</List.Item>
+      <List.Item>{contactInfo.phoneNumber}</List.Item>
       <List.Item>{contactInfo.skype}</List.Item>
       <List.Item>{contactInfo.city}</List.Item>
-      <List.Item href="#">{contactInfo.linked_link}</List.Item>
+      <List.Item href="#">{contactInfo.linkedIn}</List.Item>
     </List>
   )
 };

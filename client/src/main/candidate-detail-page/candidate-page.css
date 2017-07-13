@@ -29,19 +29,19 @@
 
 /* content description styles*/
 
-.candidate-detail-page .content .content-description{
+.candidate-detail-page .content-description{
     display: flex;
     flex-direction: column;
 }
 
-.candidate-detail-page .content .content-description .label{
+.candidate-detail-page .content-description .label{
     margin-bottom: 5%;
     width: 20%;
 }
 
 /* list container styles */
 
-.candidate-detail-page .content .content-description .list-container{
+.candidate-detail-page .list-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -49,6 +49,6 @@
     flex-wrap: wrap;
 }
 
-.candidate-detail-page .content .content-description .list-container .contacts{
+.candidate-detail-page .list-container .contacts{
     margin-bottom: 6%;
 }
