@@ -1,0 +1,10 @@
+.ui.secondary.menu.custom>.item{
+    margin: 0;
+}
+
+.ui.secondary.vertical.menu.custom{
+    box-shadow: 0 0 10px rgba(0,0,0,0.5)
+}
+.ui.secondary.menu.custom .active.item, .ui.secondary.menu.custom .item:hover{
+    background-color: rgba(201, 241, 253, 0.3);
+}
