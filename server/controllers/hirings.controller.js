@@ -23,7 +23,10 @@ async function writeHiring(req, res) {
   try {
     const hasHirings = await hiringsDB.isAnyOpenHiringsForCandidate(req.query.candidate);
     if (hasHirings) {
-      return res.status(400).end('candidate already has hiring');
+      return res.status(200).send({
+        added: false,
+        massage: 'candidate already has hiring',
+      });
     }
     hiringID = await hiringsDB.addHiring(hiringObject);
     await writeInterviews(req.body.interviews, hiringID, req.query.candidate);
@@ -53,7 +56,7 @@ async function readHiring(req, res) {
   try {
     const hiring = await hiringsDB.getHiringByID(req.params.id);
     if (!hiring) {
-      return res.status(404).end();
+      return res.status(200).send({ founded: false });
     }
     const interviewsIDs = await interviewsDB.getInterviewsByHiringId(req.params.id);
     hiring.interviews = await getInterviewsByIDs(interviewsIDs);
@@ -67,7 +70,7 @@ async function readHirings(req, res) {
   try {
     const result = await hiringsDB.getHiringsByCandidateId(req.query.id);
     if (!result) {
-      return res.status(404).end();
+      return res.status(200).send({ founded: false });
     }
     return res.status(200).send(result);
   } catch (err) {
