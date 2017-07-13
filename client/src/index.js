@@ -1,5 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import InterviewPage from './main/interview-page/interview-page.component';
+import CandidateDetailPage from './main/candidate-detail-page/candidate-page';
+import HeaderComponent from './components/header/header.components';
+import './index.css'
 
-ReactDOM.render(<InterviewPage />, document.getElementById("root"));
+ReactDOM.render(
+  <div>
+    <HeaderComponent user={{ name: 'Sergey', surname: 'Moiseyenko' }} />
+    <CandidateDetailPage />
+  </div>,
+  document.getElementById("root"));

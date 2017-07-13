@@ -8,7 +8,7 @@ let VACANCY = {
   id: '1',
   name: 'Project',
   dateStart: '09.90.2017',
-  primary_skill: 'primary_skill',
+  primarySkill: 'primarySkill',
   status:'status',
   location: 'location'
 };
