@@ -12,7 +12,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '222',
@@ -21,7 +21,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '333',
@@ -30,7 +30,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '444',
@@ -39,7 +39,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '555',
@@ -48,7 +48,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '666',
@@ -57,7 +57,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   },
   {
     id: '777',
@@ -66,7 +66,7 @@ const interviews = [
     date: "08.08.08",
     time: "21 00",
     location: "Minsk, Belarus",
-    primary_skill: "Javascrtipt"
+    primarySkill: "Javascrtipt"
   }
 ];
 
