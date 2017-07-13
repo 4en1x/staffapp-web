@@ -1,157 +1,146 @@
-const Bluebird = require('bluebird');
-const connection = Bluebird.promisifyAll(require('./connection/connect'));
-const fecha = require('fecha');
+const config = require('../config');
+const BasicDAO = require('./basic.dao');
 
-const top = 10;
+class Candidates extends BasicDAO {
+  constructor() {
+    super('candidates');
+    this.top = config.db.itemsPerPage;
+  }
 
-async function addCandidate(candidate) {
-  const cloneCandidate = {};
-  let links = [];
-  let city;
-  Object.keys(candidate).forEach((key) => {
-    if (key === 'links') links = candidate[key];
-    else if (key === 'city') city = candidate[key];
-    else cloneCandidate[key] = candidate[key];
-  });
-  cloneCandidate.created_date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-  cloneCandidate.last_change_date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-  try {
-    await connection.beginTransactionAsync();
-    let data = await connection.queryAsync({
-      sql: `SELECT id FROM cities
-            WHERE name = ?`,
-      values: [city],
-    });
-    if (data[0]) cloneCandidate.city_id = data[0].id;
-    data = await connection.queryAsync({
-      sql: 'INSERT INTO candidates SET ?',
-      values: [cloneCandidate],
-    });
-    const candidateId = data.insertId;
-    links.forEach(async (element, index) => {
-      await connection.queryAsync({
-        sql: `INSERT INTO links (link, candidate_id)
-              VALUES (?, ?)`,
-        values: [links[index], candidateId],
+  async create(candidate, links, cityName) {
+    try {
+      await this.connection.beginTransactionAsync();
+
+      const [city] = await this.connection.queryAsync({
+        sql: `SELECT id FROM cities
+              WHERE name = ?`,
+        values: [cityName],
       });
-    });
-    await connection.commit();
-  } catch (error) {
-    return connection.rollback(() => {
-      throw error;
-    });
-  }
-  return null;
-}
 
-async function candidateById(id) {
-  try {
-    await connection.beginTransactionAsync();
-    const rows = await connection.queryAsync({
-      sql: `SELECT * FROM candidates
-            WHERE id = ?`,
-      values: [id],
-    });
-    rows[0].links = await connection.queryAsync({
-      sql: `SELECT link FROM links
-            WHERE candidate_id = ?`,
-      values: [rows[0].id],
-    }).map(name => name.link);
-    await connection.commit();
-    return rows[0];
-  } catch (error) {
-    return connection.rollback(() => {
-      throw error;
-    });
-  }
-}
+      candidate.city_id = city.id;
+      const id = await super.create(candidate);
 
-async function candidates(numberOfPage = 1) {
-  try {
-    await connection.beginTransactionAsync();
-    const rows = await connection.queryAsync({
-      sql: `SELECT c.id, c.name, c.surname, c.primary_skill, c.status, c.last_change_date, city.name AS city
-            FROM candidates c LEFT JOIN cities city
-            ON c.city_id = city.id
-            LIMIT ?, ?`,
-      values: [(numberOfPage - 1) * top, top],
-    });
-    await connection.commit();
-    return rows;
-  } catch (error) {
-    return connection.rollback(() => {
-      throw error;
-    });
-  }
-}
+      await Promise.all(links.map(async (link) => {
+        await this.connection.queryAsync({
+          sql: `INSERT INTO links (link, candidate_id)
+                VALUES (?, ?)`,
+          values: [link, id],
+        });
+      }));
 
-async function deleteCandidate(id) {
-  try {
-    await connection.beginTransactionAsync();
-    await connection.queryAsync({
-      sql: `DELETE  FROM links
-            WHERE candidate_id = ?`,
-      values: [id],
-    });
-    const data = await connection.queryAsync({
-      sql: `DELETE FROM candidates
-            WHERE id = ?`,
-      values: [id],
-    });
-    if (data.affectedRows === 0) {
-      throw new Error('Already deleted');
+      await this.connection.commit();
+      return id;
+    } catch (err) {
+      return this.connection.rollback(() => {
+        throw err;
+      });
     }
-    await connection.commit();
-  } catch (error) {
-    return connection.rollback(() => {
-      throw error;
-    });
   }
-  return null;
-}
 
-async function updateCandidate(candidate) {
-  try {
-    const cloneCandidate = {};
-    let links = [];
-    let id;
-    Object.keys(candidate).forEach((key) => {
-      if (key === 'links') links = candidate[key];
-      else if (key === 'id')id = candidate[key];
-      else cloneCandidate[key] = candidate[key];
-    });
-    cloneCandidate.last_change_date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-    await connection.beginTransactionAsync();
-    await connection.queryAsync({
-      sql: `DELETE  FROM links
-            WHERE candidate_id = ?`,
-      values: [id],
-    });
-    await connection.queryAsync({
-      sql: `UPDATE candidates
-            SET ?`,
-      values: [cloneCandidate],
-    });
-    links.forEach(async (element, index) => {
-      await connection.queryAsync({
-        sql: `INSERT INTO links (link, candidate_id)
-              VALUES (?, ?)`,
-        values: [links[index], id],
+  async readOne(id) {
+    try {
+      await this.connection.beginTransactionAsync();
+      const candidate = await super.readOne(id);
+
+      candidate.links = await this.connection.queryAsync({
+        sql: `SELECT link FROM links
+              WHERE candidate_id = ?`,
+        values: [candidate.id],
+      }).map(name => name.link);
+
+      await this.connection.commit();
+      return candidate;
+    } catch (err) {
+      return this.connection.rollback(() => {
+        throw err;
       });
-    });
-    await connection.commit();
-  } catch (error) {
-    return connection.rollback(() => {
-      throw error;
-    });
+    }
   }
-  return null;
+
+  async readPage(page = 1) {
+    try {
+      await this.connection.beginTransactionAsync();
+
+      const fields = 'c.id, c.name, c.surname, c.primary_skill, c.status, c.last_change_date, city.name AS city';
+      const joins = 'c LEFT JOIN cities city ON c.city_id = city.id';
+      const limit = 'LIMIT ?, ?';
+      const values = [(page - 1) * this.top, this.top];
+
+      const rows = await super.readAll({
+        fields,
+        addition: joins,
+        limit,
+        values,
+      });
+
+      await this.connection.commit();
+      return rows;
+    } catch (err) {
+      return this.connection.rollback(() => {
+        throw err;
+      });
+    }
+  }
+
+  async delete(id) {
+    try {
+      await this.connection.beginTransactionAsync();
+
+      await this.connection.queryAsync({
+        sql: `DELETE FROM links
+              WHERE candidate_id = ?`,
+        values: [id],
+      });
+
+      const { affectedRows } = await super.delete(id);
+      if (!affectedRows) {
+        throw new Error('404');
+      }
+
+      await this.connection.commit();
+      return null;
+    } catch (err) {
+      return this.connecton.rollback(() => {
+        throw err;
+      });
+    }
+  }
+
+  async update(id, candidate, links, cityName) {
+    try {
+      await this.connection.beginTransactionAsync();
+
+      const [city] = await this.connection.queryAsync({
+        sql: `SELECT id FROM cities
+              WHERE name = ?`,
+        values: [cityName],
+      });
+
+      candidate.city_id = city.id;
+
+      await this.connection.queryAsync({
+        sql: `DELETE FROM links
+              WHERE candidate_id = ?`,
+        values: [id],
+      });
+
+      await super.update(id, candidate);
+      await Promise.all(links.map(async (link) => {
+        await this.connection.queryAsync({
+          sql: `INSERT INTO links (link, candidate_id)
+                VALUES (?, ?)`,
+          values: [link, id],
+        });
+      }));
+
+      await this.connection.commit();
+      return null;
+    } catch (err) {
+      return this.connection.rollback(() => {
+        throw err;
+      });
+    }
+  }
 }
 
-module.exports = {
-  addCandidate,
-  candidateById,
-  candidates,
-  deleteCandidate,
-  updateCandidate,
-};
+module.exports = Candidates;

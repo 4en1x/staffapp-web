@@ -1,8 +1,9 @@
-const db = require('../dao/candidates.dao');
+const db = require('../dao');
+const service = require('../services/candidates.service');
 
 async function readCandidates(req, res) {
   try {
-    const candidates = await db.getCandidates(req.params.p);
+    const candidates = await db.candidates.readPage(req.params.p);
     res.json(candidates);
   } catch (err) {
     res.status(500).end();
@@ -11,7 +12,7 @@ async function readCandidates(req, res) {
 
 async function readCandidate(req, res) {
   try {
-    const candidate = await db.candidateById(req.params.id);
+    const candidate = await db.candidates.readOne(req.params.id);
     if (!candidate) {
       res.status(404).end();
     }
@@ -20,9 +21,11 @@ async function readCandidate(req, res) {
   }
 }
 
-async function writeCandidate(req, res) {
+async function createCandidate(req, res) {
+  const { candidate, links, city } = service.createCandidate(req.body);
+
   try {
-    await db.addCandidate(req.body);
+    await db.candidates.create(candidate, links, city);
     res.end();
   } catch (err) {
     res.status(500).end();
@@ -30,17 +33,34 @@ async function writeCandidate(req, res) {
 }
 
 async function updateCandidate(req, res) {
+  const id = req.params.id;
+  const { candidate, links, city } = service.updateCandidate(id, req.body);
+
   try {
-    await db.updateCandidate(req.body);
+    await db.candidates.update(id, candidate, links, city);
     res.end();
   } catch (err) {
     res.status(500).end();
   }
 }
 
-module.export = {
+async function deleteCandidate(req, res) {
+  try {
+    await db.candidates.delete(req.params.id);
+    res.end();
+  } catch (err) {
+    if (err.message === '404') {
+      res.status(404).end();
+      return;
+    }
+    res.status(500).end();
+  }
+}
+
+module.exports = {
   readCandidates,
   readCandidate,
-  writeCandidate,
+  createCandidate,
   updateCandidate,
+  deleteCandidate,
 };

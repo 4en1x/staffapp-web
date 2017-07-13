@@ -2,7 +2,7 @@ const session = require('express-session');
 const SQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const users = require('../dao/users.dao');
+const db = require('../dao');
 const config = require('../config');
 
 const sessionOptions = {
@@ -34,7 +34,7 @@ function promisifiedAuthenticate(req, res) {
 function init(app) {
   passport.use(new LocalStrategy(strategyOptions, async (email, password, done) => {
     try {
-      const user = await users.checkUser({ email, password });
+      const user = await db.users.checkUser(email, password);
       if (user) {
         return done(null, user);
       }
@@ -50,7 +50,7 @@ function init(app) {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await users.getUserById(id);
+      const user = await db.users.readOne(id);
       if (!user) {
         throw new Error('deserialize-error');
       }
