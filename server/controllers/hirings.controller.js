@@ -3,23 +3,25 @@ const interviewsDB = require('./../dao/interviews');
 const fecha = require('fecha');
 
 async function writeInterviews(interviews, hiringID, candidateID) {
-  return Promise.all(interviews.map(async (item) => {
+  await Promise.all(interviews.map(async (item) => {
     item.interview.hiring_id = hiringID;
     await interviewsDB.addInterview(item.interview, item.users, candidateID, item.feedbackFields);
   }));
 }
+
 function createHiringObject(req) {
-  const result = {};
-  result.user_id = req.session.user.id;
-  result.date_open = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-  result.candidate_id = req.query.candidate;
-  return result;
+  return {
+    user_id: req.session.user.id,
+    date_open: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+    candidate_id: req.query.candidate,
+  };
 }
+
 async function writeHiring(req, res) {
   const hiringObject = createHiringObject(req);
   let hiringID = null;
   try {
-    const hasHirings = await hiringsDB.isAnyOpenHiringsForCandidate(req.params.id);
+    const hasHirings = await hiringsDB.isAnyOpenHiringsForCandidate(req.query.candidate);
     if (hasHirings) {
       return res.status(400).end('candidate already has hiring');
     }
@@ -40,10 +42,13 @@ async function writeHiring(req, res) {
 }
 
 async function getInterviewsByIDs(ids) {
-  return Promise.all(ids.map(async (item) => {
-    return await interviewsDB.getInterviewById(item);
+  const interviews = await Promise.all(ids.map(async (item) => {
+    const interview = await interviewsDB.getInterviewById(item);
+    return interview;
   }));
+  return interviews;
 }
+
 async function readHiring(req, res) {
   try {
     const hiring = await hiringsDB.getHiringByID(req.params.id);
@@ -78,6 +83,7 @@ function createHiringUpdateObject(req) {
     date_close: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
   };
 }
+
 async function updateHiring(req, res) {
   const body = createHiringUpdateObject(req);
   try {
