@@ -7,7 +7,7 @@ class Interviews extends BasicDAO {
     this.top = config.db.itemsPerPage;
   }
 
-  async create(interview, users, candidateId) {
+  async create(interview, users, candidateId, feedbackFields) {
     try {
       await this.connection.beginTransactionAsync();
 
@@ -20,10 +20,23 @@ class Interviews extends BasicDAO {
 
       await Promise.all(users.map(async (userId) => {
         feedback.users_id = userId;
-        await connection.queryAsync({
+
+        const { insertId } = await this.connection.queryAsync({
           sql: 'INSERT INTO feedback SET ?',
           values: [feedback],
         });
+
+        if (!feedbackFields) {
+          return;
+        }
+
+        await Promise.all(feedbackFields.map(async (field) => {
+          field.feedback_id = insertId;
+          await this.connection.queryAsync({
+            sql: 'ISNERT INTO feedback_fields SET ?',
+            values: [field],
+          });
+        }));
       }));
 
       await this.connection.commit();
@@ -91,9 +104,33 @@ class Interviews extends BasicDAO {
   //   }
   // }
 
+  async readPageAll(page = 1) {
+    try {
+      const interviews = await this.connection.queryAsync({
+        sql: `SELECT id, type, date, place
+            FROM ${this.table}
+            INNER JOIN hirings h
+            ON ${this.table}.hiring_id = hirings.id
+            WHERE h.user_id = ${id}
+            AND h.date_close IS NULL
+            UNION
+            SELECT id, type, date, place
+            FROM ${this.table}
+            INNER JOIN feedback f ON f.interviews_id = interviews.id
+            WHERE f.users_id = ${id} AND f.status = 0
+            LIMIT ?, ?`,
+        values: [(page - 1) * this.top, this.top],
+      });
+
+      return interviews;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async readPageToUser(id, page = 1) {
     try {
-      const fields = 'type, date, place, hiring_id';
+      const fields = 'id, type, date, place';
       const joins = ' INNER JOIN feedback f ON f.interviews_id = interviews.id';
       const where = ' WHERE f.users_id = ? AND f.status = 0';
       const limit = 'LIMIT ?, ?';
@@ -113,16 +150,16 @@ class Interviews extends BasicDAO {
 
   async readPageFromUser(id, page = 1) { // TEST IT!!!
     try {
-      const fields = 'type, date, place';
+      const fields = 'type, date, place, id';
       const joins = `INNER JOIN hirings h
-                     ON interviews.hiring_id = h.id
-                     WHERE h.user_id = ?`;
+                     ON interviews.hiring_id = h.id`;
+      const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
       const limit = '?, ?';
       const values = [id, (page - 1) * this.top, this.top];
 
       const interviews = await super.readAll({
         fields,
-        addition: joins,
+        addition: joins + where,
         limit,
         values,
       });
@@ -133,8 +170,8 @@ class Interviews extends BasicDAO {
 
   async readPageByHiring(id, page = 1) {
     try {
-      const fields = 'type date place';
-      const where = 'WHERE interview.hiring_id = ?';
+      const fields = 'id, type, date, place';
+      const where = 'WHERE interviews.hiring_id = ?';
       const limit = '?, ?';
       const values = [id, (page - 1) * this.top, this.top];
 
@@ -151,83 +188,5 @@ class Interviews extends BasicDAO {
     }
   }
 }
-
-async function deleteInterview(id) {
-  try {
-    await connection.queryAsync({
-      sql: `DELETE FROM interviews
-            WHERE id = ?`,
-      values: [id],
-    });
-  } catch (error) {
-    throw error;
-  }
-  return null;
-}
-
-// async function updateFeedback(id, comment) {
-//   try {
-//     await connection.queryAsync({
-//       sql: `UPDATE feedback
-//             SET comment = ?, status = 1
-//             WHERE id = ?`,
-//       values: [comment, id],
-//     });
-//   } catch (error) {
-//     throw error;
-//   }
-//   return null;
-// }
-
-// async function getInterviewsByHiringId(id) {
-//   try {
-//     const rows = await connection.queryAsync({
-//       sql: `SELECT i.type, i.date, i.place, f.id
-//             FROM interviews i
-//             INNER JOIN feedback f
-//             ON f.interviews_id = i.id
-//             WHERE i.hiring_id = ?`,
-//       values: [id],
-//     });
-//     if (rows.length === 0) return null;
-//     return rows;
-//   } catch (err) {
-//     throw err;
-//   }
-// }
-
-// async function getAssignedInterviews(id) {
-//   try {
-//     const rows = await connection.queryAsync({
-//       sql: `SELECT i.type, i.date, i.place, i.hiring_id, f.id
-//             FROM users u
-//             INNER JOIN hirings h
-//             ON h.user_id = u.id
-//             INNER JOIN interviews i
-//             ON i.hiring_id = h.id
-//             INNER JOIN feedback f
-//             ON f.interviews_id = i.id
-//             WHERE f.status = 0`,
-//       values: [id],
-//     });
-//     if (rows.length === 0) return null;
-//     return rows;
-//   } catch (err) {
-//     throw err;
-//   }
-// }
-
-// async function deleteFeedback(id) {
-//   try {
-//     await connection.queryAsync({
-//       sql: `DELETE FROM feedback
-//             WHERE id = ?`,
-//       values: [id],
-//     });
-//   } catch (error) {
-//     throw error;
-//   }
-//   return null;
-// }
 
 module.exports = Interviews;

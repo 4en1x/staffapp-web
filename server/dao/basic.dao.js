@@ -63,8 +63,8 @@ class BasicDAO {
     try {
       await connection.queryAsync({
         sql: `UPDATE ${this.table}
-              SET ?`,
-        values: [resource],
+              SET ? WHERE id = ?`,
+        values: [resource, id],
       });
     } catch (err) {
       throw err;
