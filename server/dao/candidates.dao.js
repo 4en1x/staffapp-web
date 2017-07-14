@@ -66,7 +66,7 @@ class Candidates extends BasicDAO {
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
 
-      const rows = await super.readAll({
+      const candidates = await super.readAll({
         fields,
         addition: joins,
         limit,
@@ -74,7 +74,7 @@ class Candidates extends BasicDAO {
       });
 
       await this.connection.commit();
-      return rows;
+      return candidates;
     } catch (err) {
       return this.connection.rollback(() => {
         throw err;
