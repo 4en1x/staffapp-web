@@ -28,7 +28,7 @@ async function readInterview(req, res) {
 
 async function readInterviews(req, res) {
   const actions = {
-    my: interviewsDB.getInterviewsByUserId,
+    my: interviewsDB.getMyInterviews,
     assigned: interviewsDB.getAssignedInterviews,
     all: interviewsDB.getAllInterviews,
   };
