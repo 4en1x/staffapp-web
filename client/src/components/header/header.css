@@ -1,24 +1,19 @@
 .header-component {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: #fafafa;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 100%;
+    padding: 0 3%;
+    height: 80px;
 }
 
 .header-component .image {
-    margin: 15px;
-    overflow: auto;
     float: left;
-    width: 100px;
+    height: 30px;
 }
 
 .header-component #header-label {
-    margin-bottom: 30px;
-    margin-top: 30px;
-    margin-right: 30px;
-    float: right;
-    overflow: auto;
+   margin: 0;
 }

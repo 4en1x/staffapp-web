@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import CandidateDetailPage from './main/add-technical-feedback-page/add-technical-feedback-page.component';
-import HeaderComponent from './components/header/header.components';
-import './index.css'
+import HRPage from "./main/hr-page/hr-page.component";
+import HeaderComponent from "./components/header/header.components";
+import "./index.css";
 
 ReactDOM.render(
   <div>
-    <HeaderComponent user={{ name: 'Sergey', surname: 'Moiseyenko' }} />
-    <CandidateDetailPage />
+    <HeaderComponent user={{ name: "Sergey", surname: "Moiseyenko" }} />
+    <HRPage />
   </div>,
-  document.getElementById("root"));
+  document.getElementById("root")
+);
