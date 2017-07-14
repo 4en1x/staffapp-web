@@ -1,5 +1,7 @@
 import React from "react";
 import { Menu } from "semantic-ui-react";
+import "./menu.component.css";
+
 
 export default class MenuComponent extends React.Component {
   constructor(props) {

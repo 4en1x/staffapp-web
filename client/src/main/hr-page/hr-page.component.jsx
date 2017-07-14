@@ -84,17 +84,14 @@ export default class HRPage extends React.Component {
   render() {
     return (
       <div className="hr-page">
-        <HeaderComponent user={user} />
+        <MenuComponent
+          className="hr-page_menu"
+          items={["Interviews"]}
+          menuItemClickHandle={this.menuItemClickHandle}
+        />
         <div className="hr-page_content">
-          <MenuComponent
-            className="hr-page_menu"
-            items={["Interviews"]}
-            menuItemClickHandle={this.menuItemClickHandle}
-          />
-          <div className="hr-page_content-description">
-            <ListComponent interviews={interviews} />
-            <SecondaryMenuComponent />
-          </div>
+          <ListComponent interviews={interviews} />
+          <SecondaryMenuComponent />
         </div>
       </div>
     );
