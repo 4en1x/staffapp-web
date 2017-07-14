@@ -1,6 +1,4 @@
 const auth = require('./routes/auth');
-<<<<<<< Updated upstream
-=======
 const hirings = require('./routes/hirings.route');
 const interviews = require('./routes/interviews.route');
 
