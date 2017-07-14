@@ -1,0 +1,11 @@
+.hr-page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.5% 3%;
+}
+.hr-page_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
