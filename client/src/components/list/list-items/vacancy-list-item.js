@@ -19,7 +19,7 @@ const VacancyListItem = props => {
         </div>
         <div className="vacancy-list-item-description">
           <div className="description">
-            {vacancy.primary_skill}
+            {vacancy.primarySkill}
           </div>
         </div>
         <div className="vacancy-list-item-extra">

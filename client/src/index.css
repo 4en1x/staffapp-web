@@ -14,12 +14,11 @@ body {
   height: 100%;
   display: inline-block;
   overflow: auto;
-  background-image: url('./assets/background_image.jpg');
+  background-color: #f6f6f6;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  text-align: center;
 }
 
 /*auth form styles */
