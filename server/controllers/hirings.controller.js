@@ -1,42 +1,44 @@
 const hiringsDB = require('./../dao/hirings');
 const interviewsDB = require('./../dao/interviews');
+const convertKeys = require('convert-keys');
 const fecha = require('fecha');
 
-async function writeInterviews(interviews, hiringID, candidateID) {
+async function writeInterviews(interviews, hiringId, candidateId) {
   await Promise.all(interviews.map(async (item) => {
-    item.interview.hiring_id = hiringID;
-    await interviewsDB.addInterview(item.interview, item.users, candidateID, item.feedbackFields);
+    item.interview.hiringId = hiringId;
+    await interviewsDB.addInterview(convertKeys.toSnake(item.interview),
+      item.users, candidateId, convertKeys.toSnake(item.feedbackFields));
   }));
 }
 
 function createHiringObject(req) {
-  return {
-    user_id: req.session.user.id,
-    date_open: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-    candidate_id: req.query.candidate,
-  };
+  return convertKeys.toSnake({
+    userId: req.session.user.id,
+    dateOpen: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+    candidateId: req.query.candidate,
+  });
 }
 
 async function writeHiring(req, res) {
   const hiringObject = createHiringObject(req);
-  let hiringID = null;
+  let hiringId = null;
   try {
     const hasHirings = await hiringsDB.isAnyOpenHiringsForCandidate(req.query.candidate);
     if (hasHirings) {
       return res.status(200).send({
         added: false,
-        massage: 'candidate already has hiring',
+        message: 'candidate already has hiring',
       });
     }
-    hiringID = await hiringsDB.addHiring(hiringObject);
-    await writeInterviews(req.body.interviews, hiringID, req.query.candidate);
-    return res.status(201).end();
+    hiringId = await hiringsDB.addHiring(hiringObject);
+    await writeInterviews(req.body.interviews, hiringId, req.query.candidate);
+    return res.status(200).end();
   } catch (err) {
-    if (!hiringID) {
+    if (!hiringId) {
       return res.status(500).end();
     }
     try {
-      await hiringsDB.deleteHiring(hiringID);
+      await hiringsDB.deleteHiring(hiringId);
       return res.status(500).end();
     } catch (error) {
       return res.status(500).end();
@@ -44,23 +46,23 @@ async function writeHiring(req, res) {
   }
 }
 
-async function getInterviewsByIDs(ids) {
+async function getInterviewsByIds(ids) {
   const interviews = await Promise.all(ids.map(async (item) => {
     const interview = await interviewsDB.getInterviewById(item);
-    return interview;
+    return convertKeys.toCamel(interview);
   }));
   return interviews;
 }
 
 async function readHiring(req, res) {
   try {
-    const hiring = await hiringsDB.getHiringByID(req.params.id);
+    const hiring = await hiringsDB.getHiringById(req.params.id);
     if (!hiring) {
-      return res.status(200).send({ founded: false });
+      return res.status(404).end();
     }
-    const interviewsIDs = await interviewsDB.getInterviewsByHiringId(req.params.id);
-    hiring.interviews = await getInterviewsByIDs(interviewsIDs);
-    return res.status(200).send(hiring);
+    const interviewIds = await interviewsDB.getInterviewsByHiringId(req.params.id);
+    hiring.interviews = await getInterviewsByIds(interviewIds);
+    return res.status(200).send(convertKeys.toCamel(hiring));
   } catch (err) {
     return res.status(500).end();
   }
@@ -72,19 +74,19 @@ async function readHirings(req, res) {
     if (!result) {
       return res.status(200).send({ founded: false });
     }
-    return res.status(200).send(result);
+    return res.status(200).send(convertKeys.toCamel(result));
   } catch (err) {
     return res.status(500).end();
   }
 }
 
 function createHiringUpdateObject(req) {
-  if (req.body.vacancy_id) {
-    return req.body;
+  if (req.body.vacancyId) {
+    return convertKeys.toSnake(req.body);
   }
-  return {
-    date_close: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-  };
+  return convertKeys.toSnake({
+    dateClose: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+  });
 }
 
 async function updateHiring(req, res) {
