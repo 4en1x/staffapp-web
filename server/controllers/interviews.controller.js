@@ -32,8 +32,7 @@ async function readInterviews(req, res) {
     assigned: interviewsDB.getAssignedInterviews,
     all: interviewsDB.getAllInterviews,
   };
-  // TODO: change to: const id = req.session.user.id;
-  const id = 0;
+  const id = req.session.user.id;
   const page = req.query.page;
 
   try {
