@@ -12,14 +12,17 @@ async function readFeedbacks(ids) {
 
 async function readInterview(req, res) {
   const id = req.params.id;
+
   try {
     const interview = await interviewsDB.getInterviewById(id);
     if (!interview) {
       return res.status(404).end();
     }
+
     const feedbackIds = await feedbacksDB.getMyFeedbackByInterviewId(id);
     const feedbacks = await readFeedbacks(feedbackIds);
     interview.feedbacks = feedbacks;
+
     return res.status(200).send(convertKeys.toCamel(interview));
   } catch (err) {
     return res.status(500).end();
@@ -32,6 +35,7 @@ async function readInterviews(req, res) {
     assigned: interviewsDB.getAssignedInterviews,
     all: interviewsDB.getAllInterviews,
   };
+
   const id = req.session.user.id;
   const page = req.query.page;
 
@@ -40,6 +44,7 @@ async function readInterviews(req, res) {
     if (!interviews) {
       return res.status(200).send({ founded: false });
     }
+
     return res.status(200).send(convertKeys.toCamel(interviews));
   } catch (err) {
     return res.status(500).end();
