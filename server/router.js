@@ -1,5 +1,6 @@
 const auth = require('./routes/auth');
 const hirings = require('./routes/hirings.route');
+const interviews = require('./routes/interviews.route');
 
 const router = (app) => {
   app.get('/', (req, res) => {
@@ -8,6 +9,7 @@ const router = (app) => {
 
   auth(app);
   hirings(app);
+  interviews(app);
 
   app.use((req, res) => {
     res.status(404).send('Uh oh! 404:(');
