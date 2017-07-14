@@ -1,4 +1,5 @@
 .list-component {
-    background-color: white;
-    width: 60%;
+  width: 73%;
+  background: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
