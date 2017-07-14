@@ -1,198 +1,191 @@
 import React from "react";
-import './interview-page.css'
-import FeedbackList from './components/feedback-list'
-import Header from '../../components/header/header.components'
-
-import { Search } from 'semantic-ui-react'
-import { Divider } from 'semantic-ui-react'
-import { Button } from 'semantic-ui-react'
-import { List } from 'semantic-ui-react'
-import { Label } from 'semantic-ui-react'
-import { Segment } from 'semantic-ui-react'
-
+import {
+  Segment,
+  Label,
+  List,
+  Button,
+  Divider,
+  Search
+} from "semantic-ui-react";
+import "./interview-page.css";
+import FeedbackList from "./components/feedback-list";
 
 const data = {
-    skills : ["skill 1","skill 2","skill 3","skill 4"],
-    candidate: "Sergey Moiseenko",
-    status: "status: Free",
-    location : "Minsk",
-    feedbacks : [
-        [
-            {
-                technology: "JavaScript",
-                grade: "5"
-            },
-            {
-                technology: "c++",
-                grade: "2"
-            },
-            {
-                technology: "pithon",
-                grade: "7"
-            },
-            {
-                technology: ".net",
-                grade: "5"
-            },
-            {
-                technology: "angular",
-                grade: "9"
-            }
-
-        ],
-        [
-            {
-                technology: "JavaScript",
-                grade: "6"
-            },
-            {
-                technology: "c++",
-                grade: "9"
-            },
-            {
-                technology: "pithon",
-                grade: "2"
-            },
-            {
-                technology: ".net",
-                grade: "4"
-            },
-            {
-                technology: "angular",
-                grade: "7"
-            }
-
-        ],
-        [
-            {
-                technology: "JavaScript",
-                grade: "5"
-            },
-            {
-                technology: "c++",
-                grade: "2"
-            },
-            {
-                technology: "pithon",
-                grade: "7"
-            },
-            {
-                technology: ".net",
-                grade: "5"
-            },
-            {
-                technology: "angular",
-                grade: "9"
-            }
-
-        ],
-        [
-            {
-                technology: "JavaScript",
-                grade: "9"
-            },
-            {
-                technology: "c++",
-                grade: "3"
-            },
-            {
-                technology: "pithon",
-                grade: "6"
-            },
-            {
-                technology: ".net",
-                grade: "7"
-            },
-            {
-                technology: "angular",
-                grade: "8"
-            }
-
-        ],
-        [
-            {
-                technology: "JavaScript",
-                grade: "10"
-            },
-            {
-                technology: "c++",
-                grade: "3"
-            },
-            {
-                technology: "pithon",
-                grade: "6"
-            },
-            {
-                technology: ".net",
-                grade: "3"
-            },
-            {
-                technology: "angular",
-                grade: "2"
-            }
-
-        ]
+  skills: ["skill 1", "skill 2", "skill 3", "skill 4"],
+  candidate: "Sergey Moiseenko",
+  status: "status: Free",
+  location: "Minsk",
+  feedbacks: [
+    [
+      {
+        technology: "JavaScript",
+        grade: "5"
+      },
+      {
+        technology: "c++",
+        grade: "2"
+      },
+      {
+        technology: "pithon",
+        grade: "7"
+      },
+      {
+        technology: ".net",
+        grade: "5"
+      },
+      {
+        technology: "angular",
+        grade: "9"
+      }
     ],
-    authorFeedback : ["mr.HR","mrsHR","mlle.Worker","mst.Worker","ll.HR"],
-    user : {
-        name: 'Nick',
-        surname: 'Zabolotskiy'
-    }
-}
+    [
+      {
+        technology: "JavaScript",
+        grade: "6"
+      },
+      {
+        technology: "c++",
+        grade: "9"
+      },
+      {
+        technology: "pithon",
+        grade: "2"
+      },
+      {
+        technology: ".net",
+        grade: "4"
+      },
+      {
+        technology: "angular",
+        grade: "7"
+      }
+    ],
+    [
+      {
+        technology: "JavaScript",
+        grade: "5"
+      },
+      {
+        technology: "c++",
+        grade: "2"
+      },
+      {
+        technology: "pithon",
+        grade: "7"
+      },
+      {
+        technology: ".net",
+        grade: "5"
+      },
+      {
+        technology: "angular",
+        grade: "9"
+      }
+    ],
+    [
+      {
+        technology: "JavaScript",
+        grade: "9"
+      },
+      {
+        technology: "c++",
+        grade: "3"
+      },
+      {
+        technology: "pithon",
+        grade: "6"
+      },
+      {
+        technology: ".net",
+        grade: "7"
+      },
+      {
+        technology: "angular",
+        grade: "8"
+      }
+    ],
+    [
+      {
+        technology: "JavaScript",
+        grade: "10"
+      },
+      {
+        technology: "c++",
+        grade: "3"
+      },
+      {
+        technology: "pithon",
+        grade: "6"
+      },
+      {
+        technology: ".net",
+        grade: "3"
+      },
+      {
+        technology: "angular",
+        grade: "2"
+      }
+    ]
+  ],
+  authorFeedback: ["mr.HR", "mrsHR", "mlle.Worker", "mst.Worker", "ll.HR"],
+  user: {
+    name: "Nick",
+    surname: "Zabolotskiy"
+  }
+};
 
 export default class InterviewPageComponent extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  handleSearchChange = () => {
+    // TODO: ... some action needed ...
+  };
+  addFeedback = () => {
+    // TODO: ... some action needed ...
+  };
 
-    handleSearchChange = (e, value) => {
-        // TODO: ... some action needed ...
-    }
-    addFeedback = () => {
-        // TODO: ... some action needed ...
-    }
+  render() {
+    return (
+      <div>
+        <div className="title">
+          <div className="candidate-title">
+            {" "}{data.candidate}{" "}
+          </div>
+          <Search onSearchChange={this.handleSearchChange} />
+        </div>
 
-    render() {
-        return (
-            <div >
-                <Header user={data.user}/>
+        <Divider />
 
-                <div className="title">
-                    <div className="candidate-title"> {data.candidate} </div>
-                    <Search onSearchChange={this.handleSearchChange} />
-                </div>
+        <Segment id="content">
+          <Label as="a" color="teal" ribbon="right" size="huge">
+            {" "}{data.status}{" "}
+          </Label>
 
-                <Divider />
+          <List size="huge">
+            <List.Item>
+              <List.Header>Skills</List.Header>
+              <List items={data.skills} />
+            </List.Item>
 
-                <Segment id="content">
+            <List.Item>
+              <List.Header>Location</List.Header>
+              {data.location}
+            </List.Item>
 
-                    <Label as='a' color='teal' ribbon='right' size="huge"> {data.status} </Label>
+            <List.Item>
+              <List.Header>Feedbacks</List.Header>
+              <FeedbackList
+                feedbacks={data.feedbacks}
+                authorFeedback={data.authorFeedback}
+              />
+            </List.Item>
+          </List>
+        </Segment>
 
-                    <List size="huge">
-                        <List.Item>
-                            <List.Header>Skills</List.Header>
-                            <List items={ data.skills} />
-                        </List.Item>
-
-                         <List.Item>
-                            <List.Header>Location</List.Header>
-                            {data.location}
-                         </List.Item>
-
-                          <List.Item>
-                            <List.Header>Feedbacks</List.Header>
-                            <FeedbackList feedbacks={data.feedbacks} authorFeedback={data.authorFeedback}/>
-                          </List.Item>
-                    </List>
-                </Segment>
-
-                <div className="add-feedback">
-                    <Button primary  onClick={this.addFeedback()}> Feedback </Button>
-                </div>
-            </div>
-        );
-    }
+        <div className="add-feedback">
+          <Button primary onClick={this.addFeedback()}>
+            {" "}Feedback{" "}
+          </Button>
+        </div>
+      </div>
+    );
+  }
 }
-
-
-
