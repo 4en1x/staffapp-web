@@ -18,7 +18,7 @@ const grades = [
 const FeedbackTechnicalCard = props => {
   const data = props.data;
   return (
-    <div className="feedback-technacal-card">
+    <div className="feedback-technical-card">
       <div className="content-top">
         <div className="technology-label">
           {data.technology}
@@ -31,7 +31,7 @@ const FeedbackTechnicalCard = props => {
           />
         </div>
       </div>
-      <TextArea placeholder="Add discription" className="text-area" />
+      <TextArea placeholder="Add description" className="text-area" />
     </div>
   );
 };
