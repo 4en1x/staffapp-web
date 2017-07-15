@@ -43,8 +43,7 @@ class Candidates extends BasicDAO {
       const candidate = await super.readOne(id);
 
       candidate.links = await this.connection.queryAsync({
-        sql: `SELECT link FROM links
-              WHERE candidate_id = ?`,
+        sql: 'SELECT link FROM links WHERE candidate_id = ?',
         values: [candidate.id],
       }).map(name => name.link);
 
@@ -61,8 +60,8 @@ class Candidates extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
 
-      const fields = 'c.id, c.name, c.surname, c.primary_skill, c.status, c.last_change_date, city.name AS city';
-      const joins = 'c LEFT JOIN cities city ON c.city_id = city.id';
+      const fields = `${this.table}.id, name, surname, primary_skill, status, last_change_date, city.name AS city`;
+      const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
 
@@ -87,8 +86,7 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
 
       await this.connection.queryAsync({
-        sql: `DELETE FROM links
-              WHERE candidate_id = ?`,
+        sql: 'DELETE FROM links WHERE candidate_id = ?',
         values: [id],
       });
 
@@ -111,24 +109,21 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
 
       const [city] = await this.connection.queryAsync({
-        sql: `SELECT id FROM cities
-              WHERE name = ?`,
+        sql: 'SELECT id FROM cities WHERE name = ?',
         values: [cityName],
       });
 
       candidate.city_id = city.id;
 
       await this.connection.queryAsync({
-        sql: `DELETE FROM links
-              WHERE candidate_id = ?`,
+        sql: 'DELETE FROM links WHERE candidate_id = ?',
         values: [id],
       });
 
       await super.update(id, candidate);
       await Promise.all(links.map(async (link) => {
         await this.connection.queryAsync({
-          sql: `INSERT INTO links (link, candidate_id)
-                VALUES (?, ?)`,
+          sql: 'INSERT INTO links (link, candidate_id) VALUES (?, ?)',
           values: [link, id],
         });
       }));

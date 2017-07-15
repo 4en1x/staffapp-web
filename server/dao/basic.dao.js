@@ -9,28 +9,21 @@ class BasicDAO {
   }
 
   async create(resource) {
-    try {
-      const { insertId } = await connection.queryAsync({
-        sql: `INSERT INTO ${this.table} SET ?`,
-        values: [resource],
-      });
-      return insertId;
-    } catch (err) {
-      throw err;
-    }
+    const { insertId } = await connection.queryAsync({
+      sql: `INSERT INTO ${this.table} SET ?`,
+      values: [resource],
+    });
+
+    return insertId;
   }
 
   async readOne(id, fields = '*') {
-    try {
-      const [resource] = await connection.queryAsync({
-        sql: `SELECT ${fields} FROM ${this.table}
-              WHERE id = ?`,
-        values: [id],
-      });
-      return resource;
-    } catch (err) {
-      throw err;
-    }
+    const [resource] = await connection.queryAsync({
+      sql: `SELECT ${fields} FROM ${this.table} WHERE id = ?`,
+      values: [id],
+    });
+
+    return resource;
   }
 
   async readAll(options) {
@@ -48,39 +41,28 @@ class BasicDAO {
       values,
     } = utils.amplifyParams(options, def);
 
-    try {
-      const rows = await connection.queryAsync({
-        sql: `SELECT ${fields} FROM ${this.table} ${addition} ${limit}`,
-        values,
-      });
-      return rows;
-    } catch (err) {
-      throw err;
-    }
+    const rows = await connection.queryAsync({
+      sql: `SELECT ${fields} FROM ${this.table} ${addition} ${limit}`,
+      values,
+    });
+
+    return rows;
   }
 
   async update(id, resource) {
-    try {
-      await connection.queryAsync({
-        sql: `UPDATE ${this.table}
-              SET ? WHERE id = ?`,
-        values: [resource, id],
-      });
-    } catch (err) {
-      throw err;
-    }
+    await connection.queryAsync({
+      sql: `UPDATE ${this.table} SET ? WHERE id = ?`,
+      values: [resource, id],
+    });
   }
 
   async delete(id) {
-    try {
-      const data = await connection.queryAsync({
-        sql: `DELETE FROM ${this.table} WHERE id = ?`,
-        values: [id],
-      });
-      return data;
-    } catch (err) {
-      throw err;
-    }
+    const data = await connection.queryAsync({
+      sql: `DELETE FROM ${this.table} WHERE id = ?`,
+      values: [id],
+    });
+
+    return data;
   }
 }
 
