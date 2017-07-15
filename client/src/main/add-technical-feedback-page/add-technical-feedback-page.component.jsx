@@ -3,7 +3,8 @@ import React from "react";
 import { Divider, Segment, Button, List } from "semantic-ui-react";
 
 import "./add-technical-feedback-page.css";
-import FeedbackTechnicalCard from "./components/feedback-technacal-card";
+import "../interview-page/interview-page.css";
+import FeedbackTechnicalCard from "./components/feedback-technical-card";
 
 const major = {
   technology: "javascript"
@@ -38,10 +39,8 @@ export default class AddTechnicalFeedbackPage extends React.Component {
 
   render() {
     return (
-      <div className="AddTechnicalFeedbackPage">
-        <div className="title">
-          <strong>feedback</strong>
-        </div>
+      <div className="add-technical-feedback-page">
+        <div className="title-feedback">feedback</div>
         <Divider />
         <Segment id="content-data">
           <div className="labels"> Major skill </div>
@@ -64,8 +63,8 @@ export default class AddTechnicalFeedbackPage extends React.Component {
           </List>
         </Segment>
         <div className="add-feedback">
-          <Button primary onClick={this.addFeedback()}>
-            {" "}Feedback{" "}
+          <Button primary onClick={this.addFeedback}>
+            Feedback
           </Button>
         </div>
       </div>
