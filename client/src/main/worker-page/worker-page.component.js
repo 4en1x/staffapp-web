@@ -1,12 +1,13 @@
-import React from 'react';
-import HeaderComponent from '../../components/header/header.components';
-import ListComponent from '../../components/list/list.component';
-import MenuComponent from '../../components/menu/menu.component';
-import './worker-page.css';
+import React from "react";
+import ListComponent from "../../components/list/list.component";
+import "./worker-page.css";
+import { Route } from "react-router-dom";
+import InterviewListItem from "../../components/list/list-items/interview-list-item";
+import NavigationComponent from "../../components/navigation/navigation.component";
 
 const interviews = [
   {
-    id: '111',
+    id: "111",
     name: "Sergey",
     surname: "Moiseyenko",
     date: "08.08.08",
@@ -15,7 +16,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '222',
+    id: "222",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -24,7 +25,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '333',
+    id: "333",
     name: "Kosty",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -33,7 +34,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '444',
+    id: "444",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -42,7 +43,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '555',
+    id: "555",
     name: "Lenya",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -51,7 +52,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '666',
+    id: "666",
     name: "Nik",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -60,7 +61,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '777',
+    id: "777",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -69,20 +70,20 @@ const interviews = [
     primarySkill: "Javascrtipt"
   }
 ];
-
-const user = {
-  name: 'Sergey',
-  surname: 'Moiseyenko'
+//config object contains name of the tab in navigation menu and url for link
+const config = {
+  interview: {
+    name: "Interview",
+    url: "interviews"
+  }
 };
 
 export default class WorkerPage extends React.Component {
-
   constructor(props) {
     super(props);
   }
 
-  menuItemClickHandle = (name) => {
-
+  menuItemClickHandle = name => {
     //load interviews from server
     console.log(name);
   };
@@ -91,20 +92,27 @@ export default class WorkerPage extends React.Component {
     // crate request for interviews
   }
 
-  getItems = (name) => {
+  getItems = name => {
     //url (http://localhost/3000/name.toLowerCase());
   };
 
   render() {
+    let url = this.props.match.url;
 
     return (
       <div className="worker-page">
-        <HeaderComponent user={user}/>
+        <NavigationComponent config={config} activeItem="Interview" />
         <div className="content">
-          <MenuComponent className="menu-component" items={['Interviews']} menuItemClickHandle={this.menuItemClickHandle}/>
-          <ListComponent interviews={interviews}/>
+          <Route
+            path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+              />}
+          />
         </div>
       </div>
-    )
+    );
   }
 }
