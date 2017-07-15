@@ -70,13 +70,6 @@ const interviews = [
     primarySkill: "Javascrtipt"
   }
 ];
-//config object contains name of the tab in navigation menu and url for link
-const config = {
-  interview: {
-    name: "Interview",
-    url: "interviews"
-  }
-};
 
 export default class WorkerPage extends React.Component {
   constructor(props) {
@@ -96,15 +89,36 @@ export default class WorkerPage extends React.Component {
     //url (http://localhost/3000/name.toLowerCase());
   };
 
+  //config object contains name of the tab in navigation menu and url for link
+  navigationConfig = (url) => {
+    return {
+      interview: {
+        name: 'Interview',
+        url: `${url}/interviews`
+      }
+    }
+  };
+
+
   render() {
     let url = this.props.match.url;
+    let config = this.navigationConfig(url);
 
     return (
       <div className="worker-page">
         <NavigationComponent config={config} activeItem="Interview" />
         <div className="content">
           <Route
+            exact
             path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+              />}
+          />
+          <Route
+            path={`${url}/interviews`}
             component={() =>
               <ListComponent
                 listItem={InterviewListItem}

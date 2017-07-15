@@ -135,40 +135,54 @@ const vacancies = [
 ];
 
 //config for navigation bar (navigation bar give you more flex and you just config navi bar)
-const config = {
-  interview: {
-    name: "Interviews",
-    url: "interviews"
-  },
-
-  candidate: {
-    name: "Candidates",
-    url: "candidates"
-  },
-
-  vacancy: {
-    name: "Vacancies",
-    url: "vacancies"
-  },
-
-  history: {
-    name: "History",
-    url: "history"
-  }
-};
 
 export default class HRPage extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  navigationConfig = (url) => {
+    return  {
+      interview: {
+        name: 'Interviews',
+        url: `${url}/interviews`
+      },
+
+      candidate: {
+        name: 'Candidates',
+        url: `${url}/candidates`
+      },
+
+      vacancy: {
+        name: 'Vacancies',
+        url: `${url}/vacancies`
+      },
+
+      history: {
+        name: 'History',
+        url: `${url}/history`
+      }
+    };
+  };
+
   render() {
     const url = this.props.match.url;
+    let config = this.navigationConfig(url);
 
     return (
       <div className="hr-page">
         <NavigationComponent config={config} activeItem="Interviews" />
         <div className="hr-page_content">
+          <Route
+            exact
+            path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+              />}
+          />
+
           <Route
             path={`${url}/interviews`}
             component={() =>
