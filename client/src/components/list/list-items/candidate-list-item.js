@@ -3,23 +3,27 @@ import { Segment } from "semantic-ui-react";
 import "./candidate-list-item.css";
 
 const CandidateListItem = props => {
-  const data = props.data;
+  const data = props.element;
   return (
     <Segment className="candidate-item-content">
       <div className="content-top">
         <div className="name-label">
-          {" "}{data.name}{" "}
+          {data.name}
         </div>
         <div className="status-label">
-          {" "}{data.status}{" "}
+          {data.status}
         </div>
       </div>
       <div className="technology">
-        {" "}{data.technology}{" "}
+        {data.technology}
       </div>
       <div className="content-extra">
-        <div> city</div>
-        <div> time</div>
+        <div>
+          {data.city}
+        </div>
+        <div>
+          {data.time}
+        </div>
       </div>
     </Segment>
   );
