@@ -181,7 +181,7 @@ export default class InterviewPageComponent extends React.Component {
         </Segment>
 
         <div className="add-feedback">
-          <Button primary onClick={this.addFeedback()}>
+          <Button primary onClick={this.addFeedback}>
             Feedback
           </Button>
         </div>
