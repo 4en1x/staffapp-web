@@ -1,4 +1,4 @@
-const controller = require('./../controllers/interviews.controller');
+const controller = require('../controllers/interviews.controller');
 
 function init(app) {
   app.get('/interviews', controller.readInterviews);

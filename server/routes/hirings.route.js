@@ -1,7 +1,7 @@
-const controller = require('./../controllers/hirings.controller');
+const controller = require('../controllers/hirings.controller');
 
 function init(app) {
-  app.post('/hirings', controller.writeHiring);
+  app.post('/hirings', controller.createHiring);
   app.get('/hirings', controller.readHirings);
   app.get('/hirings/:id', controller.readHiring);
   app.patch('/hirings/:id', controller.updateHiring);
