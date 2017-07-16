@@ -23,7 +23,7 @@ class Feedbacks extends BasicDAO {
   async readOneFromInterviewByUser(interviewId, userId) {
     const [feedback] = await this.connection.queryAsync({
       sql: `SELECT * FROM ${this.table}
-            WHERE interview_id = ? AND user_id = ?`;
+            WHERE interview_id = ? AND user_id = ?`,
       values: [interviewId, userId],
     });
 
@@ -45,16 +45,16 @@ class Feedbacks extends BasicDAO {
 
   async update(id, comment, feedbackFields) {
     try {
-      await connection.beginTransactionAsync();
+      await this.connection.beginTransactionAsync();
       const feedback = { comment, status: 1 };
       await super.update(id, feedback);
 
       await Promise.all(feedbackFields.map(async (field) => {
-        const id = field.id;
+        const fieldId = field.id;
         delete field.id;
         await this.connection.queryAsync({
           sql: 'UPDATE feedback_fields SET ? WHERE id = ?',
-          values: [field, id],
+          values: [field, fieldId],
         });
       }));
 
@@ -68,12 +68,4 @@ class Feedbacks extends BasicDAO {
   }
 }
 
-// Feedback controller:
-// .map((field) => {
-//       Object.keys(field).forEach((key) => {
-//         if (field[key] === null) {
-//           delete field[key];
-//         }
-//       });
-//       return field;
-//     });
+module.exports = Feedbacks;
