@@ -1,29 +1,20 @@
-const interviewsDB = require('./../dao/interviews');
-const feedbacksDB = require('./../dao/feedbacks');
-const convertKeys = require('convert-keys');
-
-async function readFeedbacks(ids) {
-  const feedbacks = await Promise.all(ids.map(async (id) => {
-    const feedback = await feedbacksDB.getFeedbackById(id);
-    return feedback;
-  }));
-  return feedbacks;
-}
+const db = require('../dao');
+const { toCamel, toSnake } = require('convert-keys');
+const feedbacksService = require('../services/feedbacks.service');
 
 async function readInterview(req, res) {
   const id = req.params.id;
 
   try {
-    const interview = await interviewsDB.getInterviewById(id);
+    const interview = await db.interviews.readOne(id);
+
     if (!interview) {
       return res.status(404).end();
     }
 
-    const feedbackIds = await feedbacksDB.getMyFeedbackByInterviewId(id);
-    const feedbacks = await readFeedbacks(feedbackIds);
-    interview.feedbacks = feedbacks;
+    interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
 
-    return res.status(200).send(convertKeys.toCamel(interview));
+    return res.send(toCamel(interview));
   } catch (err) {
     return res.status(500).end();
   }
@@ -31,21 +22,22 @@ async function readInterview(req, res) {
 
 async function readInterviews(req, res) {
   const actions = {
-    my: interviewsDB.getMyInterviews,
-    assigned: interviewsDB.getAssignedInterviews,
-    all: interviewsDB.getAllInterviews,
+    my: db.interviews.readPageToUser,
+    assigned: db.interviews.readPageFromUser,
+    all: db.interviews.readPageAll,
   };
 
-  const id = req.session.user.id;
+  const id = req.user.id;
   const page = req.query.page;
 
   try {
     const interviews = await actions[req.query.type](id, page);
+
     if (!interviews) {
-      return res.status(200).send({ founded: false });
+      return res.send({ found: false });
     }
 
-    return res.status(200).send(convertKeys.toCamel(interviews));
+    return res.send(toCamel(interviews));
   } catch (err) {
     return res.status(500).end();
   }
@@ -53,8 +45,8 @@ async function readInterviews(req, res) {
 
 async function deleteInterview(req, res) {
   try {
-    await interviewsDB.deleteInterview(req.params.id);
-    return res.status(200).end();
+    await db.interviews.delete(req.params.id);
+    return res.end();
   } catch (err) {
     return res.status(500).end();
   }
@@ -62,8 +54,8 @@ async function deleteInterview(req, res) {
 
 async function updateInterview(req, res) {
   try {
-    await interviewsDB.updateInterview(req.params.id, convertKeys.toSnake(req.body));
-    return res.status(200).end();
+    await db.interviews.update(req.params.id, toSnake(req.body));
+    return res.end();
   } catch (err) {
     return res.status(500).end();
   }

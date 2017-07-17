@@ -1,7 +1,9 @@
-const auth = require('./services/auth');
+const auth = require('./services/auth.service');
 
-const services = (app) => {
+function init(app) {
   auth.init(app);
-};
+}
 
-module.exports = services;
+module.exports = {
+  init,
+};

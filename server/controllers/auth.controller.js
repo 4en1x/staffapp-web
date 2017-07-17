@@ -1,10 +1,10 @@
-const users = require('../dao/users');
-const service = require('../services/auth');
+const db = require('../dao');
+const service = require('../services/auth.service');
 
 async function checkEmail(req, res) {
   try {
-    const email = await users.checkUserEmail(req.body.email);
-    if (email) {
+    const user = await db.users.checkEmail(req.body.email);
+    if (user) {
       res.send();
       return;
     }
