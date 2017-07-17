@@ -79,24 +79,6 @@ class Candidates extends BasicDAO {
     }
   }
 
-  async delete(id) {
-    try {
-      await this.connection.beginTransactionAsync();
-
-      await this.connection.queryAsync({
-        sql: 'DELETE FROM links WHERE candidate_id = ?',
-        values: [id],
-      });
-
-      await super.delete(id);
-      await this.connection.commit();
-      return null;
-    } catch (err) {
-      await this.connecton.rollbackAsync();
-      throw err;
-    }
-  }
-
   async update(id, candidate, links, cityName) {
     try {
       await this.connection.beginTransactionAsync();
