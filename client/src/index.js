@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import HRPage from "./main/hr-page/hr-page.component";
+import HRPage from "./main/add-technical-feedback-page/add-technical-feedback-page.component";
 import HeaderComponent from "./components/header/header.components";
 import "./index.css";
 
