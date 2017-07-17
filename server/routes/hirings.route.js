@@ -1,11 +1,10 @@
-const controller = require('./../controllers/hirings.controller');
+const controller = require('../controllers/hirings.controller');
+const router = require('express').Router();
 
-const hirings = (app) => {
-  app.post('/hirings', controller.writeHiring);
-  app.get('/hirings', controller.readHirings);
-  app.get('/hirings/:id', controller.readHiring);
-  app.patch('/hirings/:id', controller.updateHiring);
-  app.delete('/hirings/:id', controller.deleteHiring);
-};
+router.post('/', controller.createHiring);
+router.get('/', controller.readHirings);
+router.get('/:id', controller.readHiring);
+router.patch('/:id', controller.updateHiring);
+router.delete('/:id', controller.deleteHiring);
 
-module.exports = hirings;
+module.exports = router;
