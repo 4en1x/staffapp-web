@@ -1,4 +1,5 @@
 import React from "react";
+import { PropTypes } from "prop-types";
 import { Segment } from "semantic-ui-react";
 import "./candidate-list-item.css";
 
@@ -23,6 +24,16 @@ const CandidateListItem = props => {
       </div>
     </Segment>
   );
+};
+
+CandidateListItem.defaultProps = {
+  data: {}
+};
+
+CandidateListItem.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string
+  })
 };
 
 export default CandidateListItem;
