@@ -1,34 +1,29 @@
 const BasicDAO = require('./basic.dao');
 
 class Users extends BasicDAO {
-  constructor() {
+  constructor(connection) {
     super('users');
+    this.connection = connection;
   }
 
   async checkEmail(email) {
-    try {
-      const [user] = await this.connection.queryAsync({
-        sql: `SELECT * FROM ${this.table}
-              WHERE email = ?`,
-        values: [email],
-      });
-      return user;
-    } catch (err) {
-      throw err;
-    }
+    const [user] = await this.connection.queryAsync({
+      sql: `SELECT * FROM ${this.table}
+            WHERE email = ?`,
+      values: [email],
+    });
+
+    return user;
   }
 
   async checkUser(email, password) {
-    try {
-      const [user] = await this.connection.queryAsync({
-        sql: `SELECT * FROM ${this.table}
-              WHERE email = ? AND password = ?`,
-        values: [email, password],
-      });
-      return user;
-    } catch (err) {
-      throw err;
-    }
+    const [user] = await this.connection.queryAsync({
+      sql: `SELECT * FROM ${this.table}
+            WHERE email = ? AND password = ?`,
+      values: [email, password],
+    });
+
+    return user;
   }
 }
 

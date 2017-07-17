@@ -2,9 +2,10 @@ const config = require('../config');
 const BasicDAO = require('./basic.dao');
 
 class Interviews extends BasicDAO {
-  constructor() {
+  constructor(connection) {
     super('interviews');
     this.top = config.db.itemsPerPage;
+    this.connection = connection;
   }
 
   async create({ interview, users, candidateId, feedbackFields }) {
@@ -22,7 +23,7 @@ class Interviews extends BasicDAO {
         feedback.users_id = userId;
 
         const { insertId } = await this.connection.queryAsync({
-          sql: 'INSERT INTO feedback SET ?',
+          sql: 'INSERT INTO feedbacks SET ?',
           values: [feedback],
         });
 
@@ -42,9 +43,8 @@ class Interviews extends BasicDAO {
       await this.connection.commit();
       return id;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
@@ -53,9 +53,9 @@ class Interviews extends BasicDAO {
 
     if (interview) {
       interview.feedbacks = await this.connection.queryAsync({
-        sql: 'SELECT id FROM feedback WHERE feedback.interviews_id = ?',
+        sql: 'SELECT id FROM feedbacks WHERE feedback.interview_id = ?',
         values: [id],
-      });
+      }).map(idObject => idObject.id);
     }
 
     return interview;
@@ -66,16 +66,16 @@ class Interviews extends BasicDAO {
 
     const interviews = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table}
-              INNER JOIN hirings h ON ${this.table}.hiring_id = h.id
-              WHERE h.user_id = ${id} AND h.date_close IS NULL
+            INNER JOIN hirings h ON ${this.table}.hiring_id = h.id
+            WHERE h.user_id = ${id} AND h.date_close IS NULL
 
-              UNION
+            UNION
 
-              SELECT ${fields} FROM ${this.table}
-              INNER JOIN feedback f ON f.interviews_id = interviews.id
-              WHERE f.users_id = ${id} AND f.status = 0
+            SELECT ${fields} FROM ${this.table}
+            INNER JOIN feedbacks f ON f.interviews_id = interviews.id
+            WHERE f.user_id = ${id} AND f.status = 0
 
-              LIMIT ?, ?`,
+            LIMIT ?, ?`,
       values: [(page - 1) * this.top, this.top],
     });
 
@@ -84,8 +84,8 @@ class Interviews extends BasicDAO {
 
   async readPageToUser(id, page = 1) {
     const fields = 'interviews.id, type, date, place';
-    const joins = 'INNER JOIN feedback f ON f.interviews_id = interviews.id';
-    const where = ' WHERE f.users_id = ? AND f.status = 0';
+    const joins = 'INNER JOIN feedbacks f ON f.interview_id = interviews.id';
+    const where = ' WHERE f.user_id = ? AND f.status = 0';
     const limit = 'LIMIT ?, ?';
 
     const interviews = await super.readAll({
@@ -99,7 +99,7 @@ class Interviews extends BasicDAO {
   }
 
   async readPageFromUser(id, page = 1) {
-    const fields = 'interviews.id", type, date, place';
+    const fields = 'interviews.id, type, date, place';
     const joins = 'INNER JOIN hirings h ON interviews.hiring_id = h.id';
     const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
     const limit = 'LIMIT ?, ?';

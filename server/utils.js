@@ -1,15 +1,20 @@
-function amplifyParams(src, def) {
-  const result = {};
-  Object.keys(def).forEach((param) => {
-    if (!Object.prototype.hasOwnProperty.call(src, param)) {
-      result[param] = def[param];
-      return;
-    }
-    result[param] = src[param];
+function applyDefault(sourceOptions, defaultOptions) {
+  return Object.assign({}, defaultOptions, sourceOptions);
+}
+
+function clearFields(object) {
+  return object.map((field) => {
+    Object.keys(field).forEach((key) => {
+      if (!field[key]) {
+        delete field[key];
+      }
+    });
+
+    return field;
   });
-  return result;
 }
 
 module.exports = {
-  amplifyParams,
+  applyDefault,
+  clearFields,
 };

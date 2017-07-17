@@ -2,9 +2,10 @@ const config = require('../config');
 const BasicDAO = require('./basic.dao');
 
 class Candidates extends BasicDAO {
-  constructor() {
+  constructor(connection) {
     super('candidates');
     this.top = config.db.itemsPerPage;
+    this.connection = connection;
   }
 
   async create(candidate, links, cityName) {
@@ -31,9 +32,8 @@ class Candidates extends BasicDAO {
       await this.connection.commit();
       return id;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
@@ -50,9 +50,8 @@ class Candidates extends BasicDAO {
       await this.connection.commit();
       return candidate;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
@@ -60,7 +59,7 @@ class Candidates extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
 
-      const fields = `${this.table}.id, name, surname, primary_skill, status, last_change_date, city.name AS city`;
+      const fields = `${this.table}.id, ${this.table}.name, surname, primary_skill, status, last_change_date, cities.name AS city`;
       const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
@@ -75,9 +74,8 @@ class Candidates extends BasicDAO {
       await this.connection.commit();
       return candidates;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
@@ -90,17 +88,12 @@ class Candidates extends BasicDAO {
         values: [id],
       });
 
-      const { affectedRows } = await super.delete(id);
-      if (!affectedRows) {
-        throw new Error('404');
-      }
-
+      await super.delete(id);
       await this.connection.commit();
       return null;
     } catch (err) {
-      return this.connecton.rollback(() => {
-        throw err;
-      });
+      await this.connecton.rollbackAsync();
+      throw err;
     }
   }
 
@@ -131,9 +124,8 @@ class Candidates extends BasicDAO {
       await this.connection.commit();
       return null;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 }

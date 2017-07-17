@@ -1,15 +1,12 @@
-const Bluebird = require('bluebird');
-const connection = Bluebird.promisifyAll(require('./connection/connect'));
 const utils = require('../utils');
 
 class BasicDAO {
   constructor(table) {
     this.table = table;
-    this.connection = connection;
   }
 
   async create(resource) {
-    const { insertId } = await connection.queryAsync({
+    const { insertId } = await this.connection.queryAsync({
       sql: `INSERT INTO ${this.table} SET ?`,
       values: [resource],
     });
@@ -18,7 +15,7 @@ class BasicDAO {
   }
 
   async readOne(id, fields = '*') {
-    const [resource] = await connection.queryAsync({
+    const [resource] = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table} WHERE id = ?`,
       values: [id],
     });
@@ -39,9 +36,9 @@ class BasicDAO {
       addition,
       limit,
       values,
-    } = utils.amplifyParams(options, def);
+    } = utils.applyParams(options, def);
 
-    const rows = await connection.queryAsync({
+    const rows = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table} ${addition} ${limit}`,
       values,
     });
@@ -50,19 +47,21 @@ class BasicDAO {
   }
 
   async update(id, resource) {
-    await connection.queryAsync({
+    await this.connection.queryAsync({
       sql: `UPDATE ${this.table} SET ? WHERE id = ?`,
       values: [resource, id],
     });
   }
 
   async delete(id) {
-    const data = await connection.queryAsync({
+    const { affectedRows } = await this.connection.queryAsync({
       sql: `DELETE FROM ${this.table} WHERE id = ?`,
       values: [id],
     });
 
-    return data;
+    if (!affectedRows) {
+      throw new Error('Not exists');
+    }
   }
 }
 

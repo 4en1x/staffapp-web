@@ -82,7 +82,7 @@ async function updateHiring(req, res) {
 
 async function deleteHiring(req, res) {
   try {
-    await db.hirings.deleteHiring(req.params.id);
+    await db.hirings.delete(req.params.id);
     return res.end();
   } catch (err) {
     return res.status(500).end();

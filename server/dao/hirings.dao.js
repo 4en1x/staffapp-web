@@ -1,8 +1,9 @@
 const BasicDAO = require('./basic.dao');
 
 class Hirings extends BasicDAO {
-  constructor() {
+  constructor(connection) {
     super('hirings');
+    this.connection = connection;
   }
 
   async readOne(id) {

@@ -1,10 +1,11 @@
 const db = require('../dao');
 const service = require('../services/candidates.service');
+const { toCamel, toSnake } = require('convert-keys');
 
 async function readCandidates(req, res) {
   try {
     const candidates = await db.candidates.readPage(req.params.p);
-    res.json(candidates);
+    res.json(toCamel(candidates));
   } catch (err) {
     res.status(500).end();
   }
@@ -16,6 +17,7 @@ async function readCandidate(req, res) {
     if (!candidate) {
       res.status(404).end();
     }
+    res.json(toCamel(candidate));
   } catch (err) {
     res.status(500).end();
   }
@@ -23,9 +25,10 @@ async function readCandidate(req, res) {
 
 async function createCandidate(req, res) {
   const { candidate, links, city } = service.createCandidate(req.body);
+  candidate.userId = req.user.id;
 
   try {
-    await db.candidates.create(candidate, links, city);
+    await db.candidates.create(toSnake(candidate), links, city);
     res.end();
   } catch (err) {
     res.status(500).end();

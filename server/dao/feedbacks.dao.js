@@ -10,8 +10,9 @@ async function readFields(id) {
 }
 
 class Feedbacks extends BasicDAO {
-  constructor() {
+  constructor(connection) {
     super('feedbacks');
+    this.connection = connection;
   }
 
   async readOne(id) {
@@ -31,7 +32,7 @@ class Feedbacks extends BasicDAO {
     return feedback;
   }
 
-  async readAllFromInterview(id) { // TEST IT!
+  async readAllFromInterview(id) { // TODO: TEST IT!
     const feedbacks = await Promise.all(this.connection.queryAsync({
       sql: `SELECT * FROM ${this.table} WHERE interview_id = ?`,
       values: [id],
@@ -61,9 +62,8 @@ class Feedbacks extends BasicDAO {
       await this.connection.commit();
       return null;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 }
