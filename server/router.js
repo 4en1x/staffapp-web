@@ -9,9 +9,9 @@ function init(app) {
   });
 
   auth.init(app);
-  candidates.init(app);
-  interviews.init(app);
-  hirings.init(app);
+  app.use('/candidates', candidates);
+  app.use('/interviews', interviews);
+  app.use('/hirings', hirings);
 
   app.use((req, res) => {
     res.status(404).send('Uh oh! 404:(');

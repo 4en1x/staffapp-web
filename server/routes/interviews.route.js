@@ -1,12 +1,9 @@
 const controller = require('../controllers/interviews.controller');
+const router = require('express').Router();
 
-function init(app) {
-  app.get('/interviews', controller.readInterviews);
-  app.get('/interviews/:id', controller.readInterview);
-  app.delete('/interviews/:id', controller.deleteInterview);
-  app.patch('/interviews/:id', controller.updateInterview);
-}
+router.get('/', controller.readInterviews);
+router.get('/:id', controller.readInterview);
+router.delete('/:id', controller.deleteInterview);
+router.patch('/:id', controller.updateInterview);
 
-module.exports = {
-  init,
-};
+module.exports = router;

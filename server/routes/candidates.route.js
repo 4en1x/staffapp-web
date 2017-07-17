@@ -1,13 +1,10 @@
 const controller = require('../controllers/candidates.controller');
+const router = require('express').Router();
 
-function init(app) {
-  app.get('/candidates', controller.readCandidates);
-  app.get('/candidates/:id', controller.readCandidate);
-  app.post('/candidates', controller.createCandidate);
-  app.patch('/candidates/:id', controller.updateCandidate);
-  app.delete('/candidates/:id', controller.deleteCandidate);
-}
+router.get('/', controller.readCandidates);
+router.get('/:id', controller.readCandidate);
+router.post('/', controller.createCandidate);
+router.patch('/:id', controller.updateCandidate);
+router.delete('/:id', controller.deleteCandidate);
 
-module.exports = {
-  init,
-};
+module.exports = router;
