@@ -5,9 +5,9 @@ const { toSnake, toCamel } = require('convert-keys');
 async function updateFeedback(req, res) {
   try {
     await db.feedbacks.update(req.params.id, req.body.comment, toSnake(req.body.feedbackFields));
-    return res.status(200).end();
+    res.end();
   } catch (err) {
-    return res.status(500).end();
+    res.status(500).end();
   }
 }
 
@@ -16,7 +16,7 @@ async function readFeedback(req, res) {
     const feedback = await db.feedbacks.readOne(req.params.id);
 
     if(!feedback) {
-      return res.send({ found: false })
+      return res.send({ found: false });
     }
 
     return res.send(toCamel(feedback));
