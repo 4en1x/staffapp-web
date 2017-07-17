@@ -9,14 +9,21 @@ async function readInterview(req, res) {
     const interview = await db.interviews.readOne(id);
 
     if (!interview) {
-      return res.status(404).end();
+      res.status(404).end();
+      return;
+    }
+
+    const assignedToUser = interview.users.some(user => user.id === req.user.id);
+
+    if (!assignedToUser && req.user.role === 'user') {
+      res.status(403).end();
+      return;
     }
 
     interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
-
-    return res.send(toCamel(interview));
+    res.send(toCamel(interview));
   } catch (err) {
-    return res.status(500).end();
+    res.status(500).end();
   }
 }
 
@@ -34,30 +41,31 @@ async function readInterviews(req, res) {
     const interviews = await actions[req.query.type](id, page);
 
     if (!interviews) {
-      return res.send({ found: false });
+      res.send({ found: false });
+      return;
     }
 
-    return res.send(toCamel(interviews));
+    res.send(toCamel(interviews));
   } catch (err) {
-    return res.status(500).end();
+    res.status(500).end();
   }
 }
 
 async function deleteInterview(req, res) {
   try {
     await db.interviews.delete(req.params.id);
-    return res.end();
+    res.end();
   } catch (err) {
-    return res.status(500).end();
+    res.status(500).end();
   }
 }
 
 async function updateInterview(req, res) {
   try {
     await db.interviews.update(req.params.id, toSnake(req.body));
-    return res.end();
+    res.end();
   } catch (err) {
-    return res.status(500).end();
+    res.status(500).end();
   }
 }
 

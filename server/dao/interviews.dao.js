@@ -53,9 +53,15 @@ class Interviews extends BasicDAO {
 
     if (interview) {
       interview.feedbacks = await this.connection.queryAsync({
-        sql: 'SELECT id FROM feedbacks WHERE feedback.interview_id = ?',
+        sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
         values: [id],
       }).map(idObject => idObject.id);
+
+      interview.users = await this.connection.queryAsync({
+        sql: `SELECT users.id name FROM users INNER JOIN feedbacks
+              WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
+        values: [id],
+      });
     }
 
     return interview;
