@@ -1,14 +1,5 @@
 const BasicDAO = require('./basic.dao');
 
-async function readFields(id) {
-  const fields = await this.connection.queryAsync({
-    sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
-    values: [id],
-  });
-
-  return fields;
-}
-
 class Feedbacks extends BasicDAO {
   constructor(connection) {
     super('feedbacks');
@@ -17,7 +8,7 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
-    feedback.fields = await readFields(id);
+    feedback.fields = await this.readFields(id);
     return feedback;
   }
 
@@ -30,6 +21,15 @@ class Feedbacks extends BasicDAO {
 
     feedback.fields = await readFields(feedback.id);
     return feedback;
+  }
+
+  async readFields(id) {
+    const fields = await this.connection.queryAsync({
+      sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
+      values: [id],
+    });
+
+    return fields;
   }
 
   async readAllFromInterview(id) { // TODO: TEST IT!

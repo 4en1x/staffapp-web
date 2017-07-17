@@ -36,7 +36,7 @@ class BasicDAO {
       addition,
       limit,
       values,
-    } = utils.applyParams(options, def);
+    } = utils.applyDefault(options, def);
 
     const rows = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table} ${addition} ${limit}`,
