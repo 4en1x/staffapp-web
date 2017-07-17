@@ -1,10 +1,10 @@
 const config = {
   db: {
-    host: 'localhost',
+    host: 'mysql5.gear.host',
     port: 3306,
-    user: 'root',
-    password: 'toor',
-    database: 'exadel-team-db',
+    user: 'exadelteamdb',
+    password: 'Fd94Lbm8U-_3',
+    database: 'exadelteamdb',
     itemsPerPage: 10,
   },
   web: {
