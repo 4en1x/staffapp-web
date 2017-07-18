@@ -6,24 +6,29 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
-    "convert-keys": "^1.2.0",
+    "convert-keys": "latest",
     "cors": "^2.8.3",
     "express": "^4.15.3",
     "express-mysql-session": "^1.2.1",
     "express-session": "^1.15.3",
+    "fecha": "^2.3.1",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "fecha": "^2.3.1",
-    "convert-keys": "latest"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "chai": "^4.1.0",
     "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.7.0"
+    "eslint-plugin-import": "^2.7.0",
+    "mocha": "^3.4.2",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "supertest": "^3.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test",
+    "test2":"mocha -R doc --timeout 5000 > report.html 2>&1"
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",
@@ -32,3 +37,6 @@
     "url": "https://github.com/exadel-team/staffapp-api"
   }
 }
+
+
+

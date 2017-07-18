@@ -1,0 +1,3 @@
+insert into `exadelteamdbtest`.users (name, email,password,role) values ('Kostya','freeplayercot@gmail.com','12345','admin');
+
+insert into `exadelteamdbtest`.users (name, email,password,role) values ('nero','freeplayercot@gmail.com','541','hr');
