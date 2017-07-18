@@ -1,13 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import HRPage from "./main/hr-page/hr-page.component";
-import HeaderComponent from "./components/header/header.components";
+import {BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import SignInComponent from "./main/auth/sign-in/sign-in.component";
+import App from "./main/app/app";
+import checkAuth from './main/auth/auth-component';
 import "./index.css";
 
 ReactDOM.render(
-  <div>
-    <HeaderComponent user={{ name: "Sergey", surname: "Moiseyenko" }} />
-    <HRPage />
-  </div>,
+  <Router>
+      <Switch>
+        <Route path='/login' component={SignInComponent}/>
+        <Route path='/' component={checkAuth(App)}/>
+      </Switch>
+  </Router>,
   document.getElementById("root")
 );
