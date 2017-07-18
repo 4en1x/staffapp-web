@@ -24,7 +24,7 @@ export default class PasswordInputForm extends React.Component {
         <Button
           color="twitter"
           floated="right"
-          onClick={this.onNextClicked}
+          onClick={this.onSubmitClicked}
         >
           Submit
         </Button>

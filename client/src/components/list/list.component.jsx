@@ -1,6 +1,6 @@
 import React from "react";
 import { List } from "semantic-ui-react";
-import { NavLink } from 'react-router-dom';
+import InterviewListItem from "../../components/list/list-items/interview-list-item.jsx"
 import "./list.css";
 
 export default class ListComponent extends React.Component {
@@ -12,13 +12,12 @@ export default class ListComponent extends React.Component {
     const ListItem = this.props.listItem;
     const elements = this.props.elements;
     const url = this.props.url;
-    console.log(url);
 
     return (
       <List divided className="list-component">
         {elements.map(element => {
           return (
-            <NavLink key={`${element.id}`} to={`${url}/${element.id}`}><ListItem element={element} /></NavLink>
+            <InterviewListItem key={`${element.id}`} element={element} url={url}/>
           )
         })}
       </List>
