@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
+import { Header } from "semantic-ui-react";
 import { Form } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 
 export default class PasswordInputForm extends React.Component {
   constructor(props) {
@@ -13,16 +14,22 @@ export default class PasswordInputForm extends React.Component {
 
   render() {
     return (
-      <Form size="large" key="large">
+      <Form size="large">
+        <Header as="h3">Password</Header>
         <Form.Field>
-          <label>Log in</label>
           <input
             placeholder="password"
             type="password"
             ref={input => (this.input = input)}
           />
         </Form.Field>
-        <Button onClick={this.onSubmitClicked}>Submit</Button>
+        <Button
+          color="twitter"
+          floated="right"
+          onClick={this.onNextClicked}
+        >
+          Submit
+        </Button>
       </Form>
     );
   }
