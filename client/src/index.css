@@ -21,22 +21,6 @@ body {
   background-size: cover;
 }
 
-/*auth form styles */
-
-.auth-form {
-  margin-top: 15%;
-  display: inline-block;
-  width: 30%;
-  /*border: 2px dashed black;*/
-  overflow: auto;
-  padding-bottom: 25px;
-  text-align: left;
-}
-
-.auth-form-image {
-  text-align: center;
-}
-
 /* clear */
 
 .clear {

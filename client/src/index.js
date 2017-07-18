@@ -1,13 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import HRPage from "./main/add-technical-feedback-page/add-technical-feedback-page.component";
-import HeaderComponent from "./components/header/header.components";
+// import HeaderComponent from "./components/header/header.components";
+import SignInComponent from "./main/auth/sign-in/sign-in.component";
 import "./index.css";
 
 ReactDOM.render(
-  <div>
-    <HeaderComponent user={{ name: "Sergey", surname: "Moiseyenko" }} />
-    <HRPage />
-  </div>,
+    <SignInComponent />,
   document.getElementById("root")
 );

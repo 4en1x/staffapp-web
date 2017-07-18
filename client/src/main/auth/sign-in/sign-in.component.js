@@ -1,10 +1,9 @@
 import React from "react";
 import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
-import { Divider } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
-import "../../../index.css";
+import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
@@ -44,10 +43,13 @@ export default class SignInComponent extends React.Component {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
 
     return (
-      <div className="auth-form">
-        <Image src={logos.logo1} size="small" />
-        <Divider hidden />
-        {form}
+      <div className="auth-container">
+        <div className="auth-form">
+          <div className="auth-form-header">
+          <Image src={logos.logo1} height="30px" verticalAlign="bottom" />
+          </div>
+          {form}
+        </div>
       </div>
     );
   }
