@@ -1,8 +1,5 @@
 import React from "react";
-import { Header } from "semantic-ui-react";
-import { Form } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
-import { Icon } from "semantic-ui-react";
+import { Header, Form, Button, Icon } from "semantic-ui-react";
 
 export default class EmailInputForm extends React.Component {
   constructor(props) {

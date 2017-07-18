@@ -1,7 +1,5 @@
 import React from "react";
-import { Header } from "semantic-ui-react";
-import { Form } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
+import { Header, Form, Button } from "semantic-ui-react";
 
 export default class PasswordInputForm extends React.Component {
   constructor(props) {
