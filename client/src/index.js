@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import HeaderComponent from "./components/header/header.components";
-import SignInComponent from "./main/auth/sign-in/sign-in.component";
+import ReportPage from "./main/report-page/report-page.component";
+import HeaderComponent from "./components/header/header.components";
 import "./index.css";
 
 ReactDOM.render(
-    <SignInComponent />,
+  <div>
+    <HeaderComponent user={{ name: "Sergey", surname: "Moiseyenko" }} />
+    <ReportPage />
+  </div>,
   document.getElementById("root")
 );

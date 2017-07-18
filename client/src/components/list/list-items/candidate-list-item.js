@@ -9,18 +9,22 @@ const CandidateListItem = props => {
     <Segment className="candidate-item-content">
       <div className="content-top">
         <div className="name-label">
-          {" "}{data.name}{" "}
+          {data.name}
         </div>
         <div className="status-label">
-          {" "}{data.status}{" "}
+          {data.status}
         </div>
       </div>
       <div className="technology">
-        {" "}{data.technology}{" "}
+        {data.technology}
       </div>
       <div className="content-extra">
-        <div> city</div>
-        <div> time</div>
+        <div>
+          {data.city}
+        </div>
+        <div>
+          {data.time}
+        </div>
       </div>
     </Segment>
   );
