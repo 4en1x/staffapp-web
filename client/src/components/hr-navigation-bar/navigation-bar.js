@@ -21,22 +21,22 @@ export default class HRNavigationBar extends React.Component {
   navigationConfig = url => ({
     interview: {
       name: "Interviews",
-      url: `${url}/interviews`
+      url: `${url}interviews`
     },
 
     candidate: {
       name: "Candidates",
-      url: `${url}/candidates`
+      url: `${url}candidates`
     },
 
     vacancy: {
       name: "Vacancies",
-      url: `${url}/vacancies`
+      url: `${url}vacancies`
     },
 
     history: {
       name: "History",
-      url: `${url}/history`
+      url: `${url}history`
     }
   });
 

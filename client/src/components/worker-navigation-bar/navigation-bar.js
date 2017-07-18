@@ -20,7 +20,7 @@ export default class WorkerNavigationBar extends React.Component {
   navigationConfig = url => ({
     interview: {
       name: "Interview",
-      url: `${url}/interviews`
+      url: `${url}interviews`
     }
   });
 
