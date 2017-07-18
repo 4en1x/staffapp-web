@@ -28,7 +28,7 @@
   },
   "scripts": {
     "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test",
-    "test2":"mocha -R doc --timeout 5000 > report.html 2>&1"
+    "test2":"mocha --timeout 5000 "
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",
