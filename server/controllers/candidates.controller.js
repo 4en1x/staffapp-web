@@ -4,7 +4,7 @@ const { toCamel, toSnake } = require('convert-keys');
 
 async function readCandidates(req, res) {
   try {
-    const candidates = await db.candidates.readPage(req.params.p);
+    const candidates = await db.candidates.readPage(req.query.p);
     res.json(toCamel(candidates));
   } catch (err) {
     res.status(500).end();
