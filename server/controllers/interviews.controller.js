@@ -21,7 +21,7 @@ async function readInterview(req, res) {
     }
 
     interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
-    res.send(toCamel(interview));
+    res.json(toCamel(interview));
   } catch (err) {
     res.status(500).end();
   }
@@ -34,18 +34,22 @@ async function readInterviews(req, res) {
     all: db.interviews.readPageAll,
   };
 
-  const id = req.user.id;
   const page = req.query.page;
+  const id = req.user.id;
+
+  if (req.query.type !== 'my' && req.user.role === 'user') {
+    res.status(403).end();
+  }
 
   try {
     const interviews = await actions[req.query.type](id, page);
 
     if (!interviews) {
-      res.send({ found: false });
+      res.json([]);
       return;
     }
 
-    res.send(toCamel(interviews));
+    res.json(toCamel(interviews));
   } catch (err) {
     res.status(500).end();
   }

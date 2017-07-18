@@ -89,7 +89,7 @@ class Interviews extends BasicDAO {
   }
 
   async readPageToUser(id, page = 1) {
-    const fields = 'interviews.id, type, date, place';
+    const fields = `${this.table}.id, type, date, place`;
     const joins = 'INNER JOIN feedbacks f ON f.interview_id = interviews.id';
     const where = ' WHERE f.user_id = ? AND f.status = 0';
     const limit = 'LIMIT ?, ?';
@@ -105,7 +105,7 @@ class Interviews extends BasicDAO {
   }
 
   async readPageFromUser(id, page = 1) {
-    const fields = 'interviews.id, type, date, place';
+    const fields = `${this.table}.id, type, date, place`;
     const joins = 'INNER JOIN hirings h ON interviews.hiring_id = h.id';
     const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
     const limit = 'LIMIT ?, ?';
@@ -122,7 +122,7 @@ class Interviews extends BasicDAO {
   }
 
   async readAllByHiring(id) {
-    const fields = 'interviews.id, type, date, place';
+    const fields = `${this.table}.id, type, date, place`;
     const where = 'WHERE interviews.hiring_id = ?';
     const values = [id];
 
