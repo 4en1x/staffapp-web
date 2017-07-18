@@ -15,7 +15,7 @@ export default class PasswordInputForm extends React.Component {
     return (
       <Form size="large" key="large">
         <Form.Field>
-          <label>Log in</label>
+          <label>Password</label>
           <input
             placeholder="password"
             type="password"
