@@ -5,6 +5,7 @@ const { toSnake, toCamel } = require('convert-keys');
 async function updateFeedback(req, res) {
   if (req.params.id !== req.user.id) {
     res.status(403).end();
+    return;
   }
 
   try {
