@@ -6,9 +6,9 @@ import { Segment } from 'semantic-ui-react';
 import { Label } from 'semantic-ui-react';
 import { Divider } from 'semantic-ui-react';
 import { Header } from 'semantic-ui-react';
-import './candidate-page.css';
+import './candidate.css';
 
-export default class CandidatePage extends React.Component {
+export default class Candidate extends React.Component {
   constructor(props) {
     super(props);
   }
