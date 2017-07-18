@@ -19,7 +19,7 @@ class Feedbacks extends BasicDAO {
       values: [interviewId, userId],
     });
 
-    feedback.fields = await readFields(feedback.id);
+    feedback.fields = await this.readFields(feedback.id);
     return feedback;
   }
 
@@ -37,7 +37,7 @@ class Feedbacks extends BasicDAO {
       sql: `SELECT * FROM ${this.table} WHERE interview_id = ?`,
       values: [id],
     }).map(async (feedback) => {
-      feedback.fields = await readFields(feedback.id);
+      feedback.fields = await this.readFields(feedback.id);
       return feedback;
     }));
 

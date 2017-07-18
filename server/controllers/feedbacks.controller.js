@@ -15,7 +15,7 @@ async function readFeedback(req, res) {
   try {
     const feedback = await db.feedbacks.readOne(req.params.id);
 
-    if(!feedback) {
+    if (!feedback) {
       return res.send({ found: false });
     }
 
