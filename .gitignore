@@ -4,6 +4,9 @@
 /client/node_modules
 /server/node_modules
 
+# semantic build
+/client/public/semantic-build
+
 # testing
 /coverage
 

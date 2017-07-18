@@ -1,12 +1,9 @@
 import React from "react";
 import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
-import { Divider } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
-import axios from 'axios';
-import "../../../index.css";
-import './sign-in.css';
+import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
@@ -26,14 +23,7 @@ export default class SignInComponent extends React.Component {
       else stay on email form
      */
 
-    this.value = value;
-
-    /*axios.post('/user', {
-      email: value
-    }).then(res => {
-      console.log(res);
-    });
-    */
+    console.log(value);
 
     this.setState({ currentState: PASSWORD });
   };
@@ -44,19 +34,7 @@ export default class SignInComponent extends React.Component {
       else stay on email form
      */
 
-   /* axios.post('/user', {
-      email: this.value,
-      password: value
-    }).then(res => {
-      console.log('lalala');
-      });
-    });
-    */
-
-  this.props.history.push({
-    pathname: '/',
-    user: {name: value,
-      role: 'HR'}});
+    console.log(value);
   };
 
   render() {
@@ -65,10 +43,11 @@ export default class SignInComponent extends React.Component {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
 
     return (
-      <div className="auth-page">
-        <div className="auth-page_auth-form">
-          <Image src={logos.logo1} size="small" />
-          <Divider hidden />
+      <div className="auth-container">
+        <div className="auth-form">
+          <div className="auth-form-header">
+          <Image src={logos.logo1} height="30px" verticalAlign="bottom" />
+          </div>
           {form}
         </div>
       </div>
