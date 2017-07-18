@@ -1,11 +1,11 @@
 import React from "react";
 import ListComponent from "../../components/list/list.component";
 import SecondaryMenuComponent from "../../components/secondary-menu/secondary-menu.component";
-import NavigationComponent from "../../components/navigation/navigation.component";
+import HRNavigationBar from "../../components/hr-navigation-bar/navigation-bar";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import CandidatesListItem from "../../components/list/list-items/candidate-list-item";
 import VacancyListItem from "../../components/list/list-items/vacancy-list-item";
-import { Route } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import "./hr-page.css";
 
 // default data for mock's
@@ -134,78 +134,54 @@ const vacancies = [
   }
 ];
 
-//config for navigation bar (navigation bar give you more flex and you just config navi bar)
-
 export default class HRPage extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(props);
   }
 
-  navigationConfig = (url) => {
-    return  {
-      interview: {
-        name: 'Interviews',
-        url: `${url}/interviews`
-      },
-
-      candidate: {
-        name: 'Candidates',
-        url: `${url}/candidates`
-      },
-
-      vacancy: {
-        name: 'Vacancies',
-        url: `${url}/vacancies`
-      },
-
-      history: {
-        name: 'History',
-        url: `${url}/history`
-      }
-    };
-  };
-
   render() {
-    const url = this.props.match.url;
-    let config = this.navigationConfig(url);
+    let url = "/";
 
     return (
       <div className="hr-page">
-        <NavigationComponent config={config} activeItem="Interviews" />
-        <div className="hr-page_content">
-          <Route
-            exact
-            path={`${url}`}
-            component={() =>
-              <ListComponent
-                listItem={InterviewListItem}
-                elements={interviews}
-              />}
-          />
-
-          <Route
-            path={`${url}/interviews`}
-            component={() =>
-              <ListComponent
-                listItem={InterviewListItem}
-                elements={interviews}
-              />}
-          />
-          <Route
-            path={`${url}/vacancies`}
-            component={() =>
-              <ListComponent listItem={VacancyListItem} elements={vacancies} />}
-          />
-          <Route
-            path={`${url}/candidates`}
-            component={() =>
-              <ListComponent
-                listItem={CandidatesListItem}
-                elements={candidates}
-              />}
-          />
-          <SecondaryMenuComponent />
-        </div>
+        <HRNavigationBar url={url} activeItem="Interviews" />
+          <div className="hr-page_content">
+            <Route
+              exact
+              path="/"
+              render={() => <Redirect to="/interviews" />}
+            />
+            <Route
+              path={`${url}interviews`}
+              component={() =>
+                <ListComponent
+                  listItem={InterviewListItem}
+                  elements={interviews}
+                  url={`${url}interviews`}
+                />}
+            />
+            <Route
+              path={`${url}vacancies`}
+              component={() =>
+                <ListComponent
+                  listItem={VacancyListItem}
+                  elements={vacancies}
+                  url={`${url}vacancies`}
+                />}
+            />
+            <Route
+              path={`${url}candidates`}
+              component={() =>
+                <ListComponent
+                  listItem={CandidatesListItem}
+                  elements={candidates}
+                  url={`${url}candidates`}
+                />}
+            />
+            <SecondaryMenuComponent />
+          </div>
       </div>
     );
   }

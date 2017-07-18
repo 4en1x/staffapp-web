@@ -1,7 +1,7 @@
 import React from 'react';
-import CommunicationsList from './components/list/communications-list';
-import Contacts from './components/list/contacts-list';
-import SkillsList from './components/list/skills-list';
+import CommunicationsList from './list/communications-list';
+import Contacts from './list/contacts-list';
+import SkillsList from './list/skills-list';
 import { Segment } from 'semantic-ui-react';
 import { Label } from 'semantic-ui-react';
 import { Divider } from 'semantic-ui-react';

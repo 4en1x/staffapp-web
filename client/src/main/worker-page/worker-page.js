@@ -1,9 +1,10 @@
 import React from "react";
 import ListComponent from "../../components/list/list.component";
 import "./worker-page.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
-import NavigationComponent from "../../components/navigation/navigation.component";
+import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
+
 
 const interviews = [
   {
@@ -89,42 +90,24 @@ export default class WorkerPage extends React.Component {
     //url (http://localhost/3000/name.toLowerCase());
   };
 
-  //config object contains name of the tab in navigation menu and url for link
-  navigationConfig = (url) => {
-    return {
-      interview: {
-        name: 'Interview',
-        url: `${url}/interviews`
-      }
-    }
-  };
-
-
   render() {
     let url = this.props.match.url;
-    let config = this.navigationConfig(url);
 
     return (
       <div className="worker-page">
-        <NavigationComponent config={config} activeItem="Interview" />
+        <WorkerNavigationBar url={url} activeItem="Interview" />
         <div className="content">
+          <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
           <Route
-            exact
-            path={`${url}`}
+            path={`${url}interviews`}
             component={() =>
               <ListComponent
                 listItem={InterviewListItem}
                 elements={interviews}
+                url={`${url}interviews`}
               />}
-          />
-          <Route
-            path={`${url}/interviews`}
-            component={() =>
-              <ListComponent
-                listItem={InterviewListItem}
-                elements={interviews}
-              />}
-          />
+          >
+          </Route>
         </div>
       </div>
     );
