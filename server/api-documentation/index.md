@@ -17,10 +17,8 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 - **[```GET``` interviews](./interviews/GET_interviews.md)**
 - **[```GET``` interviews/:id](./interviews/GET_interviews_id.md)**
 - **[```POST``` interviews](./interviews/POST_interviews.md)**
-- **[```PATCH``` interviews/:id](./interviews/PATCH_interviews_id.md)**
-- **[```DELETE``` interviews/:id](./interviews/DELETE_interviews_id.md)**
 
 ### Feedbacks
 
-- **[```GET``` feedbacks/:id](./feedbacks/GET_feedbacks_id)**
-- **[```PUT``` feedbacks/:id](./feedbacks/PUT_feedbacks_id)**
+- **[```GET``` feedbacks/:id](./feedbacks/GET_feedbacks_id.md)**
+- **[```PUT``` feedbacks/:id](./feedbacks/PUT_feedbacks_id.md)**

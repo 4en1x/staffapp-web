@@ -71,28 +71,26 @@ GET feedbacks/49
 
 ``` JSON
 {
-  {
-    "id": 5,
-    "userId": 1,
-    "interviewId": 3,
-    "candidateId": 1,
-    "status": 0,
-    "fields": [
-      {
-        "id": 11,
-        "name": "C++ level",
-        "typeSkill": "primary",
-        "feedbackId": 5,
-        "type": "tech"
-      },
-      {
-        "id": 12,
-        "name": "Some skill",
-        "typeSkill": "secondary",
-        "feedbackId": 5,
-        "type": "tech"
-      }
-    ]
-  }
+  "id": 5,
+  "userId": 1,
+  "interviewId": 3,
+  "candidateId": 1,
+  "status": 0,
+  "fields": [
+    {
+      "id": 11,
+      "name": "C++ level",
+      "typeSkill": "primary",
+      "feedbackId": 5,
+      "type": "tech"
+    },
+    {
+      "id": 12,
+      "name": "Some skill",
+      "typeSkill": "secondary",
+      "feedbackId": 5,
+      "type": "tech"
+    }
+  ]
 }
 ```
