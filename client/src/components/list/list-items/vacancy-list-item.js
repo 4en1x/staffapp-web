@@ -4,7 +4,7 @@ import { Divider } from "semantic-ui-react";
 import "./vacancy-list-item.css";
 
 const VacancyListItem = props => {
-  const vacancy = props.vacancy;
+  const vacancy = props.element;
 
   return (
     <List.Item className="flex-vacancy-list-item">
