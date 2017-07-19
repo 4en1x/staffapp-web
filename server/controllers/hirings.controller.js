@@ -1,5 +1,4 @@
 const db = require('../dao');
-const { toCamel } = require('convert-keys');
 const service = require('../services/hirings.service');
 
 async function createHiring(req, res) {
@@ -7,7 +6,7 @@ async function createHiring(req, res) {
   let id = null;
 
   try {
-    const hirings = await db.hirings.readAllByCandidate(req.query.candidate);
+    const hirings = await db.hirings.readByCandidate(req.query.candidate);
 
     if (hirings.length) {
       res.send({
@@ -47,9 +46,9 @@ async function readHiring(req, res) {
       return;
     }
 
-    hiring.interviews = await db.interviews.readAllByHiring(req.params.id);
+    hiring.interviews = await db.interviews.readByHiring(req.params.id);
 
-    res.send(toCamel(hiring));
+    res.send(hiring);
   } catch (err) {
     res.status(500).end();
   }
@@ -57,14 +56,14 @@ async function readHiring(req, res) {
 
 async function readHirings(req, res) {
   try {
-    const result = await db.hirings.readAllByCandidate(req.query.id);
+    const result = await db.hirings.readByCandidate(req.query.id);
 
     if (!result) {
       res.send({ found: false });
       return;
     }
 
-    res.send(toCamel(result));
+    res.send(result);
   } catch (err) {
     res.status(500).end();
   }
@@ -72,8 +71,8 @@ async function readHirings(req, res) {
 
 async function updateHiring(req, res) {
   try {
-    const body = service.createHiringUpdateObject(req.body);
-    await db.hirings.update(req.params.id, body);
+    const hiring = service.createHiringUpdateObject(req.body);
+    await db.hirings.update(req.params.id, hiring);
     return res.end();
   } catch (err) {
     return res.status(500).end();

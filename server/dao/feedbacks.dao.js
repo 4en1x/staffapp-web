@@ -1,4 +1,14 @@
 const BasicDAO = require('./basic.dao');
+const { toCamel, toSnake } = require('convert-keys');
+
+async function readFields(id) {
+  const fields = await this.connection.queryAsync({
+    sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
+    values: [id],
+  });
+
+  return toCamel(fields);
+}
 
 class Feedbacks extends BasicDAO {
   constructor(connection) {
@@ -8,36 +18,27 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
-    feedback.fields = await this.readFields(id);
+    feedback.fields = await readFields.bind(this, id);
     return feedback;
   }
 
   async readOneFromInterviewByUser(interviewId, userId) {
-    const [feedback] = await this.connection.queryAsync({
+    const [feedback] = toCamel(await this.connection.queryAsync({
       sql: `SELECT * FROM ${this.table}
             WHERE interview_id = ? AND user_id = ?`,
       values: [interviewId, userId],
-    });
+    }));
 
-    feedback.fields = await this.readFields(feedback.id);
+    feedback.fields = await readFields.bind(this, feedback.id);
     return feedback;
   }
 
-  async readFields(id) {
-    const fields = await this.connection.queryAsync({
-      sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
+  async readFromInterview(id) { // TODO: TEST IT!
+    const feedbacks = await Promise.all((await super.read({
+      addition: 'WHERE interview_id = ?',
       values: [id],
-    });
-
-    return fields;
-  }
-
-  async readAllFromInterview(id) { // TODO: TEST IT!
-    const feedbacks = await Promise.all(this.connection.queryAsync({
-      sql: `SELECT * FROM ${this.table} WHERE interview_id = ?`,
-      values: [id],
-    }).map(async (feedback) => {
-      feedback.fields = await readFields(feedback.id);
+    })).map(async (feedback) => {
+      feedback.fields = await readFields.bind(this, feedback.id);
       return feedback;
     }));
 
@@ -55,7 +56,7 @@ class Feedbacks extends BasicDAO {
         delete field.id;
         await this.connection.queryAsync({
           sql: 'UPDATE feedback_fields SET ? WHERE id = ?',
-          values: [field, fieldId],
+          values: [toSnake(field), fieldId],
         });
       }));
 

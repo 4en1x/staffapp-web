@@ -1,5 +1,4 @@
 const db = require('./../dao');
-const { toSnake, toCamel } = require('convert-keys');
 
 
 async function updateFeedback(req, res) {
@@ -9,7 +8,7 @@ async function updateFeedback(req, res) {
   }
 
   try {
-    await db.feedbacks.update(req.params.id, req.body.comment, toSnake(req.body.feedbackFields));
+    await db.feedbacks.update(req.params.id, req.body.comment, req.body.feedbackFields);
     res.end();
   } catch (err) {
     res.status(500).end();
@@ -30,7 +29,7 @@ async function readFeedback(req, res) {
       return;
     }
 
-    res.json(toCamel(feedback));
+    res.json(feedback);
   } catch (err) {
     res.status(500).end();
   }

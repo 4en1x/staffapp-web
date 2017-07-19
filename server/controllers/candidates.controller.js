@@ -1,11 +1,10 @@
 const db = require('../dao');
 const service = require('../services/candidates.service');
-const { toCamel, toSnake } = require('convert-keys');
 
 async function readCandidates(req, res) {
   try {
-    const candidates = await db.candidates.readPage(req.query.p);
-    res.json(toCamel(candidates));
+    const candidates = await db.candidates.read(req.query.page);
+    res.json(candidates);
   } catch (err) {
     res.status(500).end();
   }
@@ -14,10 +13,12 @@ async function readCandidates(req, res) {
 async function readCandidate(req, res) {
   try {
     const candidate = await db.candidates.readOne(req.query.id);
+
     if (!candidate) {
       res.status(404).end();
     }
-    res.json(toCamel(candidate));
+
+    res.json(candidate);
   } catch (err) {
     res.status(500).end();
   }
@@ -28,8 +29,8 @@ async function createCandidate(req, res) {
   candidate.userId = req.user.id;
 
   try {
-    await db.candidates.create(toSnake(candidate), links, city);
-    res.end();
+    const id = await db.candidates.create(candidate, links, city);
+    res.json(id);
   } catch (err) {
     res.status(500).end();
   }
@@ -56,6 +57,7 @@ async function deleteCandidate(req, res) {
       res.status(404).end();
       return;
     }
+
     res.status(500).end();
   }
 }

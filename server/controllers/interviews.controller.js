@@ -1,5 +1,4 @@
 const db = require('../dao');
-const { toCamel, toSnake } = require('convert-keys');
 const feedbacksService = require('../services/feedbacks.service');
 
 async function readInterview(req, res) {
@@ -21,7 +20,7 @@ async function readInterview(req, res) {
     }
 
     interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
-    res.json(toCamel(interview));
+    res.json(interview);
   } catch (err) {
     res.status(500).end();
   }
@@ -29,9 +28,9 @@ async function readInterview(req, res) {
 
 async function readInterviews(req, res) {
   const actions = {
-    my: db.interviews.readPageToUser,
-    assigned: db.interviews.readPageFromUser,
-    all: db.interviews.readPageAll,
+    my: db.interviews.readAssignedTo,
+    assigned: db.interviews.readCreatedBy,
+    all: db.interviews.readAll,
   };
 
   const page = req.query.page;
@@ -49,7 +48,7 @@ async function readInterviews(req, res) {
       return;
     }
 
-    res.json(toCamel(interviews));
+    res.json(interviews);
   } catch (err) {
     res.status(500).end();
   }
@@ -66,7 +65,7 @@ async function deleteInterview(req, res) {
 
 async function updateInterview(req, res) {
   try {
-    await db.interviews.update(req.params.id, toSnake(req.body));
+    await db.interviews.update(req.params.id, req.body);
     res.end();
   } catch (err) {
     res.status(500).end();
