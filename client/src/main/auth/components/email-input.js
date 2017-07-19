@@ -20,17 +20,13 @@ export default class EmailInputForm extends React.Component {
             ref={input => (this.input = input)}
           />
         </Form.Field>
-        <Button
-          color="twitter"
-          floated="right"
-          onClick={this.onNextClicked}
-          animated
-        >
-          <Button.Content visible>Next</Button.Content>
-          <Button.Content hidden>
-            <Icon name="right arrow" />
-          </Button.Content>
-        </Button>
+          <Button
+              color="twitter"
+              floated="right"
+              onClick={this.onNextClicked}
+          >
+              Next
+          </Button>
       </Form>
     );
   }

@@ -4,7 +4,7 @@ const BasicDAO = require('./basic.dao');
 class Candidates extends BasicDAO {
   constructor(connection) {
     super('candidates');
-    this.top = config.db.itemsPerPage;
+    this.top = config.pageSettings.itemsPerPage;
     this.connection = connection;
   }
 

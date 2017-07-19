@@ -19,7 +19,7 @@ class Feedbacks extends BasicDAO {
       values: [interviewId, userId],
     });
 
-    feedback.fields = await readFields(feedback.id);
+    feedback.fields = await this.readFields(feedback.id);
     return feedback;
   }
 

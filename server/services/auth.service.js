@@ -31,6 +31,24 @@ function promisifiedAuthenticate(req, res) {
   });
 }
 
+function checkHR(req, res, next) {
+  if (req.user.role === 'user') {
+    res.status(403).end();
+    return;
+  }
+
+  next();
+}
+
+function checkAdmin(req, res, next) {
+  if (req.user.role !== 'admin') {
+    res.status(403).end();
+    return;
+  }
+
+  next();
+}
+
 function init(app) {
   passport.use(new LocalStrategy(strategyOptions, async (email, password, done) => {
     try {
@@ -76,4 +94,6 @@ function init(app) {
 module.exports = {
   init,
   promisifiedAuthenticate,
+  checkHR,
+  checkAdmin,
 };

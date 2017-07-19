@@ -12,7 +12,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  display: inline-block;
   overflow: auto;
   background-color: #f6f6f6;
   -webkit-background-size: cover;
@@ -21,10 +20,13 @@ body {
   background-size: cover;
 }
 
+.router-container {
+  width: inherit;
+  height: inherit;
+}
+
 /* clear */
 
 .clear {
   clear: both;
 }
-
-

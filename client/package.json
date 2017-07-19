@@ -2,7 +2,8 @@
   "name": "exadel-practice",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {    
+  "dependencies": {
+    "axios": "^0.16.2",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-collapsible": "^1.4.0",
@@ -18,7 +19,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.1.2",
     "eslint-plugin-react": "^7.1.0",
-    "prettier": "^1.5.2",    
+    "prettier": "^1.5.2",
     "react-scripts": "1.0.10",
     "url-loader": "^0.5.9"
   },

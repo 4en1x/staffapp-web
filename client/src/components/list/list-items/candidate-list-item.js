@@ -4,7 +4,7 @@ import { Segment } from "semantic-ui-react";
 import "./candidate-list-item.css";
 
 const CandidateListItem = props => {
-  const data = props.data;
+  const data = props.element;
   return (
     <Segment className="candidate-item-content">
       <div className="content-top">

@@ -18,7 +18,7 @@ async function createHiring(req, res) {
     }
 
     id = await db.hirings.create(hiring);
-    await service.writeInterviews(req.body.interviews, id, req.query.candidate);
+    await service.createInterviews(req.body.interviews, id, req.query.candidate);
 
     res.send({
       added: true,
