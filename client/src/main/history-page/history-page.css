@@ -1,0 +1,22 @@
+.report-page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.5% 3%;
+}
+.report-page-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.report-page-content {
+  width: 73%;
+  background: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.report-page-title{
+  font-size: 2.5em;
+  margin: 20px 0 20px ;
+}

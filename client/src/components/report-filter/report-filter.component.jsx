@@ -62,7 +62,6 @@ export default class InterviewsFilterComponent extends React.Component {
     return (
       <Menu secondary vertical className="custom">
         <Menu.Item>
-          name
           <Input
             focus
             placeholder="Input candidate name"
@@ -72,7 +71,6 @@ export default class InterviewsFilterComponent extends React.Component {
         </Menu.Item>
 
         <Menu.Item>
-          technology
           <Dropdown
             placeholder="choose technology"
             selection
@@ -83,7 +81,6 @@ export default class InterviewsFilterComponent extends React.Component {
         </Menu.Item>
 
         <Menu.Item>
-          vacancy status
           <Dropdown
             placeholder="choose vacancy status"
             selection
@@ -94,7 +91,6 @@ export default class InterviewsFilterComponent extends React.Component {
         </Menu.Item>
 
         <Menu.Item>
-          candidate status
           <Dropdown
             placeholder="choose candidate status"
             selection
@@ -105,7 +101,6 @@ export default class InterviewsFilterComponent extends React.Component {
         </Menu.Item>
 
         <Menu.Item>
-          city
           <Input
             focus
             placeholder="Input city"
@@ -115,7 +110,6 @@ export default class InterviewsFilterComponent extends React.Component {
         </Menu.Item>
 
         <Menu.Item>
-          date
           <Input
             focus
             placeholder="Input date"
