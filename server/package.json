@@ -14,7 +14,8 @@
     "fecha": "^2.3.1",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "superagent": "^3.5.2"
   },
   "devDependencies": {
     "chai": "^4.1.0",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test",
-    "test2":"mocha --timeout 5000 "
+    "test2": "mocha --timeout 5000 "
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",
@@ -37,6 +38,3 @@
     "url": "https://github.com/exadel-team/staffapp-api"
   }
 }
-
-
-
