@@ -31,6 +31,10 @@ export default class FeedbackTechnicalCard extends React.Component {
     );
   }
 
+  onSelectClicked = (event, data) => {
+    this.props.selectHandle(data.value, this.props.data.technology)
+  };
+
   render() {
     const data = this.props.data;
     return (
@@ -41,8 +45,7 @@ export default class FeedbackTechnicalCard extends React.Component {
           </div>
           <div>
             <Select
-              onChange={(event, data) =>
-                this.props.selectHandle(data.value, this.props.data.technology)}
+              onChange={this.onSelectClicked}
               placeholder="grade"
               options={grades}
               className="select-grade"
