@@ -45,7 +45,6 @@ export default class InterviewsFilterComponent extends React.Component {
     super(props);
 
     this.state = {
-      shows: [false, false, false, false, false, false],
       name: "",
       primarySkill: "",
       statusCandidate: "",
@@ -55,111 +54,76 @@ export default class InterviewsFilterComponent extends React.Component {
     };
   }
 
-  handleChange = (e, { value }) => {
-    const states = this.state.shows;
-    states[value] = !states[value];
-    this.setState({ shows: states });
-  };
-
   saveSearchKey = (e, { typeData, value }) => {
-    if (typeData === 0)
-      switch (typeData) {
-        case 0:
-          this.setState({ name: value });
-          break;
-        case 1:
-          this.setState({ primarySkill: value });
-          break;
-        case 2:
-          this.setState({ statusVacancy: value });
-          break;
-        case 5:
-          this.setState({ statusCandidate: value });
-          break;
-        case 3:
-          this.setState({ city: value });
-          break;
-        case 4:
-          this.setState({ date: value });
-          break;
-        default:
-          break;
-      }
+    this.setState({ [typeData]: value });
   };
 
   render() {
     return (
       <Menu secondary vertical className="custom">
-        <Menu.Item value={0} onClick={this.handleChange}>
-          candidate name
-        </Menu.Item>
-
-        {this.state.shows[0] &&
+        <Menu.Item>
+          name
           <Input
             focus
             placeholder="Input candidate name"
-            typeData={0}
+            typeData="name"
             onChange={this.saveSearchKey}
-          />}
-
-        <Menu.Item value={1} onClick={this.handleChange}>
-          technology
+          />
         </Menu.Item>
-        {this.state.shows[1] &&
+
+        <Menu.Item>
+          technology
           <Dropdown
             placeholder="choose technology"
             selection
             options={primarySkills}
-            typeData={1}
+            typeData="primarySkill"
             onChange={this.saveSearchKey}
-          />}
-
-        <Menu.Item value={2} onClick={this.handleChange}>
-          vacancy status
+          />
         </Menu.Item>
-        {this.state.shows[2] &&
+
+        <Menu.Item>
+          vacancy status
           <Dropdown
             placeholder="choose vacancy status"
             selection
             options={statusesVacancy}
-            typeData={2}
+            typeData="statusVacancy"
             onChange={this.saveSearchKey}
-          />}
-
-        <Menu.Item value={5} onClick={this.handleChange}>
-          candidate status
+          />
         </Menu.Item>
-        {this.state.shows[5] &&
+
+        <Menu.Item>
+          candidate status
           <Dropdown
             placeholder="choose candidate status"
             selection
             options={statusesCandidate}
-            typeData={5}
+            typeData="statusCandidate"
             onChange={this.saveSearchKey}
-          />}
-
-        <Menu.Item value={3} onClick={this.handleChange}>
-          city
+          />
         </Menu.Item>
-        {this.state.shows[3] &&
+
+        <Menu.Item>
+          city
           <Input
             focus
             placeholder="Input city"
-            typeData={3}
+            typeData="city"
             onChange={this.saveSearchKey}
-          />}
-
-        <Menu.Item value={4} onClick={this.handleChange}>
-          date
+          />
         </Menu.Item>
-        {this.state.shows[4] &&
+
+        <Menu.Item>
+          date
           <Input
             focus
             placeholder="Input date"
             onChange={this.saveSearchKey}
             type="date"
-            typeData={4}
-          />}
+            typeData="date"
+          />
+        </Menu.Item>
       </Menu>
     );
   }

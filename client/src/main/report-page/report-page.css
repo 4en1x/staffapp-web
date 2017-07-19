@@ -4,23 +4,19 @@
   align-items: stretch;
   padding: 0.5% 3%;
 }
-.report-page_content {
+.report-page-content {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.workplace {
+.report-page-workplace {
   width: 73%;
   background: #ffffff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 
-.title{
+.report-page-title{
   font-size: 2.5em;
   margin: 20px 0 20px ;
-}
-
-#content {
-  margin: 0 5% 30px 5%;
 }

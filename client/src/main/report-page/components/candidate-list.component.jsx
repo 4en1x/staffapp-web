@@ -5,10 +5,9 @@ import "./list.css";
 
 export default class ListComponent extends React.Component {
   render() {
-    // const ListItem = this.props.listItem;
     const props = this.props;
     return (
-      <List divided className="list-component">
+      <List divided className="report-list-component">
         {props.candidates.map(candidate =>
           <CandidateListItem data={candidate} key={candidate.id} />
         )}

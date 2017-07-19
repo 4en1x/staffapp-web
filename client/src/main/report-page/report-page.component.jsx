@@ -61,9 +61,9 @@ export default class ReportPage extends React.Component {
   render() {
     return (
       <div className="report-page">
-        <div className="title"> Reports </div>
-        <div className="report-page_content">
-          <Segment className="workplace">
+        <div className="report-page-title"> Reports </div>
+        <div className="report-page-content">
+          <Segment className="report-page-workplace">
             <VacancyList vacancies={vacancies} />
             <CandidateList candidates={candidates} />
           </Segment>
