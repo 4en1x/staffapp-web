@@ -16,7 +16,7 @@ export default class HRNavigationBar extends React.Component {
     this.setState({ activeItem: name });
   };
 
-  //config for navigation bar (navigation bar give you more flex and you just config navi bar)
+  // config for navigation bar (navigation bar give you more flex and you just config navi bar)
 
   navigationConfig = url => ({
     interview: {

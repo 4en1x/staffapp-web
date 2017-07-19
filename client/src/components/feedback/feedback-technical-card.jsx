@@ -7,7 +7,7 @@ const grades = [
   { key: "two", value: "two", text: "two" },
   { key: "three", value: "three", text: "three" },
   { key: "four", value: "four", text: "four" },
-  { key: "fife", value: "fife", text: "fife" },
+  { key: "five", value: "five", text: "five" },
   { key: "six", value: "six", text: "six" },
   { key: "seven", value: "seven", text: "seven" },
   { key: "eight", value: "eight", text: "eight" },
@@ -18,10 +18,6 @@ const grades = [
 const DEFAULT_SELECT_VALUE = 0;
 
 export default class FeedbackTechnicalCard extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const technology = this.props.data.technology;
     const input = this.input;

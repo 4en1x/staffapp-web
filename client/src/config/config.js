@@ -1,14 +1,14 @@
-let ROLES = {
+const ROLES = {
   ADMIN: {
-    ROLE: 'Admin'
+    ROLE: "Admin"
   },
 
   HR: {
-    ROLE: 'HR'
+    ROLE: "HR"
   },
 
   WORKER: {
-    ROLE: 'Worker'
+    ROLE: "Worker"
   }
 };
 

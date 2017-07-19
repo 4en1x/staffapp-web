@@ -7,14 +7,11 @@ export default class TechnicalFeedback extends React.Component {
     super(props);
 
     this.state = {
-      isFeedbackSend: false
+      isFeedbackSent: false
     };
   }
 
-  // on this method we create reques to server and post feedback,
-  // after create component <Reditect> to worker page
   addFeedback = feedback => {
-    console.log(feedback);
     this.setState({ isFeedbackSend: true });
   };
 
