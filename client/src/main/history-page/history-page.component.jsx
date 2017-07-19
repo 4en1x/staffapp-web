@@ -103,11 +103,6 @@ const news = [
     user: "User",
     description: "description",
     date: "date+time"
-  },
-  {
-    user: "User",
-    description: "description",
-    date: "date+time"
   }
 ];
 
