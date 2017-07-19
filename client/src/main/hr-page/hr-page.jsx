@@ -142,46 +142,51 @@ export default class HRPage extends React.Component {
   }
 
   render() {
-    let url = "/";
+    const url = "/";
 
     return (
       <div className="hr-page">
         <HRNavigationBar url={url} activeItem="Interviews" />
-          <div className="hr-page_content">
-            <Route
-              exact
-              path="/"
-              render={() => <Redirect to="/interviews" />}
-            />
-            <Route
-              path={`${url}interviews`}
-              component={() =>
-                <ListComponent
-                  listItem={InterviewListItem}
-                  elements={interviews}
-                  url={`${url}interviews`}
-                />}
-            />
-            <Route
-              path={`${url}vacancies`}
-              component={() =>
-                <ListComponent
-                  listItem={VacancyListItem}
-                  elements={vacancies}
-                  url={`${url}vacancies`}
-                />}
-            />
-            <Route
-              path={`${url}candidates`}
-              component={() =>
-                <ListComponent
-                  listItem={CandidatesListItem}
-                  elements={candidates}
-                  url={`${url}candidates`}
-                />}
-            />
-            <SecondaryMenuComponent />
-          </div>
+        <div className="hr-page_content">
+          <Route
+            exact
+            path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+                url={`${url}interviews`}
+              />}
+          />
+          <Route
+            path={`${url}interviews`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+                url={`${url}interviews`}
+              />}
+          />
+          <Route
+            path={`${url}vacancies`}
+            component={() =>
+              <ListComponent
+                listItem={VacancyListItem}
+                elements={vacancies}
+                url={`${url}vacancies`}
+              />}
+          />
+          <Route
+            path={`${url}candidates`}
+            component={() =>
+              <ListComponent
+                listItem={CandidatesListItem}
+                elements={candidates}
+                url={`${url}candidates`}
+              />}
+          />
+          <SecondaryMenuComponent />
+        </div>
       </div>
     );
   }

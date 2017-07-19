@@ -21,11 +21,7 @@ export default class PasswordInputForm extends React.Component {
             ref={input => (this.input = input)}
           />
         </Form.Field>
-        <Button
-          color="twitter"
-          floated="right"
-          onClick={this.onSubmitClicked}
-        >
+        <Button color="twitter" floated="right" onClick={this.onSubmitClicked}>
           Submit
         </Button>
       </Form>

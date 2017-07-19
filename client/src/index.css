@@ -21,8 +21,8 @@ body {
 }
 
 .router-container {
-    width: inherit;
-    height: inherit;
+  width: inherit;
+  height: inherit;
 }
 
 /* clear */
@@ -30,5 +30,3 @@ body {
 .clear {
   clear: both;
 }
-
-
