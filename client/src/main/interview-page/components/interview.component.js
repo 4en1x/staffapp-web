@@ -14,8 +14,11 @@ export default class InterviewComponent extends React.Component {
     super(props);
   }
 
-  render() {
+  onButtonClick = () => {
+    this.props.feedbackClicked();
+  };
 
+  render() {
     const data = this.props.interview;
 
     return (
@@ -56,7 +59,7 @@ export default class InterviewComponent extends React.Component {
         </Segment>
 
         <div className="add-feedback">
-          <Button primary>
+          <Button primary onClick={this.onButtonClick}>
             {" "}Feedback{" "}
           </Button>
         </div>
