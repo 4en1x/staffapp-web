@@ -5,7 +5,6 @@ import { Route, Redirect } from "react-router-dom";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
 
-
 const interviews = [
   {
     id: "111",
@@ -78,8 +77,7 @@ export default class WorkerPage extends React.Component {
   }
 
   menuItemClickHandle = name => {
-    //load interviews from server
-    console.log(name);
+    // load interviews from server
   };
 
   componentDidMount() {
@@ -87,17 +85,27 @@ export default class WorkerPage extends React.Component {
   }
 
   getItems = name => {
-    //url (http://localhost/3000/name.toLowerCase());
+    // url (http://localhost/3000/name.toLowerCase());
   };
 
   render() {
-    let url = this.props.match.url;
+    const url = this.props.match.url;
+    // <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
 
     return (
       <div className="worker-page">
         <WorkerNavigationBar url={url} activeItem="Interview" />
-        <div className="content">
-          <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
+        <div className="worker-page_content">
+          <Route
+            exact
+            path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+                url={`${url}interviews`}
+              />}
+          />
           <Route
             path={`${url}interviews`}
             component={() =>
@@ -106,8 +114,7 @@ export default class WorkerPage extends React.Component {
                 elements={interviews}
                 url={`${url}interviews`}
               />}
-          >
-          </Route>
+          />
         </div>
       </div>
     );
