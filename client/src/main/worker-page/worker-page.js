@@ -1,12 +1,13 @@
-import React from 'react';
-import HeaderComponent from '../../components/header/header.components';
-import ListComponent from '../../components/list/list.component';
-import MenuComponent from '../../components/menu/menu.component';
-import './worker-page.css';
+import React from "react";
+import ListComponent from "../../components/list/list.component";
+import "./worker-page.css";
+import { Route, Redirect } from "react-router-dom";
+import InterviewListItem from "../../components/list/list-items/interview-list-item";
+import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
 
 const interviews = [
   {
-    id: '111',
+    id: "111",
     name: "Sergey",
     surname: "Moiseyenko",
     date: "08.08.08",
@@ -15,7 +16,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '222',
+    id: "222",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -24,7 +25,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '333',
+    id: "333",
     name: "Kosty",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -33,7 +34,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '444',
+    id: "444",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -42,7 +43,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '555',
+    id: "555",
     name: "Lenya",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -51,7 +52,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '666',
+    id: "666",
     name: "Nik",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -60,7 +61,7 @@ const interviews = [
     primarySkill: "Javascrtipt"
   },
   {
-    id: '777',
+    id: "777",
     name: "Evg",
     surname: "Basaranovich",
     date: "08.08.08",
@@ -70,41 +71,52 @@ const interviews = [
   }
 ];
 
-const user = {
-  name: 'Sergey',
-  surname: 'Moiseyenko'
-};
-
 export default class WorkerPage extends React.Component {
-
   constructor(props) {
     super(props);
   }
 
-  menuItemClickHandle = (name) => {
-
-    //load interviews from server
-    console.log(name);
+  menuItemClickHandle = name => {
+    // load interviews from server
   };
 
   componentDidMount() {
     // crate request for interviews
   }
 
-  getItems = (name) => {
-    //url (http://localhost/3000/name.toLowerCase());
+  getItems = name => {
+    // url (http://localhost/3000/name.toLowerCase());
   };
 
   render() {
+    const url = this.props.match.url;
+    // <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
 
     return (
       <div className="worker-page">
-        <HeaderComponent user={user}/>
-        <div className="content">
-          <MenuComponent className="menu-component" items={['Interviews']} menuItemClickHandle={this.menuItemClickHandle}/>
-          <ListComponent interviews={interviews}/>
+        <WorkerNavigationBar url={url} activeItem="Interview" />
+        <div className="worker-page_content">
+          <Route
+            exact
+            path={`${url}`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+                url={`${url}interviews`}
+              />}
+          />
+          <Route
+            path={`${url}interviews`}
+            component={() =>
+              <ListComponent
+                listItem={InterviewListItem}
+                elements={interviews}
+                url={`${url}interviews`}
+              />}
+          />
         </div>
       </div>
-    )
+    );
   }
 }

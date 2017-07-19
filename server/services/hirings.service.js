@@ -2,7 +2,7 @@ const db = require('../dao');
 const { toSnake } = require('convert-keys');
 const fecha = require('fecha');
 
-async function writeInterviews(interviews, hiringId, candidateId) {
+async function createInterviews(interviews, hiringId, candidateId) {
   await Promise.all(interviews.map(async (item) => {
     item.interview.hiringId = hiringId;
 
@@ -34,7 +34,7 @@ function createHiringUpdateObject(reqBody) {
 }
 
 module.exports = {
-  writeInterviews,
+  createInterviews,
   createHiringObject,
   createHiringUpdateObject,
 };

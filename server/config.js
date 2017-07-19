@@ -1,16 +1,12 @@
+const defaultConfig = require('./../config.json');
+
 const config = {
-  db: {
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: 'toor',
-    database: 'exadel-team-db',
-    itemsPerPage: 10,
-  },
+  db: process.env.DATABASE_URL || defaultConfig.db,
   web: {
-    port: process.env.PORT || 3300,
-    frontendOrigin: 'http://localhost:3000',
+    port: process.env.PORT || defaultConfig.web.port,
+    frontendOrigin: defaultConfig.web.frontendOrigin,
   },
+  pageSettings: defaultConfig.pageSettings,
 };
 
 module.exports = config;
