@@ -3,8 +3,7 @@ import React from "react";
 import { Divider, Segment, Button, List } from "semantic-ui-react";
 
 import "./add-technical-feedback-page.css";
-import "../interview-page/interview-page.css";
-import FeedbackTechnicalCard from "./components/feedback-technical-card";
+import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card.jsx";
 
 const major = {
   technology: "javascript"
@@ -33,8 +32,26 @@ const other = [
 ];
 
 export default class AddTechnicalFeedbackPage extends React.Component {
-  addFeedback = () => {
-    // TODO: ... some action needed ...
+  constructor(props) {
+    super(props);
+    this.feedbackInfo = {};
+  }
+
+  inputHandle = (element, propName) => {
+    this.feedbackInfo[propName] = element;
+  };
+
+  selectHandle = (value, propName) => {
+    this.feedbackInfo[propName].select = value;
+  };
+
+  feedbackButtonClicked = () => {
+    // this.props.addFeedback();
+    const props = Object.keys(this.feedbackInfo);
+    props.forEach(prop => {
+      this.feedbackInfo[prop].input = this.feedbackInfo[prop].input.ref.value;
+    });
+    this.props.addFeedback(this.feedbackInfo);
   };
 
   render() {
@@ -44,12 +61,20 @@ export default class AddTechnicalFeedbackPage extends React.Component {
         <Divider />
         <Segment id="content-data">
           <div className="labels"> Major skill </div>
-          <FeedbackTechnicalCard data={major} />
+          <FeedbackTechnicalCard
+            data={major}
+            inputHandle={this.inputHandle}
+            selectHandle={this.selectHandle}
+          />
           <List size="medium">
             <List.Header className="list-header">Minor skills</List.Header>
             {minor.map(step =>
               <List.Item key={step.technology}>
-                <FeedbackTechnicalCard data={step} />
+                <FeedbackTechnicalCard
+                  inputHandle={this.inputHandle}
+                  data={step}
+                  selectHandle={this.selectHandle}
+                />
               </List.Item>
             )}
           </List>
@@ -57,13 +82,17 @@ export default class AddTechnicalFeedbackPage extends React.Component {
             <List.Header className="list-header">Other skills</List.Header>
             {other.map(step =>
               <List.Item key={step.technology}>
-                <FeedbackTechnicalCard data={step} />
+                <FeedbackTechnicalCard
+                  data={step}
+                  inputHandle={this.inputHandle}
+                  selectHandle={this.selectHandle}
+                />
               </List.Item>
             )}
           </List>
         </Segment>
         <div className="add-feedback">
-          <Button primary onClick={this.addFeedback}>
+          <Button primary onClick={this.feedbackButtonClicked}>
             Feedback
           </Button>
         </div>
