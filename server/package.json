@@ -7,7 +7,7 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "chai-shallow-deep-equal": "^1.4.6",
-    "convert-keys": "latest",
+    "convert-keys": "^1.2.0",
     "cors": "^2.8.3",
     "express": "^4.15.3",
     "express-mysql-session": "^1.2.1",
@@ -19,18 +19,20 @@
     "superagent": "^3.5.2"
   },
   "devDependencies": {
+    "babel-register": "^6.24.1",
     "chai": "^4.1.0",
     "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.7.0",
+    "istanbul": "^1.0.0-alpha.2",
     "mocha": "^3.4.2",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "supertest": "^3.0.0"
   },
   "scripts": {
-    "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test",
-    "test2": "mocha --timeout 50000 "
+    "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest ",
+    "test2": " istanbul cover --report-html ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --recursive ./test --timeout 50000 -R spec "
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",

@@ -16,7 +16,7 @@ describe('#Hirings-Api', () => {
     expect(response.statusCode).to.equal(200);
   });
 
-  describe('#Add hiring #1', () => {
+  describe('#Add hirings', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
       const response = await request
@@ -27,9 +27,7 @@ describe('#Hirings-Api', () => {
       expect(response.statusCode).to.equal(200);
       expect(response.body.added).to.equal(true);
     });
-  });
 
-  describe('#Add hiring #2', () => {
     it('should failed: candidate is not exist', async () => {
       const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
       const response = await request
@@ -39,9 +37,7 @@ describe('#Hirings-Api', () => {
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(500);
     });
-  });
 
-  describe('#Add hiring #3', () => {
     it('should failed: candidate already has hiring', async () => {
       const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
       const response = await request
@@ -53,9 +49,7 @@ describe('#Hirings-Api', () => {
       expect(response.body.added).to.equal(false);
       expect(response.body.message).to.equal('candidate already has hiring');
     });
-  });
 
-  describe('#Add hiring #4', () => {
     it('should failed: user is not exist', async () => {
       const data = await readFileAsync('./test/data/hirings/add-hirings-2.json', 'utf8');
       const response = await request
@@ -68,7 +62,7 @@ describe('#Hirings-Api', () => {
   });
 
 
-  describe('#Read hiring #1', () => {
+  describe('#Read hiring', () => {
     it('should pass', async () => {
       const response = await request
         .get('http://localhost:3300/hirings?id=5')
@@ -78,9 +72,7 @@ describe('#Hirings-Api', () => {
       expect(response.body).to.have.lengthOf(1);
       expect(response.body[0]).to.be.an('object');
     });
-  });
 
-  describe('#Read hiring #2', () => {
     it('should pass', async () => {
       const response = await request
         .get('http://localhost:3300/hirings?id=7')
@@ -90,9 +82,7 @@ describe('#Hirings-Api', () => {
       expect(response.body).to.have.lengthOf(1);
       expect(response.body[0]).to.be.an('object');
     });
-  });
 
-  describe('#Read hiring #3', () => {
     it('should failed: candidate is not exist', async () => {
       const response = await request
         .get('http://localhost:3300/hirings?id=4865415648')
@@ -103,7 +93,7 @@ describe('#Hirings-Api', () => {
     });
   });
 
-  describe('#Update hiring #1', () => {
+  describe('#Update hiring', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/hirings/update-hirings-1.json', 'utf8');
       const response = await request
@@ -113,9 +103,7 @@ describe('#Hirings-Api', () => {
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(200);
     });
-  });
 
-  describe('#Read hiring #4', () => {
     it('should pass', async () => {
       const response = await request
         .get('http://localhost:3300/hirings/6')
@@ -129,25 +117,21 @@ describe('#Hirings-Api', () => {
     });
   });
 
-  describe('#Delete hiring #1', () => {
+  describe('#Delete hiring ', () => {
     it('should pass', async () => {
       const response = await request
         .delete('http://localhost:3300/hirings/6')
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(200);
     });
-  });
 
-  describe('#Delete hiring #2', () => {
     it('should failed: hiring is not exist', async () => {
       const response = await request
         .delete('http://localhost:3300/hirings/685421')
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(500);
     });
-  });
 
-  describe('#Read hiring #5', () => {
     it('should failed: hiring was deleted', async () => {
       const response = await request
         .get('http://localhost:3300/hirings?id=7')
@@ -156,9 +140,7 @@ describe('#Hirings-Api', () => {
       expect(response.body).to.be.an('array');
       expect(response.body).to.have.lengthOf(0);
     });
-  });
 
-  describe('#Add hiring #5', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
       const response = await request
