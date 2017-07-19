@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Kostya",
+    "surname": "Stsefanovich",
+    "primary_skill": "js",
+    "status": "Pool",
+    "city": "Minsk"
+  },
+  {
+    "name": "myFavorite",
+    "surname": "unicorn",
+    "primary_skill": "js",
+    "status": "Pool",
+    "city": "Minsk"
+  },
+  {
+    "name": "Nina",
+    "surname": "Balerina",
+    "primary_skill": "java",
+    "status": "Hired",
+    "city": "Pinsk"
+  },
+  {
+    "name": "Candidate",
+    "surname": "not-very-smart",
+    "primary_skill": "java",
+    "status": "Hired",
+    "city": "Pinsk"
+  },
+  {
+    "name": "Lena",
+    "surname": "VEryBig",
+    "primary_skill": "python",
+    "status": "Hired",
+    "city": null
+  }
+]

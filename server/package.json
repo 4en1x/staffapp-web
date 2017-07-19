@@ -6,6 +6,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
+    "chai-shallow-deep-equal": "^1.4.6",
     "convert-keys": "latest",
     "cors": "^2.8.3",
     "express": "^4.15.3",
@@ -29,7 +30,7 @@
   },
   "scripts": {
     "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test",
-    "test2": "mocha --timeout 5000 "
+    "test2": "mocha --timeout 50000 "
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",
