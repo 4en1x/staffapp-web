@@ -25,7 +25,7 @@ class Feedbacks extends BasicDAO {
 
   async readFields(id) {
     const fields = await this.connection.queryAsync({
-      sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
+      sql: 'SELECT * FROM feedbacks_fields WHERE feedback_id = ?',
       values: [id],
     });
 

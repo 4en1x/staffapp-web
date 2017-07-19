@@ -15,12 +15,12 @@ class Interviews extends BasicDAO {
       const id = await super.create(interview);
 
       const feedback = {
-        interviews_id: id,
+        interview_id: id,
         candidate_id: candidateId,
       };
 
       await Promise.all(users.map(async (userId) => {
-        feedback.users_id = userId;
+        feedback.user_id = userId;
 
         const { insertId } = await this.connection.queryAsync({
           sql: 'INSERT INTO feedbacks SET ?',
@@ -50,7 +50,6 @@ class Interviews extends BasicDAO {
 
   async readOne(id) {
     const interview = await super.readOne(id);
-
     if (interview) {
       interview.feedbacks = await this.connection.queryAsync({
         sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
@@ -58,7 +57,7 @@ class Interviews extends BasicDAO {
       }).map(idObject => idObject.id);
 
       interview.users = await this.connection.queryAsync({
-        sql: `SELECT users.id name FROM users INNER JOIN feedbacks
+        sql: `SELECT users.id,name FROM users INNER JOIN feedbacks
               WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
         values: [id],
       });
@@ -78,7 +77,7 @@ class Interviews extends BasicDAO {
             UNION
 
             SELECT ${fields} FROM ${this.table}
-            INNER JOIN feedbacks f ON f.interviews_id = interviews.id
+            INNER JOIN feedbacks f ON f.interview_id = interviews.id
             WHERE f.user_id = ${id} AND f.status = 0
 
             LIMIT ?, ?`,

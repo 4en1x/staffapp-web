@@ -104,7 +104,7 @@ CREATE TABLE `feedbacks` (
   CONSTRAINT `fk_feedback_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_feedback_tech_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_feedback_tech_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,6 +113,7 @@ CREATE TABLE `feedbacks` (
 
 LOCK TABLES `feedbacks` WRITE;
 /*!40000 ALTER TABLE `feedbacks` DISABLE KEYS */;
+INSERT INTO `feedbacks` VALUES (1,2,1,1,'some comment',0),(2,3,1,1,'some comment 2',0),(3,4,1,1,'some comment 3',0),(4,2,2,1,'some comment 4',1),(5,3,2,1,'some comment 5',1),(6,4,2,1,'some comment 6',0),(7,5,3,2,'some comment 7',0),(8,1,3,2,'some comment 8',0);
 /*!40000 ALTER TABLE `feedbacks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,8 +134,8 @@ CREATE TABLE `feedbacks_fields` (
   `type` set('tech','hr','owner') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_table1_feedback_tech1_idx` (`feedback_id`),
-  CONSTRAINT `fk_table1_feedback_tech1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_table1_feedback_tech1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,6 +144,7 @@ CREATE TABLE `feedbacks_fields` (
 
 LOCK TABLES `feedbacks_fields` WRITE;
 /*!40000 ALTER TABLE `feedbacks_fields` DISABLE KEYS */;
+INSERT INTO `feedbacks_fields` VALUES (1,'js',NULL,NULL,'primary',1,'tech'),(2,'java',NULL,NULL,'secondary',1,'tech'),(3,'python',NULL,NULL,'secondary',1,'tech'),(4,'sql',NULL,NULL,'secondary',1,'tech'),(5,'java',NULL,NULL,'secondary',2,'tech'),(6,'python',NULL,NULL,'primary',2,'tech'),(7,'sql',NULL,NULL,'secondary',2,'tech'),(8,'salary',NULL,NULL,NULL,3,'hr'),(9,'ability to smth',NULL,NULL,NULL,3,'hr'),(10,'salary',NULL,NULL,NULL,4,'hr'),(11,'ability to smth',NULL,NULL,NULL,4,'hr'),(12,'another',NULL,NULL,NULL,4,'hr'),(13,'another another',NULL,NULL,NULL,4,'hr'),(14,'another another',NULL,NULL,NULL,5,'hr'),(15,'python',NULL,NULL,'secondary',6,'tech'),(16,'ascel',NULL,NULL,'secondary',8,'tech'),(17,'ruby',NULL,NULL,'secondary',8,'tech');
 /*!40000 ALTER TABLE `feedbacks_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +169,7 @@ CREATE TABLE `hirings` (
   CONSTRAINT `fk_hirings_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_vacancy1` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +178,7 @@ CREATE TABLE `hirings` (
 
 LOCK TABLES `hirings` WRITE;
 /*!40000 ALTER TABLE `hirings` DISABLE KEYS */;
+INSERT INTO `hirings` VALUES (1,1,NULL,1,'2009-06-03 11:13:56',NULL),(2,2,NULL,2,'2009-06-03 11:13:56',NULL);
 /*!40000 ALTER TABLE `hirings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,7 +224,7 @@ CREATE TABLE `interviews` (
   PRIMARY KEY (`id`),
   KEY `fk_interviews_hirings1_idx` (`hiring_id`),
   CONSTRAINT `fk_interviews_hirings1` FOREIGN KEY (`hiring_id`) REFERENCES `hirings` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,6 +233,7 @@ CREATE TABLE `interviews` (
 
 LOCK TABLES `interviews` WRITE;
 /*!40000 ALTER TABLE `interviews` DISABLE KEYS */;
+INSERT INTO `interviews` VALUES (1,'HR','2009-06-03 11:13:56','exadel',1),(2,'TECH','2009-06-03 11:13:56','exadel 2',1),(3,'TECH','2009-06-03 11:13:56','exadel 3',2);
 /*!40000 ALTER TABLE `interviews` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -458,7 +462,7 @@ CREATE TABLE `users` (
   `name` varchar(45) NOT NULL,
   `role` set('admin','hr','user') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -467,7 +471,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'freeplayercot@gmail.com','12345','Kostya','admin'),(2,'freeplayercot@gmail.com','541','nero','hr');
+INSERT INTO `users` VALUES (1,'freeplayercot@gmail.com','12345','Kostya','admin'),(2,'freeplayercot@gmail.com','541','nero','hr'),(3,'myemail','12345','Kostya','user'),(4,'freeplayercot@gmail.com','541','nero','hr'),(5,'freeplayercot@gmail.com','12345','Kostya','admin'),(6,'freeplayercot@gmail.com','541','nero','hr');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,4 +544,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-19 15:19:02
+-- Dump completed on 2017-07-20  0:30:26
