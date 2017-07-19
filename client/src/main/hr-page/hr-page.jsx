@@ -135,12 +135,6 @@ const vacancies = [
 ];
 
 export default class HRPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.log(props);
-  }
-
   render() {
     const url = "/";
 

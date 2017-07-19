@@ -34,7 +34,7 @@ export default class InterviewComponent extends React.Component {
 
         <Segment id="content">
           <Label as="a" color="teal" ribbon="right" size="huge">
-            {" "}{data.status}{" "}
+            {data.status}
           </Label>
 
           <List size="huge">
@@ -60,7 +60,7 @@ export default class InterviewComponent extends React.Component {
 
         <div className="add-feedback">
           <Button primary onClick={this.onButtonClick}>
-            {" "}Feedback{" "}
+            Feedback
           </Button>
         </div>
       </div>

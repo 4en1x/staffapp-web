@@ -68,7 +68,7 @@ export default class AddTechnicalFeedbackPage extends React.Component {
           />
           <List size="medium">
             <List.Header className="list-header">Minor skills</List.Header>
-            {minor.map((step, index) =>
+            {minor.map(step =>
               <List.Item key={step.technology}>
                 <FeedbackTechnicalCard
                   inputHandle={this.inputHandle}

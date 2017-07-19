@@ -1,10 +1,10 @@
 import React from "react";
 import { List, Header } from "semantic-ui-react";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 import "./interview-list-item.css";
 
-let InterviewListItem = props => {
+const InterviewListItem = props => {
   const interview = props.element;
   const url = props.url;
 

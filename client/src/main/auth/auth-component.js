@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-function isAuth() {
+function currentUser() {
   const user = localStorage.getItem("user");
   if (user === null) return;
   return JSON.parse(user);
@@ -10,7 +10,7 @@ function isAuth() {
 
 export default function checkAuth(Component) {
   return function(props) {
-    const userFromSession = isAuth();
+    const userFromSession = currentUser();
     const user = userFromSession || props.location.state;
     if (!user) return <Redirect to="login" />;
     return <Component {...props} user={user} />;

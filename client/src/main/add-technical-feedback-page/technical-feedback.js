@@ -3,9 +3,8 @@ import FeedbackTechnicalCard from "./components/add-technical-feedback-page.comp
 import { Redirect } from "react-router-dom";
 
 export default class TechnicalFeedback extends React.Component {
-  constructor(props) {
-    super(props);
-
+  constructor() {
+    super();
     this.state = {
       isFeedbackSent: false
     };
