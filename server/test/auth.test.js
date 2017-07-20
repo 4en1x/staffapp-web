@@ -15,6 +15,25 @@ describe('#Autentification', () => {
     await connection.queryAsync(data);
   });
 
+  describe('#Get main page', () => {
+    it('should pass', async () => {
+      const response = await req
+        .get(`${defaultUrl}`)
+        .set('Accept', 'application/json');
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('#Get any page without authentication', () => {
+    it('should failed with 401 error', async () => {
+      const response = await req
+        .get(`${defaultUrl}/hirings`)
+        .set('Accept', 'application/json')
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(401);
+    });
+  });
+
   describe('#Check email', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-1.json', 'utf8');
@@ -72,6 +91,22 @@ describe('#Autentification', () => {
         .set('Accept', 'application/json')
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(401);
+    });
+  });
+
+  describe('#Get page that doesn\'t exist', () => {
+    it('should failed with 404 error', async () => {
+      const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
+      let response = await req
+        .post(`${defaultUrl}/login`)
+        .set('Accept', 'application/json')
+        .send(JSON.parse(data));
+      expect(response.statusCode).to.equal(200);
+      response = await req
+        .get(`${defaultUrl}/hiringssss`)
+        .set('Accept', 'application/json')
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(404);
     });
   });
 });
