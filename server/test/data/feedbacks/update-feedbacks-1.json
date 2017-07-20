@@ -1,0 +1,21 @@
+{
+  "comment": "some comment",
+  "fields": [
+    {
+      "id":16,
+      "name": "ascel",
+      "value": null,
+      "comment": null,
+      "type_skill": "secondary",
+      "type": "tech"
+    },
+    {
+      "id":17,
+      "name": "ruby",
+      "value": "123",
+      "comment": "not very vell",
+      "type_skill": "secondary",
+      "type": "tech"
+    }
+  ]
+}

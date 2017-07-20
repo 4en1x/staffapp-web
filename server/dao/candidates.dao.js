@@ -4,7 +4,7 @@ const BasicDAO = require('./basic.dao');
 class Candidates extends BasicDAO {
   constructor(connection) {
     super('candidates');
-    this.top = config.db.itemsPerPage;
+    this.top = config.pageSettings.itemsPerPage;
     this.connection = connection;
   }
 
@@ -41,6 +41,13 @@ class Candidates extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
       const candidate = await super.readOne(id);
+
+      const city = await this.connection.queryAsync({
+        sql: 'SELECT name FROM cities WHERE id = ?',
+        values: [candidate.city_id],
+      });
+      delete candidate.city_id;
+      candidate.city = city[0].name;
 
       candidate.links = await this.connection.queryAsync({
         sql: 'SELECT link FROM links WHERE candidate_id = ?',

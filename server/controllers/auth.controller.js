@@ -58,8 +58,17 @@ function logout(req, res) {
   });
 }
 
+async function authCheck(req, res, next) {
+  if (!req.user) {
+    res.status(401).end();
+    return;
+  }
+  next();
+}
+
 module.exports = {
   checkEmail,
   login,
   logout,
+  authCheck,
 };

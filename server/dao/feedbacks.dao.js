@@ -8,6 +8,7 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
+    if (!feedback) return null;
     feedback.fields = await this.readFields(id);
     return feedback;
   }
@@ -19,13 +20,13 @@ class Feedbacks extends BasicDAO {
       values: [interviewId, userId],
     });
 
-    feedback.fields = await readFields(feedback.id);
+    feedback.fields = await this.readFields(feedback.id);
     return feedback;
   }
 
   async readFields(id) {
     const fields = await this.connection.queryAsync({
-      sql: 'SELECT * FROM feedback_fields WHERE feedback_id = ?',
+      sql: 'SELECT * FROM feedbacks_fields WHERE feedback_id = ?',
       values: [id],
     });
 
@@ -54,7 +55,7 @@ class Feedbacks extends BasicDAO {
         const fieldId = field.id;
         delete field.id;
         await this.connection.queryAsync({
-          sql: 'UPDATE feedback_fields SET ? WHERE id = ?',
+          sql: 'UPDATE feedbacks_fields SET ? WHERE id = ?',
           values: [field, fieldId],
         });
       }));
