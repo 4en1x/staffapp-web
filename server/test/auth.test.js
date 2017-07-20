@@ -5,6 +5,7 @@ const app = require('./app-test');
 const req = require('superagent').agent();
 const chai = require('chai');
 chai.use(require('chai-shallow-deep-equal'));
+const defaultUrl = require('../config').web.backendOrigin;
 
 const expect = chai.expect;
 
@@ -18,7 +19,7 @@ describe('#Autentification', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-1.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/email')
+        .post(`${defaultUrl}/email`)
         .send(JSON.parse(data))
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
@@ -29,7 +30,7 @@ describe('#Autentification', () => {
     it('should failed', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/email')
+        .post(`${defaultUrl}/email`)
         .send(JSON.parse(data))
         .set('Accept', 'application/json')
         .ok(res => res.status <= 500);
@@ -41,7 +42,7 @@ describe('#Autentification', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
       let response = await req
-        .post('http://localhost:3300/login')
+        .post(`${defaultUrl}/login`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
@@ -55,7 +56,7 @@ describe('#Autentification', () => {
   describe('#Logout', () => {
     it('should failed', async () => {
       const response = await req
-        .post('http://localhost:3300/logout')
+        .post(`${defaultUrl}/logout`)
         .set('Accept', 'application/json')
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(401);
@@ -66,7 +67,7 @@ describe('#Autentification', () => {
     it('should failed', async () => {
       const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/login')
+        .post(`${defaultUrl}/login`)
         .send(JSON.parse(data))
         .set('Accept', 'application/json')
         .ok(res => res.status <= 500);

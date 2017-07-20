@@ -15,6 +15,7 @@ const config = {
   web: {
     port: process.env.PORT || defaultConfig.web.port,
     frontendOrigin: defaultConfig.web.frontendOrigin,
+    backendOrigin: defaultConfig.web.backendOrigin,
   },
   pageSettings: defaultConfig.pageSettings,
 };

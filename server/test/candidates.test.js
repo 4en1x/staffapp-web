@@ -5,10 +5,10 @@ const app = require('./app-test');
 const req = require('superagent').agent();
 const chai = require('chai');
 chai.use(require('chai-shallow-deep-equal'));
+const defaultUrl = require('../config').web.backendOrigin;
 
 const expect = chai.expect;
 const { toCamel } = require('convert-keys');
-
 
 describe('#Candidates-Api', () => {
   before(async () => {
@@ -16,7 +16,7 @@ describe('#Candidates-Api', () => {
     await connection.queryAsync(data);
     data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
     const response = await req
-      .post('http://localhost:3300/login')
+      .post(`${defaultUrl}/login`)
       .send(JSON.parse(data));
     expect(response.statusCode).to.equal(200);
   });
@@ -25,7 +25,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-1.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/candidates')
+        .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
@@ -34,7 +34,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-5.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/candidates')
+        .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
@@ -46,7 +46,7 @@ describe('#Candidates-Api', () => {
     it('should failed(city dont exist)', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-2.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/candidates')
+        .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
         .ok(res => res.status <= 500);
@@ -56,7 +56,7 @@ describe('#Candidates-Api', () => {
     it('should failed(field dont exist)', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-3.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/candidates')
+        .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
         .ok(res => res.status <= 500);
@@ -66,7 +66,7 @@ describe('#Candidates-Api', () => {
     it('should failed(one of required fields is missing)', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-4.json', 'utf8');
       const response = await req
-        .post('http://localhost:3300/candidates')
+        .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
         .ok(res => res.status <= 500);
@@ -78,7 +78,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/check-candidate-1.json', 'utf8');
       const response = await req
-        .get('http://localhost:3300/candidates/1')
+        .get(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
@@ -86,7 +86,7 @@ describe('#Candidates-Api', () => {
 
     it('should failed (id dont exist)', async () => {
       const response = await req
-        .get('http://localhost:3300/candidates/0')
+        .get(`${defaultUrl}/candidates/0`)
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(500);
     });
@@ -96,7 +96,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/read-page-candidate-1.json', 'utf8');
       const response = await req
-        .get('http://localhost:3300/candidates?p=1')
+        .get(`${defaultUrl}/candidates?p=1`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
@@ -104,7 +104,7 @@ describe('#Candidates-Api', () => {
 
     it('should pass', async () => {
       const response = await req
-        .get('http://localhost:3300/candidates?p=100000000000')
+        .get(`${defaultUrl}/candidates?p=100000000000`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual([]);
@@ -114,14 +114,14 @@ describe('#Candidates-Api', () => {
   describe('#Delete candidate', () => {
     it('should pass', async () => {
       const response = await req
-        .delete('http://localhost:3300/candidates/5')
+        .delete(`${defaultUrl}/candidates/5`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
     });
 
     it('should failed(candidate already delete)', async () => {
       const response = await req
-        .delete('http://localhost:3300/candidates/5')
+        .delete(`${defaultUrl}/candidates/5`)
         .set('Accept', 'application/json')
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(500);
@@ -132,7 +132,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-set-1.json', 'utf8');
       const response = await req
-        .patch('http://localhost:3300/candidates/4')
+        .patch(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
@@ -141,7 +141,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-get-1.json', 'utf8');
       const response = await req
-        .get('http://localhost:3300/candidates/4')
+        .get(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
@@ -150,7 +150,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-set-2.json', 'utf8');
       const response = await req
-        .patch('http://localhost:3300/candidates/4')
+        .patch(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
@@ -159,7 +159,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-get-2.json', 'utf8');
       const response = await req
-        .get('http://localhost:3300/candidates/4')
+        .get(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
@@ -168,7 +168,7 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-set-3.json', 'utf8');
       const response = await req
-        .patch('http://localhost:3300/candidates/4')
+        .patch(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
         .ok(res => res.status <= 500);

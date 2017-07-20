@@ -29,8 +29,8 @@
     "supertest": "^3.0.0"
   },
   "scripts": {
-    "test": "npm run test2 --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test ",
-    "test2": " istanbul cover --report-html ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --recursive ./test --timeout 50000 -R spec "
+    "test": "npm run istanbul-cover --host=localhost --user=root --password=12345 --database=exadelteamdbtest --mode=test ",
+    "istanbul-cover": " istanbul cover --report-html ./node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --recursive ./test --timeout 50000 -R spec "
   },
   "author": "Exadel Interns Team 3",
   "license": "UNLICENSED",
