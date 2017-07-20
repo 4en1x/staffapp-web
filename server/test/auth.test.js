@@ -27,7 +27,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Check email', () => {
-    it('should failed', async () => {
+    it('should failed with 401 error : email doesn\'t exist', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/email`)
@@ -54,7 +54,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Logout', () => {
-    it('should failed', async () => {
+    it('should failed with 401 error : session doesn\'t exist', async () => {
       const response = await req
         .post(`${defaultUrl}/logout`)
         .set('Accept', 'application/json')
@@ -64,7 +64,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Login', () => {
-    it('should failed', async () => {
+    it('should failed with 401 error : invalid creds', async () => {
       const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/login`)

@@ -31,19 +31,18 @@ describe('#Candidates-Api', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should pass', async () => {
+    it('should pass : another example with different fields', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-5.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/candidates`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
-      lastInsertId = response.body.id;
     });
   });
 
   describe('#Add candidate', () => {
-    it('should failed(city dont exist)', async () => {
+    it('should failed with 500 error : city don\'t exist', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-2.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/candidates`)
@@ -53,7 +52,7 @@ describe('#Candidates-Api', () => {
       expect(response.statusCode).to.equal(500);
     });
 
-    it('should failed(field dont exist)', async () => {
+    it('should failed with 500 error : field don\'t exist', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-3.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/candidates`)
@@ -63,7 +62,7 @@ describe('#Candidates-Api', () => {
       expect(response.statusCode).to.equal(500);
     });
 
-    it('should failed(one of required fields is missing)', async () => {
+    it('should failed with 500 error :one of required fields is missing', async () => {
       const data = await readFileAsync('./test/data/candidates/add-candidate-4.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/candidates`)
@@ -84,7 +83,7 @@ describe('#Candidates-Api', () => {
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
     });
 
-    it('should failed (id dont exist)', async () => {
+    it('should failed with 500 error :id don\'t exist', async () => {
       const response = await req
         .get(`${defaultUrl}/candidates/0`)
         .ok(res => res.status <= 500);
@@ -102,7 +101,7 @@ describe('#Candidates-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should pass', async () => {
+    it('should pass: example with page that doesn\'t exist', async () => {
       const response = await req
         .get(`${defaultUrl}/candidates?p=100000000000`)
         .set('Accept', 'application/json');
@@ -119,7 +118,7 @@ describe('#Candidates-Api', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should failed(candidate already delete)', async () => {
+    it('should failed with 500 error : candidate already deleted', async () => {
       const response = await req
         .delete(`${defaultUrl}/candidates/5`)
         .set('Accept', 'application/json')
@@ -130,42 +129,36 @@ describe('#Candidates-Api', () => {
 
   describe('#Update candidate', () => {
     it('should pass', async () => {
-      const data = await readFileAsync('./test/data/candidates/update-candidate-set-1.json', 'utf8');
-      const response = await req
+      let data = await readFileAsync('./test/data/candidates/update-candidate-set-1.json', 'utf8');
+      let response = await req
         .patch(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should pass', async () => {
-      const data = await readFileAsync('./test/data/candidates/update-candidate-get-1.json', 'utf8');
-      const response = await req
+      data = await readFileAsync('./test/data/candidates/update-candidate-get-1.json', 'utf8');
+      response = await req
         .get(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
     });
 
-    it('should pass', async () => {
-      const data = await readFileAsync('./test/data/candidates/update-candidate-set-2.json', 'utf8');
-      const response = await req
+    it('should pass : just another example with all fields', async () => {
+      let data = await readFileAsync('./test/data/candidates/update-candidate-set-2.json', 'utf8');
+      let response = await req
         .patch(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should pass', async () => {
-      const data = await readFileAsync('./test/data/candidates/update-candidate-get-2.json', 'utf8');
-      const response = await req
+      data = await readFileAsync('./test/data/candidates/update-candidate-get-2.json', 'utf8');
+      response = await req
         .get(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
     });
 
-    it('should pass', async () => {
+    it('should pass : just another example with only one field', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-set-3.json', 'utf8');
       const response = await req
         .patch(`${defaultUrl}/candidates/4`)

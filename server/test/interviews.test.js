@@ -28,7 +28,7 @@ describe('#Interviews-Api', () => {
   });
 
   describe('#Get Interview by Id', () => {
-    it('should pass', async () => {
+    it('should pass : admin have access for all interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
@@ -41,7 +41,7 @@ describe('#Interviews-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should pass', async () => {
+    it('should pass : user have access for his interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -52,7 +52,7 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should failed : user dont have access to this interview', async () => {
+    it('should failed with 403 error: user don\'t have access to this interview', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -64,7 +64,7 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should failed : interview doesnt exist', async () => {
+    it('should failed eith 404 error: interview doesn\'t exist', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
@@ -78,7 +78,7 @@ describe('#Interviews-Api', () => {
   });
 
   describe('#Get List Of Interviews', () => {
-    it('should failed : user dont have access', async () => {
+    it('should failed with 403 error: user don\'t have assigned interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -90,7 +90,7 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should failed : user dont have access', async () => {
+    it('should failed with 403 error: user dont have access to all interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -102,7 +102,7 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should pass', async () => {
+    it('should pass : user have access for his interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -115,7 +115,7 @@ describe('#Interviews-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should failed : user dont have access', async () => {
+    it('should pass : admin have access for assigned interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
@@ -128,7 +128,7 @@ describe('#Interviews-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should failed : user dont have access', async () => {
+    it('should  pass : admin have access for all interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
@@ -148,22 +148,15 @@ describe('#Interviews-Api', () => {
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
       expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/update-interviews-1.json', 'utf8');
+      let data = await readFileAsync('./test/data/interviews/update-interviews-1.json', 'utf8');
       response = await req
         .patch(`${defaultUrl}/interviews/1`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/check-interviews-5.json', 'utf8');
+      data = await readFileAsync('./test/data/interviews/check-interviews-5.json', 'utf8');
       response = await req
-        .get(`${defaultUrl}/interviews?type=my`)
+        .get(`${defaultUrl}/interviews/1`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
@@ -178,11 +171,11 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(200);
       response = await req
         .delete(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json')
+        .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should failed : only admin can delete interviews', async () => {
+    it('should failed with 403 error: only admin can delete interviews', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -194,7 +187,7 @@ describe('#Interviews-Api', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should failed : interview dont exist', async () => {
+    it('should failed with 500 error: interview don\'t exist', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));

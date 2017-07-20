@@ -41,7 +41,7 @@ describe('#Feedbacks-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should failed : user dont have access to this feedback', async () => {
+    it('should failed with 403 error: user dont have access to this feedback', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(userAuthData));
@@ -53,7 +53,7 @@ describe('#Feedbacks-Api', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should failed : feedback dont exist', async () => {
+    it('should pass, but with no update : feedback don\'t exist', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
@@ -72,20 +72,13 @@ describe('#Feedbacks-Api', () => {
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
       expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
+      let data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
       response = await req
         .post(`${defaultUrl}/feedbacks/8`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
-    });
-
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
+      data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
       response = await req
         .get(`${defaultUrl}/feedbacks/8`)
         .set('Accept', 'application/json');
@@ -93,7 +86,8 @@ describe('#Feedbacks-Api', () => {
       expect(response.body).to.shallowDeepEqual(JSON.parse(data));
     });
 
-    it('should failed : incorrect data', async () => {
+
+    it('should failed with 500 error: incorrect data', async () => {
       let response = await req
         .post(`${defaultUrl}/login`)
         .send(JSON.parse(adminAuthData));
