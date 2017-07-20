@@ -26,8 +26,6 @@
     "eslint-plugin-import": "^2.7.0",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^3.4.2",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1",
     "supertest": "^3.0.0"
   },
   "scripts": {

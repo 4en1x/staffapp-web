@@ -3,7 +3,7 @@ const connection = Bluebird.promisifyAll(require('../dao/connection/connect'));
 const readFileAsync = Bluebird.promisify(require('fs').readFile);
 const request = require('superagent').agent();
 const expect = require('chai').expect;
-
+const app = require('./app-test');
 
 describe('#Hirings-Api', () => {
   before(async () => {

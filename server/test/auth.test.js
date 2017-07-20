@@ -1,7 +1,6 @@
 const Bluebird = require('bluebird');
 const connection = Bluebird.promisifyAll(require('../dao/connection/connect'));
 const readFileAsync = Bluebird.promisify(require('fs').readFile);
-const request = require('supertest');
 const app = require('./app-test');
 const req = require('superagent').agent();
 const chai = require('chai');
@@ -18,22 +17,23 @@ describe('#Autentification', () => {
   describe('#Check email', () => {
     it('should pass', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-1.json', 'utf8');
-      await request(app)
-        .post('/email')
+      const response = await req
+        .post('http://localhost:3300/email')
         .send(JSON.parse(data))
-        .set('Accept', 'application/json')
-        .expect(200);
+        .set('Accept', 'application/json');
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('#Check email', () => {
     it('should failed', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
-      await request(app)
-        .post('/email')
+      const response = await req
+        .post('http://localhost:3300/email')
         .send(JSON.parse(data))
         .set('Accept', 'application/json')
-        .expect(401);
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(401);
     });
   });
 
@@ -54,21 +54,23 @@ describe('#Autentification', () => {
 
   describe('#Logout', () => {
     it('should failed', async () => {
-      await request(app)
-        .post('/logout')
+      const response = await req
+        .post('http://localhost:3300/logout')
         .set('Accept', 'application/json')
-        .expect(401);
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(401);
     });
   });
 
   describe('#Login', () => {
     it('should failed', async () => {
       const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
-      await request(app)
-        .post('/login')
+      const response = await req
+        .post('http://localhost:3300/login')
         .send(JSON.parse(data))
         .set('Accept', 'application/json')
-        .expect(401);
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(401);
     });
   });
 });

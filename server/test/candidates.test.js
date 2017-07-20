@@ -1,6 +1,7 @@
 const Bluebird = require('bluebird');
 const connection = Bluebird.promisifyAll(require('../dao/connection/connect'));
 const readFileAsync = Bluebird.promisify(require('fs').readFile);
+const app = require('./app-test');
 const req = require('superagent').agent();
 const chai = require('chai');
 chai.use(require('chai-shallow-deep-equal'));
