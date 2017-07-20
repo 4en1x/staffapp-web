@@ -7,7 +7,7 @@ const app = require('./app-test');
 const defaultUrl = require('../config').web.backendOrigin;
 
 describe('#Hirings-Api', () => {
-  before(async () => {
+  beforeEach(async () => {
     let data = await readFileAsync('../db/prepare_sql_for_hirings.txt', 'utf8');
     await connection.queryAsync(data);
     data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
@@ -40,8 +40,16 @@ describe('#Hirings-Api', () => {
     });
 
     it('should failed with 500 error : candidate already has hiring', async () => {
-      const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-      const response = await request
+      let data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
+      let response = await request
+        .post(`${defaultUrl}/hirings?candidate=5`)
+        .set('Accept', 'application/json')
+        .send(JSON.parse(data))
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(200);
+      expect(response.body.added).to.equal(true);
+      data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
+      response = await request
         .post(`${defaultUrl}/hirings?candidate=5`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
@@ -65,7 +73,15 @@ describe('#Hirings-Api', () => {
 
   describe('#Read hiring', () => {
     it('should pass', async () => {
-      const response = await request
+      const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
+      let response = await request
+        .post(`${defaultUrl}/hirings?candidate=5`)
+        .set('Accept', 'application/json')
+        .send(JSON.parse(data))
+        .ok(res => res.status <= 500);
+      expect(response.statusCode).to.equal(200);
+      expect(response.body.added).to.equal(true);
+      response = await request
         .get(`${defaultUrl}/hirings?id=5`)
         .ok(res => res.status <= 500);
       expect(response.statusCode).to.equal(200);
@@ -118,7 +134,7 @@ describe('#Hirings-Api', () => {
   describe('#Delete hiring ', () => {
     it('should pass', async () => {
       const response = await request
-        .delete(`${defaultUrl}/hirings/6`)
+        .delete(`${defaultUrl}/hirings/6`);
       expect(response.statusCode).to.equal(200);
     });
 
@@ -130,19 +146,25 @@ describe('#Hirings-Api', () => {
     });
 
     it('should pass, but return empty array: hiring was deleted', async () => {
-      const response = await request
-        .get(`${defaultUrl}/hirings?id=7`)
+      let response = await request
+        .delete(`${defaultUrl}/hirings/6`);
+      expect(response.statusCode).to.equal(200);
+      response = await request
+        .get(`${defaultUrl}/hirings?id=7`);
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.be.an('array');
       expect(response.body).to.have.lengthOf(0);
     });
 
     it('should pass because candidate now don\'t have hiring ', async () => {
+      let response = await request
+        .delete(`${defaultUrl}/hirings/6`);
+      expect(response.statusCode).to.equal(200);
       const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-      const response = await request
+      response = await request
         .post(`${defaultUrl}/hirings?candidate=7`)
         .set('Accept', 'application/json')
-        .send(JSON.parse(data))
+        .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
       expect(response.body.added).to.equal(true);
     });

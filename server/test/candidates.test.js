@@ -11,7 +11,7 @@ const expect = chai.expect;
 const { toCamel } = require('convert-keys');
 
 describe('#Candidates-Api', () => {
-  before(async () => {
+  beforeEach(async () => {
     let data = await readFileAsync('../db/prepare_sql.txt', 'utf8');
     await connection.queryAsync(data);
     data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
@@ -112,8 +112,14 @@ describe('#Candidates-Api', () => {
 
   describe('#Delete candidate', () => {
     it('should pass', async () => {
-      const response = await req
-        .delete(`${defaultUrl}/candidates/5`)
+      const data = await readFileAsync('./test/data/candidates/add-candidate-1.json', 'utf8');
+      let response = await req
+        .post(`${defaultUrl}/candidates`)
+        .set('Accept', 'application/json')
+        .send(JSON.parse(data));
+      expect(response.statusCode).to.equal(200);
+      response = await req
+        .delete(`${defaultUrl}/candidates/4`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
     });
@@ -131,13 +137,13 @@ describe('#Candidates-Api', () => {
     it('should pass', async () => {
       let data = await readFileAsync('./test/data/candidates/update-candidate-set-1.json', 'utf8');
       let response = await req
-        .patch(`${defaultUrl}/candidates/4`)
+        .patch(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
       data = await readFileAsync('./test/data/candidates/update-candidate-get-1.json', 'utf8');
       response = await req
-        .get(`${defaultUrl}/candidates/4`)
+        .get(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
@@ -146,13 +152,13 @@ describe('#Candidates-Api', () => {
     it('should pass : just another example with all fields', async () => {
       let data = await readFileAsync('./test/data/candidates/update-candidate-set-2.json', 'utf8');
       let response = await req
-        .patch(`${defaultUrl}/candidates/4`)
+        .patch(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data));
       expect(response.statusCode).to.equal(200);
       data = await readFileAsync('./test/data/candidates/update-candidate-get-2.json', 'utf8');
       response = await req
-        .get(`${defaultUrl}/candidates/4`)
+        .get(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
       expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
@@ -161,7 +167,7 @@ describe('#Candidates-Api', () => {
     it('should pass : just another example with only one field', async () => {
       const data = await readFileAsync('./test/data/candidates/update-candidate-set-3.json', 'utf8');
       const response = await req
-        .patch(`${defaultUrl}/candidates/4`)
+        .patch(`${defaultUrl}/candidates/1`)
         .set('Accept', 'application/json')
         .send(JSON.parse(data))
         .ok(res => res.status <= 500);

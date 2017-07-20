@@ -13,7 +13,7 @@ let adminAuthData;
 const expect = chai.expect;
 
 describe('#Feedbacks-Api', () => {
-  before(async () => {
+  beforeEach(async () => {
     const data = await readFileAsync('../db/prepare_sql.txt', 'utf8');
     await connection.queryAsync(data);
     adminAuthData = await readFileAsync('./test/data/auth/login-1.json', 'utf8');

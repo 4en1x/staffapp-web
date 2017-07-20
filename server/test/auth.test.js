@@ -10,7 +10,7 @@ const defaultUrl = require('../config').web.backendOrigin;
 const expect = chai.expect;
 
 describe('#Autentification', () => {
-  before(async () => {
+  beforeEach(async () => {
     const data = await readFileAsync('../db/prepare_sql.txt', 'utf8');
     await connection.queryAsync(data);
   });
