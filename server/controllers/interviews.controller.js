@@ -39,10 +39,11 @@ async function readInterviews(req, res) {
 
   if (req.query.type !== 'my' && req.user.role === 'user') {
     res.status(403).end();
+    return;
   }
 
   try {
-    const interviews = await actions[req.query.type](id, page);
+    const interviews = await actions[req.query.type].call(db.interviews, id, page);
 
     if (!interviews) {
       res.json([]);

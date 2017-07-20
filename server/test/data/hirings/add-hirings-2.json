@@ -1,0 +1,14 @@
+{
+  "interviews": [
+    {
+      "interview": {
+        "type": "TECH",
+        "place": "Minsk"
+      },
+      "users": [1236542],
+      "feedback_fields": [
+        { "name":"c++", "type": "tech", "type_skill": "primary" }
+      ]
+    }
+  ]
+}

@@ -3,13 +3,8 @@ const { toSnake, toCamel } = require('convert-keys');
 
 
 async function updateFeedback(req, res) {
-  if (req.params.id !== req.user.id) {
-    res.status(403).end();
-    return;
-  }
-
   try {
-    await db.feedbacks.update(req.params.id, req.body.comment, toSnake(req.body.feedbackFields));
+    await db.feedbacks.update(req.params.id, req.body.comment, toSnake(req.body.fields));
     res.end();
   } catch (err) {
     res.status(500).end();

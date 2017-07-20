@@ -13,7 +13,7 @@ async function readCandidates(req, res) {
 
 async function readCandidate(req, res) {
   try {
-    const candidate = await db.candidates.readOne(req.query.id);
+    const candidate = await db.candidates.readOne(req.params.id);
     if (!candidate) {
       res.status(404).end();
     }
