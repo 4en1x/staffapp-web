@@ -42,6 +42,13 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
       const candidate = await super.readOne(id);
 
+      const city = await this.connection.queryAsync({
+        sql: 'SELECT name FROM cities WHERE id = ?',
+        values: [candidate.city_id],
+      });
+      delete candidate.city_id;
+      candidate.city = city[0].name;
+
       candidate.links = await this.connection.queryAsync({
         sql: 'SELECT link FROM links WHERE candidate_id = ?',
         values: [candidate.id],
