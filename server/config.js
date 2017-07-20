@@ -7,15 +7,18 @@ const myDbConfig = {
   password: process.env.npm_config_password,
   database: process.env.npm_config_database,
   multipleStatements: true,
+  mode: process.env.npm_config_mode,
 };
 
 const config = {
-  db: process.env.DATABASE_URL || myDbConfig || defaultConfig.db,
+  db: process.env.DATABASE_URL || defaultConfig.db,
   web: {
     port: process.env.PORT || defaultConfig.web.port,
     frontendOrigin: defaultConfig.web.frontendOrigin,
   },
   pageSettings: defaultConfig.pageSettings,
 };
+
+if (myDbConfig.mode === 'test') config.db = myDbConfig;
 
 module.exports = config;
