@@ -1,30 +1,33 @@
+const BasicController = require('./basic.controller');
+
 const db = require('../dao');
 const feedbacksService = require('../services/feedbacks.service');
 
-async function readInterview(req, res) {
-  const id = req.params.id;
+class InterviewsController extends BasicController {
+  constructor() {
+    super('interviews');
+  }
 
-  try {
-    const interview = await db.interviews.readOne(id);
+  async readOne(req, res) {
+    const onload = async (interview) => {
+      const assignedToUser = interview.users.some(user => user.id === req.user.id);
 
-    if (!interview) {
-      res.status(404).end();
-      return;
-    }
+      if (!assignedToUser && req.user.role === 'user') {
+        throw new Error('403');
+      }
 
-    const assignedToUser = interview.users.some(user => user.id === req.user.id);
+      interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+    };
 
-    if (!assignedToUser && req.user.role === 'user') {
-      res.status(403).end();
-      return;
-    }
+    await super.readOne(req, res, onload);
+  }
 
-    interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
-    res.json(interview);
-  } catch (err) {
-    res.status(500).end();
+  async update(req, res) {
+    await super.update(req, res, req.body);
   }
 }
+
+// // // // // // // // // // // //
 
 async function readInterviews(req, res) {
   const actions = {
@@ -54,27 +57,52 @@ async function readInterviews(req, res) {
   }
 }
 
-async function deleteInterview(req, res) {
-  try {
-    await db.interviews.delete(req.params.id);
-    res.end();
-  } catch (err) {
-    res.status(500).end();
-  }
-}
+// async function deleteInterview(req, res) {
+//   try {
+//     await db.interviews.delete(req.params.id);
+//     res.end();
+//   } catch (err) {
+//     res.status(500).end();
+//   }
+// }
 
-async function updateInterview(req, res) {
-  try {
-    await db.interviews.update(req.params.id, req.body);
-    res.end();
-  } catch (err) {
-    res.status(500).end();
-  }
-}
+// async function updateInterview(req, res) {
+//   try {
+//     await db.interviews.update(req.params.id, req.body);
+//     res.end();
+//   } catch (err) {
+//     res.status(500).end();
+//   }
+// }
+
+// async function readInterview(req, res) {
+//   const id = req.params.id;
+
+//   try {
+//     const interview = await db.interviews.readOne(id);
+
+//     if (!interview) {
+//       res.status(404).end();
+//       return;
+//     }
+
+//     const assignedToUser = interview.users.some(user => user.id === req.user.id);
+
+//     if (!assignedToUser && req.user.role === 'user') {
+//       res.status(403).end();
+//       return;
+//     }
+
+//     interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+//     res.json(interview);
+//   } catch (err) {
+//     res.status(500).end();
+//   }
+// }
 
 module.exports = {
-  readInterview,
+  // readInterview,
   readInterviews,
-  deleteInterview,
-  updateInterview,
+  // deleteInterview,
+  // updateInterview,
 };

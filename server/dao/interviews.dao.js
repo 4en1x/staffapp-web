@@ -16,7 +16,7 @@ class Interviews extends BasicDAO {
       const id = await super.create(toSnake(interview));
 
       const feedback = {
-        interviewsId: id,
+        interviewId: id,
         candidateId,
       };
 

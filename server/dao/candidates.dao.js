@@ -1,6 +1,6 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel } = require('convert-keys');
 
 class Candidates extends BasicDAO {
   constructor(connection) {
@@ -9,7 +9,7 @@ class Candidates extends BasicDAO {
     this.connection = connection;
   }
 
-  async create(candidate, links, cityName) {
+  async create({ candidate, links, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
 
@@ -85,7 +85,7 @@ class Candidates extends BasicDAO {
     }
   }
 
-  async update(id, candidate, links, cityName) {
+  async update(id, { candidate, links, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
 

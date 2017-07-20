@@ -45,15 +45,16 @@ class Feedbacks extends BasicDAO {
     return feedbacks;
   }
 
-  async update(id, comment, feedbackFields) {
+  async update(id, { comment, fields }) {
     try {
       await this.connection.beginTransactionAsync();
       const feedback = { comment, status: 1 };
       await super.update(id, feedback);
 
-      await Promise.all(feedbackFields.map(async (field) => {
+      await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;
         delete field.id;
+
         await this.connection.queryAsync({
           sql: 'UPDATE feedback_fields SET ? WHERE id = ?',
           values: [toSnake(field), fieldId],
