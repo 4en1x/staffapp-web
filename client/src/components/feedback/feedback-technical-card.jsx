@@ -10,7 +10,7 @@ const FeedbackTechnicalCard = props => {
     <div className="feedback-technical-card">
       <div className="content-top">
         <div className="technology-label">
-          {data.technology}
+          {data.name}
         </div>
         <div>
           <Field
