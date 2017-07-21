@@ -4,12 +4,15 @@ import PasswordInputForm from "../components/password-input";
 import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
 import {Redirect} from 'react-router-dom';
+import {addUser} from '../../../action-creators/action-creators.js';
+import {middleWare} from '../../../action-creators/action-creators.js';
+import { connect } from 'react-redux'
 import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
 
-export default class SignInComponent extends React.Component {
+class SignInComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -17,6 +20,8 @@ export default class SignInComponent extends React.Component {
       currentState: EMAIL,
       isAuthorize: false
     };
+
+    console.log(props);
   }
 
   emailInputHandle = value => {
@@ -39,6 +44,7 @@ export default class SignInComponent extends React.Component {
       else stay on email form
      */
 
+    this.props.onSubmitClicked({name: 'Sergey', role: 'HR'});
     this.setState({isAuthorize: true});
   };
 
@@ -65,3 +71,19 @@ export default class SignInComponent extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onSubmitClicked: (user) => {
+      dispatch(middleWare(user))
+    }
+  }
+}
+
+export default connect(mapStateToProps ,mapDispatchToProps)(SignInComponent);

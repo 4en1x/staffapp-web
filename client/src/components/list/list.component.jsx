@@ -12,12 +12,13 @@ export default class ListComponent extends React.Component {
     const ListItem = this.props.listItem;
     const elements = this.props.elements;
     const url = this.props.url;
+    console.log(url);
 
     return (
       <List divided className="list-component">
         {elements.map(element => {
           return (
-            <InterviewListItem key={`${element.id}`} element={element} url={url}/>
+            <ListItem key={`${element.id}`} element={element} url={url}/>
           )
         })}
       </List>

@@ -4,6 +4,8 @@ import "./worker-page.css";
 import { Route, Redirect } from "react-router-dom";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
+import {addInterviewsList} from '../../action-creators/action-creators.js';
+import { connect } from 'react-redux';
 
 const interviews = [
   {
@@ -71,9 +73,11 @@ const interviews = [
   }
 ];
 
-export default class WorkerPage extends React.Component {
+class WorkerPage extends React.Component {
   constructor(props) {
     super(props);
+
+    console.log(props);
   }
 
   menuItemClickHandle = name => {
@@ -82,6 +86,7 @@ export default class WorkerPage extends React.Component {
 
   componentDidMount() {
     // crate request for interviews
+    this.props.addListToStorage();
   }
 
   getItems = name => {
@@ -120,3 +125,17 @@ export default class WorkerPage extends React.Component {
     );
   }
 }
+
+const mapStateToProps = () => {
+  return {}
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addListToStorage: (list) => {
+      dispatch(addInterviewsList(list));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorkerPage);

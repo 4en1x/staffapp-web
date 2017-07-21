@@ -129,7 +129,7 @@ const data = {
   }
 };
 
-export default class InterviewPage extends React.Component {
+class InterviewPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -163,4 +163,7 @@ export default class InterviewPage extends React.Component {
       </div>
     );
   }
+}
+const mapStateToProps = () => {
+  return 
 }
