@@ -9,22 +9,18 @@ import FeedbackTechnicalPage from "./main/add-technical-feedback-page/components
 import "./index.css";
 
 const reducer = combineReducers({
-  form: reduxFormReducer // mounted under "form"
+  form: reduxFormReducer
 });
+
 const store = (window.devToolsExtension
   ? window.devToolsExtension()(createStore)
   : createStore)(reducer);
-
-function showResults(values) {
-  window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
-  console.log("hufuefhue");
-}
 
 ReactDOM.render(
   <div>
     <HeaderComponent user={{ name: "Sergey", surname: "Moiseyenko" }} />
     <Provider store={store}>
-      <FeedbackTechnicalPage onSubmit={showResults} />
+      <FeedbackTechnicalPage />
     </Provider>
   </div>,
   document.getElementById("root")

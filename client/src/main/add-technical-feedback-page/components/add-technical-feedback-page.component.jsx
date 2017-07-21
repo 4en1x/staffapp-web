@@ -6,36 +6,9 @@ import { Divider, Segment, List } from "semantic-ui-react";
 import "./add-technical-feedback-page.css";
 import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card";
 
-const major = {
-  technology: "javascript"
-};
-const minor = [
-  {
-    technology: "c++"
-  },
-  {
-    technology: "net"
-  },
-  {
-    technology: "react"
-  }
-];
-const other = [
-  {
-    technology: "jogging"
-  },
-  {
-    technology: "fishing"
-  },
-  {
-    technology: "reading"
-  }
-];
-
 const feedbackID = 12345;
 let data;
-var instance = axios
-  .get("/feedbacks" + feedbackID)
+   axios.get("/feedbacks/" + feedbackID)
   .then(function(response) {
     data = JSON.parse(response);
   })
@@ -43,78 +16,126 @@ var instance = axios
     alert("OOPS something wrong");
   });
 
-data.fields;
+// const data = {
+//   fields: [
+//     {
+//       id: 11,
+//       name: "C++ level",
+//       typeSkill: "primary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 12,
+//       name: "Some skill one",
+//       typeSkill: "secondary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 13,
+//       name: "some skill two",
+//       typeSkill: "secondary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 14,
+//       name: "Some other skill one",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 15,
+//       name: "Some other skill two",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 16,
+//       name: "Some other skill three",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     }
+//   ]
+// };
+
+function showResults(values) {
+  let move = 0;
+  let newArray = [];
+
+  for (var key in values) {
+    values[key].id = data.fields[move].id;
+    newArray.push(values[key]);
+    move++;
+  }
+  console.log(newArray);
+
+  axios.put("feedbacks/feedbackID", {
+      fields: newArray
+    });
+}
 
 const FeedbackTechnicalPage = props => {
-  const { handleSubmit, submitting } = props;
+  const { handleSubmit } = props;
+
   return (
-    <form onSubmit={handleSubmit} className="add-technical-feedback-page">
+    <form
+      onSubmit={handleSubmit(showResults)}
+      className="add-technical-feedback-page"
+    >
       <div className="title-feedback">feedback</div>
       <Divider />
       <Segment id="content-data">
         <div className="labels"> Major skill </div>
         {data.fields.map(step => {
-          if (step.typeSkill === "primary")
+          if (step.typeSkill === "primary") {
             return (
-              <FeedbackTechnicalCard data={step} location="MajorTechology" />
+              <FeedbackTechnicalCard data={step} location={"majorTechnology"} />
             );
+          }
           return null;
         })}
 
         <List size="medium">
           <List.Header className="list-header">Minor skills</List.Header>
-
-          {/*{minor.map((step, move) =>*/}
-          {/*<List.Item key={step.technology}>*/}
-          {/*<FeedbackTechnicalCard*/}
-          {/*data={step}*/}
-          {/*location={"MajorTechology" + move}*/}
-          {/*/>*/}
-          {/*</List.Item>*/}
-          {/*)}*/}
-
-          {data.fields.map(step => {
-            if (step.typeSkill === "secondary")
+          {data.fields.map((step, move) => {
+            if (step.typeSkill === "secondary") {
               return (
                 <List.Item key={step.technology}>
                   <FeedbackTechnicalCard
                     data={step}
-                    location="MinorTechology"
+                    location={"MinorTechology" + move}
                   />
                 </List.Item>
               );
+            }
             return null;
           })}
         </List>
+
         <List size="medium">
           <List.Header className="list-header">Other skills</List.Header>
-          {/*{other.map((step, move) =>*/}
-          {/*<List.Item key={step.technology}>*/}
-          {/*<FeedbackTechnicalCard*/}
-          {/*data={step}*/}
-          {/*location={"OtherTechology" + move}*/}
-          {/*/>*/}
-          {/*</List.Item>*/}
-          {/*)}*/}
-
-          {data.fields.map(step => {
-            if (step.typeSkill === "other")
+          {data.fields.map((step, move) => {
+            if (step.typeSkill === "other") {
               return (
                 <List.Item key={step.technology}>
                   <FeedbackTechnicalCard
                     data={step}
-                    location="OtherTechology"
+                    location={"OtherTechology" + move}
                   />
                 </List.Item>
               );
+            }
             return null;
           })}
         </List>
       </Segment>
       <div className="add-feedback-redux-button">
-        <button type="submit" disabled={submitting}>
-          Feedback
-        </button>
+        <button type="submit">Feedback</button>
       </div>
     </form>
   );

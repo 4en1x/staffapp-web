@@ -14,7 +14,7 @@ const FeedbackTechnicalCard = props => {
         </div>
         <div>
           <Field
-            name={"grade" + location}
+            name={location + ".value"}
             component="select"
             className="select-grade"
           >
@@ -33,7 +33,7 @@ const FeedbackTechnicalCard = props => {
         </div>
       </div>
       <Field
-        name={"description" + location}
+        name={location + ".comment"}
         component="input"
         type="text"
         placeholder="Add description"
@@ -43,15 +43,4 @@ const FeedbackTechnicalCard = props => {
   );
 };
 
-// FeedbackTechnicalCard.defaultProps = {
-//   data: {}
-// };
-//
-// FeedbackTechnicalCard.propTypes = {
-//   data: PropTypes.shape({
-//     name: PropTypes.string
-//   })
-// };
-
 export default FeedbackTechnicalCard;
-// export default reduxForm({ form: "simple" })(FeedbackTechnicalCard);
