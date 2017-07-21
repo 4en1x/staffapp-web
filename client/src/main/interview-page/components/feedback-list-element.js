@@ -27,7 +27,7 @@ export default class FeedbackListElement extends React.Component {
                         {this.props.feedback.map((step, move) => {
                             return (
                                 <List.Item key = {move}>
-                                    <div className="content">
+                                    <div className="custom-content">
                                         <p>{step.technology} </p>
                                         <p>{step.grade}</p>
                                     </div>
