@@ -10,23 +10,6 @@ import {addUserToStore, interviewHandle} from './reducers/reducers.js';
 import thunk from 'redux-thunk';
 import "./index.css";
 
-//create redux store
-//const store = createStore(reducer);
-
-//console logger
-//console.log('store with initial state');
-//console.log(store.getState());
-
-//subscribe ob changes
-
-//store.subscribe(() => {
-  //console.log(store.getState());
-//});
-
-//dispatch
-//store.dispatch(addUser('Sergey'));
-//store.dispatch(addNumber(21));
-
 const reducer = combineReducers({
   auth: addUserToStore,
   interview: interviewHandle
@@ -36,10 +19,6 @@ const store = createStore(
   reducer,
   applyMiddleware(thunk)
 );
-
-store.subscribe(() => {
-  console.log(store.getState());
-});
 
 ReactDOM.render(
   <Provider store={store}>

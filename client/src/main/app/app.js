@@ -16,7 +16,7 @@ export default class App extends React.Component {
 
   config = () => ({
     HR: HRPage,
-    Worker: WorkerPage
+    user: WorkerPage
   });
 
   render() {

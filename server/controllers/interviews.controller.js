@@ -1,6 +1,7 @@
 const db = require('../dao');
 const { toCamel, toSnake } = require('convert-keys');
 const feedbacksService = require('../services/feedbacks.service');
+const fecha = require('fecha');
 
 async function readInterview(req, res) {
   const id = req.params.id;
@@ -20,9 +21,14 @@ async function readInterview(req, res) {
       return;
     }
 
+      interview.time = fecha.format(interview.date,'hh:mm');
+      interview.date = fecha.format(interview.date,'DD-MM-YYYY');
+
+
     interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
     res.json(toCamel(interview));
   } catch (err) {
+    console.log(err)
     res.status(500).end();
   }
 }
@@ -43,15 +49,20 @@ async function readInterviews(req, res) {
   }
 
   try {
-    const interviews = await actions[req.query.type].call(db.interviews, id, page);
+    let interviews = await actions[req.query.type].call(db.interviews, id, page);
 
     if (!interviews) {
       res.json([]);
       return;
     }
-
+    interviews = interviews.map(item=>{
+      item.time = fecha.format(item.date,'hh:mm');
+      item.date = fecha.format(item.date,'DD-MM-YYYY');
+      return item;
+    })
     res.json(toCamel(interviews));
   } catch (err) {
+    console.log(err)
     res.status(500).end();
   }
 }

@@ -5,7 +5,10 @@ import { Route, Redirect } from "react-router-dom";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
 import {addInterviewsList} from '../../action-creators/action-creators.js';
+import { getInterviewList } from '../../action-creators/action-creators.js';
+import SemanticLoader from '../../components/loaders/semantic-loader.js';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const interviews = [
   {
@@ -74,28 +77,16 @@ const interviews = [
 ];
 
 class WorkerPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    console.log(props);
-  }
-
-  menuItemClickHandle = name => {
-    // load interviews from server
-  };
 
   componentDidMount() {
-    // crate request for interviews
-    this.props.addListToStorage();
+    this.props.addInterviewsList();
+    // crate request for interview;
   }
-
-  getItems = name => {
-    // url (http://localhost/3000/name.toLowerCase());
-  };
 
   render() {
     const url = this.props.match.url;
     // <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
+    if (!this.props.interviews) return <SemanticLoader/>
 
     return (
       <div className="worker-page">
@@ -107,16 +98,16 @@ class WorkerPage extends React.Component {
             component={() =>
               <ListComponent
                 listItem={InterviewListItem}
-                elements={interviews}
+                elements={this.props.interviews}
                 url={`${url}interviews`}
               />}
-          />
+            />
           <Route
             path={`${url}interviews`}
             component={() =>
               <ListComponent
                 listItem={InterviewListItem}
-                elements={interviews}
+                elements={this.props.interviews}
                 url={`${url}interviews`}
               />}
           />
@@ -126,14 +117,16 @@ class WorkerPage extends React.Component {
   }
 }
 
-const mapStateToProps = () => {
-  return {}
+const mapStateToProps = (state) => {
+  return {
+    interviews: state.interview.interviewList
+  }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addListToStorage: (list) => {
-      dispatch(addInterviewsList(list));
+    addInterviewsList: () => {
+      dispatch(getInterviewList());
     }
   }
 }

@@ -5,8 +5,9 @@ import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
 import {Redirect} from 'react-router-dom';
 import {addUser} from '../../../action-creators/action-creators.js';
-import {middleWare} from '../../../action-creators/action-creators.js';
+import {postUser} from '../../../action-creators/action-creators.js';
 import { connect } from 'react-redux'
+import axios from 'axios';
 import "./sign-in.css";
 
 const EMAIL = "EMAIL";
@@ -18,38 +19,22 @@ class SignInComponent extends React.Component {
 
     this.state = {
       currentState: EMAIL,
-      isAuthorize: false
     };
-
-    console.log(props);
   }
 
   emailInputHandle = value => {
-    /*
-      check email address and if email is valid, show password form (create request to server)
-      else stay on email form
-     */
-    let users = JSON.parse(localStorage.getItem('users'));
-    if (!users) return;
-    let findUser = users.find(user => (
-      value === user.name
-    ));
-    if(!findUser) return;
-    this.setState({ currentState: PASSWORD });
+    this.email = value;
+    axios.post('http://localhost:3300/email', {email: value}).then(responce => {
+      console.log(responce);
+      if (responce.status === 200) this.setState({ currentState: PASSWORD });
+    });
   };
 
   passwordInputHandle = value => {
-    /*
-      check password and if password is valid, show password form (create request to server)
-      else stay on email form
-     */
-
-    this.props.onSubmitClicked({name: 'Sergey', role: 'HR'});
-    this.setState({isAuthorize: true});
+    this.props.onSubmitClicked({email: this.email, password: value});
   };
 
   render() {
-
     let user = {name: 'Sergey', role: 'Worker'};
 
     let form = <EmailInputForm inputHandle={this.emailInputHandle} />;
@@ -57,7 +42,7 @@ class SignInComponent extends React.Component {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
     }
 
-    if (this.state.isAuthorize) return <Redirect to={{pathname: '/', state: user}}/>;
+    if (!this.props.auth.isAuthError) return <Redirect to={{pathname: '/', state: user}}/>;
 
     return (
       <div className="auth-container">
@@ -73,6 +58,7 @@ class SignInComponent extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     auth: state.auth
   }
@@ -81,7 +67,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmitClicked: (user) => {
-      dispatch(middleWare(user))
+      dispatch(postUser(user))
     }
   }
 }

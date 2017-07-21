@@ -20,12 +20,14 @@ export default class InterviewComponent extends React.Component {
 
   render() {
     const data = this.props.interview;
+    const status = 'Free';
+    console.log(data);
 
     return (
       <div>
         <div className="title">
           <div className="candidate-title">
-            {" "}{data.candidate}{" "}
+            {data.candidate.name} {data.candidate.surname}
           </div>
           <Search onSearchChange={this.handleSearchChange} />
         </div>
@@ -34,7 +36,7 @@ export default class InterviewComponent extends React.Component {
 
         <Segment id="content">
           <Label as="a" color="teal" ribbon="right" size="huge">
-            {data.status}
+            {status}
           </Label>
 
           <List size="huge">
@@ -45,15 +47,19 @@ export default class InterviewComponent extends React.Component {
 
             <List.Item>
               <List.Header>Location</List.Header>
-              {data.location}
+              {data.place}
             </List.Item>
 
             <List.Item>
-              <List.Header>Feedbacks</List.Header>
-              <FeedbackList
-                feedbacks={data.feedbacks}
-                authorFeedback={data.authorFeedback}
-              />
+              <List.Header>
+                {data.date}
+              </List.Header>
+            </List.Item>
+
+            <List.Item>
+              <List.Header>
+                {data.time}
+              </List.Header>
             </List.Item>
           </List>
         </Segment>

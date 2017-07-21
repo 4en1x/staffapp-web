@@ -16,6 +16,8 @@ async function checkEmail(req, res) {
 
 async function login(req, res) {
   try {
+
+    console.log(req.body);
     if (!req.body.email || !req.body.password) {
       throw new Error('400');
     }
@@ -29,7 +31,7 @@ async function login(req, res) {
         res.status(401).end();
         return;
       }
-      res.end();
+      res.json({name: user.name, role: user.role});
     });
   } catch (err) {
     if (err.message === '401') {

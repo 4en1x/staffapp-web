@@ -51,18 +51,32 @@ class Interviews extends BasicDAO {
   async readOne(id) {
     const interview = await super.readOne(id);
     if (interview) {
-      interview.feedbacks = await this.connection.queryAsync({
-        sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
-        values: [id],
-      }).map(idObject => idObject.id);
 
+      interview.feedbacks = await this.connection.queryAsync({
+        sql: 'SELECT f.id, candidate_id FROM feedbacks f WHERE f.interview_id = ?',
+        values: [id],
+      });
+
+      const candidate_id = interview.feedbacks[0].candidate_id;
+      const myId = interview.feedbacks[0].id;
+
+      [interview.candidate] = await this.connection.queryAsync({
+        sql: 'SELECT name, surname FROM candidates WHERE id = ?',
+        values: [candidate_id],
+      });
+
+      interview.skills = await this.connection.queryAsync({
+        sql: `SELECT f.name FROM feedbacks_fields f WHERE f.feedback_id=?`,
+        values: [myId],
+      }).map(obj=>obj.name);
       interview.users = await this.connection.queryAsync({
         sql: `SELECT users.id,name FROM users INNER JOIN feedbacks
               WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
         values: [id],
-      });
+      })
     }
 
+    interview.feedbacks = interview.feedbacks.map(feedback => feedback.id);
     return interview;
   }
 
@@ -88,8 +102,9 @@ class Interviews extends BasicDAO {
   }
 
   async readPageToUser(id, page = 1) {
-    const fields = `${this.table}.id, type, date, place`;
-    const joins = 'INNER JOIN feedbacks f ON f.interview_id = interviews.id';
+    const fields = `${this.table}.id, type, date, place,c.name,c.surname`;
+    const joins = `INNER JOIN feedbacks f ON f.interview_id = interviews.id
+                   INNER JOIN candidates c ON f.candidate_id =c.id`;
     const where = ' WHERE f.user_id = ? AND f.status = 0';
     const limit = 'LIMIT ?, ?';
 
