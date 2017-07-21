@@ -1,5 +1,6 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
+const { toCamel } = require('convert-keys');
 
 class Candidates extends BasicDAO {
   constructor(connection) {
@@ -8,17 +9,16 @@ class Candidates extends BasicDAO {
     this.connection = connection;
   }
 
-  async create(candidate, links, cityName) {
+  async create({ candidate, links, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
 
-      const [city] = await this.connection.queryAsync({
-        sql: `SELECT id FROM cities
-              WHERE name = ?`,
+      const [city] = toCamel(await this.connection.queryAsync({
+        sql: 'SELECT id FROM cities WHERE name = ?',
         values: [cityName],
-      });
+      }));
 
-      candidate.city_id = city.id;
+      candidate.cityId = city.id;
       const id = await super.create(candidate);
 
       await Promise.all(links.map(async (link) => {
@@ -42,17 +42,17 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
       const candidate = await super.readOne(id);
 
-      const city = await this.connection.queryAsync({
-        sql: 'SELECT name FROM cities WHERE id = ?',
-        values: [candidate.city_id],
-      });
-      delete candidate.city_id;
-      candidate.city = city[0].name;
-
       candidate.links = await this.connection.queryAsync({
         sql: 'SELECT link FROM links WHERE candidate_id = ?',
-        values: [candidate.id],
-      }).map(name => name.link);
+        values: [candidate[this.idFieldName]],
+      }).map(linkObject => linkObject.link);
+
+      candidate.city = toCamel(await this.connection.queryAsync({
+        sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
+        value: [candidate.cityId],
+      }));
+
+      delete candidate.cityId;
 
       await this.connection.commit();
       return candidate;
@@ -62,20 +62,19 @@ class Candidates extends BasicDAO {
     }
   }
 
-  async readPage(page = 1) {
+  async read(page = 1) {
     try {
       await this.connection.beginTransactionAsync();
 
-      const fields = `${this.table}.id, ${this.table}.name, surname, primary_skill, status, last_change_date, cities.name AS city`;
+      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
+                      primary_skill, status, last_change_date, cities.name AS city`;
       const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
-      const limit = 'LIMIT ?, ?';
-      const values = [(page - 1) * this.top, this.top];
 
-      const candidates = await super.readAll({
+      const candidates = await super.read({
         fields,
         addition: joins,
-        limit,
-        values,
+        page,
+        amount: this.top,
       });
 
       await this.connection.commit();
@@ -86,7 +85,7 @@ class Candidates extends BasicDAO {
     }
   }
 
-  async update(id, candidate, links, cityName) {
+  async update(id, { candidate, links, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
 

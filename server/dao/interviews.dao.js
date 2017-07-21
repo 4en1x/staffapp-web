@@ -1,4 +1,5 @@
 const config = require('../config');
+const { toCamel, toSnake } = require('convert-keys');
 const BasicDAO = require('./basic.dao');
 
 class Interviews extends BasicDAO {
@@ -12,19 +13,19 @@ class Interviews extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
 
-      const id = await super.create(interview);
+      const interviewId = await super.create(toSnake(interview));
 
       const feedback = {
-        interview_id: id,
-        candidate_id: candidateId,
+        interviewId,
+        candidateId,
       };
 
       await Promise.all(users.map(async (userId) => {
-        feedback.user_id = userId;
+        feedback.usersId = userId;
 
         const { insertId } = await this.connection.queryAsync({
           sql: 'INSERT INTO feedbacks SET ?',
-          values: [feedback],
+          values: [toSnake(feedback)],
         });
 
         if (!feedbackFields) {
@@ -32,16 +33,16 @@ class Interviews extends BasicDAO {
         }
 
         await Promise.all(feedbackFields.map(async (field) => {
-          field.feedback_id = insertId;
+          field.feedbackId = insertId;
           await this.connection.queryAsync({
             sql: 'INSERT INTO feedback_fields SET ?',
-            values: [field],
+            values: [toSnake(field)],
           });
         }));
       }));
 
       await this.connection.commit();
-      return id;
+      return interviewId;
     } catch (err) {
       await this.connection.rollbackAsync();
       throw err;
@@ -52,80 +53,96 @@ class Interviews extends BasicDAO {
     const interview = await super.readOne(id);
     if (interview) {
       interview.feedbacks = await this.connection.queryAsync({
-        sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
+        sql: 'SELECT feedbacks.id FROM feedbacks WHERE feedbacks.interview_id = ?',
         values: [id],
       }).map(idObject => idObject.id);
 
+      [interview.candidate] = await this.connection.queryAsync({ // FIXME: meeeh
+        sql: `SELECT name, surname FROM candidates
+              INNER JOIN feedbacks ON feedbacks.candidate_id = candidate.id
+              WHERE feedbacks.id = ?`,
+        value: [interview.feedbacks[0]],
+      });
+
+      interview.skills = await this.connection.queryAsync({
+        sql: 'SELECT name FROM feedback_fields WHERE feedback_fields.feedback_id = ?',
+        values: [interview.feedbacks[0]],
+      });
+
       interview.users = await this.connection.queryAsync({
-        sql: `SELECT users.id,name FROM users INNER JOIN feedbacks
+        sql: `SELECT users.id, name FROM users INNER JOIN feedbacks
               WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
         values: [id],
       });
     }
 
-    return interview;
+    return toCamel(interview);
   }
 
-  async readPageAll(id, page = 1) {
-    const fields = 'interviews.id, type, date, place';
+  async readAll(id, page = 1) {
+    const fields = `${this.table}.id, type, date, place, c.name, c.surname`;
 
     const interviews = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table}
             INNER JOIN hirings h ON ${this.table}.hiring_id = h.id
+            INNER JOIN candidates c ON hiring.candidate_id = c.id
             WHERE h.user_id = ${id} AND h.date_close IS NULL
 
             UNION
 
             SELECT ${fields} FROM ${this.table}
-            INNER JOIN feedbacks f ON f.interview_id = interviews.id
+            INNER JOIN feedbacks f ON f.interview_id = ${this.table}.id
+            INNER JOIN candidates c ON f.candidate_id = c.id
             WHERE f.user_id = ${id} AND f.status = 0
 
             LIMIT ?, ?`,
       values: [(page - 1) * this.top, this.top],
     });
 
-    return interviews;
+    return toCamel(interviews);
   }
 
-  async readPageToUser(id, page = 1) {
-    const fields = `${this.table}.id, type, date, place`;
-    const joins = 'INNER JOIN feedbacks f ON f.interview_id = interviews.id';
+  async readAssignedTo(id, page = 1) {
+    const fields = `${this.table}.id, type, date, place, c.name, c.surname`;
+    const joins = `INNER JOIN feedbacks f ON f.interview_id = ${this.table}.id
+                   INNER JOIN candidates c ON f.candidate_id = c.id`;
     const where = ' WHERE f.user_id = ? AND f.status = 0';
-    const limit = 'LIMIT ?, ?';
 
-    const interviews = await super.readAll({
+    const interviews = await super.read({
       fields,
       addition: joins + where,
-      limit,
-      values: [id, (page - 1) * this.top, this.top],
+      page,
+      amount: this.top,
+      values: [id],
     });
 
     return interviews;
   }
 
-  async readPageFromUser(id, page = 1) {
-    const fields = `${this.table}.id, type, date, place`;
-    const joins = 'INNER JOIN hirings h ON interviews.hiring_id = h.id';
+  async readCreatedBy(id, page = 1) {
+    const fields = `${this.table}.${this.idFieldName}, type, date, place, c.name, c.surname`;
+    const joins = `INNER JOIN hirings h ON interviews.hiring_id = h.id
+                   INNER JOIN candidates c ON hiring.candidate_id = c.id`;
     const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
-    const limit = 'LIMIT ?, ?';
-    const values = [id, (page - 1) * this.top, this.top];
+    const values = [id];
 
-    const interviews = await super.readAll({
+    const interviews = await super.read({
       fields,
       addition: joins + where,
-      limit,
+      page,
+      amount: this.top,
       values,
     });
 
     return interviews;
   }
 
-  async readAllByHiring(id) {
-    const fields = `${this.table}.id, type, date, place`;
-    const where = 'WHERE interviews.hiring_id = ?';
+  async readByHiring(id) {
+    const fields = `${this.table}.${this.idFieldName}, type, date, place`;
+    const where = `WHERE ${this.table}.hiring_id = ?`;
     const values = [id];
 
-    const interviews = await super.readAll({
+    const interviews = await super.read({
       fields,
       addition: where,
       values,

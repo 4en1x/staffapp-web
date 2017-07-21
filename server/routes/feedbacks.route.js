@@ -1,8 +1,8 @@
-const controller = require('./../controllers/feedbacks.controller');
+const controllers = require('../controllers/controllers');
 const router = require('express').Router();
 
 // user + hr + admin section:
-router.get('/:id', controller.readFeedback);
-router.post('/:id', controller.updateFeedback);
+router.get('/:id', controllers.feedbacks.readOne);
+router.post('/:id', controllers.feedbacks.update);
 
 module.exports = router;
