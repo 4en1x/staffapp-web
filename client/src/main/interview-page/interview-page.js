@@ -6,7 +6,28 @@ import {connect} from 'react-redux';
 import SemanticLoader from '../../components/loaders/semantic-loader.js';
 import "./interview-page.css";
 
-class InterviewPage extends React.Component {
+const data = {
+  id: "1",
+  skills: ["skill 1", "skill 2", "skill 3", "skill 4"],
+  location: "Minsk",
+  time: "18:00",
+  candidate: {
+    name: "Nick",
+    surname: "Zabolotskiy"
+  }
+};
+
+export default class InterviewPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      interview: null,
+      isLoaded: false,
+      feedbackClicked: false
+    };
+  }
+
   componentDidMount() {
     const id = this.props.match.url;
     this.props.getInterviewById(id);
