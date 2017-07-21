@@ -30,7 +30,7 @@ describe('#Hirings-Api', () => {
         expect(response.body.added).to.equal(true);
       });
 
-    it('This test should failed with 500 error because candidate is not exist. We can not appoint hiring.',
+    it('This test should fail with 500 error because candidate does not exist. We can not appoint hiring.',
       async () => {
         const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         const response = await request
@@ -41,7 +41,7 @@ describe('#Hirings-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error because candidate already has hiring. We can not appoint hiring.',
+    it('This test should fail with 500 error because candidate already has hiring. We can not appoint hiring.',
       async () => {
         let data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         let response = await request
@@ -51,6 +51,7 @@ describe('#Hirings-Api', () => {
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
         expect(response.body.added).to.equal(true);
+
         data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         response = await request
           .post(`${defaultUrl}/hirings?candidate=5`)
@@ -62,7 +63,7 @@ describe('#Hirings-Api', () => {
         expect(response.body.message).to.equal('candidate already has hiring');
       });
 
-    it('This test  should failed with 500 error : user is not exist. We can not appoint hiring.',
+    it('This test  should fail with 500 error : user is not exist. We can not appoint hiring.',
       async () => {
         const data = await readFileAsync('./test/data/hirings/add-hirings-2.json', 'utf8');
         const response = await request
@@ -86,6 +87,7 @@ describe('#Hirings-Api', () => {
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
         expect(response.body.added).to.equal(true);
+
         response = await request
           .get(`${defaultUrl}/hirings?id=5`)
           .ok(res => res.status <= 500);
@@ -127,6 +129,7 @@ describe('#Hirings-Api', () => {
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
+
         response = await request
           .get(`${defaultUrl}/hirings/6`)
           .ok(res => res.status <= 500);
@@ -147,7 +150,7 @@ describe('#Hirings-Api', () => {
         expect(response.statusCode).to.equal(200);
       });
 
-    it('This test should failed with 500 error because hiring is not exist and nobody can delete it',
+    it('This test should fail with 500 error because hiring does not exist and nobody can delete it',
       async () => {
         const response = await request
           .delete(`${defaultUrl}/hirings/685421`)
@@ -160,6 +163,7 @@ describe('#Hirings-Api', () => {
         let response = await request
           .delete(`${defaultUrl}/hirings/6`);
         expect(response.statusCode).to.equal(200);
+
         response = await request
           .get(`${defaultUrl}/hirings?id=7`);
         expect(response.statusCode).to.equal(200);
@@ -167,11 +171,12 @@ describe('#Hirings-Api', () => {
         expect(response.body).to.have.lengthOf(0);
       });
 
-    it('This test should pass, because if we delete hiring, candidate now don\'t have hiring and we can appoint it',
+    it('This test should pass, because if we delete hiring, candidate now doesn\'t have hiring and we can appoint it',
       async () => {
         let response = await request
           .delete(`${defaultUrl}/hirings/6`);
         expect(response.statusCode).to.equal(200);
+
         const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         response = await request
           .post(`${defaultUrl}/hirings?candidate=7`)

@@ -26,7 +26,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Get any page without authentication', () => {
-    it('This test should failed with 401 error because no one can see any page without authorization ',
+    it('This test should fail with 401 error because no one can see any page without authorization ',
       async () => {
         const response = await req
           .get(`${defaultUrl}/hirings`)
@@ -37,7 +37,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Check email', () => {
-    it('This test should pass, this email exist', async () => {
+    it('This test should pass, this email exists', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-1.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/email`)
@@ -46,7 +46,7 @@ describe('#Autentification', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('This testshould failed with 401 error : email doesn\'t exist',
+    it('This test should fail with 401 error : email doesn\'t exist',
       async () => {
         const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
         const response = await req
@@ -67,6 +67,7 @@ describe('#Autentification', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+
         response = await req
           .post('http://localhost:3300/logout')
           .set('Accept', 'application/json');
@@ -75,7 +76,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Logout', () => {
-    it('That test should failed with 401 error because session doesn\'t exist and user can not logout',
+    it('That test should fail with 401 error because session doesn\'t exist and user can not logout',
       async () => {
         const response = await req
           .post(`${defaultUrl}/logout`)
@@ -86,7 +87,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Login', () => {
-    it('This test should failed with 401 error : invalid creds and user can not login',
+    it('This test should fail with 401 error : invalid creds and user can not login',
       async () => {
         const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
         const response = await req
@@ -99,7 +100,7 @@ describe('#Autentification', () => {
   });
 
   describe('#Get page that doesn\'t exist', () => {
-    it('This test should failed with 404 error, because page doesn\'t exist',
+    it('This test should fail with 404 error, because page doesn\'t exist',
       async () => {
         const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
         let response = await req
@@ -107,8 +108,9 @@ describe('#Autentification', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+
         response = await req
-          .get(`${defaultUrl}/hiringssss`)
+          .get(`${defaultUrl}/notexist`)
           .set('Accept', 'application/json')
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(404);

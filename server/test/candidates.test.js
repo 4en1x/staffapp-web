@@ -41,7 +41,7 @@ describe('#Candidates-Api', () => {
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
       });
-    it('This test should failed with 500 error because city don\'t exist and admin can not add it',
+    it('This test should fail with 500 error because city doesn\'t exist and admin can not add it',
       async () => {
         const data = await readFileAsync('./test/data/candidates/add-candidate-2.json', 'utf8');
         const response = await req
@@ -52,7 +52,7 @@ describe('#Candidates-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error because field don\'t exist and admin can not add it',
+    it('This test should fail with 500 error because field doesn\'t exist and admin can not add it',
       async () => {
         const data = await readFileAsync('./test/data/candidates/add-candidate-3.json', 'utf8');
         const response = await req
@@ -63,7 +63,7 @@ describe('#Candidates-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error because one of required fields is missing and admin can not add it',
+    it('This test should fail with 500 error because one of required fields is missing and admin can not add it',
       async () => {
         const data = await readFileAsync('./test/data/candidates/add-candidate-4.json', 'utf8');
         const response = await req
@@ -86,7 +86,7 @@ describe('#Candidates-Api', () => {
         expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
       });
 
-    it('This test should failed with 500 error :id don\'t exist and we can not read it',
+    it('This test should fail with 500 error : id doesn\'t exist and we can not read it',
       async () => {
         const response = await req
           .get(`${defaultUrl}/candidates/0`)
@@ -125,13 +125,14 @@ describe('#Candidates-Api', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+
         response = await req
           .delete(`${defaultUrl}/candidates/4`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
       });
 
-    it('This test should failed with 500 error because candidate already deleted and we can not delete him again',
+    it('This test should fail with 500 error because candidate already deleted and we can not delete him again',
       async () => {
         const response = await req
           .delete(`${defaultUrl}/candidates/5`)
@@ -150,6 +151,7 @@ describe('#Candidates-Api', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+
         data = await readFileAsync('./test/data/candidates/update-candidate-get-1.json', 'utf8');
         response = await req
           .get(`${defaultUrl}/candidates/1`)
@@ -166,6 +168,7 @@ describe('#Candidates-Api', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+
         data = await readFileAsync('./test/data/candidates/update-candidate-get-2.json', 'utf8');
         response = await req
           .get(`${defaultUrl}/candidates/1`)

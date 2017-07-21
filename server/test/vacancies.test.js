@@ -28,7 +28,7 @@ describe('#Vacancies-Api', () => {
   });
 
   describe('#Add Vacancy', () => {
-    it('This test should failed with 403 error because user don\'t have access to this functionality',
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -42,7 +42,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-    it('This test should pass - admin and hr have access to add vacancies. Also in this test I check that data is correctly saved in db',
+    it('This test should pass - admin and hr have access to add vacancies. Also in this test checks that data is correctly saved in db',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -66,7 +66,7 @@ describe('#Vacancies-Api', () => {
         expect(response.body.skills).to.have.lengthOf(4);
       });
 
-    it('This test should failed with 500 error : admin try add vacancy with skill which don\'t exist',
+    it('This test should fail with 500 error : admin try add vacancy with skill which don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -82,7 +82,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error : admin try add vacancy with city which don\'t exist',
+    it('This test should fail with 500 error : admin try add vacancy with city which don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -98,7 +98,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error : admin try add vacancy with missing a required field',
+    it('This test should fail with 500 error : admin try add vacancy with missing a required field',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -116,7 +116,7 @@ describe('#Vacancies-Api', () => {
   });
 
   describe('#Get Vacancy By Id', () => {
-    it('This test should failed with 403 error because user don\'t have access to this functionality',
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -145,7 +145,7 @@ describe('#Vacancies-Api', () => {
         expect(response.body.skills).to.be.an('array');
         expect(response.body.skills).to.have.lengthOf(4);
       });
-    it('This test should failed with 404 error : admin or hr try get vacancy that doen\'t exist',
+    it('This test should fail with 404 error : admin or hr try get vacancy that doen\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -160,7 +160,7 @@ describe('#Vacancies-Api', () => {
       });
   });
   describe('#Get Vacancies', () => {
-    it('This test should failed with 403 error because user don\'t have access to this functionality',
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -204,7 +204,7 @@ describe('#Vacancies-Api', () => {
       });
   });
   describe('#Update Vacancy', () => {
-    it('This test should failed with 403 error because user don\'t have access to this functionality',
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -242,7 +242,7 @@ describe('#Vacancies-Api', () => {
         expect(response.body.skills).to.have.lengthOf(4);
       });
 
-    it('This test should failed with 500 error : admin try update vacancy with skill which don\'t exist',
+    it('This test should fail with 500 error : admin try update vacancy with skill which don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -258,7 +258,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(500);
       });
 
-    it('This test should failed with 500 error : admin try update vacancy with city which don\'t exist',
+    it('This test should fail with 500 error : admin try update vacancy with city which don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -275,7 +275,7 @@ describe('#Vacancies-Api', () => {
       });
   });
   describe('#Delete Vacancy', () => {
-    it('This test should failed with 403 error because user and hr don\'t have access to this functionality',
+    it('This test should fail with 403 error because user and hr don\'t have access to this functionality',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -302,7 +302,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(200);
       });
 
-    it('This test should failed with 500 error : admin delete vacansy that don\'t exist',
+    it('This test should fail with 500 error : admin delete vacansy that don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
