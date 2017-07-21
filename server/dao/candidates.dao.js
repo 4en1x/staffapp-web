@@ -14,8 +14,7 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
 
       const [city] = toCamel(await this.connection.queryAsync({
-        sql: `SELECT id FROM cities
-              WHERE name = ?`,
+        sql: 'SELECT id FROM cities WHERE name = ?',
         values: [cityName],
       }));
 
@@ -43,10 +42,10 @@ class Candidates extends BasicDAO {
       await this.connection.beginTransactionAsync();
       const candidate = await super.readOne(id);
 
-      candidate.links = toCamel(await this.connection.queryAsync({
+      candidate.links = await this.connection.queryAsync({
         sql: 'SELECT link FROM links WHERE candidate_id = ?',
         values: [candidate[this.idFieldName]],
-      }).map(name => name.link));
+      }).map(linkObject => linkObject.link);
 
       candidate.city = toCamel(await this.connection.queryAsync({
         sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
@@ -67,7 +66,8 @@ class Candidates extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
 
-      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname, primary_skill, status, last_change_date, cities.name AS city`;
+      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
+                      primary_skill, status, last_change_date, cities.name AS city`;
       const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
 
       const candidates = await super.read({

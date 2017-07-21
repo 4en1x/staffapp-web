@@ -1,16 +1,11 @@
 import React from "react";
-import {
-  Segment,
-  Label,
-  List,
-  Button,
-  Divider,
-  Search
-} from "semantic-ui-react";
+import InterviewComponent from "./components/interview.component";
+import { Redirect } from "react-router-dom";
+
 import "./interview-page.css";
-import FeedbackList from "./components/feedback-list";
 
 const data = {
+  id: "1",
   skills: ["skill 1", "skill 2", "skill 3", "skill 4"],
   candidate: "Sergey Moiseenko",
   status: "status: Free",
@@ -134,57 +129,37 @@ const data = {
   }
 };
 
-export default class InterviewPageComponent extends React.Component {
-  handleSearchChange = () => {
-    // TODO: ... some action needed ...
-  };
-  addFeedback = () => {
-    // TODO: ... some action needed ...
+export default class InterviewPage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      interview: null,
+      isLoaded: false,
+      feedbackClicked: false
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ interview: data, isLoaded: true });
+  }
+
+  feedbackClicked = () => {
+    this.setState({ feedbackClicked: true });
   };
 
   render() {
+    const url = this.props.match.url;
+    if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
+
     return (
-      <div>
-        <div className="title">
-          <div className="candidate-title">
-            {data.candidate}
-          </div>
-          <Search onSearchChange={this.handleSearchChange} />
-        </div>
-
-        <Divider />
-
-        <Segment id="content">
-          <Label as="a" color="teal" ribbon="right" size="huge">
-            {data.status}
-          </Label>
-
-          <List size="huge">
-            <List.Item>
-              <List.Header>Skills</List.Header>
-              <List items={data.skills} />
-            </List.Item>
-
-            <List.Item>
-              <List.Header>Location</List.Header>
-              {data.location}
-            </List.Item>
-
-            <List.Item>
-              <List.Header>Feedbacks</List.Header>
-              <FeedbackList
-                feedbacks={data.feedbacks}
-                authorFeedback={data.authorFeedback}
-              />
-            </List.Item>
-          </List>
-        </Segment>
-
-        <div className="add-feedback">
-          <Button primary onClick={this.addFeedback}>
-            Feedback
-          </Button>
-        </div>
+      <div className="interview-page">
+        {!this.state.isLoaded
+          ? <p>Not Loaded</p>
+          : <InterviewComponent
+              interview={this.state.interview}
+              feedbackClicked={this.feedbackClicked}
+            />}
       </div>
     );
   }

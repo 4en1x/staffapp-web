@@ -13,10 +13,10 @@ class Interviews extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
 
-      const id = await super.create(toSnake(interview));
+      const interviewId = await super.create(toSnake(interview));
 
       const feedback = {
-        interviewId: id,
+        interviewId,
         candidateId,
       };
 
@@ -42,7 +42,7 @@ class Interviews extends BasicDAO {
       }));
 
       await this.connection.commit();
-      return id;
+      return interviewId;
     } catch (err) {
       await this.connection.rollbackAsync();
       throw err;
@@ -51,12 +51,18 @@ class Interviews extends BasicDAO {
 
   async readOne(id) {
     const interview = await super.readOne(id);
-
     if (interview) {
       interview.feedbacks = await this.connection.queryAsync({
-        sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
+        sql: 'SELECT feedbacks.id FROM feedbacks WHERE feedbacks.interview_id = ?',
         values: [id],
       }).map(idObject => idObject.id);
+
+      [interview.candidate] = await this.connection.queryAsync({ // FIXME: meeeh
+        sql: `SELECT name, surname FROM candidates
+              INNER JOIN feedbacks ON feedbacks.candidate_id = candidate.id
+              WHERE feedbacks.id = ?`,
+        value: [interview.feedbacks[0]],
+      });
 
       interview.skills = await this.connection.queryAsync({
         sql: 'SELECT name FROM feedback_fields WHERE feedback_fields.feedback_id = ?',
@@ -64,7 +70,7 @@ class Interviews extends BasicDAO {
       });
 
       interview.users = await this.connection.queryAsync({
-        sql: `SELECT users.id name FROM users INNER JOIN feedbacks
+        sql: `SELECT users.id, name FROM users INNER JOIN feedbacks
               WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
         values: [id],
       });

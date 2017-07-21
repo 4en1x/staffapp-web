@@ -18,31 +18,28 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
-    feedback.fields = await readFields.bind(this, id);
+    feedback.fields = await readFields.call(this, id);
     return feedback;
   }
 
   async readOneFromInterviewByUser(interviewId, userId) {
     const [feedback] = toCamel(await this.connection.queryAsync({
-      sql: `SELECT * FROM ${this.table}
-            WHERE interview_id = ? AND user_id = ?`,
+      sql: `SELECT * FROM ${this.table} WHERE interview_id = ? AND user_id = ?`,
       values: [interviewId, userId],
     }));
 
-    feedback.fields = await readFields.bind(this, feedback.id);
+    feedback.fields = await readFields.call(this, feedback.id);
     return feedback;
   }
 
-  async readFromInterview(id) { // TODO: TEST IT!
-    const feedbacks = await Promise.all((await super.read({
+  async readFromInterview(id) { // TODO: Test it. Again
+    return super.read({
       addition: 'WHERE interview_id = ?',
       values: [id],
-    })).map(async (feedback) => {
-      feedback.fields = await readFields.bind(this, feedback.id);
+    }).map(async (feedback) => {
+      feedback.fields = await readFields.call(this, feedback.id);
       return feedback;
-    }));
-
-    return feedbacks;
+    });
   }
 
   async update(id, { comment, fields }) {
