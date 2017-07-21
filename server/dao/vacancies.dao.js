@@ -4,7 +4,7 @@ const BasicDAO = require('./basic.dao');
 class Vacancies extends BasicDAO {
   constructor(connection) {
     super('vacancies');
-    this.top = config.db.itemsPerPage;
+    this.top = config.pageSettings.itemsPerPage;
     this.connection = connection;
   }
 
@@ -44,6 +44,7 @@ class Vacancies extends BasicDAO {
     try {
       await this.connection.beginTransactionAsync();
       const vacancy = await super.readOne(id);
+      if (!vacancy) return null;
 
       const [city] = await this.connection.queryAsync({
         sql: `SELECT name FROM cities
@@ -85,7 +86,6 @@ class Vacancies extends BasicDAO {
         limit,
         values,
       });
-
       await this.connection.commit();
       return candidates;
     } catch (err) {
