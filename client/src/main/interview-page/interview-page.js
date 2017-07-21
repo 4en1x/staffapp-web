@@ -165,5 +165,5 @@ class InterviewPage extends React.Component {
   }
 }
 const mapStateToProps = () => {
-  return 
+  return
 }
