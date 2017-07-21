@@ -53,45 +53,53 @@ class Interviews extends BasicDAO {
     const interview = await super.readOne(id);
 
     if (interview) {
-      interview.feedbacks = toCamel(await this.connection.queryAsync({
+      interview.feedbacks = await this.connection.queryAsync({
         sql: 'SELECT id FROM feedbacks WHERE feedbacks.interview_id = ?',
         values: [id],
-      })).map(idObject => idObject.id);
+      }).map(idObject => idObject.id);
 
-      interview.users = toCamel(await this.connection.queryAsync({
+      interview.skills = await this.connection.queryAsync({
+        sql: 'SELECT name FROM feedback_fields WHERE feedback_fields.feedback_id = ?',
+        values: [interview.feedbacks[0]],
+      });
+
+      interview.users = await this.connection.queryAsync({
         sql: `SELECT users.id name FROM users INNER JOIN feedbacks
               WHERE feedbacks.interview_id = ? AND feedbacks.user_id = users.id`,
         values: [id],
-      }));
+      });
     }
 
-    return interview;
+    return toCamel(interview);
   }
 
   async readAll(id, page = 1) {
-    const fields = `${this.table}.id, type, date, place`;
+    const fields = `${this.table}.id, type, date, place, c.name, c.surname`;
 
-    const interviews = toCamel(await this.connection.queryAsync({
+    const interviews = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table}
             INNER JOIN hirings h ON ${this.table}.hiring_id = h.id
+            INNER JOIN candidates c ON hiring.candidate_id = c.id
             WHERE h.user_id = ${id} AND h.date_close IS NULL
 
             UNION
 
             SELECT ${fields} FROM ${this.table}
             INNER JOIN feedbacks f ON f.interview_id = ${this.table}.id
+            INNER JOIN candidates c ON f.candidate_id = c.id
             WHERE f.user_id = ${id} AND f.status = 0
 
             LIMIT ?, ?`,
       values: [(page - 1) * this.top, this.top],
-    }));
+    });
 
-    return interviews;
+    return toCamel(interviews);
   }
 
   async readAssignedTo(id, page = 1) {
-    const fields = `${this.table}.id, type, date, place`;
-    const joins = `INNER JOIN feedbacks f ON f.interview_id = ${this.table}.id`;
+    const fields = `${this.table}.id, type, date, place, c.name, c.surname`;
+    const joins = `INNER JOIN feedbacks f ON f.interview_id = ${this.table}.id
+                   INNER JOIN candidates c ON f.candidate_id = c.id`;
     const where = ' WHERE f.user_id = ? AND f.status = 0';
 
     const interviews = await super.read({
@@ -106,8 +114,9 @@ class Interviews extends BasicDAO {
   }
 
   async readCreatedBy(id, page = 1) {
-    const fields = `${this.table}.${this.idFieldName}, type, date, place`;
-    const joins = 'INNER JOIN hirings h ON interviews.hiring_id = h.id';
+    const fields = `${this.table}.${this.idFieldName}, type, date, place, c.name, c.surname`;
+    const joins = `INNER JOIN hirings h ON interviews.hiring_id = h.id
+                   INNER JOIN candidates c ON hiring.candidate_id = c.id`;
     const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
     const values = [id];
 

@@ -1,6 +1,6 @@
 const db = require('../dao');
 
-class BasicController {
+class CRUDController {
   constructor(daoName) {
     this.daoName = daoName;
   }
@@ -10,7 +10,7 @@ class BasicController {
       const id = await db[this.daoName].create(resource);
 
       if (!id) {
-        throw new Error(''); // TODO: 500?
+        throw new Error('500'); // FIXME: 500?`
       }
 
       await onload(id);
@@ -49,8 +49,16 @@ class BasicController {
     }
   }
 
-  async read(req, res) {
-
+  async read(req, res, onload = () => { }, onerror = () => true) {
+    try {
+      const candidates = await db[this.daoName].read(req.query.page);
+      await onload(candidates);
+      res.json(candidates);
+    } catch (err) {
+      if (onerror(err)) {
+        res.status(500).end();
+      }
+    }
   }
 
   async update(req, res, resource, onload = () => { }, onerror = () => true) {
@@ -88,4 +96,4 @@ class BasicController {
   }
 }
 
-module.exports = BasicController;
+module.exports = CRUDController;

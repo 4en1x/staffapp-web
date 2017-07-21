@@ -35,7 +35,7 @@ async function login(req, res) {
         return;
       }
 
-      res.end();
+      res.json({ name: user.name, role: user.role });
     });
   } catch (err) {
     if (err.message === '401') {
