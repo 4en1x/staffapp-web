@@ -28,77 +28,82 @@ describe('#Feedbacks-Api', () => {
   });
 
   describe('#Get Feedback by Id', () => {
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/feedbacks/check-feedbacks-1.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/feedbacks/1`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should pass, because hr and admin have access for all feedbacks and can read them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+        const data = await readFileAsync('./test/data/feedbacks/check-feedbacks-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/feedbacks/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
 
-    it('should failed with 403 error: user dont have access to this feedback', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/feedbacks/1`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(403);
-    });
+    it('This test should failed with 403 error: user have access only to his feedbacks, and it\' not him',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+        response = await req
+          .get(`${defaultUrl}/feedbacks/1`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
 
-    it('should pass, but with no update : feedback don\'t exist', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/feedbacks/0`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual({ found: false });
-    });
+    it('This test should pass with text { found: false } - feedback don\'t exist',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+        response = await req
+          .get(`${defaultUrl}/feedbacks/0`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual({ found: false });
+      });
   });
 
   describe('#Update Feedback', () => {
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      let data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
-      response = await req
-        .post(`${defaultUrl}/feedbacks/8`)
-        .set('Accept', 'application/json')
-        .send(JSON.parse(data));
-      expect(response.statusCode).to.equal(200);
-      data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/feedbacks/8`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should pass, because hr and admin have access for all feedbacks and can update them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+        let data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/feedbacks/8`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+        data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/feedbacks/8`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
 
 
-    it('should failed with 500 error: incorrect data', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/feedbacks/update-feedbacks-2.json', 'utf8');
-      response = await req
-        .post(`${defaultUrl}/feedbacks/1`)
-        .set('Accept', 'application/json')
-        .send(JSON.parse(data))
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(500);
-    });
+    it('This test should failed with 500 error because admin try to update feedback by incorrect data',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+        const data = await readFileAsync('./test/data/feedbacks/update-feedbacks-2.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/feedbacks/1`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(500);
+      });
   });
 });

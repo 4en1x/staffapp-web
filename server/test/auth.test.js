@@ -16,26 +16,28 @@ describe('#Autentification', () => {
   });
 
   describe('#Get main page', () => {
-    it('should pass', async () => {
-      const response = await req
-        .get(`${defaultUrl}`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-    });
+    it('This test should pass: all users can see main page',
+      async () => {
+        const response = await req
+          .get(`${defaultUrl}`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
   });
 
   describe('#Get any page without authentication', () => {
-    it('should failed with 401 error', async () => {
-      const response = await req
-        .get(`${defaultUrl}/hirings`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(401);
-    });
+    it('This test should failed with 401 error because no one can see any page without authorization ',
+      async () => {
+        const response = await req
+          .get(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(401);
+      });
   });
 
   describe('#Check email', () => {
-    it('should pass', async () => {
+    it('This test should pass, this email exist', async () => {
       const data = await readFileAsync('./test/data/auth/check-email-1.json', 'utf8');
       const response = await req
         .post(`${defaultUrl}/email`)
@@ -43,70 +45,73 @@ describe('#Autentification', () => {
         .set('Accept', 'application/json');
       expect(response.statusCode).to.equal(200);
     });
-  });
 
-  describe('#Check email', () => {
-    it('should failed with 401 error : email doesn\'t exist', async () => {
-      const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
-      const response = await req
-        .post(`${defaultUrl}/email`)
-        .send(JSON.parse(data))
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(401);
-    });
+    it('This testshould failed with 401 error : email doesn\'t exist',
+      async () => {
+        const data = await readFileAsync('./test/data/auth/check-email-2.json', 'utf8');
+        const response = await req
+          .post(`${defaultUrl}/email`)
+          .send(JSON.parse(data))
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(401);
+      });
   });
 
   describe('#Login and logout', () => {
-    it('should pass', async () => {
-      const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .set('Accept', 'application/json')
-        .send(JSON.parse(data));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .post('http://localhost:3300/logout')
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-    });
+    it('This test should pass: at first we login with ok creds, then logout',
+      async () => {
+        const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+        response = await req
+          .post('http://localhost:3300/logout')
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
   });
 
   describe('#Logout', () => {
-    it('should failed with 401 error : session doesn\'t exist', async () => {
-      const response = await req
-        .post(`${defaultUrl}/logout`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(401);
-    });
+    it('That test should failed with 401 error because session doesn\'t exist and user can not logout',
+      async () => {
+        const response = await req
+          .post(`${defaultUrl}/logout`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(401);
+      });
   });
 
   describe('#Login', () => {
-    it('should failed with 401 error : invalid creds', async () => {
-      const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
-      const response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(data))
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(401);
-    });
+    it('This test should failed with 401 error : invalid creds and user can not login',
+      async () => {
+        const data = await readFileAsync('./test/data/auth/login-2.json', 'utf8');
+        const response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(data))
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(401);
+      });
   });
 
   describe('#Get page that doesn\'t exist', () => {
-    it('should failed with 404 error', async () => {
-      const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .set('Accept', 'application/json')
-        .send(JSON.parse(data));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/hiringssss`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(404);
-    });
+    it('This test should failed with 404 error, because page doesn\'t exist',
+      async () => {
+        const data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+        response = await req
+          .get(`${defaultUrl}/hiringssss`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(404);
+      });
   });
 });
