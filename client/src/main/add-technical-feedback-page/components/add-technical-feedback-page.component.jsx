@@ -1,102 +1,144 @@
 import React from "react";
+import { reduxForm } from "redux-form";
 
-import { Divider, Segment, Button, List } from "semantic-ui-react";
+import { Divider, Segment, List } from "semantic-ui-react";
 
 import "./add-technical-feedback-page.css";
-import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card.jsx";
+import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card";
 
-const major = {
-  technology: "javascript"
-};
-const minor = [
-  {
-    technology: "c++"
-  },
-  {
-    technology: ".net"
-  },
-  {
-    technology: "react"
+const feedbackID = 12345;
+let data;
+   axios.get("/feedbacks/" + feedbackID)
+  .then(function(response) {
+    data = JSON.parse(response);
+  })
+  .catch(function(error) {
+    alert("OOPS something wrong");
+  });
+
+// const data = {
+//   fields: [
+//     {
+//       id: 11,
+//       name: "C++ level",
+//       typeSkill: "primary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 12,
+//       name: "Some skill one",
+//       typeSkill: "secondary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 13,
+//       name: "some skill two",
+//       typeSkill: "secondary",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 14,
+//       name: "Some other skill one",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 15,
+//       name: "Some other skill two",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     },
+//     {
+//       id: 16,
+//       name: "Some other skill three",
+//       typeSkill: "other",
+//       feedbackId: 5,
+//       type: "tech"
+//     }
+//   ]
+// };
+
+function showResults(values) {
+  let move = 0;
+  let newArray = [];
+
+  for (var key in values) {
+    values[key].id = data.fields[move].id;
+    newArray.push(values[key]);
+    move++;
   }
-];
-const other = [
-  {
-    technology: "jogging"
-  },
-  {
-    technology: "fishing"
-  },
-  {
-    technology: "reading"
-  }
-];
+  console.log(newArray);
 
-export default class AddTechnicalFeedbackPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.feedbackInfo = {};
-  }
-
-  inputHandle = (element, propName) => {
-    this.feedbackInfo[propName] = element;
-  };
-
-  selectHandle = (value, propName) => {
-    this.feedbackInfo[propName].select = value;
-  };
-
-  feedbackButtonClicked = () => {
-    // this.props.addFeedback();
-    const props = Object.keys(this.feedbackInfo);
-    props.forEach(prop => {
-      this.feedbackInfo[prop].input = this.feedbackInfo[prop].input.ref.value;
+  axios.put("feedbacks/feedbackID", {
+      fields: newArray
     });
-    this.props.addFeedback(this.feedbackInfo);
-  };
-
-  render() {
-    return (
-      <div className="add-technical-feedback-page">
-        <div className="title-feedback">feedback</div>
-        <Divider />
-        <Segment id="content-data">
-          <div className="labels"> Major skill </div>
-          <FeedbackTechnicalCard
-            data={major}
-            inputHandle={this.inputHandle}
-            selectHandle={this.selectHandle}
-          />
-          <List size="medium">
-            <List.Header className="list-header">Minor skills</List.Header>
-            {minor.map(step =>
-              <List.Item key={step.technology}>
-                <FeedbackTechnicalCard
-                  inputHandle={this.inputHandle}
-                  data={step}
-                  selectHandle={this.selectHandle}
-                />
-              </List.Item>
-            )}
-          </List>
-          <List size="medium">
-            <List.Header className="list-header">Other skills</List.Header>
-            {other.map(step =>
-              <List.Item key={step.technology}>
-                <FeedbackTechnicalCard
-                  data={step}
-                  inputHandle={this.inputHandle}
-                  selectHandle={this.selectHandle}
-                />
-              </List.Item>
-            )}
-          </List>
-        </Segment>
-        <div className="add-feedback">
-          <Button primary onClick={this.feedbackButtonClicked}>
-            Feedback
-          </Button>
-        </div>
-      </div>
-    );
-  }
 }
+
+const FeedbackTechnicalPage = props => {
+  const { handleSubmit } = props;
+
+  return (
+    <form
+      onSubmit={handleSubmit(showResults)}
+      className="add-technical-feedback-page"
+    >
+      <div className="title-feedback">feedback</div>
+      <Divider />
+      <Segment id="content-data">
+        <div className="labels"> Major skill </div>
+        {data.fields.map(step => {
+          if (step.typeSkill === "primary") {
+            return (
+              <FeedbackTechnicalCard data={step} location={"majorTechnology"} />
+            );
+          }
+          return null;
+        })}
+
+        <List size="medium">
+          <List.Header className="list-header">Minor skills</List.Header>
+          {data.fields.map((step, move) => {
+            if (step.typeSkill === "secondary") {
+              return (
+                <List.Item key={step.technology}>
+                  <FeedbackTechnicalCard
+                    data={step}
+                    location={"MinorTechology" + move}
+                  />
+                </List.Item>
+              );
+            }
+            return null;
+          })}
+        </List>
+
+        <List size="medium">
+          <List.Header className="list-header">Other skills</List.Header>
+          {data.fields.map((step, move) => {
+            if (step.typeSkill === "other") {
+              return (
+                <List.Item key={step.technology}>
+                  <FeedbackTechnicalCard
+                    data={step}
+                    location={"OtherTechology" + move}
+                  />
+                </List.Item>
+              );
+            }
+            return null;
+          })}
+        </List>
+      </Segment>
+      <div className="add-feedback-redux-button">
+        <button type="submit">Feedback</button>
+      </div>
+    </form>
+  );
+};
+
+export default reduxForm({ form: "simple" })(FeedbackTechnicalPage);
