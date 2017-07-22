@@ -4,89 +4,21 @@ import "./worker-page.css";
 import { Route, Redirect } from "react-router-dom";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
-import {addInterviewsList} from '../../action-creators/action-creators.js';
-import { getInterviewList } from '../../action-creators/action-creators.js';
-import SemanticLoader from '../../components/loaders/semantic-loader.js';
-import { connect } from 'react-redux';
-import axios from 'axios';
-
-const interviews = [
-  {
-    id: "111",
-    name: "Sergey",
-    surname: "Moiseyenko",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "222",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "333",
-    name: "Kosty",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "444",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "555",
-    name: "Lenya",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "666",
-    name: "Nik",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "777",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  }
-];
+import { addInterviewsList } from "../../action-creators/action-creators.js";
+import { getInterviewList } from "../../action-creators/action-creators.js";
+import SemanticLoader from "../../components/loaders/semantic-loader.js";
+import * as actionCreators from "../../action-creators/action-creators.js";
+import { connect } from "react-redux";
+import axios from "axios";
 
 class WorkerPage extends React.Component {
-
   componentDidMount() {
-    this.props.addInterviewsList();
-    // crate request for interview;
+    this.props.getInterviewList();
   }
 
   render() {
     const url = this.props.match.url;
-    // <Route exact path='/' render={() => (<Redirect to='/interviews' />)} />
-    if (!this.props.interviews) return <SemanticLoader/>
+    if (!this.props.interviews) return <SemanticLoader />;
 
     return (
       <div className="worker-page">
@@ -101,7 +33,7 @@ class WorkerPage extends React.Component {
                 elements={this.props.interviews}
                 url={`${url}interviews`}
               />}
-            />
+          />
           <Route
             path={`${url}interviews`}
             component={() =>
@@ -117,18 +49,8 @@ class WorkerPage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    interviews: state.interview.interviewList
-  }
-};
+const mapStateToProps = state => ({
+  interviews: state.interview.interviewList
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addInterviewsList: () => {
-      dispatch(getInterviewList());
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(WorkerPage);
+export default connect(mapStateToProps, actionCreators)(WorkerPage);

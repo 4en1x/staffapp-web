@@ -8,19 +8,16 @@ import { Label } from "semantic-ui-react";
 import { Header } from "semantic-ui-react";
 import { Statistic } from "semantic-ui-react";
 import { Card } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 export default class InterviewComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   onButtonClick = () => {
     this.props.feedbackClicked();
   };
-  /* <Search onSearchChange={this.handleSearchChange} />*/
+
   render() {
     const data = this.props.interview;
-    console.log(data);
     return (
       <div className="interview-component">
         <Header dividing as="h2" className="custom-header">
@@ -29,28 +26,38 @@ export default class InterviewComponent extends React.Component {
 
         <Card fluid className="myCard">
           <div className="info">
-            <Statistic className="date" value={data.time} label={data.date}/>
-            <div className="horizontal-divider"/>
+            <Statistic className="date" value={data.time} label={data.date} />
+            <div className="horizontal-divider" />
             <div className="detail-location">
               <Header as="h3">Room 404</Header>
-              <Header as="h3">{data.place}</Header>
+              <Header as="h3">
+                {data.place}
+              </Header>
             </div>
           </div>
           <div className="vertical-divider" />
           <div className="interview-content">
-            <Header as="h1">{data.candidate.name} {data.candidate.surname}</Header>
+            <Header as="h1">
+              {data.candidate.name} {data.candidate.surname}
+            </Header>
             <Divider hidden />
             <List size="massive">
-              <List.Item>Primary skill: {data.skills[0]}</List.Item>
+              <List.Item>
+                Primary skill: {data.skills[0]}
+              </List.Item>
               <List.Item>
                 Secondary skills:
-                <List
-                  className="skills"
-                  items={data.skills.slice(1)}
-                />
+                <List className="skills" items={data.skills.slice(1)} />
               </List.Item>
             </List>
-            <Button color="twitter" floated="right">Feedback</Button>
+            <Link
+              to={`${this.props.url}/feedback/${this.props.interview
+                .feedbacks[0].id}`}
+            >
+              <Button color="twitter" floated="right">
+                Feedback
+              </Button>
+            </Link>
           </div>
         </Card>
       </div>
