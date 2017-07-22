@@ -22,15 +22,14 @@ export default class App extends React.Component {
   render() {
     const config = this.config();
     const user = this.user;
-    console.log(this.props);
 
     return (
       <div className="root-class">
-        <Header user={{ name: user.name, surname: "Surname" }} />
+        <Header user={{ name: user.name, surname: user.surname }} />
         <Switch>
           <Route exact path="/interviews/:id" component={InterviewPage} />
           <Route
-            path="/interviews/:id/feedback"
+            path="/interviews/:id/feedback/:id"
             component={TechnicalFeedback}
           />
           <Route path="/candidates/:id" component={CandidatePage} />
