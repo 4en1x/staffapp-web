@@ -9,10 +9,6 @@ import TechnicalFeedback from "../add-technical-feedback-page/technical-feedback
 import "../../index.css";
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.user = props.user;
-  }
 
   config = () => ({
     HR: HRPage,
@@ -21,7 +17,7 @@ export default class App extends React.Component {
 
   render() {
     const config = this.config();
-    const user = this.user;
+    const user = this.props.user;
 
     return (
       <div className="root-class">
