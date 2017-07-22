@@ -1,18 +1,18 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import axios from "axios";
 
 export default function checkAuth(Component) {
   class Authorization extends React.Component {
     constructor(props) {
       super(props);
-    };
+    }
 
     render() {
       const user = this.props.auth;
-      if (!user) return <Redirect to="login" />;
-      return <Component {...this.props} user={user} />
+      if (user.isAuthError) return <Redirect to="login" />;
+      return <Component {...this.props} user={user} />;
     }
   }
 
@@ -20,8 +20,8 @@ export default function checkAuth(Component) {
     console.log(state);
     return {
       auth: state.auth
-    }
-  };
+    };
+  }
 
   return connect(mapStateToProps)(Authorization);
 }
