@@ -1,31 +1,30 @@
 {
   "id": 1,
   "type": "HR",
-  "date": "2009-06-03T08:13:56.000Z",
   "place": "exadel",
   "hiringId": 1,
   "feedbacks": [
     {
       "id": 1,
-      "user_id": 2,
-      "interview_id": 1,
-      "candidate_id": 1,
+      "userId": 2,
+      "interviewId": 1,
+      "candidateId": 1,
       "comment": "some comment",
       "status": 0
     },
     {
       "id": 2,
-      "user_id": 3,
-      "interview_id": 1,
-      "candidate_id": 1,
+      "userId": 3,
+      "interviewId": 1,
+      "candidateId": 1,
       "comment": "some comment 2",
       "status": 0
     },
     {
       "id": 3,
-      "user_id": 4,
-      "interview_id": 1,
-      "candidate_id": 1,
+      "userId": 4,
+      "interviewId": 1,
+      "candidateId": 1,
       "comment": "some comment 3",
       "status": 0
     }
