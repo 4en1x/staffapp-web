@@ -21,12 +21,12 @@ class BasicDAO {
   }
 
   async readOne(id, fields = '*') {
-    const [resource] = toCamel(await this.connection.queryAsync({
+    const [resource] = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table} WHERE ${this.idFieldName} = ?`,
       values: [id],
-    }));
+    });
 
-    return resource;
+    return toCamel(resource);
   }
 
   async read(options) {

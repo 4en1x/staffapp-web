@@ -5,14 +5,14 @@ const service = require('../../services/hirings.service');
 
 class HiringsController extends CRUDController {
   constructor() {
-    super('hirings');
+    super(db.hirings);
   }
 
   async create(req, res) { // TODO: reengineer it (next PR)
     const hiring = service.createHiringObject(req);
     let id = null;
 
-    const hirings = await db[this.daoName].readByCandidate(req.query.candidate);
+    const hirings = await this.dao.readByCandidate(req.query.candidate);
 
     if (hirings.length) {
       throw new Error('500'); // TODO: custom code (next PR)
@@ -29,7 +29,7 @@ class HiringsController extends CRUDController {
       }
 
       try {
-        await db[this.daoName].delete(id);
+        await this.dao.delete(id);
         return true;
       } catch (err) {
         res.status(500).end();
@@ -50,7 +50,7 @@ class HiringsController extends CRUDController {
 
   async read(req, res) {
     try {
-      const result = await db[this.daoName].readByCandidate(req.query.candidate);
+      const result = await this.dao.readByCandidate(req.query.candidate);
 
       if (!result) {
         res.status(404).end();
