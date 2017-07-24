@@ -54,7 +54,6 @@ class Feedbacks extends BasicDAO {
       await this.connection.beginTransactionAsync();
       const feedback = { comment, status: 1 };
       await super.update(id, feedback);
-
       await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;
         delete field.id;

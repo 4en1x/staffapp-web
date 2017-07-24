@@ -33,6 +33,7 @@ class Vacancies extends BasicDAO {
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
           values: [skillId, id, skill.weight],
         });
+
       }));
 
       await this.connection.commit();
@@ -54,11 +55,11 @@ class Vacancies extends BasicDAO {
 
       const [{ name: city }] = await this.connection.queryAsync({
         sql: 'SELECT name FROM cities WHERE id = ?',
-        values: [vacancy.city_id],
+        values: [vacancy.cityId],
       });
 
       vacancy.city = city;
-      delete vacancy.city_id;
+      delete vacancy.cityId;
 
       vacancy.skills = await this.connection.queryAsync({
         sql: `SELECT name, weight FROM vacancy_has_skills v
@@ -75,7 +76,7 @@ class Vacancies extends BasicDAO {
     }
   }
 
-  async readPage(page = 1) {
+  async read(page = 1) {
     try {
       await this.connection.beginTransactionAsync();
 
@@ -85,7 +86,7 @@ class Vacancies extends BasicDAO {
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
 
-      const candidates = await super.readAll({
+      const candidates = await super.read({
         fields,
         addition: joins,
         limit,

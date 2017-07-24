@@ -1,5 +1,5 @@
 const CRUDController = require('../crud.controller');
-
+const fecha = require('fecha');
 const db = require('../../dao');
 
 class FeedbacksController extends CRUDController {
@@ -12,6 +12,7 @@ class FeedbacksController extends CRUDController {
       if (feedback.userId !== req.user.id && req.user.role === 'user') {
         throw new Error('403');
       }
+      feedback.dateStart = fecha.format(feedback.jobStart, 'DD/MM/YYYY');
     };
 
     await super.readOne(req, res, onload);
@@ -24,8 +25,7 @@ class FeedbacksController extends CRUDController {
         res.status(403).end();
         return;
       }
-
-      await super.update(req, res, { comment: req.body.comment, fields: req.body.feedbackFields });
+      await super.update(req, res, { comment: req.body.comment, fields: req.body.fields });
     } catch (err) {
       res.status(500).end();
     }
