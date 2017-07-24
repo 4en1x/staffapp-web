@@ -4,19 +4,6 @@
   "description": "Exadel.Axel server",
   "main": "app.js",
   "dependencies": {
-<<<<<<< HEAD
-    "bluebird": "^3.5.0",
-    "body-parser": "^1.17.2",
-    "convert-keys": "^1.2.0",
-    "cors": "^2.8.3",
-    "express": "^4.15.3",
-    "express-mysql-session": "^1.2.1",
-    "express-session": "^1.15.3",
-    "mysql": "^2.13.0",
-    "passport": "^0.3.2",
-    "passport-local": "^1.0.0",
-    "fecha": "^2.3.1"
-=======
     "bluebird": "3.5.0",
     "body-parser": "1.17.2",
     "convert-keys": "1.2.0",
@@ -28,7 +15,6 @@
     "passport": "0.3.2",
     "passport-local": "1.0.0",
     "fecha": "2.3.1"
->>>>>>> develop
   },
   "devDependencies": {
     "babel-register": "6.24.1",
