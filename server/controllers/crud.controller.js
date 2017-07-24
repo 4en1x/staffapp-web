@@ -1,16 +1,14 @@
-const db = require('../dao');
-
 class CRUDController {
-  constructor(daoName) {
-    this.daoName = daoName;
+  constructor(dao) {
+    this.dao = dao;
   }
 
   async create(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      const id = await db[this.daoName].create(resource);
+      const id = await this.dao.create(resource);
 
       if (!id) {
-        throw new Error('500'); // FIXME: 500?`
+        throw new Error('500'); // TODO: 500?`
       }
 
       await onload(id);
@@ -24,7 +22,7 @@ class CRUDController {
 
   async readOne(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resource = await db[this.daoName].readOne(req.params.id);
+      const resource = await this.dao.readOne(req.params.id);
 
       if (!resource) {
         throw new Error('404');
@@ -51,9 +49,9 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const candidates = await db[this.daoName].read(req.query.page);
-      await onload(candidates);
-      res.json(candidates);
+      const resources = await this.dao.read(req.query.page);
+      await onload(resources);
+      res.json(resources);
     } catch (err) {
       if (onerror(err)) {
         res.status(500).end();
@@ -63,7 +61,7 @@ class CRUDController {
 
   async update(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      await db[this.daoName].update(req.params.id, resource);
+      await this.dao.update(req.params.id, resource);
       await onload(resource);
       res.json({});
     } catch (err) {
@@ -80,7 +78,7 @@ class CRUDController {
 
   async delete(req, res, onload = () => { }, onerror = () => true) {
     try {
-      await db[this.daoName].delete(req.params.id);
+      await this.dao.delete(req.params.id);
       await onload();
       res.json({});
     } catch (err) {

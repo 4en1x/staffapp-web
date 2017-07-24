@@ -5,7 +5,7 @@ const feedbacksService = require('../../services/feedbacks.service');
 
 class InterviewsController extends CRUDController {
   constructor() {
-    super('interviews');
+    super(db.interviews);
   }
 
   async readOne(req, res) {
@@ -24,9 +24,9 @@ class InterviewsController extends CRUDController {
 
   async read(req, res) { // TODO: refactor (next PR)
     const actions = {
-      my: db[this.daoName].readAssignedTo,
-      assigned: db[this.daoName].readCreatedBy,
-      all: db[this.daoName].readAll,
+      my: this.dao.readAssignedTo,
+      assigned: this.dao.readCreatedBy,
+      all: this.dao.readAll,
     };
 
     const page = req.query.page;

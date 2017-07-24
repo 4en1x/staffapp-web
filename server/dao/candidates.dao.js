@@ -38,51 +38,36 @@ class Candidates extends BasicDAO {
   }
 
   async readOne(id) {
-    try {
-      await this.connection.beginTransactionAsync();
-      const candidate = await super.readOne(id);
+    const candidate = await super.readOne(id);
 
-      candidate.links = await this.connection.queryAsync({
-        sql: 'SELECT link FROM links WHERE candidate_id = ?',
-        values: [candidate[this.idFieldName]],
-      }).map(linkObject => linkObject.link);
+    candidate.links = await this.connection.queryAsync({
+      sql: 'SELECT link FROM links WHERE candidate_id = ?',
+      values: [id],
+    }).map(linkObject => linkObject.link);
 
-      candidate.city = toCamel(await this.connection.queryAsync({
-        sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
-        value: [candidate.cityId],
-      }));
+    candidate.city = await this.connection.queryAsync({
+      sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
+      values: [candidate.cityId],
+    });
 
-      delete candidate.cityId;
+    delete candidate.cityId;
 
-      await this.connection.commit();
-      return candidate;
-    } catch (err) {
-      await this.connection.rollbackAsync();
-      throw err;
-    }
+    return candidate;
   }
 
   async read(page = 1) {
-    try {
-      await this.connection.beginTransactionAsync();
-
-      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
+    const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
                       primary_skill, status, last_change_date, cities.name AS city`;
-      const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
+    const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
 
-      const candidates = await super.read({
-        fields,
-        addition: joins,
-        page,
-        amount: this.top,
-      });
+    const candidates = await super.read({
+      fields,
+      addition: joins,
+      page,
+      amount: this.top,
+    });
 
-      await this.connection.commit();
-      return candidates;
-    } catch (err) {
-      await this.connection.rollbackAsync();
-      throw err;
-    }
+    return candidates;
   }
 
   async update(id, { candidate, links, city: cityName }) {

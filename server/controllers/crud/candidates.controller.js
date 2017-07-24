@@ -1,9 +1,10 @@
 const CRUDController = require('../crud.controller');
+const db = require('../../dao');
 const service = require('../../services/candidates.service');
 
 class CandidatesController extends CRUDController {
   constructor() {
-    super('candidates');
+    super(db.candidates);
   }
 
   async create(req, res) {
