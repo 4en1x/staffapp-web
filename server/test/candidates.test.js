@@ -86,12 +86,12 @@ describe('#Candidates-Api', () => {
         expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
       });
 
-    it('This test should fail with 500 error : id doesn\'t exist and we can not read it',
+    it('This test should fail with 404 error : id doesn\'t exist and we can not read it',
       async () => {
         const response = await req
           .get(`${defaultUrl}/candidates/0`)
           .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(404);
       });
   });
 

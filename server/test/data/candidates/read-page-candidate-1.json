@@ -2,21 +2,21 @@
   {
     "name": "Kostya",
     "surname": "Stsefanovich",
-    "primary_skill": "js",
+    "primarySkill": "js",
     "status": "Pool",
     "city": "Minsk"
   },
   {
     "name": "Nina",
     "surname": "Balerina",
-    "primary_skill": "java",
+    "primarySkill": "java",
     "status": "Hired",
     "city": "Pinsk"
   },
   {
     "name": "Lena",
     "surname": "VEryBig",
-    "primary_skill": "python",
+    "primarySkill": "python",
     "status": "Hired",
     "city": null
   }
