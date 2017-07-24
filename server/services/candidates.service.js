@@ -17,6 +17,28 @@ function createCandidate(reqBody) {
   };
 }
 
+function rebuildCandidate(reqBody) {
+  const candidate = {};
+  candidate.contacts = {
+    email: reqBody.email,
+    phone: reqBody.phone,
+    skype: reqBody.skype,
+    city: reqBody.city,
+    linkedin: reqBody.linkedin,
+  };
+  candidate.skills = {
+    primarySkill: reqBody.primarySkill,
+    englishLevel: reqBody.englishLevel,
+  };
+  candidate.communication = {
+    name: reqBody.name,
+    surname: reqBody.surname,
+    resume: reqBody.resume,
+    lastChangeDate: fecha.format(reqBody.lastChangeDate, 'DD/MM/YYYY'),
+    salary: reqBody.salary,
+  };
+  return candidate;
+}
 function updateCandidate(id, reqBody) {
   const { links, city } = reqBody;
   const candidate = Object.assign({}, reqBody);
@@ -36,4 +58,5 @@ function updateCandidate(id, reqBody) {
 module.exports = {
   createCandidate,
   updateCandidate,
+  rebuildCandidate,
 };
