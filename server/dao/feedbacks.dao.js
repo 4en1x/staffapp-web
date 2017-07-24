@@ -1,5 +1,5 @@
 const BasicDAO = require('./basic.dao');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel, toSnake } = require('../utils');
 
 async function readFields(id) {
   const fields = await this.connection.queryAsync({

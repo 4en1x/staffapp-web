@@ -27,7 +27,6 @@ describe('#Hirings-Api', () => {
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
       });
 
     it('This test should fail with 500 error because candidate does not exist. We can not appoint hiring.',
@@ -50,7 +49,6 @@ describe('#Hirings-Api', () => {
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
 
         data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         response = await request
@@ -59,7 +57,6 @@ describe('#Hirings-Api', () => {
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(false);
         expect(response.body.message).to.equal('candidate already has hiring');
       });
 
@@ -77,7 +74,7 @@ describe('#Hirings-Api', () => {
 
 
   describe('#Read hiring', () => {
-    it('This test should pass, because admin and hr can read hirings',
+    it.only('This test should pass, because admin and hr can read hirings',
       async () => {
         const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         let response = await request
@@ -86,11 +83,11 @@ describe('#Hirings-Api', () => {
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
 
         response = await request
           .get(`${defaultUrl}/hirings?id=5`)
           .ok(res => res.status <= 500);
+        console.log(response.body)
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.be.an('array');
         expect(response.body).to.have.lengthOf(1);

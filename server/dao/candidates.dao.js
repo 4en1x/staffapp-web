@@ -1,6 +1,6 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
-const { toCamel } = require('convert-keys');
+const { toCamel } = require('../utils');
 
 class Candidates extends BasicDAO {
   constructor(connection) {
