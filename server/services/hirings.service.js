@@ -1,40 +1,39 @@
 const db = require('../dao');
-const { toSnake } = require('convert-keys');
 const fecha = require('fecha');
 
-async function writeInterviews(interviews, hiringId, candidateId) {
+async function createInterviews(interviews, hiringId, candidateId) {
   await Promise.all(interviews.map(async (item) => {
     item.interview.hiringId = hiringId;
 
     await db.interviews.create({
-      interview: toSnake(item.interview),
+      interview: item.interview,
       users: item.users,
       candidateId,
-      feedbackFeilds: toSnake(item.feedbackFields),
+      feedbackFeilds: item.feedbackFields,
     });
   }));
 }
 
 function createHiringObject(req) {
-  return toSnake({
+  return {
     userId: req.user.id,
     dateOpen: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
     candidateId: req.query.candidate,
-  });
+  };
 }
 
 function createHiringUpdateObject(reqBody) {
   if (reqBody.vacancyId) {
-    return toSnake(reqBody);
+    return reqBody;
   }
 
-  return toSnake({
+  return {
     dateClose: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-  });
+  };
 }
 
 module.exports = {
-  writeInterviews,
+  createInterviews,
   createHiringObject,
   createHiringUpdateObject,
 };

@@ -1,5 +1,4 @@
 const fecha = require('fecha');
-const { toSnake } = require('convert-keys');
 
 function createCandidate(reqBody) {
   const { links, city } = reqBody;
@@ -11,11 +10,11 @@ function createCandidate(reqBody) {
   candidate.createdDate = date;
   candidate.lastChangeDate = date;
 
-  return toSnake({
+  return {
     candidate,
     links,
     city,
-  });
+  };
 }
 
 function updateCandidate(id, reqBody) {
@@ -27,11 +26,11 @@ function updateCandidate(id, reqBody) {
   const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.lastChangeDate = date;
 
-  return toSnake({
+  return {
     candidate,
     links,
     city,
-  });
+  };
 }
 
 module.exports = {

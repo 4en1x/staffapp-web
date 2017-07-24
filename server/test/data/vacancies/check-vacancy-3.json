@@ -1,0 +1,14 @@
+[
+  {
+    "name": "name for vacancy",
+    "status": "Closed",
+    "description": "some decription",
+    "city": "Minsk"
+  },
+  {
+    "name": "name for vacancy 2 ",
+    "status": "Closed",
+    "description": "some decription 2",
+    "city": "Pinsk"
+  }
+]

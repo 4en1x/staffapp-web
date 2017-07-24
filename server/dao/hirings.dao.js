@@ -1,4 +1,5 @@
 const BasicDAO = require('./basic.dao');
+const { toCamel } = require('convert-keys');
 
 class Hirings extends BasicDAO {
   constructor(connection) {
@@ -10,10 +11,10 @@ class Hirings extends BasicDAO {
     const hiring = await super.readOne(id);
 
     if (hiring) {
-      const interviews = await this.connection.queryAsync({
-        sql: 'SELECT id FROM interviews WHERE hiring_id = ?',
+      const interviews = toCamel(await this.connection.queryAsync({
+        sql: 'SELECT interviews.id FROM interviews WHERE hiring_id = ?',
         values: [id],
-      }).map(interview => interview.id);
+      })).map(interview => interview.id);
 
       hiring.interviews = interviews;
     }
@@ -21,8 +22,8 @@ class Hirings extends BasicDAO {
     return hiring;
   }
 
-  async readAllByUser(id) {
-    const hirings = await super.readAll({
+  async readByUser(id) {
+    const hirings = await super.read({
       addition: 'WHERE user_id = ?',
       values: [id],
     });
@@ -30,8 +31,8 @@ class Hirings extends BasicDAO {
     return hirings;
   }
 
-  async readAllByCandidate(id) {
-    const hirings = await super.readAll({
+  async readByCandidate(id) {
+    const hirings = await super.read({
       addition: 'WHERE candidate_id = ?',
       values: [id],
     });
