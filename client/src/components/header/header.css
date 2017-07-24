@@ -1,0 +1,19 @@
+.header-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fafafa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    padding: 0 3%;
+    height: 80px;
+}
+
+.header-component .image {
+    float: left;
+    height: 30px;
+}
+
+.header-component #header-label {
+   margin: 0;
+}

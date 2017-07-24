@@ -1,15 +1,19 @@
 import React from "react";
 import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
-import { Divider } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
-import logos from '../../../assets/images'
-import '../../../index.css';
+import logos from "../../../assets/images";
+import { Redirect } from "react-router-dom";
+import { addUser } from "../../../action-creators/action-creators.js";
+import { postUser } from "../../../action-creators/action-creators.js";
+import { connect } from "react-redux";
+import axios from "axios";
+import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
 
-export default class SignInComponent extends React.Component {
+class SignInComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,36 +23,48 @@ export default class SignInComponent extends React.Component {
   }
 
   emailInputHandle = value => {
-    /*
-      check email address and if email is valid, show password form (create request to server)
-      else stay on email form
-     */
-
-    console.log(value);
-
-    this.setState({ currentState: PASSWORD });
+    this.email = value;
+    axios
+      .post("http://localhost:3300/email", { email: value })
+      .then(responce => {
+        if (responce.status === 200) this.setState({ currentState: PASSWORD });
+      });
   };
 
   passwordInputHandle = value => {
-    /*
-      check password and if password is valid, show password form (create request to server)
-      else stay on email form
-     */
-
-    console.log(value);
+    this.props.onSubmitClicked({ email: this.email, password: value });
   };
 
   render() {
     let form = <EmailInputForm inputHandle={this.emailInputHandle} />;
-    if (this.state.currentState !== EMAIL)
+    if (this.state.currentState !== EMAIL) {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
+    }
+
+    if (!this.props.auth.isAuthError)
+      return <Redirect to={{ pathname: "/" }} />;
 
     return (
-      <div className="auth-form">
-        <Image src={logos.logo1} size="small" />
-        <Divider hidden />
-        {form}
+      <div className="auth-container">
+        <div className="auth-form">
+          <div className="auth-form-header">
+            <Image src={logos.logo1} height="30px" verticalAlign="bottom" />
+          </div>
+          {form}
+        </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSubmitClicked: user => {
+    dispatch(postUser(user));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);

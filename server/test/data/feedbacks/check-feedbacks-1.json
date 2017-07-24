@@ -1,0 +1,41 @@
+{
+  "userId": 2,
+  "interviewId": 1,
+  "candidateId": 1,
+  "comment": "some comment",
+  "status": 0,
+  "fields": [
+    {
+      "name": "js",
+      "value": null,
+      "comment": null,
+      "type_skill": "primary",
+      "feedback_id": 1,
+      "type": "tech"
+    },
+    {
+      "name": "java",
+      "value": null,
+      "comment": null,
+      "type_skill": "secondary",
+      "feedback_id": 1,
+      "type": "tech"
+    },
+    {
+      "name": "python",
+      "value": null,
+      "comment": null,
+      "type_skill": "secondary",
+      "feedback_id": 1,
+      "type": "tech"
+    },
+    {
+      "name": "sql",
+      "value": null,
+      "comment": null,
+      "type_skill": "secondary",
+      "feedback_id": 1,
+      "type": "tech"
+    }
+  ]
+}
