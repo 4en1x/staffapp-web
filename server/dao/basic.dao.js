@@ -1,79 +1,131 @@
 const utils = require('../utils');
 const { toCamel, toSnake } = require('convert-keys');
+const DEFAULT_CONNECTION = require('./connection/connect');
 
 class BasicDAO {
-  constructor(table, idFieldName = 'id') {
-    this.table = table;
-    this.idFieldName = idFieldName;
+  /**
+   *
+   * @param {String} tableName
+   * @param {String} idField
+   * @param {Object} connection
+   */
+  constructor(tableName, idField = 'id', connection) {
+    this.tableName = tableName;
+    this.idField = idField;
+    this.connection = connection || DEFAULT_CONNECTION;
   }
 
+  toDAOEntity(resource) {
+    return toSnake(resource);
+  }
+
+  fromDAOEntity(resource) {
+    return toCamel(resource);
+  }
+
+  /**
+   *
+   * @param {Object} resource
+   * @returns {Promise <Number>}
+   */
   async create(resource) {
-    if (toSnake(resource)[this.idFieldName]) {
+    if (this.toDAOEntity(resource)[this.idFieldName]) {
       throw new Error('400');
     }
 
     const { insertId } = await this.connection.queryAsync({
-      sql: `INSERT INTO ${this.table} SET ?`,
-      values: [toSnake(resource)],
+      sql: `INSERT INTO ${this.tableName} SET ?`,
+      values: [this.toDAOEntity(resource)],
     });
+
+    if (!insertId) {
+      throw new Error('500');
+    }
 
     return insertId;
   }
 
-  async readOne(id, fields = '*') {
+  /**
+   *
+   * @param {Number | String} id
+   * @param {String} [fields] - default '*'
+   * @returns {Promise <Object>}
+   */
+  async findById(id, fields = '*') {
     const [resource] = await this.connection.queryAsync({
-      sql: `SELECT ${fields} FROM ${this.table} WHERE ${this.idFieldName} = ?`,
+      sql: `SELECT ${fields} FROM ${this.tableName} WHERE ${this.idField} = ?`,
       values: [id],
     });
 
-    return toCamel(resource);
+    if (!resource) {
+      throw new Error('404');
+    }
+
+    return this.fromDAOEntity(resource);
   }
 
-  async read(options) {
-    const def = {
+  /**
+   *
+   * @param {Object} options
+   */
+  async find(options) {
+    const opts = utils.applyDefault(options, {
       fields: '*',
-      addition: '',
+      basis: this.tableName,
+      condition: '',
+      order: '',
       page: 1,
       amount: Infinity,
       values: undefined,
-    };
+    });
 
-    const {
-      fields,
-      addition,
-      page,
-      amount,
-      values,
-    } = utils.applyDefault(options, def);
+    const findAll = '';
+    const findPage = `LIMIT ${(opts.page - 1) * opts.amount}, ${opts.amount}`;
 
-    const readAll = '';
-    const readPage = `LIMIT ${(page - 1) * amount}, ${amount}`;
+    const limit = (opts.amount === Infinity) ? findAll : findPage;
 
-    const limit = (amount === Infinity) ? readAll : readPage;
+    const resources = await this.connection.queryAsync({
+      sql: `SELECT ${opts.fields} FROM ${this.tableName} ${opts.addition} ${opts.order} ${limit}`,
+      values: opts.values,
+    });
 
-    const resources = toCamel(await this.connection.queryAsync({
-      sql: `SELECT ${fields} FROM ${this.table} ${addition} ${limit}`,
-      values,
-    }));
-
-    return resources;
+    return this.fromDAOEntity(resources);
   }
 
+  /**
+   *
+   * @param {Number | String} id
+   * @param {Object} resource
+   * @returns {Promise <Object>}
+   */
   async update(id, resource) {
-    await this.connection.queryAsync({
-      sql: `UPDATE ${this.table} SET ? WHERE ${this.idFieldName} = ?`,
-      values: [toSnake(resource), id],
+    return this.connection.queryAsync({
+      sql: `UPDATE ${this.tableName} SET ? WHERE ${this.idField} = ?`,
+      values: [this.toDAOEntity(resource), id],
     });
   }
 
+  /**
+   *
+   * @param {Number | String} id
+   * @returns {Promise <Object>}
+   */
   async delete(id) {
-    const { affectedRows } = await this.connection.queryAsync({
-      sql: `DELETE FROM ${this.table} WHERE ${this.idFieldName} = ?`,
+    return this.connection.queryAsync({
+      sql: `DELETE FROM ${this.tableName} WHERE ${this.idField} = ?`,
       values: [id],
     });
+  }
 
-    if (!affectedRows) {
-      throw new Error('Not exists');
+  async wrapTransaction(payload) {
+    try {
+      await this.connection.beginTransactionAsync();
+      const result = await payload.call(this);
+      await this.connection.commit();
+      return result;
+    } catch (err) {
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 }

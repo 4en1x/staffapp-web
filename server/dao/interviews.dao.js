@@ -59,7 +59,7 @@ class Interviews extends BasicDAO {
 
       [interview.candidate] = await this.connection.queryAsync({ // FIXME: meeeh
         sql: `SELECT name, surname FROM candidates
-              INNER JOIN feedbacks ON feedbacks.candidate_id = candidate.id
+              INNER JOIN feedbacks ON feedbacks.candidate_id = candidates.id
               WHERE feedbacks.id = ?`,
         values: [interview.feedbacks[0]],
       });
