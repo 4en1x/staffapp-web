@@ -18,7 +18,11 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
-    feedback.fields = await readFields.call(this, id);
+
+    if (feedback) {
+      feedback.fields = await readFields.call(this, id);
+    }
+
     return feedback;
   }
 
@@ -28,19 +32,23 @@ class Feedbacks extends BasicDAO {
       values: [interviewId, userId],
     }));
 
+    if (feedback) {
+      feedback.fields = await readFields.call(this, id);
+    }
+
     feedback.fields = await readFields.call(this, feedback.id);
     return feedback;
   }
 
-  async readFromInterview(id) { // TODO: Test it. Again
-    return super.read({
-      addition: 'WHERE interview_id = ?',
-      values: [id],
-    }).map(async (feedback) => {
-      feedback.fields = await readFields.call(this, feedback.id);
-      return feedback;
-    });
-  }
+  // async readFromInterview(id) { // TODO: Test it. Again
+  //   return super.read({
+  //     addition: 'WHERE interview_id = ?',
+  //     values: [id],
+  //   }).map(async (feedback) => {
+  //     feedback.fields = await readFields.call(this, feedback.id);
+  //     return feedback;
+  //   });
+  // }
 
   async update(id, { comment, fields }) {
     try {

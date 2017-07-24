@@ -8,7 +8,7 @@ class CRUDController {
       const id = await this.dao.create(resource);
 
       if (!id) {
-        throw new Error('500'); // TODO: 500?`
+        throw new Error('500'); // TODO: 500?
       }
 
       await onload(id);

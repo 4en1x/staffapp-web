@@ -45,7 +45,7 @@ class Candidates extends BasicDAO {
       values: [id],
     }).map(linkObject => linkObject.link);
 
-    candidate.city = await this.connection.queryAsync({
+    [{ name: candidate.city }] = await this.connection.queryAsync({
       sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
       values: [candidate.cityId],
     });

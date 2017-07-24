@@ -2,6 +2,7 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao');
 const feedbacksService = require('../../services/feedbacks.service');
+const fecha = require('fecha');
 
 class InterviewsController extends CRUDController {
   constructor() {
@@ -17,6 +18,9 @@ class InterviewsController extends CRUDController {
       }
 
       interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+
+      interview.time = fecha.format(interview.date, 'HH:mm');
+      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
     };
 
     await super.readOne(req, res, onload);
@@ -43,6 +47,11 @@ class InterviewsController extends CRUDController {
         res.json([]);
         return;
       }
+
+      interviews.forEach((interview) => {
+        interview.time = fecha.format(interview.date, 'HH:mm');
+        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      });
 
       res.json(interviews);
     } catch (err) {
