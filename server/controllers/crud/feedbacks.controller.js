@@ -25,7 +25,7 @@ class FeedbacksController extends CRUDController {
         return;
       }
 
-      await super.update(req, res, { comment: req.body.comment, fields: req.body.feedbackFields });
+      await super.update(req, res, { comment: req.body.comment, fields: req.body.fields });
     } catch (err) {
       res.status(500).end();
     }

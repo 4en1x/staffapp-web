@@ -9,7 +9,6 @@ import FeedbackTechnicalCard from "../../../components/feedback/feedback-technic
 class FeedbackTechnicalPage extends React.Component{
 
   onSubmitClicked = (value) => {
-    console.log(value);
 
     let move = 0;
     let newArray = [];
@@ -20,7 +19,8 @@ class FeedbackTechnicalPage extends React.Component{
       move++;
     }
 
-     this.props.addFeedback({fields: newArray});
+   this.props.addFeedback({fields: newArray});
+
   };
 
   render() {
@@ -36,7 +36,7 @@ class FeedbackTechnicalPage extends React.Component{
           <Segment id="content-data">
             <div className="labels"> Major skill </div>
             {data.fields.map(step => {
-              if (step.type_skill === "primary") {
+              if (step.typeSkill === "primary") {
                 return (
                   <FeedbackTechnicalCard
                     data={step}
@@ -51,7 +51,7 @@ class FeedbackTechnicalPage extends React.Component{
           <List size="medium">
             <List.Header className="list-header">Minor skills</List.Header>
             {data.fields.map((step, move) => {
-              if (step.type_skill === "secondary") {
+              if (step.typeSkill === "secondary") {
                 return (
                   <List.Item key={step.technology}>
                     <FeedbackTechnicalCard
@@ -69,7 +69,7 @@ class FeedbackTechnicalPage extends React.Component{
           <List size="medium">
             <List.Header className="list-header">Other skills</List.Header>
             {data.fields.map((step, move) => {
-              if (step.type_skill === "other") {
+              if (step.typeSkill === "other") {
                 return (
                   <List.Item key={step.technology}>
                     <FeedbackTechnicalCard
