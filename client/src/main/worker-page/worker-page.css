@@ -1,0 +1,18 @@
+.worker-page {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.5% 5%;
+}
+
+.worker-page .worker-page_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 90%;
+}
+
+.worker-page_content .ui.divided.list.list-component {
+  width: 100%;
+}
