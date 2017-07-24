@@ -33,10 +33,9 @@ class Feedbacks extends BasicDAO {
     }));
 
     if (feedback) {
-      feedback.fields = await readFields.call(this, id);
+      feedback.fields = await readFields.call(this, feedback.id);
     }
 
-    feedback.fields = await readFields.call(this, feedback.id);
     return feedback;
   }
 
