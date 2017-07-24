@@ -11,7 +11,6 @@ class VacanicesController extends CRUDController {
   async read(req, res) {
     try {
       const resources = await this.dao.read(req.query.page);
-      console.log(resources);
       resources.map((resourse) => {
         if (resourse.jobStart) { resourse.jobStart = fecha.format(resourse.jobStart, 'DD/MM/YYYY'); }
         return resourse;
@@ -22,6 +21,15 @@ class VacanicesController extends CRUDController {
       res.status(500).end();
     }
   }
+  async readOne(req, res) {
+    const onload = async (vacancy) => {
+      vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD/MM/YYYY');
+      vacancy.createdDate = fecha.format(vacancy.createdDate, 'DD/MM/YYYY');
+    };
+
+    await super.readOne(req, res, onload);
+  }
+
   async create(req, res) {
     const { vacancy, skills, city } = service.createVacancy(req.body);
     await super.create(req, res, { vacancy, skills, city });
