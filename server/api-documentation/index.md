@@ -11,6 +11,7 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 - **[```POST``` email](./auth/POST_email.md)**
 - **[```POST``` login](./auth/POST_login.md)**
 - **[```POST``` logout](./auth/POST_logout.md)**
+- **[```GET``` username](./auth/GET_username.md)**
 
 ### Interviews
 

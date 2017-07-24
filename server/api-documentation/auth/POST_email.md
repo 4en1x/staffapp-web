@@ -12,7 +12,7 @@ The first stage of authentication. It checks for an existing email.
 
 ## Body
 
-- **email** *(required)* - user email
+- **email** *(required)* — user email
 
 ***
 

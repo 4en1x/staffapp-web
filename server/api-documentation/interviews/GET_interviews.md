@@ -42,7 +42,11 @@ A JSON object, that contains an array of interview objects.
   - **type: 'HR'** — HRM interview
   - **type: 'CLIENT'** — clinet interview
 - **date** *(may be not defined)* — date of the interview
+- **time** *(may be not defined)* — time of the interview
 - **place** *(may be not defined)* — place of the interview
+- **candidate** — candidate object:
+  - **name** *(may be not defined)* — candidate first name
+  - **surname** *(may be not defined)* — candidate last name
 
 ## Errors
 
@@ -67,18 +71,32 @@ GET interviews?type=assigned&page=4
     {
       "id": 3,
       "type": "TECH",
-      "date": "2017-07-18 15:30:00",
-      "place": "somewhere"
+      "date": "2017-07-18",
+      "time":  "15:30:00",
+      "place": "somewhere",
+      "candidate": {
+        "name": "John",
+        "surname": "Smith"
+      }
     },
     {
       "id": 2,
       "type": "HR",
-      "place": "somewhere"
+      "place": "somewhere",
+      "candidate": {
+        "name": "Sohn",
+        "surname": "Jmith"
+      }
     },
     {
       "id": 1,
       "type": "CLIENT",
-      "date": "2017-07-19 16:00:00"
+      "date": "2017-07-19",
+      "time": "16:00:00"
+      "candidate": {
+        "name": "Jmin",
+        "surname": "Sohth"
+      }
     }
   ]
 }

@@ -40,11 +40,16 @@ A JSON object that contains interview fields.
   - **type: 'HR'** — HRM interview
   - **type: 'CLIENT'** — clinet interview
 - **date** *(may be not defined)* — date of the interview
+- **time** *(may be not defined)* — time of the interview
 - **place** *(may be not defined)* — place of the interview
 - **hiringId** — parent hiring id
+- **candidate** — candidate object:
+  - **name** *(may be not defined)* — candidate first name
+  - **surname** *(may be not defined)* — candidate last name
 - **users** — array of user objects:
   - **id** — user id
   - **name** — user name
+- **skills** — array ([String]) of skills
 - **feedbacks** — array of feedback objects:
   - **id** — unique feedback id
   - **userId** — assigned user id
@@ -87,9 +92,14 @@ GET interviews/3
 {
   "id": 3,
   "type": "TECH",
-  "date": "2017-07-18 15:30:00",
+  "date": "2017-07-18",
+  "time": "15:30:00",
   "place": "somewhere",
   "hiringId": 1,
+  "candidate": {
+    "name": "First Name",
+    "surname": "Last Name"
+  },
   "users": [
     {
       "id": 1,
@@ -100,6 +110,7 @@ GET interviews/3
       "name": "Sohn Jmith"
     }
   ],
+  "skills": ["Skill 1", "Skill 2", "Super Skill"],
   "feedbacks": [
     {
       "id": 5,

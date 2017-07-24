@@ -26,6 +26,7 @@ Authentication is required.
     - **type: 'HR'** — HRM interview
     - **type: 'CLIENT'** — client interview
   - **date** — date of the interview
+  - **time** — time of the interview
   - **place** — place of the interview
   - **hiringId** *(required)* — parent hiring id
 - **users** *(required)* — array of users ids
@@ -68,6 +69,8 @@ POST interviews
   },
   "users": [1, 2, 3],
   "candidateId": 2,
+  "date": "2017-07-24",
+  "time": "14:00:00",
   "feedbackFields": [
     {
       "name": "C++ skill",
