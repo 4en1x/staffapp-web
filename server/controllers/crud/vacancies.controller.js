@@ -1,6 +1,6 @@
 const CRUDController = require('../crud.controller');
 
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const service = require('../../services/vacancies.service');
 
 class VacanicesController extends CRUDController {

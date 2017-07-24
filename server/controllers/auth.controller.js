@@ -1,4 +1,4 @@
-const db = require('../dao');
+const db = require('../dao/dao');
 const service = require('../services/auth.service');
 
 async function checkEmail(req, res) {

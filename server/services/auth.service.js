@@ -2,7 +2,7 @@ const session = require('express-session');
 const SQLStore = require('express-mysql-session')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const db = require('../dao');
+const db = require('../dao/dao');
 const config = require('../config');
 
 const sessionOptions = {

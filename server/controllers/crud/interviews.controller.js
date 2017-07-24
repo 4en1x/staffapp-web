@@ -1,6 +1,6 @@
 const CRUDController = require('../crud.controller');
 
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
 const fecha = require('fecha');
 

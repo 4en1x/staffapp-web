@@ -1,4 +1,4 @@
-const db = require('../dao');
+const db = require('../dao/dao');
 const fecha = require('fecha');
 
 async function createInterviews(interviews, hiringId, candidateId) {

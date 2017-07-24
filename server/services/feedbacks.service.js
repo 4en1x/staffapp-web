@@ -1,4 +1,4 @@
-const db = require('../dao');
+const db = require('../dao/dao');
 const { clearFields } = require('../utils');
 
 async function readFeedbacks(ids) {
