@@ -1,13 +1,15 @@
 import React from "react";
-import "./interview-page.css";
-import FeedbackList from "./feedback-list";
 
-import { Search } from "semantic-ui-react";
-import { Divider } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
-import { List } from "semantic-ui-react";
-import { Label } from "semantic-ui-react";
-import { Segment } from "semantic-ui-react";
+import {
+  Divider,
+  Button,
+  List,
+  Header,
+  Statistic,
+  Card
+} from "semantic-ui-react";
+
+import "./interview-page.css";
 
 export default class InterviewComponent extends React.Component {
   constructor(props) {
@@ -17,52 +19,59 @@ export default class InterviewComponent extends React.Component {
   onButtonClick = () => {
     this.props.feedbackClicked();
   };
-
+  /* <Search onSearchChange={this.handleSearchChange} />*/
   render() {
     const data = this.props.interview;
-
+    console.log(data);
     return (
-      <div>
-        <div className="title">
-          <div className="candidate-title">
-            {" "}{data.candidate}{" "}
+      <div className="interview-component">
+        <Header dividing as="h2">
+          Technical interview {data.id}
+        </Header>
+
+        <Card fluid>
+          <div className="info">
+            <Statistic className="date" value={data.time} label="01.01.1997" />
+            <Divider />
+            <Header textAlign="center" as="h2">
+              Room 404
+              <Header.Subheader>City, Country </Header.Subheader>
+            </Header>
           </div>
-          <Search onSearchChange={this.handleSearchChange} />
-        </div>
-
-        <Divider />
-
-        <Segment id="content">
-          <Label as="a" color="teal" ribbon="right" size="huge">
-            {data.status}
-          </Label>
-
-          <List size="huge">
-            <List.Item>
-              <List.Header>Skills</List.Header>
-              <List items={data.skills} />
-            </List.Item>
-
-            <List.Item>
-              <List.Header>Location</List.Header>
-              {data.location}
-            </List.Item>
-
-            <List.Item>
-              <List.Header>Feedbacks</List.Header>
-              <FeedbackList
-                feedbacks={data.feedbacks}
-                authorFeedback={data.authorFeedback}
-              />
-            </List.Item>
-          </List>
-        </Segment>
-
-        <div className="add-feedback">
-          <Button primary onClick={this.onButtonClick}>
-            Feedback
-          </Button>
-        </div>
+          <div className="interview-content">
+            <List size="massive" className="grid">
+              <List.Item className="flex-block">
+                <List.Header>Interviewee</List.Header>
+                {data.candidate.name} {data.candidate.surname}
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Interviewer</List.Header>
+                Anatoliy Levakov
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Vacansy</List.Header>
+                Junior JS Developer
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Primary skill</List.Header>
+                {data.skills[0]}
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Secondary skills</List.Header>
+                <List
+                  bulleted
+                  className="skills"
+                  items={data.skills.slice(1)}
+                />
+              </List.Item>
+            </List>
+          </div>
+          <div className="button-container">
+            <Button color="twitter" floated="right">
+              Feedback
+            </Button>
+          </div>
+        </Card>
       </div>
     );
   }
