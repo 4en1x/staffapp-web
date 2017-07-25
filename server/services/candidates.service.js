@@ -18,8 +18,7 @@ function createCandidate(reqBody) {
 }
 
 function rebuildCandidate(reqBody) {
-  const candidate = {};
-  candidate.contacts = {
+  const contacts = {
     email: reqBody.email,
     phone: reqBody.phone,
     skype: reqBody.skype,
@@ -27,12 +26,14 @@ function rebuildCandidate(reqBody) {
     linkedin: reqBody.linkedin,
     links: reqBody.links,
   };
-  candidate.skills = {
+
+  const skills = {
     primarySkill: reqBody.primarySkill,
     englishLevel: reqBody.englishLevel,
     secondarySkills: reqBody.skills,
   };
-  candidate.communication = {
+
+  const communication = {
     name: reqBody.name,
     surname: reqBody.surname,
     resume: reqBody.resume,
@@ -40,7 +41,12 @@ function rebuildCandidate(reqBody) {
     salary: reqBody.salary,
     status: reqBody.status,
   };
-  return candidate;
+
+  return {
+    contacts,
+    skills,
+    communication,
+  };
 }
 
 function updateCandidate(id, reqBody) {

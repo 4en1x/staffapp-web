@@ -9,17 +9,16 @@ class VacanicesController extends CRUDController {
   }
 
   async read(req, res) {
-    try {
-      const resources = await this.dao.read(req.query.page);
-      resources.map((resourse) => {
-        if (resourse.jobStart) { resourse.jobStart = fecha.format(resourse.jobStart, 'DD/MM/YYYY'); }
-        return resourse;
+    const onload = async (vacancies) => {
+      vacancies.forEach((vacancy) => {
+        if (vacancy.jobStart) {
+          vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD/MM/YYYY');
+        }
+        return vacancy;
       });
-      res.json(resources);
-    } catch (err) {
-      console.log(err);
-      res.status(500).end();
-    }
+    };
+
+    await super.read(req, res, onload);
   }
   async readOne(req, res) {
     const onload = async (vacancy) => {
