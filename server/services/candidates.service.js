@@ -25,10 +25,12 @@ function rebuildCandidate(reqBody) {
     skype: reqBody.skype,
     city: reqBody.city,
     linkedin: reqBody.linkedin,
+    links: reqBody.links,
   };
   candidate.skills = {
     primarySkill: reqBody.primarySkill,
     englishLevel: reqBody.englishLevel,
+    secondarySkills: reqBody.skills,
   };
   candidate.communication = {
     name: reqBody.name,
@@ -36,14 +38,18 @@ function rebuildCandidate(reqBody) {
     resume: reqBody.resume,
     lastChangeDate: fecha.format(reqBody.lastChangeDate, 'DD/MM/YYYY'),
     salary: reqBody.salary,
+    status: reqBody.status,
   };
   return candidate;
 }
+
 function updateCandidate(id, reqBody) {
-  const { links, city } = reqBody;
+  const { links, city, skills } = reqBody;
   const candidate = Object.assign({}, reqBody);
+
   delete candidate.links;
   delete candidate.city;
+  delete candidate.skills;
 
   const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.lastChangeDate = date;
@@ -52,6 +58,7 @@ function updateCandidate(id, reqBody) {
     candidate,
     links,
     city,
+    skills,
   };
 }
 

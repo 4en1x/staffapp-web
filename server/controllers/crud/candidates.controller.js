@@ -24,8 +24,8 @@ class CandidatesController extends CRUDController {
   }
 
   async update(req, res) {
-    const { candidate, links, city } = service.updateCandidate(req.params.id, req.body);
-    await super.update(req, res, { candidate, links, city });
+    const { candidate, links, city, skills } = service.updateCandidate(req.params.id, req.body);
+    await super.update(req, res, { candidate, links, city, skills });
   }
 }
 
