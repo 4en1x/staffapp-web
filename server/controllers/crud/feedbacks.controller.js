@@ -19,7 +19,8 @@ class FeedbacksController extends CRUDController {
 
   async update(req, res) {
     try {
-      const feedback = await this.dao.readOne(req.params.id);
+      const feedback = await this.dao.findById(req.params.id);
+
       if (feedback.userId !== req.user.id) {
         res.status(403).end();
         return;
