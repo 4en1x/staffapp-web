@@ -9,7 +9,7 @@ async function createInterviews(interviews, hiringId, candidateId) {
       interview: item.interview,
       users: item.users,
       candidateId,
-      feedbackFeilds: item.feedbackFields,
+      feedbackFields: item.feedbackFields,
     });
   }));
 }

@@ -12,7 +12,7 @@ class HiringsController extends CRUDController {
     const hiring = service.createHiringObject(req);
     let id = null;
 
-    const hirings = await this.dao.readByCandidate(req.query.candidate);
+    const hirings = await this.dao.findByCandidate(req.query.candidate);
 
     if (hirings.length) {
       throw new Error('500'); // TODO: custom code (next PR)
@@ -42,7 +42,7 @@ class HiringsController extends CRUDController {
 
   async readOne(req, res) {
     const onload = async (hiring) => {
-      hiring.interviews = await db.interviews.readByHiring(req.params.id);
+      hiring.interviews = await db.interviews.findByHiring(req.params.id);
     };
 
     await super.readOne(req, res, onload);
@@ -50,7 +50,7 @@ class HiringsController extends CRUDController {
 
   async read(req, res) {
     try {
-      const result = await this.dao.readByCandidate(req.query.candidate);
+      const result = await this.dao.findByCandidate(req.query.candidate);
 
       if (!result) {
         res.status(404).end();
