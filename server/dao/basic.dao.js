@@ -1,5 +1,4 @@
-const utils = require('../utils');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel, toSnake, applyDefault } = require('../utils');
 
 class BasicDAO {
   constructor(table, idFieldName = 'id') {
@@ -25,7 +24,9 @@ class BasicDAO {
       sql: `SELECT ${fields} FROM ${this.table} WHERE ${this.idFieldName} = ?`,
       values: [id],
     });
-
+    if (!resource) {
+      throw new Error('404');
+    }
     return toCamel(resource);
   }
 
@@ -44,7 +45,7 @@ class BasicDAO {
       page,
       amount,
       values,
-    } = utils.applyDefault(options, def);
+    } = applyDefault(options, def);
 
     const readAll = '';
     const readPage = `LIMIT ${(page - 1) * amount}, ${amount}`;

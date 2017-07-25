@@ -95,7 +95,6 @@ describe('#Interviews-Api', () => {
 
         response = await req
           .get(`${defaultUrl}/interviews?type=assigned`)
-          .set('Accept', 'application/json')
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(403);
       });
@@ -104,7 +103,8 @@ describe('#Interviews-Api', () => {
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
-          .send(JSON.parse(userAuthData));
+          .send(JSON.parse(userAuthData))
+          .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
 
         response = await req
