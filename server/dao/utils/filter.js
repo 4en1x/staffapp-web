@@ -1,4 +1,5 @@
 const fecha = require('fecha');
+const snakeCase = require('lodash.snakecase');
 
 function convertDate(key, value) {
   const dateFrom = fecha.format(new Date(value.from), 'YYYY-MM-DD HH:mm:ss');
@@ -31,7 +32,7 @@ function makeCriterion(key, value) {
 function makeFilterQuery(query) {
   const criteria = Object.keys(query)
     .map((item) => {
-      const key = item.replace(/ /g, '_');
+      const key = snakeCase(item);
       return makeCriterion(key, query[item]);
     })
     .filter(item => item.length);
