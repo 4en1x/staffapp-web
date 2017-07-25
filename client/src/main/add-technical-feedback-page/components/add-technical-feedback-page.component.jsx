@@ -66,7 +66,7 @@ export default class AddTechnicalFeedbackPage extends React.Component {
 
   render() {
     return (
-      < className="feedback-component">
+      <div className="feedback-component">
         <Header dividing as="h2">
           Feedback 111
         </Header>
