@@ -52,7 +52,7 @@ function checkAdmin(req, res, next) {
 function init(app) {
   passport.use(new LocalStrategy(strategyOptions, async (email, password, done) => {
     try {
-      const user = await db.users.checkUser(email, password);
+      const user = await db.users.findByEmailAndPassword(email, password);
       if (user) {
         return done(null, user);
       }
@@ -68,7 +68,7 @@ function init(app) {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await db.users.readOne(id);
+      const user = await db.users.findById(id);
       if (!user) {
         throw new Error('deserialize-error');
       }
