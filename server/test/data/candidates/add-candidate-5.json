@@ -1,0 +1,11 @@
+{
+  "name":"Candidate",
+  "surname":"not-very-smart",
+  "email":"not-very-smart@gmail.com",
+  "primary_skill":"java",
+  "english_level":"A1",
+  "status":"Hired",
+  "city":"Pinsk",
+  "links":["skype:12345","another-mail@mail.ru","something.not.very.smart.site"],
+  "phone":"+375 29 355-27-46"
+}

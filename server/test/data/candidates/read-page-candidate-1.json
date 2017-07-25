@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Kostya",
+    "surname": "Stsefanovich",
+    "primarySkill": "js",
+    "status": "Pool",
+    "city": "Minsk"
+  },
+  {
+    "name": "Nina",
+    "surname": "Balerina",
+    "primarySkill": "java",
+    "status": "Hired",
+    "city": "Pinsk"
+  },
+  {
+    "name": "Lena",
+    "surname": "VEryBig",
+    "primarySkill": "python",
+    "status": "Hired",
+    "city": null
+  }
+]
