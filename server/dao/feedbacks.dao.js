@@ -1,5 +1,5 @@
 const BasicDAO = require('./basic.dao');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel, toSnake } = require('../utils');
 
 async function readFields(id) {
   const fields = await this.connection.queryAsync({
@@ -18,7 +18,11 @@ class Feedbacks extends BasicDAO {
 
   async readOne(id) {
     const feedback = await super.readOne(id);
-    feedback.fields = await readFields.call(this, id);
+
+    if (feedback) {
+      feedback.fields = await readFields.call(this, id);
+    }
+
     return feedback;
   }
 
@@ -28,26 +32,28 @@ class Feedbacks extends BasicDAO {
       values: [interviewId, userId],
     }));
 
-    feedback.fields = await readFields.call(this, feedback.id);
+    if (feedback) {
+      feedback.fields = await readFields.call(this, feedback.id);
+    }
+
     return feedback;
   }
 
-  async readFromInterview(id) { // TODO: Test it. Again
-    return super.read({
-      addition: 'WHERE interview_id = ?',
-      values: [id],
-    }).map(async (feedback) => {
-      feedback.fields = await readFields.call(this, feedback.id);
-      return feedback;
-    });
-  }
+  // async readFromInterview(id) { // TODO: Test it. Again
+  //   return super.read({
+  //     addition: 'WHERE interview_id = ?',
+  //     values: [id],
+  //   }).map(async (feedback) => {
+  //     feedback.fields = await readFields.call(this, feedback.id);
+  //     return feedback;
+  //   });
+  // }
 
   async update(id, { comment, fields }) {
     try {
       await this.connection.beginTransactionAsync();
       const feedback = { comment, status: 1 };
       await super.update(id, feedback);
-
       await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;
         delete field.id;

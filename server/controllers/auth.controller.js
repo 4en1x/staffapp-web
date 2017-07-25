@@ -77,9 +77,19 @@ async function authCheck(req, res, next) {
   next();
 }
 
+function getUser(req, res) {
+  if (!req.user) {
+    res.status(401).end();
+    return;
+  }
+
+  res.json({ name: req.user.name, role: req.user.role });
+}
+
 module.exports = {
   checkEmail,
   login,
   logout,
   authCheck,
+  getUser,
 };

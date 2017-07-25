@@ -118,13 +118,13 @@ INSERT INTO `feedbacks` VALUES (1,2,1,1,'some comment',0),(2,3,1,1,'some comment
 UNLOCK TABLES;
 
 --
--- Table structure for table `feedbacks_fields`
+-- Table structure for table `feedback_fields`
 --
 
-DROP TABLE IF EXISTS `feedbacks_fields`;
+DROP TABLE IF EXISTS `feedback_fields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `feedbacks_fields` (
+CREATE TABLE `feedback_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `value` varchar(45) DEFAULT NULL,
@@ -139,13 +139,13 @@ CREATE TABLE `feedbacks_fields` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `feedbacks_fields`
+-- Dumping data for table `feedback_fields`
 --
 
-LOCK TABLES `feedbacks_fields` WRITE;
-/*!40000 ALTER TABLE `feedbacks_fields` DISABLE KEYS */;
-INSERT INTO `feedbacks_fields` VALUES (1,'js',NULL,NULL,'primary',1,'tech'),(2,'java',NULL,NULL,'secondary',1,'tech'),(3,'python',NULL,NULL,'secondary',1,'tech'),(4,'sql',NULL,NULL,'secondary',1,'tech'),(5,'java',NULL,NULL,'secondary',2,'tech'),(6,'python',NULL,NULL,'primary',2,'tech'),(7,'sql',NULL,NULL,'secondary',2,'tech'),(8,'salary',NULL,NULL,NULL,3,'hr'),(9,'ability to smth',NULL,NULL,NULL,3,'hr'),(10,'salary',NULL,NULL,NULL,4,'hr'),(11,'ability to smth',NULL,NULL,NULL,4,'hr'),(12,'another',NULL,NULL,NULL,4,'hr'),(13,'another another',NULL,NULL,NULL,4,'hr'),(14,'another another',NULL,NULL,NULL,5,'hr'),(15,'python',NULL,NULL,'secondary',6,'tech'),(16,'ascel',NULL,NULL,'secondary',8,'tech'),(17,'ruby',NULL,NULL,'secondary',8,'tech');
-/*!40000 ALTER TABLE `feedbacks_fields` ENABLE KEYS */;
+LOCK TABLES `feedback_fields` WRITE;
+/*!40000 ALTER TABLE `feedback_fields` DISABLE KEYS */;
+INSERT INTO `feedback_fields` VALUES (1,'js',NULL,NULL,'primary',1,'tech'),(2,'java',NULL,NULL,'secondary',1,'tech'),(3,'python',NULL,NULL,'secondary',1,'tech'),(4,'sql',NULL,NULL,'secondary',1,'tech'),(5,'java',NULL,NULL,'secondary',2,'tech'),(6,'python',NULL,NULL,'primary',2,'tech'),(7,'sql',NULL,NULL,'secondary',2,'tech'),(8,'salary',NULL,NULL,NULL,3,'hr'),(9,'ability to smth',NULL,NULL,NULL,3,'hr'),(10,'salary',NULL,NULL,NULL,4,'hr'),(11,'ability to smth',NULL,NULL,NULL,4,'hr'),(12,'another',NULL,NULL,NULL,4,'hr'),(13,'another another',NULL,NULL,NULL,4,'hr'),(14,'another another',NULL,NULL,NULL,5,'hr'),(15,'python',NULL,NULL,'secondary',6,'tech'),(16,'ascel',NULL,NULL,'secondary',8,'tech'),(17,'ruby',NULL,NULL,'secondary',8,'tech');
+/*!40000 ALTER TABLE `feedback_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

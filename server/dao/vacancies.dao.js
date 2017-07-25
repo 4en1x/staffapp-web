@@ -1,5 +1,6 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
+const { toCamel } = require('../utils');
 
 class Vacancies extends BasicDAO {
   constructor(connection) {
@@ -8,34 +9,37 @@ class Vacancies extends BasicDAO {
     this.connection = connection;
   }
 
-  async create(vacancy, skills, cityName) {
+  async create({ vacancy, skills, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
+
       const [city] = await this.connection.queryAsync({
-        sql: `SELECT id FROM cities
-              WHERE name = ?`,
+        sql: 'SELECT cities.id FROM cities WHERE name = ?',
         values: [cityName],
       });
+
       vacancy.city_id = city.id;
+
       const id = await super.create(vacancy);
 
-      await Promise.all(skills.map(async (source, index) => {
-        const skillId = await this.connection.queryAsync({
-          sql: `SELECT id FROM skills
-                WHERE name = ?`,
-          values: [skills[index].name],
+      await Promise.all(skills.map(async (skill) => {
+        const [{ id: skillId }] = await this.connection.queryAsync({
+          sql: 'SELECT skills.id FROM skills WHERE name = ?',
+          values: [skill.name],
         });
+
         await this.connection.queryAsync({
-          sql: `INSERT INTO vacancy_has_skills (skill_id, vacancy_id, weight)
-              VALUES (?, ?, ?)`,
-          values: [skillId[0].id, id, skills[index].weight],
+          sql: `INSERT INTO vacancy_has_skills
+                (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
+          values: [skillId, id, skill.weight],
         });
+
       }));
 
       await this.connection.commit();
       return id;
     } catch (err) {
-      await this.connection.rollback();
+      await this.connection.rollbackAsync();
       throw err;
     }
   }
@@ -43,94 +47,95 @@ class Vacancies extends BasicDAO {
   async readOne(id) {
     try {
       await this.connection.beginTransactionAsync();
-      const vacancy = await super.readOne(id);
-      if (!vacancy) return null;
 
-      const [city] = await this.connection.queryAsync({
-        sql: `SELECT name FROM cities
-              WHERE id = ?`,
-        values: [vacancy.city_id],
+      const vacancy = await super.readOne(id);
+      if (!vacancy) {
+        return null;
+      }
+
+      const [{ name: city }] = await this.connection.queryAsync({
+        sql: 'SELECT name FROM cities WHERE id = ?',
+        values: [vacancy.cityId],
       });
-      vacancy.city = city.name;
-      delete vacancy.city_id;
+
+      vacancy.city = city;
+      delete vacancy.cityId;
 
       vacancy.skills = await this.connection.queryAsync({
-        sql: `SELECT name,weight FROM vacancy_has_skills v
-              INNER JOIN skills s
-              ON s.id = v.skill_id
+        sql: `SELECT name, weight FROM vacancy_has_skills v
+              INNER JOIN skills ON skills.id = v.skill_id
               WHERE vacancy_id = ?`,
         values: [id],
       });
 
       await this.connection.commit();
-      return vacancy;
+      return toCamel(vacancy);
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
-  async readPage(page = 1) {
+  async read(page = 1) {
     try {
       await this.connection.beginTransactionAsync();
 
-      const fields = `${this.table}.id, ${this.table}.name, description, status, cities.name AS city`;
+      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name,
+                      description, status,job_start, cities.name AS city`;
       const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
 
-      const candidates = await super.readAll({
+      const candidates = await super.read({
         fields,
         addition: joins,
         limit,
         values,
       });
+
       await this.connection.commit();
       return candidates;
     } catch (err) {
-      return this.connection.rollback(() => {
-        throw err;
-      });
+      await this.connection.rollbackAsync();
+      throw err;
     }
   }
 
-  async update(id, vacancy, skills, cityName) {
+  async update(id, { vacancy, skills, city: cityName }) {
     try {
       await this.connection.beginTransactionAsync();
 
       const [city] = await this.connection.queryAsync({
-        sql: 'SELECT id FROM cities WHERE name = ?',
+        sql: 'SELECT cities.id FROM cities WHERE name = ?',
         values: [cityName],
       });
 
       vacancy.city_id = city.id;
 
       await this.connection.queryAsync({
-        sql: `DELETE FROM vacancy_has_skills
-              WHERE vacancy_id = ?`,
+        sql: 'DELETE FROM vacancy_has_skills WHERE vacancy_id = ?',
         values: [id],
       });
 
       await super.update(id, vacancy);
 
-      await Promise.all(skills.map(async (source, index) => {
-        const skillsId = await this.connection.queryAsync({
-          sql: `SELECT id FROM skills
-                WHERE name = ?`,
-          values: [skills[index].name],
+      await Promise.all(skills.map(async (skill) => {
+        const [{ id: skillId }] = await this.connection.queryAsync({
+          sql: 'SELECT skills.id FROM skills WHERE name = ?',
+          values: [skill.name],
         });
+
         await this.connection.queryAsync({
-          sql: `INSERT INTO vacancy_has_skills (skill_id, vacancy_id, weight)
-                VALUES (?, ?, ?)`,
-          values: [skillsId[0].id, id, skills[index].weight],
+          sql: `INSERT INTO vacancy_has_skills
+                (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
+          values: [skillId, id, skill.weight],
         });
       }));
 
       await this.connection.commit();
       return null;
     } catch (err) {
-      await this.connection.rollback();
+      await this.connection.rollbackAsync();
       throw err;
     }
   }

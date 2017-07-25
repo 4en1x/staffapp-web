@@ -6,8 +6,8 @@
         "place": "Minsk"
       },
       "users": [1, 2],
-      "feedback_fields": [
-        { "name":"c++", "type": "tech", "type_skill": "primary" }
+      "feedbackFields": [
+        { "name":"c++", "type": "tech", "typeSkill": "primary" }
       ]
     }
   ]

@@ -1,5 +1,5 @@
 const config = require('../config');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel, toSnake } = require('../utils');
 const BasicDAO = require('./basic.dao');
 
 class Interviews extends BasicDAO {
@@ -21,7 +21,7 @@ class Interviews extends BasicDAO {
       };
 
       await Promise.all(users.map(async (userId) => {
-        feedback.usersId = userId;
+        feedback.userId = userId;
 
         const { insertId } = await this.connection.queryAsync({
           sql: 'INSERT INTO feedbacks SET ?',
@@ -59,15 +59,15 @@ class Interviews extends BasicDAO {
 
       [interview.candidate] = await this.connection.queryAsync({ // FIXME: meeeh
         sql: `SELECT name, surname FROM candidates
-              INNER JOIN feedbacks ON feedbacks.candidate_id = candidate.id
+              INNER JOIN feedbacks ON feedbacks.candidate_id = candidates.id
               WHERE feedbacks.id = ?`,
-        value: [interview.feedbacks[0]],
+        values: [interview.feedbacks[0]],
       });
 
       interview.skills = await this.connection.queryAsync({
         sql: 'SELECT name FROM feedback_fields WHERE feedback_fields.feedback_id = ?',
         values: [interview.feedbacks[0]],
-      });
+      }).map(skillObj => skillObj.name);
 
       interview.users = await this.connection.queryAsync({
         sql: `SELECT users.id, name FROM users INNER JOIN feedbacks
@@ -85,7 +85,7 @@ class Interviews extends BasicDAO {
     const interviews = await this.connection.queryAsync({
       sql: `SELECT ${fields} FROM ${this.table}
             INNER JOIN hirings h ON ${this.table}.hiring_id = h.id
-            INNER JOIN candidates c ON hiring.candidate_id = c.id
+            INNER JOIN candidates c ON h.candidate_id = c.id
             WHERE h.user_id = ${id} AND h.date_close IS NULL
 
             UNION
@@ -122,7 +122,7 @@ class Interviews extends BasicDAO {
   async readCreatedBy(id, page = 1) {
     const fields = `${this.table}.${this.idFieldName}, type, date, place, c.name, c.surname`;
     const joins = `INNER JOIN hirings h ON interviews.hiring_id = h.id
-                   INNER JOIN candidates c ON hiring.candidate_id = c.id`;
+                   INNER JOIN candidates c ON h.candidate_id = c.id`;
     const where = ' WHERE h.user_id = ? AND h.date_close IS NULL';
     const values = [id];
 

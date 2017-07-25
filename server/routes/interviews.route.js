@@ -3,15 +3,15 @@ const authorization = require('../services/auth.service');
 const router = require('express').Router();
 
 // user + hr + admin section:
-router.get('/', controllers.interviews.read);
-router.get('/:id', controllers.interviews.readOne);
+router.get('/', (req, res) => controllers.interviews.read(req, res));
+router.get('/:id', (req, res) => controllers.interviews.readOne(req, res));
 
 // hr + admin section:
 router.use(authorization.checkHR);
-router.patch('/:id', controllers.interviews.update);
+router.patch('/:id', (req, res) => controllers.interviews.update(req, res));
 
 // admin section:
 router.use(authorization.checkAdmin);
-router.delete('/:id', controllers.interviews.delete);
+router.delete('/:id', (req, res) => controllers.interviews.delete(req, res));
 
 module.exports = router;

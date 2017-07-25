@@ -1,6 +1,6 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
-const { toCamel } = require('convert-keys');
+const { toCamel } = require('../utils');
 
 class Candidates extends BasicDAO {
   constructor(connection) {
@@ -38,54 +38,45 @@ class Candidates extends BasicDAO {
   }
 
   async readOne(id) {
-    try {
-      await this.connection.beginTransactionAsync();
-      const candidate = await super.readOne(id);
+    const candidate = await super.readOne(id);
 
-      candidate.links = await this.connection.queryAsync({
-        sql: 'SELECT link FROM links WHERE candidate_id = ?',
-        values: [candidate[this.idFieldName]],
-      }).map(linkObject => linkObject.link);
+    candidate.links = await this.connection.queryAsync({
+      sql: 'SELECT link FROM links WHERE candidate_id = ?',
+      values: [id],
+    }).map(linkObject => linkObject.link);
 
-      candidate.city = toCamel(await this.connection.queryAsync({
-        sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
-        value: [candidate.cityId],
-      }));
+    [{ name: candidate.city }] = await this.connection.queryAsync({
+      sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
+      values: [candidate.cityId],
+    });
+    candidate.skills = await this.connection.queryAsync({
+      sql: `SELECT s.name FROM skills_has_candidates s_c 
+            INNER JOIN skills s 
+            ON s.id=s_c.skill_id 
+            WHERE s_c.candidate_id = ?`,
+      values: [id],
+    }).map(skill => skill.name);
+    delete candidate.cityId;
 
-      delete candidate.cityId;
-
-      await this.connection.commit();
-      return candidate;
-    } catch (err) {
-      await this.connection.rollbackAsync();
-      throw err;
-    }
+    return candidate;
   }
 
   async read(page = 1) {
-    try {
-      await this.connection.beginTransactionAsync();
-
-      const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
+    const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
                       primary_skill, status, last_change_date, cities.name AS city`;
-      const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
+    const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
 
-      const candidates = await super.read({
-        fields,
-        addition: joins,
-        page,
-        amount: this.top,
-      });
+    const candidates = await super.read({
+      fields,
+      addition: joins,
+      page,
+      amount: this.top,
+    });
 
-      await this.connection.commit();
-      return candidates;
-    } catch (err) {
-      await this.connection.rollbackAsync();
-      throw err;
-    }
+    return candidates;
   }
 
-  async update(id, { candidate, links, city: cityName }) {
+  async update(id, { candidate, links, city: cityName, skills }) {
     try {
       await this.connection.beginTransactionAsync();
 
@@ -101,11 +92,30 @@ class Candidates extends BasicDAO {
         values: [id],
       });
 
+      await this.connection.queryAsync({
+        sql: `DELETE FROM skills_has_candidates 
+              WHERE candidate_id = ?`,
+        values: [id],
+      });
+
       await super.update(id, candidate);
       await Promise.all(links.map(async (link) => {
         await this.connection.queryAsync({
           sql: 'INSERT INTO links (link, candidate_id) VALUES (?, ?)',
           values: [link, id],
+        });
+      }));
+
+      await Promise.all(skills.map(async (skill) => {
+        const [{ id: skillId }] = await this.connection.queryAsync({
+          sql: 'SELECT skills.id FROM skills WHERE name = ?',
+          values: [skill],
+        });
+
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
+                (skill_id, candidate_id) VALUES (?, ?)`,
+          values: [skillId, id],
         });
       }));
 

@@ -2,10 +2,11 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao');
 const feedbacksService = require('../../services/feedbacks.service');
+const fecha = require('fecha');
 
 class InterviewsController extends CRUDController {
   constructor() {
-    super('interviews');
+    super(db.interviews);
   }
 
   async readOne(req, res) {
@@ -17,6 +18,9 @@ class InterviewsController extends CRUDController {
       }
 
       interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+
+      interview.time = fecha.format(interview.date, 'HH:mm');
+      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
     };
 
     await super.readOne(req, res, onload);
@@ -24,9 +28,9 @@ class InterviewsController extends CRUDController {
 
   async read(req, res) { // TODO: refactor (next PR)
     const actions = {
-      my: db[this.daoName].readAssignedTo,
-      assigned: db[this.daoName].readCreatedBy,
-      all: db[this.daoName].readAll,
+      my: this.dao.readAssignedTo,
+      assigned: this.dao.readCreatedBy,
+      all: this.dao.readAll,
     };
 
     const page = req.query.page;
@@ -37,12 +41,17 @@ class InterviewsController extends CRUDController {
     }
 
     try {
-      const interviews = await actions[req.query.type || 'my'].call(db[this.daoName], id, page);
+      const interviews = await actions[req.query.type || 'my'].call(this.dao, id, page);
 
       if (!interviews) {
         res.json([]);
         return;
       }
+
+      interviews.forEach((interview) => {
+        interview.time = fecha.format(interview.date, 'HH:mm');
+        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      });
 
       res.json(interviews);
     } catch (err) {

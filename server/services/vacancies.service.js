@@ -1,5 +1,4 @@
 const fecha = require('fecha');
-const { toSnake } = require('convert-keys');
 
 function createVacancy(reqBody) {
   const { skills, city } = reqBody;
@@ -10,11 +9,11 @@ function createVacancy(reqBody) {
   const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   vacancy.createdDate = date;
 
-  return toSnake({
+  return {
     vacancy,
     skills,
     city,
-  });
+  };
 }
 
 function updateVacancy(reqBody) {
@@ -23,11 +22,11 @@ function updateVacancy(reqBody) {
   delete vacancy.skills;
   delete vacancy.city;
 
-  return toSnake({
+  return {
     vacancy,
     skills,
     city,
-  });
+  };
 }
 
 module.exports = {
