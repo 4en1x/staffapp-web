@@ -1,34 +1,29 @@
-const forOwn = require('lodash.forown');
 const snakeCase = require('lodash.snakecase');
 const camelCase = require('lodash.camelcase');
-const isPlainObject = require('lodash.isplainobject');
-const isArray = require('lodash.isarray');
 
-function walk(obj, cb) {
-  const x = isArray(obj) ? [] : {};
+/**
+ *  Applying callback function for each key in object (deep).
+ * @param {Object} obj
+ * @param {Function} cb - callback
+ * @returns {Object}
+ * */
 
-  forOwn(obj, (v, k) => {
-    if (isPlainObject(v) || isArray(v) || typeof (v) === typeof ({})
-            && v != null && !(v instanceof Date)) {
-      v = walk(v, cb);
-    }
+function deepMapKeys(obj, cb) {
+  const isArray = Array.isArray(obj);
+  const dest = isArray ? [] : {};
 
-    x[cb(k)] = v;
+  Object.entries(obj).forEach(([key, value]) => {
+    dest[isArray ? key : cb(key)] =
+      (value && typeof value === 'object' && !(value instanceof Date)) ?
+        deepMapKeys(value, cb) :
+        value;
   });
-
-  return x;
+  return dest;
 }
 
-const toCamel = (obj) => {
-  const newObj = walk(obj, k => camelCase(k));
-  return newObj;
-};
+const toCamel = obj => deepMapKeys(obj, k => camelCase(k));
 
-const toSnake = (obj) => {
-  const newObj = walk(obj, k => snakeCase(k));
-
-  return newObj;
-};
+const toSnake = obj => deepMapKeys(obj, k => snakeCase(k));
 
 function applyDefault(sourceOptions, defaultOptions) {
   return Object.assign({}, defaultOptions, sourceOptions);
