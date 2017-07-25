@@ -29,7 +29,7 @@ export default class InterviewComponent extends React.Component {
           Technical interview {data.id}
         </Header>
 
-        <Card fluid>
+        <Card fluid className="row">
           <div className="info">
             <Statistic className="date" value={data.time} label="01.01.1997" />
             <Divider />
@@ -39,7 +39,7 @@ export default class InterviewComponent extends React.Component {
             </Header>
           </div>
           <div className="interview-content">
-            <List size="massive" className="grid">
+            <List size="massive" className="grid-list">
               <List.Item className="flex-block">
                 <List.Header>Interviewee</List.Header>
                 {data.candidate.name} {data.candidate.surname}
@@ -66,12 +66,10 @@ export default class InterviewComponent extends React.Component {
               </List.Item>
             </List>
           </div>
-          <div className="button-container">
-            <Button color="twitter" floated="right">
-              Feedback
-            </Button>
-          </div>
         </Card>
+        <Button color="twitter" floated="right">
+          Feedback
+        </Button>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 .interview-component {
-  margin: 1.5% auto;
+  margin: 0.5% auto;
   max-width: 1200px;
   width: 90%;
 }
@@ -15,7 +15,7 @@
 .interview-content {
   width: 75%;
   border-left: 1px solid rgba(34, 36, 38, .15);
-  padding-left: 4em;
+  /*padding-left: 2em;*/
 }
 
 .button-container {
