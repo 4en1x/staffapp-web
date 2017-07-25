@@ -1,13 +1,15 @@
 import React from "react";
-import "./interview-page.css";
 
-import { Divider } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
-import { List } from "semantic-ui-react";
-import { Label } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
-import { Statistic } from "semantic-ui-react";
-import { Card } from "semantic-ui-react";
+import {
+  Divider,
+  Button,
+  List,
+  Header,
+  Statistic,
+  Card
+} from "semantic-ui-react";
+
+import "./interview-page.css";
 
 export default class InterviewComponent extends React.Component {
   constructor(props) {
@@ -23,34 +25,51 @@ export default class InterviewComponent extends React.Component {
     console.log(data);
     return (
       <div className="interview-component">
-        <Header dividing as="h2" className="custom-header">
-          Technical interview No{data.id}
+        <Header dividing as="h2">
+          Technical interview {data.id}
         </Header>
 
-        <Card fluid className="myCard">
+        <Card fluid>
           <div className="info">
-            <Statistic className="date" value={data.time} label={data.date}/>
-            <div className="horizontal-divider"/>
-            <div className="detail-location">
-              <Header as="h3">Room 404</Header>
-              <Header as="h3">{data.place}</Header>
-            </div>
+            <Statistic className="date" value={data.time} label="01.01.1997" />
+            <Divider />
+            <Header textAlign="center" as="h2">
+              Room 404
+              <Header.Subheader>City, Country </Header.Subheader>
+            </Header>
           </div>
-          <div className="vertical-divider" />
           <div className="interview-content">
-            <Header as="h1">{data.candidate.name} {data.candidate.surname}</Header>
-            <Divider hidden />
-            <List size="massive">
-              <List.Item>Primary skill: {data.skills[0]}</List.Item>
-              <List.Item>
-                Secondary skills:
+            <List size="massive" className="grid">
+              <List.Item className="flex-block">
+                <List.Header>Interviewee</List.Header>
+                {data.candidate.name} {data.candidate.surname}
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Interviewer</List.Header>
+                Anatoliy Levakov
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Vacansy</List.Header>
+                Junior JS Developer
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Primary skill</List.Header>
+                {data.skills[0]}
+              </List.Item>
+              <List.Item className="flex-block">
+                <List.Header>Secondary skills</List.Header>
                 <List
+                  bulleted
                   className="skills"
                   items={data.skills.slice(1)}
                 />
               </List.Item>
             </List>
-            <Button color="twitter" floated="right">Feedback</Button>
+          </div>
+          <div className="button-container">
+            <Button color="twitter" floated="right">
+              Feedback
+            </Button>
           </div>
         </Card>
       </div>
