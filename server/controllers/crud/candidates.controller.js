@@ -8,14 +8,14 @@ class CandidatesController extends CRUDController {
   }
 
   async create(req, res) {
-    const { candidate, links, city } = service.createCandidate(req.body);
+    const candidate = service.createCandidate(req.body);
     candidate.userId = req.user.id;
-    await super.create(req, res, { candidate, links, city });
+    await super.create(req, res, candidate);
   }
 
   async update(req, res) {
-    const { candidate, links, city } = service.updateCandidate(req.params.id, req.body);
-    await super.update(req, res, { candidate, links, city });
+    const candidate = service.updateCandidate(req.params.id, req.body);
+    await super.update(req, res, candidate);
   }
 }
 
