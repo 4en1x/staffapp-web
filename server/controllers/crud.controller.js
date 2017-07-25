@@ -18,7 +18,7 @@ class CRUDController {
 
   async readOne(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resource = await this.dao.readOne(req.params.id);
+      const resource = await this.dao.findById(req.params.id);
 
       if (!resource) {
         throw new Error('404');
@@ -45,7 +45,7 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resources = await this.dao.read(req.query.page);
+      const resources = await this.dao.find(req.query.page);
       await onload(resources);
       res.json(resources);
     } catch (err) {
