@@ -17,7 +17,10 @@ class InterviewsController extends CRUDController {
         throw new Error('403');
       }
 
-      interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+      ({
+        allFeedbacks: interview.feedbacks,
+        userFeedback: interview.userFeedback,
+      } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
       interview.time = fecha.format(interview.date, 'HH:mm');
       interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
@@ -28,9 +31,9 @@ class InterviewsController extends CRUDController {
 
   async read(req, res) { // TODO: refactor (next PR)
     const actions = {
-      my: this.dao.readAssignedTo,
-      assigned: this.dao.readCreatedBy,
-      all: this.dao.readAll,
+      my: this.dao.findAssignedToUser,
+      assigned: this.dao.findCreatedByUser,
+      all: this.dao.findAllByUser,
     };
 
     const page = req.query.page;
@@ -41,7 +44,7 @@ class InterviewsController extends CRUDController {
     }
 
     try {
-      const interviews = await actions[req.query.type || 'my'].call(db[this.daoName], id, page);
+      const interviews = await actions[req.query.type || 'my'].call(this.dao, id, page);
 
       if (!interviews) {
         res.json([]);
