@@ -1,7 +1,7 @@
 const fecha = require('fecha');
 const snakeCase = require('lodash.snakecase');
 
-function convertDate(key, value) {
+function buidDateFilter(key, value) {
   const dateFrom = fecha.format(new Date(value.from), 'YYYY-MM-DD HH:mm:ss');
   const dateTo = fecha.format(new Date(value.to), 'YYYY-MM-DD HH:mm:ss');
 
@@ -9,24 +9,26 @@ function convertDate(key, value) {
 }
 
 function makeCriterion(key, value) {
-  if (key === 'last_change_date' || key === 'created_date'
-    || key === 'notification_date' || key === 'job_start') {
-    return convertDate(key, value);
-  }
+  switch (key) {
+    case 'last_change_date':
+    case 'created_date':
+    case 'notification_date':
+    case 'job_start':
+      return buidDateFilter(key, value);
 
-  if (key === 'status' || key === 'english_level') {
-    return `${key} in (${value})`;
-  }
+    case 'status':
+    case 'english_level':
+      return `${key} in (${value})`;
 
-  if (key === 'city') {
-    return `cities.name in (${value})`;
-  }
+    case 'salary':
+      return `${key}>=${value.from} AND ${key}<=${value.to}`;
 
-  if (key === 'salary') {
-    return `${key}>=${value.from} AND ${key}<=${value.to}`;
-  }
+    case 'city':
+      return `cities.name in (${value})`;
 
-  return '';
+    default:
+      return '';
+  }
 }
 
 function makeFilterQuery(query) {
