@@ -2,17 +2,21 @@ const utils = require('../utils');
 const { toCamel, toSnake } = require('convert-keys');
 const DEFAULT_CONNECTION = require('./connection/connect');
 
+const ITEMS_PER_PAGE = 10;
+
 class BasicDAO {
   /**
    *
    * @param {String} tableName
-   * @param {String} idField
-   * @param {Object} connection
+   * @param {Object} [connection]
+   * @param {Number} [itemsPerPage]
+   * @param {String} [idField]
    */
-  constructor(tableName, idField = 'id', connection) {
+  constructor(tableName, connection, itemsPerPage, idField = 'id') {
     this.tableName = tableName;
     this.idField = idField;
     this.connection = connection || DEFAULT_CONNECTION;
+    this.itemsPerPage = itemsPerPage || ITEMS_PER_PAGE;
   }
 
   toDAOEntity(resource) {
