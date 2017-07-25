@@ -273,6 +273,22 @@ ol.ui.list ol li,
 *******************************/
 
 /*-------------------
+      Grid
+--------------------*/
+
+.ui.grid.list > .item {
+  width:50%;
+  display: inline-block;
+  margin: 1em 0;
+}
+/* Padding on all elements */
+.ui.grid.list > .item:first-child,
+.ui.grid.list > .item:last-child {
+  padding-top: @itemVerticalPadding;
+  padding-bottom: @itemVerticalPadding;
+}
+
+/*-------------------
       Horizontal
 --------------------*/
 
