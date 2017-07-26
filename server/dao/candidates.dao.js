@@ -66,7 +66,6 @@ class Candidates extends BasicDAO {
     const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
                       primary_skill, status, last_change_date, cities.name AS city`;
     const addition = `LEFT JOIN cities ON ${this.table}.city_id = cities.id ${makeFilterQuery(query)}`;
-    console.log(addition);
 
     const candidates = await super.read({
       fields,
