@@ -1,6 +1,7 @@
 const utils = require('../utils');
 const { toCamel, toSnake } = require('convert-keys');
-const DEFAULT_CONNECTION = require('./connection/connect');
+const Bluebird = require('bluebird');
+const DEFAULT_CONNECTION = Bluebird.promisifyAll(require('./connection/connect'));
 
 const ITEMS_PER_PAGE = 10;
 
@@ -89,7 +90,7 @@ class BasicDAO {
     const limit = (opts.amount === Infinity) ? findAll : findPage;
 
     const resources = await this.connection.queryAsync({
-      sql: `SELECT ${opts.fields} FROM ${this.tableName} ${opts.addition} ${opts.order} ${limit}`,
+      sql: `SELECT ${opts.fields} FROM ${opts.basis} ${opts.condition} ${opts.order} ${limit}`,
       values: opts.values,
     });
 
