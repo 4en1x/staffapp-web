@@ -1,0 +1,22 @@
+.feedback-component {
+  margin: 0.5% auto;
+  max-width: 1200px;
+  width: 90%;
+}
+
+.card-content{
+  padding: 1em 4em;
+}
+
+.skill-location{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.display-accordion{
+  display: inline-block;
+}
+
+.margin-stars{
+  margin:0 1em;
+}

@@ -1,10 +1,10 @@
 import React from "react";
 import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
-import { Divider } from "semantic-ui-react";
 import { Image } from "semantic-ui-react";
-import logos from '../../../assets/images'
-import '../../../index.css';
+import logos from "../../../assets/images";
+import {Redirect} from 'react-router-dom';
+import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
@@ -14,7 +14,8 @@ export default class SignInComponent extends React.Component {
     super(props);
 
     this.state = {
-      currentState: EMAIL
+      currentState: EMAIL,
+      isAuthorize: false
     };
   }
 
@@ -23,9 +24,12 @@ export default class SignInComponent extends React.Component {
       check email address and if email is valid, show password form (create request to server)
       else stay on email form
      */
-
-    console.log(value);
-
+    let users = JSON.parse(localStorage.getItem('users'));
+    if (!users) return;
+    let findUser = users.find(user => (
+      value === user.name
+    ));
+    if(!findUser) return;
     this.setState({ currentState: PASSWORD });
   };
 
@@ -35,19 +39,28 @@ export default class SignInComponent extends React.Component {
       else stay on email form
      */
 
-    console.log(value);
+    this.setState({isAuthorize: true});
   };
 
   render() {
+
+    let user = {name: 'Sergey', role: 'Worker'};
+
     let form = <EmailInputForm inputHandle={this.emailInputHandle} />;
-    if (this.state.currentState !== EMAIL)
+    if (this.state.currentState !== EMAIL) {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
+    }
+
+    if (this.state.isAuthorize) return <Redirect to={{pathname: '/', state: user}}/>;
 
     return (
-      <div className="auth-form">
-        <Image src={logos.logo1} size="small" />
-        <Divider hidden />
-        {form}
+      <div className="auth-container">
+        <div className="auth-form">
+          <div className="auth-form-header">
+            <Image src={logos.logo1} height="30px" verticalAlign="bottom" />
+          </div>
+          {form}
+        </div>
       </div>
     );
   }
