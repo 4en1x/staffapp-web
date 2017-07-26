@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-const utils = require('../utils');
-const { toCamel, toSnake } = require('convert-keys');
+const { toCamel, toSnake, applyDefault } = require('../utils');
 const Bluebird = require('bluebird');
 const DEFAULT_CONNECTION = Bluebird.promisifyAll(require('./connection/connect'));
 
 const ITEMS_PER_PAGE = 10;
-=======
-const { toCamel, toSnake, applyDefault } = require('../utils');
->>>>>>> develop
 
 class BasicDAO {
   /**
@@ -78,7 +73,7 @@ class BasicDAO {
    * @param {Object} options
    */
   async find(options) {
-    const opts = utils.applyDefault(options, {
+    const opts = applyDefault(options, {
       fields: '*',
       basis: this.tableName,
       condition: '',
