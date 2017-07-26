@@ -13,7 +13,7 @@ class CandidatesDAO extends BasicDAO {
    * @returns {CandidatesDAO}
    */
   static get instance() {
-    return CandidatesDAO._instance || new CandidatesDAO(); // TODO: I ain't sure about this
+    return CandidatesDAO._instance || new CandidatesDAO();
   }
 
   /**
@@ -26,7 +26,7 @@ class CandidatesDAO extends BasicDAO {
       candidate = this.toDAOEntity(candidate);
 
       if (candidate.city) {
-        candidate.city_id = await CitiesDAO.instance.findByName(candidate.city);
+        ({ id: candidate.city_id } = await CitiesDAO.instance.findByName(candidate.city));
         delete candidate.city;
       }
 
@@ -88,7 +88,7 @@ class CandidatesDAO extends BasicDAO {
   async find(page) {
     const citiesTableName = CitiesDAO.instance.tableName;
 
-    const candidates = await super.find({
+    return super.find({
       fields: `cnd.${this.idField}, cnd.name, surname, primary_skill,
                status, last_change_date, ct.name AS city`,
       basis: `${this.tableName} cnd
@@ -97,8 +97,6 @@ class CandidatesDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
     });
-
-    return candidates;
   }
 
   /**
@@ -112,7 +110,7 @@ class CandidatesDAO extends BasicDAO {
       candidate = this.toDAOEntity(candidate);
 
       if (candidate.city) {
-        candidate.city_id = await CitiesDAO.instance.findByName(candidate.city);
+        ({ id: candidate.city_id } = await CitiesDAO.instance.findByName(candidate.city));
         delete candidate.city;
       }
 
