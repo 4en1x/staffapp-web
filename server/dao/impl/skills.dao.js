@@ -40,6 +40,21 @@ class SkillsDAO extends BasicDAO {
       values: [id],
     });
   }
+
+  /**
+   *
+   * @param {Number | String} id
+   * @returns {Promise <[String]>}
+   */
+  async findByCandidate(id) {
+    return super.find({
+      basis: `skills_has_candidates shc
+              INNER JOIN ${this.tableName} s
+              ON s.${this.idField} = shc.skill_id`,
+      condition: 'WHERE candidate_id = ?',
+      values: [id],
+    }).then(skills => skills.map(skill => skill.name));
+  }
 }
 
 module.exports = SkillsDAO;

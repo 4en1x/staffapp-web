@@ -2,6 +2,7 @@ const BasicDAO = require('../basic.dao');
 const CitiesDAO = require('./cities.dao');
 const LinksDAO = require('./links.dao');
 const FeedbacksDAO = require('./feedbacks.dao');
+const SkillsDAO = require('./skills.dao');
 
 class CandidatesDAO extends BasicDAO {
   constructor(connection) {
@@ -59,7 +60,7 @@ class CandidatesDAO extends BasicDAO {
       delete candidate.cityId;
     }
 
-    // TODO: select skills
+    candidate.skills = await SkillsDAO.instance.findByCandidate(id);
 
     return candidate;
   }
@@ -122,17 +123,31 @@ class CandidatesDAO extends BasicDAO {
       }
 
       await LinksDAO.instance.deleteByCandidate(id);
-
-      // TODO: delete skills
-
       const links = candidate.links || [];
       delete candidate.links;
+
+      await this.connection.queryAsync({
+        sql: `DELETE FROM skills_has_candidates
+              WHERE candidate_id = ?`,
+        values: [id],
+      });
+
+      const skills = candidate.skills || [];
+      delete candidate.skills;
 
       await superUpdate(id, candidate);
 
       await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
 
-      // TODO: select and insert skills
+      await Promise.all(skills.map(async (skill) => {
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
+
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
+                (skill_id, candidate_id) VALUES (?, ?)`,
+          values: [skillId, id],
+        });
+      }));
 
       return null;
     });
