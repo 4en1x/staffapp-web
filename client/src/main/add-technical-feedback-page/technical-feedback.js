@@ -2,7 +2,7 @@ import React from "react";
 import FeedbackTechnicalCard from "./components/add-technical-feedback-page.component.jsx";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actionCreators from "../../action-creators/action-creators.js";
+import * as actionCreators from "./feedback-actions";
 import SemanticLoader from "../../components/loaders/semantic-loader.js";
 
 class TechnicalFeedback extends React.Component {

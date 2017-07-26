@@ -4,10 +4,9 @@ import PasswordInputForm from "../components/password-input";
 import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
 import { Redirect } from "react-router-dom";
-import { addUser } from "../../../action-creators/action-creators.js";
-import { postUser } from "../../../action-creators/action-creators.js";
 import { connect } from "react-redux";
-import axios from "axios";
+import * as actionCreators from '../auth-actions';
+import userService from '../../../service/user-service';
 import "./sign-in.css";
 
 const EMAIL = "EMAIL";
@@ -24,15 +23,13 @@ class SignInComponent extends React.Component {
 
   emailInputHandle = value => {
     this.email = value;
-    axios
-      .post("http://localhost:3300/email", { email: value })
-      .then(responce => {
-        if (responce.status === 200) this.setState({ currentState: PASSWORD });
+    userService.checkEmail({email: value}).then(res => {
+        this.setState({ currentState: PASSWORD });
       });
   };
 
   passwordInputHandle = value => {
-    this.props.onSubmitClicked({ email: this.email, password: value });
+    this.props.login({ email: this.email, password: value });
   };
 
   render() {
@@ -61,10 +58,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-const mapDispatchToProps = dispatch => ({
-  onSubmitClicked: user => {
-    dispatch(postUser(user));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInComponent);
+export default connect(mapStateToProps, actionCreators)(SignInComponent);

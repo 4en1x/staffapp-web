@@ -1,20 +1,10 @@
 import React from "react";
 import "./interview-page.css";
 
-import { Divider } from "semantic-ui-react";
-import { Button } from "semantic-ui-react";
-import { List } from "semantic-ui-react";
-import { Label } from "semantic-ui-react";
-import { Header } from "semantic-ui-react";
-import { Statistic } from "semantic-ui-react";
-import { Card } from "semantic-ui-react";
+import { Divider, Button, List, Header, Statistic, Card } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 export default class InterviewComponent extends React.Component {
-
-  onButtonClick = () => {
-    this.props.feedbackClicked();
-  };
 
   render() {
     const data = this.props.interview;
