@@ -6,10 +6,6 @@ const feedbacks = require('./routes/feedbacks.route');
 const vacancies = require('./routes/vacancies.route');
 
 function init(app) {
-  app.get('/', (req, res) => {
-    res.send('Auth page should be here...');
-  });
-
   auth.init(app);
   app.use('/candidates', candidates);
   app.use('/interviews', interviews);
@@ -18,7 +14,7 @@ function init(app) {
   app.use('/vacancies', vacancies);
 
   app.use((req, res) => {
-    res.status(404).send('Uh oh! 404:(');
+    res.status(404).end();
   });
 }
 
