@@ -5,7 +5,7 @@ import HRPage from "../hr-page/hr-page";
 import Header from "../../components/header/header.components";
 import InterviewPage from "../interview-page/interview-page";
 import CandidatePage from "../candidate-detail-page/candidate-page";
-import TechnicalFeedback from "../add-technical-feedback-page/technical-feedback";
+import TechnicalFeedback from "../feedback/technical-feedback";
 import "../../index.css";
 
 export default class App extends React.Component {
