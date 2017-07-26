@@ -7,11 +7,15 @@ const config = require('../config');
 const itemsPerPage = config.pageSettings.itemsPerPage;
 
 function makeQuery(table, searchString) {
-  let arr = defaultConfig[table].in;
-  arr = arr.map(field => `${field} LIKE '%${searchString}%'`);
+  const arr = defaultConfig[table].in;
+  const queries = searchString.split(' ');
+  queries.forEach((query, index) => {
+    const q = arr.map(field => `${field} LIKE '%${query}%'`);
+    queries[index] = `(${q.join(' OR ')})`;
+  });
 
   return {
-    input: arr.join(' OR '),
+    input: queries.join(' AND '),
     output: defaultConfig[table].out.join(','),
   };
 }
