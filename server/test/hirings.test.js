@@ -74,7 +74,7 @@ describe('#Hirings-Api', () => {
 
 
   describe('#Read hiring', () => {
-    it.only('This test should pass, because admin and hr can read hirings',
+    it('This test should pass, because admin and hr can read hirings',
       async () => {
         const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
         let response = await request
@@ -87,7 +87,6 @@ describe('#Hirings-Api', () => {
         response = await request
           .get(`${defaultUrl}/hirings?id=5`)
           .ok(res => res.status <= 500);
-        console.log(response.body)
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.be.an('array');
         expect(response.body).to.have.lengthOf(1);

@@ -77,7 +77,7 @@ class Vacancies extends BasicDAO {
     }
   }
 
-  async read(page = 1, query) {
+  async read(page = 1) {
     try {
       await this.connection.beginTransactionAsync();
 

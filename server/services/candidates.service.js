@@ -34,15 +34,15 @@ function rebuildCandidate(reqBody) {
   };
 
   const communication = {
-    name: reqBody.name,
-    surname: reqBody.surname,
     resume: reqBody.resume,
     lastChangeDate: fecha.format(reqBody.lastChangeDate, 'DD/MM/YYYY'),
     salary: reqBody.salary,
-    status: reqBody.status,
   };
 
   return {
+    name: reqBody.name,
+    surname: reqBody.surname,
+    status: reqBody.status,
     contacts,
     skills,
     communication,
