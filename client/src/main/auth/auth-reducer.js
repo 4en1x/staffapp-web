@@ -7,7 +7,7 @@ const authReducer = (
       return action.user;
 
     case "ADD_USER_ERROR":
-      return Object.assign({}, state, { isAuthError: false });
+      return { ...state, isAuthError: false };
 
     default:
       return state;

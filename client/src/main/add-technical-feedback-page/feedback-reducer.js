@@ -7,7 +7,7 @@ const feedbackReducer = (state = {}, action) => {
       });
 
     case "FEEDBACK_UPLOADED":
-      return Object.assign({}, state, { isUploaded: true });
+      return { ...state, isUploaded: true };
 
     default:
       return state;
