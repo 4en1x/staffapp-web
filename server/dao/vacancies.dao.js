@@ -81,7 +81,7 @@ class Vacancies extends BasicDAO {
       await this.connection.beginTransactionAsync();
 
       const fields = `${this.table}.${this.idFieldName}, ${this.table}.name,
-                      description, status,job_start, cities.name AS city`;
+                      description,status,job_start,primary_skill, cities.name AS city`;
       const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];

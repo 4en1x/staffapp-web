@@ -1,0 +1,22 @@
+{
+  "users":{
+    "in":["role","name","email"],
+    "out":["id","role","name","email"]
+  },
+  "candidates":{
+    "in":["surname","name","email","phone","skype"],
+    "out":["id","surname","name","email"]
+  },
+  "vacancies":{
+    "in":["name","primary_skill","description"],
+    "out":["id","name","primary_skill"]
+  },
+  "skills":{
+    "in":["name"],
+    "out":["id","name"]
+  },
+  "cities":{
+    "in":["name"],
+    "out":["id","name"]
+  }
+}
