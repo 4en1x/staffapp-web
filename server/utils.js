@@ -1,4 +1,9 @@
 function applyDefault(sourceOptions, defaultOptions) {
+  Object.keys(sourceOptions).forEach((key) => {
+    if (sourceOptions[key] === undefined) {
+      delete sourceOptions[key];
+    }
+  });
   return Object.assign({}, defaultOptions, sourceOptions);
 }
 
