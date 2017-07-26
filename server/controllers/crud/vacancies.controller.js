@@ -23,7 +23,10 @@ class VacanicesController extends CRUDController {
   }
   async readOne(req, res) {
     const onload = async (vacancy) => {
-      vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD/MM/YYYY');
+      if (vacancy.jobStart) {
+        vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD/MM/YYYY');
+      }
+
       vacancy.createdDate = fecha.format(vacancy.createdDate, 'DD/MM/YYYY');
     };
 

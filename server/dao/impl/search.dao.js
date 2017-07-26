@@ -1,7 +1,6 @@
 const BasicDAO = require('../basic.dao');
 const defaultConfig = require('../configs/search.config.json');
 
-
 class SearchDAO extends BasicDAO {
   /**
    * @returns {SearchDAO}

@@ -32,8 +32,8 @@ class InterviewsDAO extends BasicDAO {
 
       const { candidateId } = await getHiringsDAO().instance.findById(interview.hiringId);
 
-      const fields = interview.fields || [];
-      delete interview.fields;
+      const fields = interview.feedbackFiels || [];
+      delete interview.feedbackFiels;
 
       const interviewId = await superCreate(interview);
 
@@ -133,7 +133,7 @@ class InterviewsDAO extends BasicDAO {
    */
   async findCreatedByUser(id, page) {
     const candidatesTableName = CandidatesDAO.instance.tableName;
-    const candidatesIdField = CandidatesDAO.insatnce.idField;
+    const candidatesIdField = CandidatesDAO.instance.idField;
 
     return super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
@@ -161,14 +161,6 @@ class InterviewsDAO extends BasicDAO {
       values: [id],
     });
   }
-
-  // TODO: update
-  /**
-   *
-   * @param {Number | String} id
-   * @param {Object} interview
-   * @returns {Promise <void>}
-   */
 }
 
 module.exports = InterviewsDAO;
