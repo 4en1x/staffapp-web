@@ -6,14 +6,13 @@ const FeedbacksDAO = require('./feedbacks.dao');
 class CandidatesDAO extends BasicDAO {
   constructor(connection) {
     super('candidates', connection);
-    CandidatesDAO._instance = this;
   }
 
   /**
    * @returns {CandidatesDAO}
    */
   static get instance() {
-    return CandidatesDAO._instance || new CandidatesDAO();
+    return CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO());
   }
 
   /**

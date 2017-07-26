@@ -5,14 +5,13 @@ const SkillsDAO = require('./skills.dao');
 class VacanciesDAO extends BasicDAO {
   constructor(connection) {
     super('vacancies', connection);
-    VacanciesDAO._instance = this;
   }
 
   /**
    * @returns {VacanciesDAO}
    */
   static get instance() {
-    return VacanciesDAO._instance || new VacanciesDAO();
+    return VacanciesDAO._instance || (VacanciesDAO._instance = new VacanciesDAO());
   }
 
   /**

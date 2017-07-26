@@ -3,14 +3,13 @@ const BasicDAO = require('../basic.dao');
 class LinksDAO extends BasicDAO {
   constructor(connection) {
     super('links', connection);
-    LinksDAO._instance = this;
   }
 
   /**
    * @returns {LinksDAO}
    */
   static get instance() {
-    return LinksDAO._instance || new LinksDAO();
+    return LinksDAO._instance || (LinksDAO._instance = new LinksDAO());
   }
 
   /**
