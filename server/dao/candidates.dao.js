@@ -49,7 +49,13 @@ class Candidates extends BasicDAO {
       sql: 'SELECT cities.name FROM cities WHERE cities.id = ?',
       values: [candidate.cityId],
     });
-
+    candidate.skills = await this.connection.queryAsync({
+      sql: `SELECT s.name FROM skills_has_candidates s_c 
+            INNER JOIN skills s 
+            ON s.id=s_c.skill_id 
+            WHERE s_c.candidate_id = ?`,
+      values: [id],
+    }).map(skill => skill.name);
     delete candidate.cityId;
 
     return candidate;
@@ -70,7 +76,7 @@ class Candidates extends BasicDAO {
     return candidates;
   }
 
-  async update(id, { candidate, links, city: cityName }) {
+  async update(id, { candidate, links, city: cityName, skills }) {
     try {
       await this.connection.beginTransactionAsync();
 
@@ -86,11 +92,30 @@ class Candidates extends BasicDAO {
         values: [id],
       });
 
+      await this.connection.queryAsync({
+        sql: `DELETE FROM skills_has_candidates 
+              WHERE candidate_id = ?`,
+        values: [id],
+      });
+
       await super.update(id, candidate);
       await Promise.all(links.map(async (link) => {
         await this.connection.queryAsync({
           sql: 'INSERT INTO links (link, candidate_id) VALUES (?, ?)',
           values: [link, id],
+        });
+      }));
+
+      await Promise.all(skills.map(async (skill) => {
+        const [{ id: skillId }] = await this.connection.queryAsync({
+          sql: 'SELECT skills.id FROM skills WHERE name = ?',
+          values: [skill],
+        });
+
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
+                (skill_id, candidate_id) VALUES (?, ?)`,
+          values: [skillId, id],
         });
       }));
 

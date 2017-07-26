@@ -1,5 +1,4 @@
 const CRUDController = require('../crud.controller');
-
 const db = require('../../dao');
 
 class FeedbacksController extends CRUDController {
@@ -24,7 +23,6 @@ class FeedbacksController extends CRUDController {
         res.status(403).end();
         return;
       }
-
       await super.update(req, res, { comment: req.body.comment, fields: req.body.fields });
     } catch (err) {
       res.status(500).end();

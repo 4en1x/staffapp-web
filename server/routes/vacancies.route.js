@@ -4,13 +4,13 @@ const router = require('express').Router();
 
 // hr + admin section:
 router.use(authorization.checkHR);
-router.post('/', controllers.vacancies.create.bind(controllers.vacancies));
-router.get('/:id', controllers.vacancies.readOne.bind(controllers.vacancies));
-router.get('/', controllers.vacancies.read.bind(controllers.vacancies));
-router.patch('/:id', controllers.vacancies.update.bind(controllers.vacancies));
+router.post('/', (req, res) => controllers.vacancies.create(req, res));
+router.get('/:id', (req, res) => controllers.vacancies.readOne(req, res));
+router.get('/', (req, res) => controllers.vacancies.read(req, res));
+router.patch('/:id', (req, res) => controllers.vacancies.update(req, res));
 
 // admin section:
 router.use(authorization.checkAdmin);
-router.delete('/:id', controllers.vacancies.delete.bind(controllers.vacancies));
+router.delete('/:id', (req, res) => controllers.vacancies.delete(req, res));
 
 module.exports = router;
