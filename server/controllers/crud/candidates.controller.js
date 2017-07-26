@@ -9,10 +9,15 @@ class CandidatesController extends CRUDController {
 
   async readOne(req, res) {
     try {
-      let candidate = await this.dao.readOne(req.params.id);
+      let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
       res.json(candidate);
     } catch (err) {
+      if (err.message === '404') {
+        res.status(404).end();
+        return;
+      }
+
       res.status(500).end();
     }
   }
