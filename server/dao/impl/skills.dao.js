@@ -9,7 +9,7 @@ class SkillsDAO extends BasicDAO {
    * @returns {SkillsDAO}
    */
   static get instance() {
-    return SkillsDAO._insatnce || (SkillsDAO._insatnce = new SkillsDAO());
+    return SkillsDAO._instance || (SkillsDAO._instance = new SkillsDAO());
   }
 
   /**

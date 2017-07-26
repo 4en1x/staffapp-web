@@ -32,7 +32,6 @@ class CandidatesDAO extends BasicDAO {
         delete candidate.city;
       }
 
-
       const links = candidate.links || [];
       delete candidate.links;
 

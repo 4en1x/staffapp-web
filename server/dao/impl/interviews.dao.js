@@ -102,7 +102,7 @@ class InterviewsDAO extends BasicDAO {
 
   /**
    *
-   * @param {Numebr | String} id
+   * @param {Number | String} id
    * @param {Number} [page] - default=1
    * @returns {Promise <Object>}
    */

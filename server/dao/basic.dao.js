@@ -124,7 +124,7 @@ class BasicDAO {
   async wrapTransaction(payload) {
     try {
       await this.connection.beginTransactionAsync();
-      const result = await payload.call(this);
+      const result = await payload();
       await this.connection.commit();
       return result;
     } catch (err) {
