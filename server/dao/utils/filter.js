@@ -19,13 +19,13 @@ function makeCriterion(key, value) {
     case 'status':
     case 'english_level':
     case 'primary_skill':
-      return `${key} in (${value})`;
+      return `${key} in ("${value.join('","')}")`;
 
     case 'salary':
       return `${key}>=${value.from} AND ${key}<=${value.to}`;
 
     case 'city':
-      return `cities.name in (${value})`;
+      return `cities.name in ("${value.join('","')}")`;
 
     default:
       return '';
