@@ -21,7 +21,7 @@ class LinksDAO extends BasicDAO {
    */
   async create(link, candidateId) {
     return this.connection.queryAsync({
-      sql: `INSERT INTO ${this.tableName} (links, candidate_id) VALUES (?, ?)`,
+      sql: `INSERT INTO ${this.tableName} (link, candidate_id) VALUES (?, ?)`,
       values: [link, candidateId],
     });
   }
