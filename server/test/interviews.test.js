@@ -28,175 +28,202 @@ describe('#Interviews-Api', () => {
   });
 
   describe('#Get Interview by Id', () => {
-    it('should pass : admin have access for all interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/check-interviews-1.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should pass because admin have access for all interviews, and he can get this interview',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
 
-    it('should pass : user have access for his interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-    });
+        const data = await readFileAsync('./test/data/interviews/check-interviews-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
 
-    it('should failed with 403 error: user don\'t have access to this interview', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/interviews/3`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(403);
-    });
+    it('This test should pass because this interview appointed to this user and user can get it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
 
-    it('should failed eith 404 error: interview doesn\'t exist', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/interviews/4`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(404);
-    });
+        response = await req
+          .get(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
+
+    it('This test should fail with 403 error because user doesn\'t have access to this interview and can\'t get it - he not appointed to it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/interviews/3`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should fail with 404 error because interview doesn\'t exist and nobody can get it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/interviews/4`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(404);
+      });
   });
 
   describe('#Get List Of Interviews', () => {
-    it('should failed with 403 error: user don\'t have assigned interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/interviews?type=assigned`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(403);
-    });
+    it('This test should fail with 403 error: user don\'t have assigned interviews and he can not get them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
 
-    it('should failed with 403 error: user dont have access to all interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .get(`${defaultUrl}/interviews?type=all`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(403);
-    });
+        response = await req
+          .get(`${defaultUrl}/interviews?type=assigned`)
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
 
-    it('should pass : user have access for his interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/check-interviews-2.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/interviews?type=my`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should fail with 403 error: user dont have access to all interviews and he can not get them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData))
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
 
-    it('should pass : admin have access for assigned interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/check-interviews-3.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/interviews?type=assigned`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+        response = await req
+          .get(`${defaultUrl}/interviews?type=all`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
 
-    it('should  pass : admin have access for all interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      const data = await readFileAsync('./test/data/interviews/check-interviews-4.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/interviews?type=all`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should pass : user have access for his interviews and he can get them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/interviews/check-interviews-2.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/interviews?type=my`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
+
+    it('This test should pass : admin have access for assigned interviews and he can get them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/interviews/check-interviews-3.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/interviews?type=assigned`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
+
+    it('This test should pass: admin have access for all interviews  and he can get them',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/interviews/check-interviews-4.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/interviews?type=all`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
   });
 
   describe('#Update Interview', () => {
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      let data = await readFileAsync('./test/data/interviews/update-interviews-1.json', 'utf8');
-      response = await req
-        .patch(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json')
-        .send(JSON.parse(data));
-      expect(response.statusCode).to.equal(200);
-      data = await readFileAsync('./test/data/interviews/check-interviews-5.json', 'utf8');
-      response = await req
-        .get(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-      expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-    });
+    it('This test should pass, it just simple update and user is admin. After it i check record in db',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        let data = await readFileAsync('./test/data/interviews/update-interviews-1.json', 'utf8');
+        response = await req
+          .patch(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+
+        data = await readFileAsync('./test/data/interviews/check-interviews-5.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
   });
 
   describe('#Delete Interview', () => {
-    it('should pass', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .delete(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json');
-      expect(response.statusCode).to.equal(200);
-    });
+    it('This test should pass, because user is admin and he can delete interview',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
 
-    it('should failed with 403 error: only admin can delete interviews', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(userAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .delete(`${defaultUrl}/interviews/1`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(403);
-    });
+        response = await req
+          .delete(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
 
-    it('should failed with 500 error: interview don\'t exist', async () => {
-      let response = await req
-        .post(`${defaultUrl}/login`)
-        .send(JSON.parse(adminAuthData));
-      expect(response.statusCode).to.equal(200);
-      response = await req
-        .delete(`${defaultUrl}/interviews/67`)
-        .set('Accept', 'application/json')
-        .ok(res => res.status <= 500);
-      expect(response.statusCode).to.equal(500);
-    });
+    it('This test should fail with 403 error: only admin can delete interviews, and current user is not admin',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .delete(`${defaultUrl}/interviews/1`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should fail with 500 error: interview don\'t exist and nobody can delete it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .delete(`${defaultUrl}/interviews/67`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(500);
+      });
   });
 });
