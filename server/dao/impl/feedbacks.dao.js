@@ -20,11 +20,13 @@ class FeedbacksDAO extends BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(feedback) {
+    const superCreate = super.create(this);
+
     return this.wrapTransaction(async () => {
       const fields = feedback.fields;
       delete feedback.fields;
 
-      const id = super.create(feedback);
+      const id = superCreate(feedback);
 
       await Promise.all(fields.map(async (field) => {
         field.feedbackId = id;
@@ -87,9 +89,11 @@ class FeedbacksDAO extends BasicDAO {
    * @returns {Promise <void>}
    */
   async update(id, { comment, fields }) {
+    const superUpdate = super.update.bind(this);
+
     return this.wrapTransaction(async () => {
       const feedback = { comment, status: 1 };
-      await super.update(id, feedback);
+      await superUpdate(id, feedback);
 
       await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;

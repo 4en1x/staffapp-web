@@ -21,6 +21,8 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(vacancy) {
+    const superCreate = super.create.bind(this);
+
     return this.wrapTransaction(async () => {
       const city = await CitiesDAO.instance.findByName(vacancy.city);
       vacancy.city_id = city.id;
@@ -29,7 +31,7 @@ class VacanciesDAO extends BasicDAO {
       const skills = vacancy.skills || [];
       delete vacancy.skills;
 
-      const id = await super.create(vacancy);
+      const id = await superCreate(vacancy);
 
       await Promise.all(skills.map(async (skill) => {
         const [{ id: skillId }] = await SkillsDAO.instance.findByName(skill.name);
@@ -51,15 +53,13 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findById(id) {
-    return this.wrapTransaction(async () => {
-      const vacancy = await super.findById(id);
+    const vacancy = await super.findById(id);
 
-      ({ name: vacancy.city } = await CitiesDAO.instance.findById(vacancy.city_id));
-      delete vacancy.city_id;
+    ({ name: vacancy.city } = await CitiesDAO.instance.findById(vacancy.city_id));
+    delete vacancy.city_id;
 
-      vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
-      return vacancy;
-    });
+    vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
+    return vacancy;
   }
 
   /**
@@ -88,6 +88,8 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <void>}
    */
   async update(id, vacancy) {
+    const superUpdate = super.update.bind(this);
+
     return this.wrapTransaction(async () => {
       const city = await CitiesDAO.instance.findByName(vacancy.city);
       vacancy.city_id = city.id;
@@ -101,7 +103,7 @@ class VacanciesDAO extends BasicDAO {
         values: [id],
       });
 
-      await super.update(id, vacancy);
+      await superUpdate(id, vacancy);
 
       await Promise.all(skills.map(async (skill) => {
         const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);

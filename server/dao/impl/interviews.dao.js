@@ -25,6 +25,8 @@ class InterviewsDAO extends BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(interview) {
+    const superCreate = super.create.bind(this);
+
     return this.wrapTransaction(async () => {
       const users = interview.users;
       delete interview.users;
@@ -35,7 +37,7 @@ class InterviewsDAO extends BasicDAO {
       const fields = interview.feedbackFields || [];
       delete interview.feedbackFields;
 
-      const interviewId = await super.create(interview);
+      const interviewId = await superCreate(interview);
 
       const feedback = {
         interviewId,

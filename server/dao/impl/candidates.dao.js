@@ -22,6 +22,8 @@ class CandidatesDAO extends BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(candidate) {
+    const superCreate = super.create.bind(this);
+
     return this.wrapTransaction(async () => {
       candidate = this.toDAOEntity(candidate);
 
@@ -30,10 +32,11 @@ class CandidatesDAO extends BasicDAO {
         delete candidate.city;
       }
 
+
       const links = candidate.links || [];
       delete candidate.links;
 
-      const id = await super.create(candidate);
+      const id = await superCreate(candidate);
 
       await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
 
@@ -106,6 +109,8 @@ class CandidatesDAO extends BasicDAO {
    * @returns {Promise <null>}
    */
   async update(id, candidate) {
+    const superUpdate = super.update.bind(this);
+
     return this.wrapTransaction(async () => {
       candidate = this.toDAOEntity(candidate);
 
@@ -119,7 +124,7 @@ class CandidatesDAO extends BasicDAO {
       const links = candidate.links || [];
       delete candidate.links;
 
-      await super.update(id, candidate);
+      await superUpdate(id, candidate);
 
       await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
 
