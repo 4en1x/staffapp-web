@@ -4,9 +4,10 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "server/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-client": "cd client && npm install",
+    "install-server": "cd server && npm install",
     "start": "node server/app.js",
-    "postinstall": "cd client | npm run build"
+    "install": "npm run install-server || npm run install-client"
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,5 @@
   "homepage": "https://github.com/exadel-team/staffapp-web#readme",
   "engines": {
     "node": ">=8.1.4"
-  },
-  "dependencies": {
-    "exadel-axel-server": "file:./server/",
-    "exadel-practice": "file:./client"
   }
 }
