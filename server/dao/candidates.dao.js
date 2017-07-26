@@ -1,6 +1,7 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
 const { toCamel } = require('../utils');
+const { makeFilterQuery } = require('./utils/filter');
 
 class Candidates extends BasicDAO {
   constructor(connection) {
@@ -61,14 +62,15 @@ class Candidates extends BasicDAO {
     return candidate;
   }
 
-  async read(page = 1) {
+  async read(page = 1, query) {
     const fields = `${this.table}.${this.idFieldName}, ${this.table}.name, surname,
                       primary_skill, status, last_change_date, cities.name AS city`;
-    const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
+    const addition = `LEFT JOIN cities ON ${this.table}.city_id = cities.id ${makeFilterQuery(query)}`;
+    console.log(addition);
 
     const candidates = await super.read({
       fields,
-      addition: joins,
+      addition,
       page,
       amount: this.top,
     });

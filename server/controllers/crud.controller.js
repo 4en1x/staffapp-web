@@ -49,7 +49,7 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resources = await this.dao.read(req.query.page);
+      const resources = await this.dao.read(req.query.page, req.query);
       await onload(resources);
       res.json(resources);
     } catch (err) {

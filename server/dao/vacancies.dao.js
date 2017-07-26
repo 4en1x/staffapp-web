@@ -1,6 +1,7 @@
 const config = require('../config');
 const BasicDAO = require('./basic.dao');
 const { toCamel } = require('../utils');
+const { makeFilterQuery } = require('./utils/filter');
 
 class Vacancies extends BasicDAO {
   constructor(connection) {
@@ -76,25 +77,25 @@ class Vacancies extends BasicDAO {
     }
   }
 
-  async read(page = 1) {
+  async read(page = 1, query) {
     try {
       await this.connection.beginTransactionAsync();
 
       const fields = `${this.table}.${this.idFieldName}, ${this.table}.name,
                       description, status,job_start, cities.name AS city`;
-      const joins = `LEFT JOIN cities ON ${this.table}.city_id = cities.id`;
+      const addition = `LEFT JOIN cities ON ${this.table}.city_id = cities.id ${makeFilterQuery(query)}`;
       const limit = 'LIMIT ?, ?';
       const values = [(page - 1) * this.top, this.top];
 
-      const candidates = await super.read({
+      const vacancies = await super.read({
         fields,
-        addition: joins,
+        addition,
         limit,
         values,
       });
 
       await this.connection.commit();
-      return candidates;
+      return vacancies;
     } catch (err) {
       await this.connection.rollbackAsync();
       throw err;
