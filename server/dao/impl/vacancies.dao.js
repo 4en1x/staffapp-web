@@ -73,7 +73,7 @@ class VacanciesDAO extends BasicDAO {
     const citiesIdField = CitiesDAO.instance.idField;
 
     return super.find({
-      fields: `v.${this.idField}, v.name, description, status, c.name AS city`,
+      fields: `v.${this.idField}, v.name, description, status, job_start, primary_skill c.name AS city`,
       basis: `${this.tableName} v
               LEFT JOIN ${citiesTableName} c
               ON v.city_id = c.${citiesIdField}`,

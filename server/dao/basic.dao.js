@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 const utils = require('../utils');
 const { toCamel, toSnake } = require('convert-keys');
 const Bluebird = require('bluebird');
 const DEFAULT_CONNECTION = Bluebird.promisifyAll(require('./connection/connect'));
 
 const ITEMS_PER_PAGE = 10;
+=======
+const { toCamel, toSnake, applyDefault } = require('../utils');
+>>>>>>> develop
 
 class BasicDAO {
   /**

@@ -7,6 +7,16 @@ class CandidatesController extends CRUDController {
     super(db.candidates);
   }
 
+  async readOne(req, res) {
+    try {
+      let candidate = await this.dao.readOne(req.params.id);
+      candidate = service.rebuildCandidate(candidate);
+      res.json(candidate);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async create(req, res) {
     const candidate = service.createCandidate(req.body);
     candidate.userId = req.user.id;

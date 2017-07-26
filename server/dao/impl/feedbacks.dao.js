@@ -22,7 +22,7 @@ class FeedbacksDAO extends BasicDAO {
     const superCreate = super.create.bind(this);
 
     return this.wrapTransaction(async () => {
-      const fields = feedback.fields;
+      const fields = feedback.fields || [];
       delete feedback.fields;
 
       const id = await superCreate(feedback);
@@ -54,7 +54,7 @@ class FeedbacksDAO extends BasicDAO {
    * @param {Number | String} id
    * @returns {Promise <[Object]>}
    */
-  async findByInterview(id) { // TODO: maybe w/o .then()
+  async findByInterview(id) {
     return super.find({
       fields: `${this.tableName}.${this.idField}`,
       condition: `WHERE ${this.tableName}.interview_id = ?`,

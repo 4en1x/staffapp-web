@@ -10,6 +10,38 @@ function createCandidate(reqBody) {
   return candidate;
 }
 
+function rebuildCandidate(reqBody) {
+  const contacts = {
+    email: reqBody.email,
+    phone: reqBody.phone,
+    skype: reqBody.skype,
+    city: reqBody.city,
+    linkedin: reqBody.linkedin,
+    links: reqBody.links,
+  };
+
+  const skills = {
+    primarySkill: reqBody.primarySkill,
+    englishLevel: reqBody.englishLevel,
+    secondarySkills: reqBody.skills,
+  };
+
+  const communication = {
+    resume: reqBody.resume,
+    lastChangeDate: fecha.format(reqBody.lastChangeDate, 'DD/MM/YYYY'),
+    salary: reqBody.salary,
+  };
+
+  return {
+    name: reqBody.name,
+    surname: reqBody.surname,
+    status: reqBody.status,
+    contacts,
+    skills,
+    communication,
+  };
+}
+
 function updateCandidate(id, reqBody) {
   const candidate = reqBody;
 
@@ -22,4 +54,5 @@ function updateCandidate(id, reqBody) {
 module.exports = {
   createCandidate,
   updateCandidate,
+  rebuildCandidate,
 };

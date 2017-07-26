@@ -59,6 +59,8 @@ class CandidatesDAO extends BasicDAO {
       delete candidate.cityId;
     }
 
+    // TODO: select skills
+
     return candidate;
   }
 
@@ -89,13 +91,14 @@ class CandidatesDAO extends BasicDAO {
    */
   async find(page) {
     const citiesTableName = CitiesDAO.instance.tableName;
+    const citiesIdField = CitiesDAO.instance.idField;
 
     return super.find({
       fields: `cnd.${this.idField}, cnd.name, surname, primary_skill,
                status, last_change_date, ct.name AS city`,
       basis: `${this.tableName} cnd
               LEFT JOIN ${citiesTableName} ct
-              ON cnd.city_id = ct.id`,
+              ON cnd.city_id = ct.${citiesIdField}`,
       page,
       amount: this.itemsPerPage,
     });
@@ -120,12 +123,16 @@ class CandidatesDAO extends BasicDAO {
 
       await LinksDAO.instance.deleteByCandidate(id);
 
+      // TODO: delete skills
+
       const links = candidate.links || [];
       delete candidate.links;
 
       await superUpdate(id, candidate);
 
       await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
+
+      // TODO: select and insert skills
 
       return null;
     });

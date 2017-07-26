@@ -9,32 +9,32 @@
       "name": "js",
       "value": null,
       "comment": null,
-      "type_skill": "primary",
-      "feedback_id": 1,
+      "typeSkill": "primary",
+      "feedbackId": 1,
       "type": "tech"
     },
     {
       "name": "java",
       "value": null,
       "comment": null,
-      "type_skill": "secondary",
-      "feedback_id": 1,
+      "typeSkill": "secondary",
+      "feedbackId": 1,
       "type": "tech"
     },
     {
       "name": "python",
       "value": null,
       "comment": null,
-      "type_skill": "secondary",
-      "feedback_id": 1,
+      "typeSkill": "secondary",
+      "feedbackId": 1,
       "type": "tech"
     },
     {
       "name": "sql",
       "value": null,
       "comment": null,
-      "type_skill": "secondary",
-      "feedback_id": 1,
+      "typeSkill": "secondary",
+      "feedbackId": 1,
       "type": "tech"
     }
   ]
