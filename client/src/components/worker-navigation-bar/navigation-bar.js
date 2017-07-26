@@ -16,7 +16,6 @@ export default class WorkerNavigationBar extends React.Component {
     this.setState({ activeItem: name });
   };
 
-  //config object contains name of the tab in navigation menu and url for link
   navigationConfig = url => ({
     interview: {
       name: "Interview",

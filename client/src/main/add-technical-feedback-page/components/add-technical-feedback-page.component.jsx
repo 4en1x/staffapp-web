@@ -1,102 +1,95 @@
 import React from "react";
+import { reduxForm } from "redux-form";
 
-import { Divider, Segment, Button, List } from "semantic-ui-react";
+import { Divider, Segment, List } from "semantic-ui-react";
 
 import "./add-technical-feedback-page.css";
-import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card.jsx";
+import FeedbackTechnicalCard from "../../../components/feedback/feedback-technical-card";
 
-const major = {
-  technology: "javascript"
-};
-const minor = [
-  {
-    technology: "c++"
-  },
-  {
-    technology: ".net"
-  },
-  {
-    technology: "react"
-  }
-];
-const other = [
-  {
-    technology: "jogging"
-  },
-  {
-    technology: "fishing"
-  },
-  {
-    technology: "reading"
-  }
-];
+class FeedbackTechnicalPage extends React.Component{
 
-export default class AddTechnicalFeedbackPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.feedbackInfo = {};
-  }
+  onSubmitClicked = (value) => {
 
-  inputHandle = (element, propName) => {
-    this.feedbackInfo[propName] = element;
-  };
+    let move = 0;
+    let newArray = [];
 
-  selectHandle = (value, propName) => {
-    this.feedbackInfo[propName].select = value;
-  };
+    for (var key in value) {
+      value[key].id = this.props.data.fields[move].id;
+      newArray.push(value[key]);
+      move++;
+    }
 
-  feedbackButtonClicked = () => {
-    // this.props.addFeedback();
-    const props = Object.keys(this.feedbackInfo);
-    props.forEach(prop => {
-      this.feedbackInfo[prop].input = this.feedbackInfo[prop].input.ref.value;
-    });
-    this.props.addFeedback(this.feedbackInfo);
+   this.props.addFeedback({fields: newArray});
+
   };
 
   render() {
+    const { handleSubmit, data } = this.props;
+
     return (
-      <div className="add-technical-feedback-page">
-        <div className="title-feedback">feedback</div>
-        <Divider />
-        <Segment id="content-data">
-          <div className="labels"> Major skill </div>
-          <FeedbackTechnicalCard
-            data={major}
-            inputHandle={this.inputHandle}
-            selectHandle={this.selectHandle}
-          />
+        <form
+          onSubmit={handleSubmit(this.onSubmitClicked)}
+          className="add-technical-feedback-page"
+          >
+          <div className="title-feedback">feedback</div>
+          <Divider />
+          <Segment id="content-data">
+            <div className="labels"> Major skill </div>
+            {data.fields.map(step => {
+              if (step.typeSkill === "primary") {
+                return (
+                  <FeedbackTechnicalCard
+                    data={step}
+                    location={"majorTechnology"}
+                    key={data.id}
+                    />
+                );
+              }
+              return null;
+            })}
+
           <List size="medium">
             <List.Header className="list-header">Minor skills</List.Header>
-            {minor.map(step =>
-              <List.Item key={step.technology}>
-                <FeedbackTechnicalCard
-                  inputHandle={this.inputHandle}
-                  data={step}
-                  selectHandle={this.selectHandle}
-                />
-              </List.Item>
-            )}
+            {data.fields.map((step, move) => {
+              if (step.typeSkill === "secondary") {
+                return (
+                  <List.Item key={step.technology}>
+                    <FeedbackTechnicalCard
+                      data={step}
+                      location={"MinorTechology" + move}
+                      key={data.id}
+                    />
+                  </List.Item>
+                );
+              }
+              return null;
+            })}
           </List>
+
           <List size="medium">
             <List.Header className="list-header">Other skills</List.Header>
-            {other.map(step =>
-              <List.Item key={step.technology}>
-                <FeedbackTechnicalCard
-                  data={step}
-                  inputHandle={this.inputHandle}
-                  selectHandle={this.selectHandle}
-                />
-              </List.Item>
-            )}
+            {data.fields.map((step, move) => {
+              if (step.typeSkill === "other") {
+                return (
+                  <List.Item key={step.technology}>
+                    <FeedbackTechnicalCard
+                      data={step}
+                      location={"OtherTechology" + move}
+                      key={data.id}
+                    />
+                  </List.Item>
+                );
+              }
+              return null;
+            })}
           </List>
         </Segment>
-        <div className="add-feedback">
-          <Button primary onClick={this.feedbackButtonClicked}>
-            Feedback
-          </Button>
+        <div className="add-feedback-redux-button">
+          <button type="submit">Feedback</button>
         </div>
-      </div>
+      </form>
     );
   }
-}
+};
+
+export default reduxForm({ form: "simple" })(FeedbackTechnicalPage);
