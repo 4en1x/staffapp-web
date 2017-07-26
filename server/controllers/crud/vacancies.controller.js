@@ -9,13 +9,12 @@ class VacanicesController extends CRUDController {
   }
 
   async create(req, res) {
-    const { vacancy, skills, city } = service.createVacancy(req.body);
-    await super.create(req, res, { vacancy, skills, city });
+    const vacancy = service.createVacancy(req.body);
+    await super.create(req, res, vacancy);
   }
 
   async update(req, res) {
-    const { vacancy, skills, city } = service.updateVacancy(req.body);
-    await super.update(req, res, { vacancy, skills, city });
+    await super.update(req, res, req.body);
   }
 }
 

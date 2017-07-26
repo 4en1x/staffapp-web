@@ -3,14 +3,13 @@ const BasicDAO = require('../basic.dao');
 class SkillsDAO extends BasicDAO {
   constructor(connection) {
     super('skills', connection);
-    SkillsDAO._instance = this;
   }
 
   /**
    * @returns {SkillsDAO}
    */
   static get instance() {
-    return SkillsDAO._insatnce || new SkillsDAO();
+    return SkillsDAO._insatnce || (SkillsDAO._insatnce = new SkillsDAO());
   }
 
   /**
@@ -18,7 +17,7 @@ class SkillsDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findByName(name) {
-    const [skill] = super.find({
+    const [skill] = await super.find({
       condition: 'WHERE name = ?',
       values: [name],
     });

@@ -20,10 +20,6 @@ class CRUDController {
     try {
       const resource = await this.dao.findById(req.params.id);
 
-      if (!resource) {
-        throw new Error('404');
-      }
-
       await onload(resource);
       res.json(resource);
     } catch (err) {
