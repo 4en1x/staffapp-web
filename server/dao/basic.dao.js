@@ -34,7 +34,7 @@ class BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(resource) {
-    if (this.toDAOEntity(resource)[this.idFieldName]) {
+    if (this.toDAOEntity(resource)[this.idField]) {
       throw new Error('400');
     }
 

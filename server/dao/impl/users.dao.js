@@ -52,7 +52,7 @@ class UsersDAO extends BasicDAO {
     const feedbacksTableName = FeedbacksDAO.instance.tableName;
 
     return super.find({
-      fields: `u.${this.idField}`,
+      fields: `u.${this.idField}, u.name`,
       basis: `${this.tableName} u
               INNER JOIN ${feedbacksTableName} f
               ON f.user_id = u.${this.idField}`,

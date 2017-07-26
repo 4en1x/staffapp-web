@@ -4,14 +4,13 @@ const FeedbackFieldsDAO = require('./feedbackfields.dao');
 class FeedbacksDAO extends BasicDAO {
   constructor(connection) {
     super('feedbacks', connection);
-    FeedbacksDAO._instance = this;
   }
 
   /**
    * @returns {FeedbacksDAO}
    */
   static get instance() {
-    return FeedbacksDAO._instance || new FeedbacksDAO();
+    return FeedbacksDAO._instance || (FeedbacksDAO._instance = new FeedbacksDAO());
   }
 
   /**
@@ -20,13 +19,13 @@ class FeedbacksDAO extends BasicDAO {
    * @returns {Promise <Number>}
    */
   async create(feedback) {
-    const superCreate = super.create(this);
+    const superCreate = super.create.bind(this);
 
     return this.wrapTransaction(async () => {
       const fields = feedback.fields;
       delete feedback.fields;
 
-      const id = superCreate(feedback);
+      const id = await superCreate(feedback);
 
       await Promise.all(fields.map(async (field) => {
         field.feedbackId = id;

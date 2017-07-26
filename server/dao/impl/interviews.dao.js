@@ -3,21 +3,20 @@ const FeedbacksDAO = require('./feedbacks.dao');
 const CandidatesDAO = require('./candidates.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
 const UsersDAO = require('./users.dao');
-const HiringsDAO = require('./hirings.dao');
+
+const getHiringsDAO = require.bind(null, './hirings.dao');
 
 class InterviewsDAO extends BasicDAO {
   constructor(connection) {
     super('interviews', connection);
-    InterviewsDAO._instance = this;
   }
 
   /**
    * @returns {InterviewsDAO}
    */
   static get instance() {
-    return InterviewsDAO._instance || new InterviewsDAO();
+    return InterviewsDAO._instance || (InterviewsDAO._instance = new InterviewsDAO());
   }
-
 
   /**
    *
@@ -31,11 +30,10 @@ class InterviewsDAO extends BasicDAO {
       const users = interview.users;
       delete interview.users;
 
-      const candidateId = interview.candidateId;
-      delete interview.candidateId;
+      const { candidateId } = await getHiringsDAO().instance.findById(interview.hiringId);
 
-      const fields = interview.feedbackFields || [];
-      delete interview.feedbackFields;
+      const fields = interview.fields || [];
+      delete interview.fields;
 
       const interviewId = await superCreate(interview);
 
@@ -134,16 +132,14 @@ class InterviewsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findCreatedByUser(id, page) {
-    const hiringsTableName = HiringsDAO.instance.tableName;
-    const hiringsIdField = HiringsDAO.instance.idField;
     const candidatesTableName = CandidatesDAO.instance.tableName;
     const candidatesIdField = CandidatesDAO.insatnce.idField;
 
     return super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
       basis: `${this.tableName} i
-              INNER JOIN ${hiringsTableName} h
-              ON i.hiring_id = h.${hiringsIdField}
+              INNER JOIN hirings h
+              ON i.hiring_id = h.id
               INNER JOIN ${candidatesTableName} c
               ON h.candidate_id = c.${candidatesIdField}`,
       condition: 'WHERE h.user_id = ? AND h.date_close IS NULL',
@@ -160,11 +156,19 @@ class InterviewsDAO extends BasicDAO {
    */
   async findByHiring(id) {
     return super.find({
-      fields: `${this.table}.${this.idFieldName}, type, date, place`,
-      condition: `WHERE ${this.table}.hiring_id = ?`,
+      fields: `${this.tableName}.${this.idField}, type, date, place`,
+      condition: `WHERE ${this.tableName}.hiring_id = ?`,
       values: [id],
     });
   }
+
+  // TODO: update
+  /**
+   *
+   * @param {Number | String} id
+   * @param {Object} interview
+   * @returns {Promise <void>}
+   */
 }
 
 module.exports = InterviewsDAO;

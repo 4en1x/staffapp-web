@@ -8,14 +8,15 @@ class HiringsController extends CRUDController {
     super(db.hirings);
   }
 
-  async create(req, res) { // TODO: reengineer it (next PR)
+  async create(req, res) {
     const hiring = service.createHiringObject(req);
     let id = null;
 
-    const hirings = await this.dao.findByCandidate(req.query.candidate);
+    const hirings = await this.dao.findByCandidate(hiring.candidateId);
 
-    if (hirings.length) {
-      throw new Error('500'); // TODO: custom code (next PR)
+    if (hirings.some(item => !item.dateClose)) {
+      res.status(422).end();
+      return;
     }
 
     const onload = async (insertId) => {
@@ -50,6 +51,11 @@ class HiringsController extends CRUDController {
 
   async read(req, res) {
     try {
+      if (!req.query.candidate) {
+        res.status(400).end();
+        return;
+      }
+
       const result = await this.dao.findByCandidate(req.query.candidate);
 
       if (!result) {
@@ -64,7 +70,7 @@ class HiringsController extends CRUDController {
   }
 
   async update(req, res) {
-    const hiring = service.createHiringObject(req.body);
+    const hiring = service.createHiringUpdateObject(req.body);
     await super.update(req, res, hiring);
   }
 }

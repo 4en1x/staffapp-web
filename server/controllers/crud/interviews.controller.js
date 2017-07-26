@@ -9,6 +9,10 @@ class InterviewsController extends CRUDController {
     super(db.interviews);
   }
 
+  async create(req, res) {
+    await super.create(req, res, req.body);
+  }
+
   async readOne(req, res) {
     const onload = async (interview) => {
       const assignedToUser = interview.users.some(user => user.id === req.user.id);
@@ -22,14 +26,16 @@ class InterviewsController extends CRUDController {
         userFeedback: interview.userFeedback,
       } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
-      interview.time = fecha.format(interview.date, 'HH:mm');
-      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      if (interview.date) {
+        interview.time = fecha.format(interview.date, 'HH:mm');
+        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      }
     };
 
     await super.readOne(req, res, onload);
   }
 
-  async read(req, res) { // TODO: refactor (next PR)
+  async read(req, res) {
     const actions = {
       my: this.dao.findAssignedToUser,
       assigned: this.dao.findCreatedByUser,
@@ -52,8 +58,10 @@ class InterviewsController extends CRUDController {
       }
 
       interviews.forEach((interview) => {
-        interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        if (interview.date) {
+          interview.time = fecha.format(interview.date, 'HH:mm');
+          interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        }
       });
 
       res.json(interviews);

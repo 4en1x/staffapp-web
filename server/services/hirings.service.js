@@ -1,7 +1,7 @@
 const db = require('../dao/dao');
 const fecha = require('fecha');
 
-async function createInterviews(interviews, hiringId, candidateId) {
+async function createInterviews(interviews = [], hiringId, candidateId) {
   await Promise.all(interviews.map(async (item) => {
     item.interview.hiringId = hiringId;
 
@@ -18,7 +18,7 @@ function createHiringObject(req) {
   return {
     userId: req.user.id,
     dateOpen: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-    candidateId: req.query.candidate,
+    candidateId: req.body.candidateId,
   };
 }
 

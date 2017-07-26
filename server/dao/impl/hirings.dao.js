@@ -4,14 +4,13 @@ const InterviewsDAO = require('./interviews.dao');
 class HiringsDAO extends BasicDAO {
   constructor(connection) {
     super('hirings', connection);
-    HiringsDAO._instance = this;
   }
 
   /**
    * @returns {HiringsDAO}
    */
   static get instance() {
-    return HiringsDAO._instance || new HiringsDAO();
+    return HiringsDAO._instance || (HiringsDAO._instance = new HiringsDAO());
   }
 
   /**

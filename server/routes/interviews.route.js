@@ -8,7 +8,8 @@ router.get('/:id', (req, res) => controllers.interviews.readOne(req, res));
 
 // hr + admin section:
 router.use(authorization.checkHR);
-router.patch('/:id', (req, res) => controllers.interviews.update(req, res));
+router.post('/', (req, res) => controllers.interviews.create(req, res));
+// router.patch('/:id', (req, res) => controllers.interviews.update(req, res));
 
 // admin section:
 router.use(authorization.checkAdmin);
