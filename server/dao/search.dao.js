@@ -8,7 +8,7 @@ const itemsPerPage = config.pageSettings.itemsPerPage;
 
 function makeQuery(table, searchString) {
   let arr = defaultConfig[table].in;
-  arr = arr.map(field => `${field} LIKE CONCAT('%',CONCAT(${searchString},'%'))`);
+  arr = arr.map(field => `${field} LIKE '%${searchString}%'`);
 
   return {
     input: arr.join(' OR '),
