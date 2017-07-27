@@ -6,6 +6,11 @@ const feedbacks = require('./routes/feedbacks.route');
 const vacancies = require('./routes/vacancies.route');
 const search = require('./routes/search.route');
 const history = require('./routes/history.route');
+const skills = require('./routes/skills.route');
+const cities = require('./routes/cities.route');
+const englishLevels = require('./routes/englishLevels.route');
+const vacancyStatuses = require('./routes/vacancyStatuses.route');
+const candidateStatuses = require('./routes/candidateStatuses.route');
 
 function init(app) {
   auth.init(app);
@@ -16,6 +21,11 @@ function init(app) {
   app.use('/vacancies', vacancies);
   app.use('/search', search);
   app.use('/history', history);
+  app.use('/skills', skills);
+  app.use('/cities', cities);
+  app.use('/englishLevels', englishLevels);
+  app.use('/vacancyStatuses', vacancyStatuses);
+  app.use('/candidateStatuses', candidateStatuses);
 
   app.use((req, res) => {
     res.status(404).end();

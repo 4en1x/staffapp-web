@@ -55,6 +55,20 @@ class SkillsDAO extends BasicDAO {
       values: [id],
     }).then(skills => skills.map(skill => skill.name));
   }
+
+  async find(type) {
+    const condition =
+      (type === 'all')
+        ? 'WHERE type <> "hr"'
+        : `WHERE type=${type}`;
+
+    const skills = await super.find({
+      condition,
+      fields: 'name',
+      order: 'ORDER BY name',
+    }).map(skill => skill.name);
+    return skills;
+  }
 }
 
 module.exports = SkillsDAO;

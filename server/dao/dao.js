@@ -5,6 +5,8 @@ const HiringsDAO = require('./impl/hirings.dao');
 const FeedbacksDAO = require('./impl/feedbacks.dao');
 const VacanciesDAO = require('./impl/vacancies.dao');
 const HistoryDAO = require('./impl/history.dao');
+const CitiesDAO = require('./impl/cities.dao');
+const SkillsDAO = require('./impl/skills.dao');
 
 module.exports = {
   users: UsersDAO.instance,
@@ -14,4 +16,6 @@ module.exports = {
   feedbacks: FeedbacksDAO.instance,
   vacancies: VacanciesDAO.instance,
   history: HistoryDAO.instance,
+  cities: CitiesDAO.instance,
+  skills: SkillsDAO.instance,
 };
