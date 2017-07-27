@@ -5,12 +5,9 @@ const interviews = require('./routes/interviews.route');
 const feedbacks = require('./routes/feedbacks.route');
 const vacancies = require('./routes/vacancies.route');
 const search = require('./routes/search.route');
+const history = require('./routes/history.route');
 
 function init(app) {
-  app.get('/', (req, res) => {
-    res.send('Auth page should be here...');
-  });
-
   auth.init(app);
   app.use('/candidates', candidates);
   app.use('/interviews', interviews);
@@ -18,9 +15,10 @@ function init(app) {
   app.use('/feedbacks', feedbacks);
   app.use('/vacancies', vacancies);
   app.use('/search', search);
+  app.use('/history', history);
 
   app.use((req, res) => {
-    res.status(404).send('Uh oh! 404:(');
+    res.status(404).end();
   });
 }
 

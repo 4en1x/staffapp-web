@@ -1,12 +1,16 @@
 const CRUDController = require('../crud.controller');
 
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
 const fecha = require('fecha');
 
 class InterviewsController extends CRUDController {
   constructor() {
     super(db.interviews);
+  }
+
+  async create(req, res) {
+    await super.create(req, res, req.body);
   }
 
   async readOne(req, res) {
@@ -17,20 +21,25 @@ class InterviewsController extends CRUDController {
         throw new Error('403');
       }
 
-      interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+      ({
+        allFeedbacks: interview.feedbacks,
+        userFeedback: interview.userFeedback,
+      } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
-      interview.time = fecha.format(interview.date, 'HH:mm');
-      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      if (interview.date) {
+        interview.time = fecha.format(interview.date, 'HH:mm');
+        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      }
     };
 
     await super.readOne(req, res, onload);
   }
 
-  async read(req, res) { // TODO: refactor (next PR)
+  async read(req, res) {
     const actions = {
-      my: this.dao.readAssignedTo,
-      assigned: this.dao.readCreatedBy,
-      all: this.dao.readAll,
+      my: this.dao.findAssignedToUser,
+      assigned: this.dao.findCreatedByUser,
+      all: this.dao.findAllByUser,
     };
 
     const page = req.query.page;
@@ -49,8 +58,10 @@ class InterviewsController extends CRUDController {
       }
 
       interviews.forEach((interview) => {
-        interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        if (interview.date) {
+          interview.time = fecha.format(interview.date, 'HH:mm');
+          interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        }
       });
 
       res.json(interviews);

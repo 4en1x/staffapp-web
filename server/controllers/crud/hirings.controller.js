@@ -1,6 +1,6 @@
 const CRUDController = require('../crud.controller');
 
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const service = require('../../services/hirings.service');
 
 class HiringsController extends CRUDController {
@@ -8,14 +8,15 @@ class HiringsController extends CRUDController {
     super(db.hirings);
   }
 
-  async create(req, res) { // TODO: reengineer it (next PR)
+  async create(req, res) {
     const hiring = service.createHiringObject(req);
     let id = null;
 
-    const hirings = await this.dao.readByCandidate(req.query.candidate);
+    const hirings = await this.dao.findByCandidate(hiring.candidateId);
 
-    if (hirings.length) {
-      throw new Error('500'); // TODO: custom code (next PR)
+    if (hirings.some(item => !item.dateClose)) {
+      res.status(422).end();
+      return;
     }
 
     const onload = async (insertId) => {
@@ -42,7 +43,7 @@ class HiringsController extends CRUDController {
 
   async readOne(req, res) {
     const onload = async (hiring) => {
-      hiring.interviews = await db.interviews.readByHiring(req.params.id);
+      hiring.interviews = await db.interviews.findByHiring(req.params.id);
     };
 
     await super.readOne(req, res, onload);
@@ -50,7 +51,12 @@ class HiringsController extends CRUDController {
 
   async read(req, res) {
     try {
-      const result = await this.dao.readByCandidate(req.query.candidate);
+      if (!req.query.candidate) {
+        res.status(400).end();
+        return;
+      }
+
+      const result = await this.dao.findByCandidate(req.query.candidate);
 
       if (!result) {
         res.status(404).end();
@@ -64,7 +70,7 @@ class HiringsController extends CRUDController {
   }
 
   async update(req, res) {
-    const hiring = service.createHiringObject(req.body);
+    const hiring = service.createHiringUpdateObject(req.body);
     await super.update(req, res, hiring);
   }
 }
