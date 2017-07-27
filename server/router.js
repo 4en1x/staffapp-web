@@ -7,7 +7,7 @@ const vacancies = require('./routes/vacancies.route');
 
 function init(app) {
   app.get('/', (req, res) => {
-    res.send('Auth page should be here...');
+    res.send('index.html');
   });
 
   auth.init(app);
