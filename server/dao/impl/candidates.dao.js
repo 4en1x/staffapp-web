@@ -3,6 +3,7 @@ const CitiesDAO = require('./cities.dao');
 const LinksDAO = require('./links.dao');
 const FeedbacksDAO = require('./feedbacks.dao');
 const SkillsDAO = require('./skills.dao');
+const { makeFilterQuery } = require('../utils/filter');
 
 class CandidatesDAO extends BasicDAO {
   constructor(connection) {
@@ -89,7 +90,7 @@ class CandidatesDAO extends BasicDAO {
    * @param {Number} [page] - default=1
    * @returns {Promise <[Object]>}
    */
-  async find(page) {
+  async find(page, query) {
     const citiesTableName = CitiesDAO.instance.tableName;
     const citiesIdField = CitiesDAO.instance.idField;
 
@@ -100,6 +101,7 @@ class CandidatesDAO extends BasicDAO {
               LEFT JOIN ${citiesTableName} ct
               ON cnd.city_id = ct.${citiesIdField}`,
       page,
+      condition: makeFilterQuery(query),
       amount: this.itemsPerPage,
     });
   }
