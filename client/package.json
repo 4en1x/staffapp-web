@@ -30,11 +30,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm run build-semantic && npm run react-build",
+    "react-build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-semantic": "cd semantic && gulp build",
     "watch-semantic": "cd semantic && gulp watch"
   },
-  "proxy": "http://localhost:3300"
+  "config": {
+    "proxy": "http://localhost:3300/rest"
+  }
 }

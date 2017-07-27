@@ -17,8 +17,8 @@ const corsOptions = {
 };
 
 app.set('port', config.web.port);
-console.log(path.join());
 app.use(express.static(path.join() + '/client/build'));
+app.use(express.static(path.join() + '/semantic-build'));
 
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +26,8 @@ app.use(cors(corsOptions));
 
 services.init(app);
 router.init(app);
+
+app.use('*', express.static(path.join() + '/client/build/index.html'));
 
 
 app.listen(app.get('port'), () => {
