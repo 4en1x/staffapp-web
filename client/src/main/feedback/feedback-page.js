@@ -1,68 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import FeedbackView from './components/feedback-view';
+import { getFeedbackFormFields, putFeedback } from './feedback-actions';
+import SemanticLoader from '../../components/loaders/semantic-loader';
 
-const inputData = {
-  id: 1,
-  userId: 2,
-  interviewId: 1,
-  candidateId: 1,
-  comment: null,
-  status: 1,
-  fields: [
-    {
-      id: 16,
-      name: 'ascel',
-      value: null,
-      comment: null,
-      typeSkill: 'secondary',
-      type: 'tech'
-    },
-    {
-      id: 23,
-      name: 'english level',
-      value: null,
-      comment: null,
-      typeSkill: 'other',
-      type: 'tech'
-    },
-    {
-      id: 45,
-      name: 'beauty',
-      value: null,
-      comment: null,
-      typeSkill: 'other',
-      type: 'tech'
-    },
-    {
-      id: 19,
-      name: 'c++',
-      value: null,
-      comment: null,
-      typeSkill: 'secondary',
-      type: 'tech'
-    },
-    {
-      id: 17,
-      name: 'ruby',
-      value: '123',
-      comment: 'not very vell',
-      typeSkill: 'primary',
-      type: 'tech'
-    }
-  ]
-};
-
-export default class FeedbackPage extends React.Component {
-
+class FeedbackPage extends React.Component {
   componentDidMount() {
-
+    this.props.getFeedbackFormFields(this.props.match.params.id);
   }
 
-  onSubmitClicked = () => {
-    console.log('lallala');
+  onSubmitClicked = feedback => {
+    this.props.putFeedback(this.props.match.params.id, feedback);
   };
 
   render() {
-    return <FeedbackView onSubmitClicked={this.onSubmitClicked} data={inputData} />;
+    if (this.props.isFeedbackUploaded) return <Redirect to="/" />;
+
+    return (
+      <div>
+        {!this.props.fields
+          ? <SemanticLoader />
+          : <FeedbackView
+          data={this.props.fields}
+          onSubmitClicked={this.onSubmitClicked}
+        />}
+      </div>
+    );
   }
 }
+
+const mapStateToProps = state => ({
+  fields: state.feedback.feedbackFields,
+  isFeedbackUploaded: state.feedback.isUploaded
+});
+
+export default connect(mapStateToProps, { getFeedbackFormFields, putFeedback })(
+  FeedbackPage
+);
