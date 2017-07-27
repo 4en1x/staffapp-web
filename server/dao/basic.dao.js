@@ -1,6 +1,9 @@
 const { toCamel, toSnake, applyDefault } = require('../utils');
 const Bluebird = require('bluebird');
 const DEFAULT_CONNECTION = Bluebird.promisifyAll(require('./connection/connect'));
+const defaultConfig = require('./configs/history.config.json');
+
+const getHistoryDAO = require.bind(null, './impl/history.dao');
 
 const ITEMS_PER_PAGE = 10;
 
@@ -32,7 +35,7 @@ class BasicDAO {
    * @param {Object} resource
    * @returns {Promise <Number>}
    */
-  async create(resource) {
+  async create(resource, userId) {
     if (this.toDAOEntity(resource)[this.idField]) {
       throw new Error('400');
     }
@@ -45,7 +48,9 @@ class BasicDAO {
     if (!insertId) {
       throw new Error('500');
     }
-
+    if (defaultConfig.create.includes(this.tableName)) {
+      await getHistoryDAO().instance.addEvent(insertId, this.tableName, 'create', userId);
+    }
     return insertId;
   }
 
@@ -102,7 +107,10 @@ class BasicDAO {
    * @param {Object} resource
    * @returns {Promise <Object>}
    */
-  async update(id, resource) {
+  async update(id, resource, userId) {
+    if (defaultConfig.create.includes(this.tableName)) {
+      await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
+    }
     return this.connection.queryAsync({
       sql: `UPDATE ${this.tableName} SET ? WHERE ${this.idField} = ?`,
       values: [this.toDAOEntity(resource), id],
@@ -114,7 +122,10 @@ class BasicDAO {
    * @param {Number | String} id
    * @returns {Promise <Object>}
    */
-  async delete(id) {
+  async delete(id, userId) {
+    if (defaultConfig.create.includes(this.tableName)) {
+      await getHistoryDAO().instance.addEvent(id, this.tableName, 'delete', userId);
+    }
     return this.connection.queryAsync({
       sql: `DELETE FROM ${this.tableName} WHERE ${this.idField} = ?`,
       values: [id],

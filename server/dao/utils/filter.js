@@ -14,11 +14,14 @@ function makeCriterion(key, value) {
     case 'created_date':
     case 'notification_date':
     case 'job_start':
+    case 'time':
       return buidDateFilter(key, value);
 
     case 'status':
     case 'english_level':
     case 'primary_skill':
+    case 'role':
+    case 'event':
       return `${key} in ("${value.join('","')}")`;
 
     case 'salary':
