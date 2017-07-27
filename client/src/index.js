@@ -10,7 +10,7 @@ import App from './main/app/app';
 import checkAuth from './main/auth/auth-component';
 import authReducer from './main/auth/auth-reducer';
 import interviewReducer from './main/interview-page/interview-reducer';
-import feedbackReducer from './main/feedback/feedback-reducer';
+import feedbackReducer from './main/feedback-page/feedback-reducer';
 import './index.css';
 
 const reducer = combineReducers({
