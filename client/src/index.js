@@ -4,6 +4,7 @@ import { createStore, combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import { Provider } from "react-redux";
 
+import VacanciesFilterForm from "./components/filter/filter-forms/vacancies-filter-form";
 import CandidatesFilterForm from "./components/filter/filter-forms/candidates-filter-form";
 import FilterComponent from "./components/filter/filter.component";
 import HeaderComponent from "./components/header/header.components";
