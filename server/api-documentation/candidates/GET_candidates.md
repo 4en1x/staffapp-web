@@ -26,9 +26,6 @@ Read a page of candidates.
   - **lastChangeDate** *(may be not defined)* — last change date section:
     - **from** *(may be not defined)* — from date
     - **to** *(may be not defined)* — to date
-  - **lastChangeDate** *(may be not defined)* — notification date section:
-    - **from** *(may be not defined)* — from date
-    - **to** *(may be not defined)* — to date
   - **salary** *(may be not defined)* — salary section:
     - **from** *(may be not defined)* — from salary (String)
     - **to** *(may be not defined)* — to salary (String)
@@ -63,7 +60,7 @@ A JSON object, that contains an array of candidate objects.
 #### **Request**
 
 ``` Text
-POST candidates?p=3&city[0]=Minsk&city[1]=Gomel&last change date[from]=2009-06-02T14:00:00.000Z&status[0]=Hired
+GET candidates?page=3&filter={"city":["Minsk","Gomel"],"lastChangeDate":{"from":"2009-06-02T14:00:00.000Z"},"status":["Hired"]}
 ```
 
 #### **Return**

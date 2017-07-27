@@ -59,7 +59,7 @@ A JSON object, that contains candidate object.
 #### **Request**
 
 ``` Text
-POST candidates/4
+GET candidates/4
 ```
 
 #### **Return**

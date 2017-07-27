@@ -6,7 +6,7 @@ GET interviews
 
 ## Description
 
-Read a page of candidates.
+Read interviews.
 
 ***
 
@@ -22,7 +22,6 @@ User with 'user' role can read only a page of interviews assigned to current use
 
 ## Parameters
 
-- **page** *(default=1)* — number of page
 - **type** *(default=my)* — type of interviews:
   - **type=my** — interviews assigned to current user
   - **type=assigned** — interviews created by current user
@@ -49,7 +48,7 @@ A JSON object, that contains an array of interview objects.
 
 ## Errors
 
-- **400 Bad request** — **page** is not a number or **type** !== my|assigned|all
+- **400 Bad request** — **type** !== my|assigned|all
 - **403 Forbidden** — user tries to read 'assigned' or 'all' interviews without required permission
 
 ***
@@ -59,7 +58,7 @@ A JSON object, that contains an array of interview objects.
 ### Request
 
 ``` Text
-GET interviews?type=assigned&page=4
+GET interviews?type=assigned
 ```
 
 ### Return
