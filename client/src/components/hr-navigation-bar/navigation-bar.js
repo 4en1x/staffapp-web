@@ -1,7 +1,9 @@
-import React from "react";
-import { Menu } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import "./navigation.css";
+import React from 'react';
+import { Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { store } from '../../index.js';
+import changeActiveTab from './navigation-actions';
+import './navigation.css';
 
 export default class HRNavigationBar extends React.Component {
   constructor(props) {
@@ -13,29 +15,28 @@ export default class HRNavigationBar extends React.Component {
 
   handleItemClick = (e, { name }) => {
     if (name === this.state.activeItem) return;
+    store.dispatch(changeActiveTab(name));
     this.setState({ activeItem: name });
   };
 
-  // config for navigation bar (navigation bar give you more flex and you just config navi bar)
-
   navigationConfig = url => ({
     interview: {
-      name: "Interviews",
+      name: 'Interviews',
       url: `${url}interviews`
     },
 
     candidate: {
-      name: "Candidates",
+      name: 'Candidates',
       url: `${url}candidates`
     },
 
     vacancy: {
-      name: "Vacancies",
+      name: 'Vacancies',
       url: `${url}vacancies`
     },
 
     history: {
-      name: "History",
+      name: 'History',
       url: `${url}history`
     }
   });
@@ -61,3 +62,9 @@ export default class HRNavigationBar extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    activeTab: state.navigationBar.activeTab
+  };
+};

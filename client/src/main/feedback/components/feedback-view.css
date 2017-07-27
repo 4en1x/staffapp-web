@@ -4,6 +4,18 @@
   width: 90%;
 }
 
+.flex-block {
+  margin-left: 2%;
+}
+
+.feedback-component_header {
+  margin-left: 2%;
+}
+
+.feedback-component_primary-skill {
+  margin-top: 2%;
+}
+
 .card-content{
   padding: 1em 4em;
 }

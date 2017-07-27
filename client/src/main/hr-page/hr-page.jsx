@@ -1,142 +1,50 @@
-import React from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
-import ListComponent from "../../components/list/list.component";
-import SecondaryMenuComponent from "../../components/secondary-menu/secondary-menu.component";
-import HRNavigationBar from "../../components/hr-navigation-bar/navigation-bar";
-import InterviewListItem from "../../components/list/list-items/interview-list-item";
-import CandidatesListItem from "../../components/list/list-items/candidate-list-item";
-import VacancyListItem from "../../components/list/list-items/vacancy-list-item";
-import "./hr-page.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
+import ListComponent from '../../components/list/list.component';
+import SecondaryMenuComponent from '../../components/secondary-menu/secondary-menu.component';
+import HRNavigationBar from '../../components/hr-navigation-bar/navigation-bar';
+import InterviewListItem from '../../components/list/list-items/interview-list-item';
+import CandidatesListItem from '../../components/list/list-items/candidate-list-item';
+import VacancyListItem from '../../components/list/list-items/vacancy-list-item';
+import { getInterviewList } from '../interview-page/interview-actions';
+import { getCandidateList } from '../candidate-detail-page/candidate-actions';
+import { getVacancyList } from '../vacany-detail-page/vacancy-actions';
+import './hr-page.css';
 
-// default data for mock's
-const interviews = [
-  {
-    id: "111",
-    name: "Sergey",
-    surname: "Moiseyenko",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "222",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "333",
-    name: "Kosty",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "444",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "555",
-    name: "Lenya",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "666",
-    name: "Nik",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
-  },
-  {
-    id: "777",
-    name: "Evg",
-    surname: "Basaranovich",
-    date: "08.08.08",
-    time: "21 00",
-    location: "Minsk, Belarus",
-    primarySkill: "Javascrtipt"
+class HRPage extends React.Component {
+  componentDidMount() {
+    this.loadData({}, this.props.activeTab);
   }
-];
-const candidates = [
-  {
-    id: "1",
-    data: "01.01.01",
-    name: "Sergey",
-    status: "Free",
-    technology: "JavaScript",
-    city: "Minsk",
-    time: "21 00"
-  },
 
-  {
-    id: "2",
-    data: "01.01.01",
-    name: "Anton",
-    status: "Free",
-    technology: "JavaScript",
-    city: "Minsk",
-    time: "21 00"
-  },
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.activeTab);
+    console.log(this.props.activeTab);
 
-  {
-    id: "3",
-    data: "01.01.01",
-    name: "Igor",
-    status: "Free",
-    technology: "JavaScript",
-    city: "Minsk",
-    time: "21 00"
+    if (nextProps.activeTab !== this.props.activeTab) {
+      this.loadData({}, nextProps.activeTab);
+    }
   }
-];
-const vacancies = [
-  {
-    id: "1",
-    name: "Sergey",
-    status: "Free",
-    primarySkill: "JavaScript",
-    location: "Minsk",
-    dateStart: "01.01.01"
-  },
 
-  {
-    id: "2",
-    name: "Anton",
-    status: "Free",
-    primarySkill: "JavaScript",
-    location: "Minsk",
-    dateStart: "01.01.01"
-  },
+  config = () => {
+    return {
+      Interviews: this.props.getInterviewList,
+      Candidates: this.props.getCandidateList,
+      Vacancies: this.props.getVacancyList
+    };
+  };
 
-  {
-    id: "3",
-    name: "Igor",
-    status: "Free",
-    primarySkill: "JavaScript",
-    location: "Minsk",
-    dateStart: "01.01.01"
-  }
-];
+  loadData = (filter, activeTab) => {
+    const config = this.config();
+    const loadList = config[activeTab];
+    loadList(filter);
+  };
 
-export default class HRPage extends React.Component {
   render() {
-    const url = "/";
+    const url = '/';
+    const interviews = this.props.interviews;
+    const candidates = this.props.candidates;
+    const vacancies = this.props.vacancies;
 
     return (
       <div className="hr-page">
@@ -185,3 +93,28 @@ export default class HRPage extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    interviews: state.interview.interviewList || [],
+    candidates: state.candidate.candidateList || [],
+    vacancies: state.vacancy.vacancyList || [],
+    activeTab: state.navigationBar.activeTab
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getInterviewList: filter => {
+      dispatch(getInterviewList(filter));
+    },
+    getCandidateList: filter => {
+      dispatch(getCandidateList(filter));
+    },
+    getVacancyList: filter => {
+      dispatch(getVacancyList(filter));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HRPage);

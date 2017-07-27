@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import Candidate from './components/candidate';
 
 export default class CandidatePage extends React.Component {
@@ -7,18 +7,18 @@ export default class CandidatePage extends React.Component {
 
     this.state = {
       isLoaded: false
-    }
+    };
   }
 
   componentDidMount() {
-    this.setState({isLoaded: true});
+    this.setState({ isLoaded: true });
   }
 
   render() {
-    return(
+    return (
       <div className="candidate-page">
         {this.state.isLoaded ? <Candidate /> : <p>not found</p>}
       </div>
-    )
+    );
   }
 }

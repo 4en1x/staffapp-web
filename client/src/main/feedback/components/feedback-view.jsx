@@ -1,5 +1,5 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import {
   Card,
   Header,
@@ -10,8 +10,8 @@ import {
   TextArea,
   Form,
   Accordion
-} from "semantic-ui-react";
-import "./feedback-view.css";
+} from 'semantic-ui-react';
+import './feedback-view.css';
 
 class FeedbackView extends React.Component {
   constructor(props) {
@@ -19,11 +19,11 @@ class FeedbackView extends React.Component {
     this.init(this.props.data);
   }
 
-  init = (data) => {
+  init = data => {
     const initData = {};
     data.fields.map(step => {
-      initData["" + step.typeSkill + step.id] = {
-        ...initData["" + step.typeSkill + step.id],
+      initData['' + step.typeSkill + step.id] = {
+        ...initData['' + step.typeSkill + step.id],
         id: step.id,
         name: step.name,
         typeSkill: step.typeSkill,
@@ -67,10 +67,10 @@ class FeedbackView extends React.Component {
         className="feedback-component"
       >
         <Header dividing as="h2">
-          {"Feedback " + this.props.data.id}
+          {'Feedback ' + this.props.data.id}
         </Header>
         <Card fluid>
-          <Header as="h1">Description: </Header>
+          <Header as="h1" className="feedback-component_header">Description: </Header>
           <List size="massive" className="grid-list inline">
             <List.Item className="flex-block">
               <List.Header>Interviewee: </List.Header> Name Surname
@@ -92,18 +92,18 @@ class FeedbackView extends React.Component {
               <List.Item className="flex-block">
                 <List.Header>Primary skill: </List.Header>
                 {this.props.data.fields.map(step => {
-                  if (step.typeSkill === "primary")
+                  if (step.typeSkill === 'primary')
                     return (
-                      <div>
+                      <div className="feedback-component_primary-skill">
                         <label>
                           {step.name}
                           <Field
-                            name={"primary" + step.id + ".value"}
+                            name={'primary' + step.id + '.value'}
                             component={this.starsInput}
                           />
                         </label>
                         <Field
-                          name={"primary" + step.id + ".comment"}
+                          name={'primary' + step.id + '.comment'}
                           component={this.descriptionInput}
                         />
                       </div>
@@ -114,7 +114,7 @@ class FeedbackView extends React.Component {
                 <List.Header>Secondary skills: </List.Header>
                 <List>
                   {this.props.data.fields.map(step => {
-                    if (step.typeSkill === "secondary")
+                    if (step.typeSkill === 'secondary')
                       return (
                         <List.Item className="flex-block">
                           <Accordion fluid>
@@ -122,12 +122,12 @@ class FeedbackView extends React.Component {
                               {step.name}
                             </Accordion.Title>
                             <Field
-                              name={"secondary" + step.id + ".value"}
+                              name={'secondary' + step.id + '.value'}
                               component={this.starsInput}
                             />
                             <Accordion.Content>
                               <Field
-                                name={"secondary" + step.id + ".comment"}
+                                name={'secondary' + step.id + '.comment'}
                                 component={this.descriptionInput}
                               />
                             </Accordion.Content>
@@ -141,7 +141,7 @@ class FeedbackView extends React.Component {
                 <List.Header>Other skills: </List.Header>
                 <List>
                   {this.props.data.fields.map(step => {
-                    if (step.typeSkill === "other")
+                    if (step.typeSkill === 'other')
                       return (
                         <List.Item className="flex-block">
                           <Accordion fluid>
@@ -149,12 +149,12 @@ class FeedbackView extends React.Component {
                               {step.name}
                             </Accordion.Title>
                             <Field
-                              name={"other" + step.id + ".value"}
+                              name={'other' + step.id + '.value'}
                               component={this.starsInput}
                             />
                             <Accordion.Content>
                               <Field
-                                name={"other" + step.id + ".comment"}
+                                name={'other' + step.id + '.comment'}
                                 component={this.descriptionInput}
                               />
                             </Accordion.Content>
@@ -175,4 +175,4 @@ class FeedbackView extends React.Component {
   }
 }
 
-export default reduxForm({ form: "addFeedback" })(FeedbackView);
+export default reduxForm({ form: 'feedback' })(FeedbackView);

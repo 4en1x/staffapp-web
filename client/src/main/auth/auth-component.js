@@ -11,8 +11,6 @@ export default function checkAuth(Component) {
 
     render() {
       const user = this.props.auth;
-
-      console.log(this.props.auth);
       if (user.isAuthError) return <Redirect to="/login" />;
       return <Component {...this.props} user={user} />;
     }

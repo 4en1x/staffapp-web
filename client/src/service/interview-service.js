@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-function getInterviewList(type = "my") {
+function getInterviewList(type = 'my') {
   return axios.get(`/interviews?type=${type}`);
 }
 
