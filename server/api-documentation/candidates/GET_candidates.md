@@ -19,18 +19,21 @@ Read a page of candidates.
 ## Parameters
 
 - **page** *(default=1)* — number of page
-- **city[i]** *(may be not defined)* — one of cities
-- **primary skill[i]** *(may be not defined)* — one of primary skills
-- **secondary skill[i]** *(may be not defined)* — one of secondary skills
-- **last change date[from]** *(may be not defined)*
-- **last change date[to]** *(may be not defined)*
-- **notification date[from]** *(may be not defined)*
-- **notification date[to]** *(may be not defined)*
-- **salary[from]** *(may be not defined)* — string
-- **salary[to]** *(may be not defined)* — string
-- **skill[i]** *(may be not defined)* — one of skills
-- **status[i]** *(may be not defined)* — one of statuses
-- **english level[i]** *(may be not defined)* — one of english levels
+- **filter** — filter object:
+  - **city** *(may be not defined)* — array of cities
+  - **primarySkill** *(may be not defined)* — array of primary skills
+  - **secondarySkill** *(may be not defined)* — array of secondary skills
+  - **lastChangeDate** *(may be not defined)* — last change date section:
+    - **from** *(may be not defined)* — from date
+    - **to** *(may be not defined)* — to date
+  - **lastChangeDate** *(may be not defined)* — notification date section:
+    - **from** *(may be not defined)* — from date
+    - **to** *(may be not defined)* — to date
+  - **salary** *(may be not defined)* — salary section:
+    - **from** *(may be not defined)* — from salary (String)
+    - **to** *(may be not defined)* — to salary (String)
+  - **status** *(may be not defined)* — array of statuses
+  - **englishLevel** *(may be not defined)* — array of english levels
 
 ***
 
