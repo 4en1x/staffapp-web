@@ -2,6 +2,7 @@ import vacanyService from '../../service/vacancy-service';
 
 const ADD_VACANCY_LIST = 'ADD_VACANCY_LIST';
 const ADD_CURRENT_VACANCY = 'ADD_CURRENT_VACANCY';
+const ADD_FILTER = 'ADD_FILTER';
 
 function addVacancyList(list) {
   return {
@@ -22,6 +23,13 @@ export function getVacancyList(filter) {
     vacanyService.getVacancyList(filter).then(res => {
       dispatch(addVacancyList(res.data));
     });
+  };
+}
+
+export function addFilter(filter) {
+  return {
+    type: ADD_FILTER,
+    filter
   };
 }
 

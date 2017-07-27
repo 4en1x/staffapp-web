@@ -6,6 +6,9 @@ const vacancyReducer = (state = {}, action) => {
     case 'ADD_CURRENT_VACANCY':
       return { ...state, currentVacancy: action.vacancy };
 
+    case 'ADD_FILTER':
+      return { ...state, filter: action.filter };
+
     default:
       return state;
   }

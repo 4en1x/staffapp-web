@@ -1,47 +1,48 @@
-import React from "react";
-import PropTypes from "prop-types";
-import VacanciesFilterForm from "../../../components/filter/filter-forms/vacancies-filter-form";
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
 
-import "./filter.css";
+import './filter.css';
 
 function check(values) {
   window.alert(JSON.stringify(values));
 }
 
-const Statuses = ["Pool ", "In progress", "Hired"].map(item => ({
+const Statuses = ['Pool ', 'In progress', 'Hired'].map(item => ({
   key: item,
   name: item
 }));
 
 const PrimarySkills = [
-  ".NET",
-  "C++",
-  "DBE",
-  "Java",
-  "HTML/CSS",
-  "JavaScript",
-  "PHP",
-  "Ruby on Rails",
-  "Python"
+  '.NET',
+  'C++',
+  'DBE',
+  'Java',
+  'HTML/CSS',
+  'JavaScript',
+  'PHP',
+  'Ruby on Rails',
+  'Python'
 ].map(item => ({
   key: item,
   value: item,
   text: item
 }));
 
-const SecondarySkills = ["Angular", "ReactJS", "NodeJS"].map(item => ({
+const SecondarySkills = ['Angular', 'ReactJS', 'NodeJS'].map(item => ({
   key: item,
   value: item,
   text: item
 }));
 
-const Cities = ["Minsk", "Moscow", "London"].map(item => ({
+const Cities = ['Minsk', 'Moscow', 'London'].map(item => ({
   key: item,
   value: item,
   text: item
 }));
 
-const EnglishLevels = ["option_1", "option_2", "option_3"].map(item => ({
+const EnglishLevels = ['option_1', 'option_2', 'option_3'].map(item => ({
   key: item,
   value: item,
   text: item
@@ -61,11 +62,13 @@ class FilterComponent extends React.Component {
   onSumbitClicked = filter => {};
 
   render() {
-    if (!filter.props.filterValues) return <p />;
+    console.log(this.props.filter);
+
+    //if (!filter.props.filterValues) return <p />;
 
     return (
       <div className="filter-container">
-        <VacanciesFilterForm onSubmit={check} data={this.props.filterValues} />
+        <CandidatesFilterForm onSubmit={check} data={this.props.filterValues} />
       </div>
     );
   }

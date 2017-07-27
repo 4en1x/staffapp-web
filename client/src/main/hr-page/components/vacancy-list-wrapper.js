@@ -8,7 +8,16 @@ import './list-wrapper.css';
 
 class VacancyListWrapper extends React.Component {
   componentDidMount() {
-    this.props.getVacancyList();
+    this.props.getVacancyList(this.props.filter);
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    console.log(nextProps);
+
+    if (this.props.filter !== nextProps.filter) {
+      this.props.getVacancyList(nextProps.filter);
+    }
   }
 
   render() {
@@ -25,7 +34,8 @@ class VacancyListWrapper extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  vacancies: state.vacancy.vacancyList
+  vacancies: state.vacancy.vacancyList,
+  filter: state.vacancy.filter
 });
 
 export default connect(mapStateToProps, { getVacancyList })(VacancyListWrapper);

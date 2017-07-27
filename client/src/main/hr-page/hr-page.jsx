@@ -5,6 +5,8 @@ import InterviewListWrapper from './components/interview-list-wrapper';
 import CandidateListWrapper from './components/candidate-list-wrapper';
 import VacancyListWrapper from './components/vacancy-list-wrapper';
 import SecondaryMenuComponent from '../../components/secondary-menu/secondary-menu.component';
+import VacanciesFilterForm from './components/filter/vacancies-filter.container';
+import CandidateFilter from './components/filter/candidates-filter.container';
 import './hr-page.css';
 
 export default class HRPage extends React.Component {
@@ -20,16 +22,16 @@ export default class HRPage extends React.Component {
           />
           <Route
             path={`/interviews`}
-            component={() =>
-                <InterviewListWrapper />
-            }
+            component={() => <InterviewListWrapper />}
           />
           <Route path={`/vacancies`} component={() => <VacancyListWrapper />} />
           <Route
             path={`/candidates`}
             component={() => <CandidateListWrapper />}
           />
-          <SecondaryMenuComponent />
+          /*<SecondaryMenuComponent />*/
+          <VacanciesFilterForm/>
+          <CandidateFilter/>
         </div>
       </div>
     );

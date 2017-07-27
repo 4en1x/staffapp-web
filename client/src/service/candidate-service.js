@@ -2,8 +2,8 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-function getCandidateList(p = 1) {
-  return axios.get(`candidates?p=${p}`);
+function getCandidateList(page = 1) {
+  return axios.get(`candidates?page=${page}`);
 }
 
 function getCandidateById(id) {
