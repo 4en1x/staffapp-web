@@ -25,7 +25,7 @@ function makeCriterion(key, value) {
       return `${key}>=${value.from} AND ${key}<=${value.to}`;
 
     case 'city':
-      return `cities.name in ("${value.join('","')}")`;
+      return `ct.name in ("${value.join('","')}")`;
 
     default:
       return '';

@@ -26,6 +26,11 @@ const toCamel = obj => deepMapKeys(obj, k => camelCase(k));
 const toSnake = obj => deepMapKeys(obj, k => snakeCase(k));
 
 function applyDefault(sourceOptions, defaultOptions) {
+  Object.keys(sourceOptions).forEach((key) => {
+    if (sourceOptions[key] === undefined) {
+      delete sourceOptions[key];
+    }
+  });
   return Object.assign({}, defaultOptions, sourceOptions);
 }
 
