@@ -26,6 +26,14 @@ class InterviewsController extends CRUDController {
         userFeedback: interview.userFeedback,
       } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
+      if (req.user.role === 'user') {
+        delete interview.feedbacks;
+      }
+
+      if (interview.userFeedback.status) {
+        delete interview.userFeedback;
+      }
+
       if (interview.date) {
         interview.time = fecha.format(interview.date, 'HH:mm');
         interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
