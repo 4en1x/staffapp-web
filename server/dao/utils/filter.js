@@ -5,7 +5,7 @@ function buidDateFilter(key, value) {
   const dateFrom = fecha.format(new Date(value.from), 'YYYY-MM-DD HH:mm:ss');
   const dateTo = fecha.format(new Date(value.to), 'YYYY-MM-DD HH:mm:ss');
 
-  return `${key}>=${dateFrom} AND ${key}<=${dateTo}`;
+  return `${key}>="${dateFrom}" AND ${key}<="${dateTo}"`;
 }
 
 function makeCriterion(key, value) {
@@ -18,13 +18,14 @@ function makeCriterion(key, value) {
 
     case 'status':
     case 'english_level':
-      return `${key} in (${value})`;
+    case 'primary_skill':
+      return `${key} in ("${value.join('","')}")`;
 
     case 'salary':
       return `${key}>=${value.from} AND ${key}<=${value.to}`;
 
     case 'city':
-      return `cities.name in (${value})`;
+      return `ct.name in ("${value.join('","')}")`;
 
     default:
       return '';
