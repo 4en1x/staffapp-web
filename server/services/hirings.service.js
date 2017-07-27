@@ -1,7 +1,7 @@
-const db = require('../dao');
+const db = require('../dao/dao');
 const fecha = require('fecha');
 
-async function createInterviews(interviews, hiringId, candidateId) {
+async function createInterviews(interviews = [], hiringId, candidateId) {
   await Promise.all(interviews.map(async (item) => {
     item.interview.hiringId = hiringId;
 
@@ -9,7 +9,7 @@ async function createInterviews(interviews, hiringId, candidateId) {
       interview: item.interview,
       users: item.users,
       candidateId,
-      feedbackFeilds: item.feedbackFields,
+      feedbackFields: item.feedbackFields,
     });
   }));
 }
@@ -18,7 +18,7 @@ function createHiringObject(req) {
   return {
     userId: req.user.id,
     dateOpen: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-    candidateId: req.query.candidate,
+    candidateId: req.body.candidateId,
   };
 }
 

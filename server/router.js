@@ -7,10 +7,6 @@ const vacancies = require('./routes/vacancies.route');
 const search = require('./routes/search.route');
 
 function init(app) {
-  app.get('/', (req, res) => {
-    res.send('Auth page should be here...');
-  });
-
   auth.init(app);
   app.use('/candidates', candidates);
   app.use('/interviews', interviews);
@@ -20,7 +16,7 @@ function init(app) {
   app.use('/search', search);
 
   app.use((req, res) => {
-    res.status(404).send('Uh oh! 404:(');
+    res.status(404).end();
   });
 }
 
