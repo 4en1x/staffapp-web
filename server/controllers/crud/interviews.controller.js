@@ -41,7 +41,7 @@ class InterviewsController extends CRUDController {
     }
 
     try {
-      const interviews = await actions[req.query.type || 'my'].call(db[this.daoName], id, page);
+      const interviews = await actions[req.query.type || 'my'].call(this.dao, id, page);
 
       if (!interviews) {
         res.json([]);

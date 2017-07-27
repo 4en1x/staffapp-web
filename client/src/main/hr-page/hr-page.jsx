@@ -1,11 +1,11 @@
 import React from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
 import ListComponent from "../../components/list/list.component";
 import SecondaryMenuComponent from "../../components/secondary-menu/secondary-menu.component";
 import HRNavigationBar from "../../components/hr-navigation-bar/navigation-bar";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import CandidatesListItem from "../../components/list/list-items/candidate-list-item";
 import VacancyListItem from "../../components/list/list-items/vacancy-list-item";
-import { Route, Redirect, Switch } from "react-router-dom";
 import "./hr-page.css";
 
 // default data for mock's

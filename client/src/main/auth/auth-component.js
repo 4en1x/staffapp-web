@@ -1,18 +1,28 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import axios from "axios";
-
-function currentUser() {
-  const user = localStorage.getItem("user");
-  if (user === null) return;
-  return JSON.parse(user);
-}
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { isAuthorized } from './auth-actions';
 
 export default function checkAuth(Component) {
-  return function(props) {
-    const userFromSession = currentUser();
-    const user = userFromSession || props.location.state;
-    if (!user) return <Redirect to="login" />;
-    return <Component {...props} user={user} />;
-  };
+  class Authorization extends React.Component {
+    componentDidMount() {
+      if (this.props.auth.isAuthError) this.props.isAuthorized();
+    }
+
+    render() {
+      const user = this.props.auth;
+
+      console.log(this.props.auth);
+      if (user.isAuthError) return <Redirect to="/login" />;
+      return <Component {...this.props} user={user} />;
+    }
+  }
+
+  function mapStateToProps(state) {
+    return {
+      auth: state.auth
+    };
+  }
+
+  return connect(mapStateToProps, { isAuthorized })(Authorization);
 }

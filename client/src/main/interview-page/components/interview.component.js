@@ -1,75 +1,55 @@
 import React from "react";
-
-import {
-  Divider,
-  Button,
-  List,
-  Header,
-  Statistic,
-  Card
-} from "semantic-ui-react";
-
 import "./interview-page.css";
 
-export default class InterviewComponent extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+import { Divider, Button, List, Header, Statistic, Card } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
-  onButtonClick = () => {
-    this.props.feedbackClicked();
-  };
-  /* <Search onSearchChange={this.handleSearchChange} />*/
+export default class InterviewComponent extends React.Component {
+
   render() {
     const data = this.props.interview;
-    console.log(data);
     return (
       <div className="interview-component">
-        <Header dividing as="h2">
-          Technical interview {data.id}
+        <Header dividing as="h2" className="custom-header">
+          Technical interview No{data.id}
         </Header>
 
-        <Card fluid className="row">
+        <Card fluid className="myCard">
           <div className="info">
-            <Statistic className="date" value={data.time} label="01.01.1997" />
-            <Divider />
-            <Header textAlign="center" as="h2">
-              Room 404
-              <Header.Subheader>City, Country </Header.Subheader>
-            </Header>
+            <Statistic className="date" value={data.time} label={data.date} />
+            <div className="horizontal-divider" />
+            <div className="detail-location">
+              <Header as="h3">Room 404</Header>
+              <Header as="h3">
+                {data.place}
+              </Header>
+            </div>
           </div>
+          <div className="vertical-divider" />
           <div className="interview-content">
-            <List size="massive" className="grid-list">
-              <List.Item className="flex-block">
-                <List.Header>Interviewee</List.Header>
-                {data.candidate.name} {data.candidate.surname}
+            <Header as="h1">
+              {data.candidate.name} {data.candidate.surname}
+            </Header>
+            <Divider hidden />
+            <List size="massive">
+              <List.Item>
+                Primary skill: {data.skills[0]}
               </List.Item>
-              <List.Item className="flex-block">
-                <List.Header>Interviewer</List.Header>
-                Anatoliy Levakov
-              </List.Item>
-              <List.Item className="flex-block">
-                <List.Header>Vacansy</List.Header>
-                Junior JS Developer
-              </List.Item>
-              <List.Item className="flex-block">
-                <List.Header>Primary skill</List.Header>
-                {data.skills[0]}
-              </List.Item>
-              <List.Item className="flex-block">
-                <List.Header>Secondary skills</List.Header>
-                <List
-                  bulleted
-                  className="skills"
-                  items={data.skills.slice(1)}
-                />
+              <List.Item>
+                Secondary skills:
+                <List className="skills" items={data.skills.slice(1)} />
               </List.Item>
             </List>
+            <Link
+              to={`${this.props.url}/feedback/${this.props.interview
+                .feedbacks[0].id}`}
+            >
+              <Button color="twitter" floated="right">
+                Feedback
+              </Button>
+            </Link>
           </div>
         </Card>
-        <Button color="twitter" floated="right">
-          Feedback
-        </Button>
       </div>
     );
   }

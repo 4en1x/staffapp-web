@@ -1,37 +1,33 @@
-import React from "react";
-import WorkerPage from "../worker-page/worker-page";
-import HRPage from "../hr-page/hr-page";
-import Header from "../../components/header/header.components";
-import { Route, Switch, Redirect } from "react-router-dom";
-import InterviewPage from "../interview-page/interview-page";
-import CandidatePage from "../candidate-detail-page/candidate-page";
-import TechnicalFeedback from "../add-technical-feedback-page/technical-feedback.js";
-import "../../index.css";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import WorkerPage from '../worker-page/worker-page';
+import HRPage from '../hr-page/hr-page';
+import Header from '../../components/header/header.components';
+import CandidatePage from '../candidate-detail-page/candidate-page';
+import InterviewPage from '../interview-page/interview-page';
+import FeedBackPage from '../feedback-page/feedback-page';
+import '../../index.css';
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.user = props.user;
-  }
-
   config = () => ({
     HR: HRPage,
-    Worker: WorkerPage
+    user: WorkerPage
   });
 
   render() {
     const config = this.config();
-    const user = this.user;
-    console.log(this.props);
+    const user = this.props.user;
+
+    console.log(user);
 
     return (
       <div className="root-class">
-        <Header user={{ name: user.name, surname: "Surname" }} />
+        <Header user={{ name: user.name, surname: user.surname }} />
         <Switch>
           <Route exact path="/interviews/:id" component={InterviewPage} />
           <Route
-            path="/interviews/:id/feedback"
-            component={TechnicalFeedback}
+            path="/interviews/:id/feedback/:id"
+            component={FeedBackPage}
           />
           <Route path="/candidates/:id" component={CandidatePage} />
           <Route path="/" component={config[user.role]} />

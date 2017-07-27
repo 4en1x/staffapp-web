@@ -1,52 +1,30 @@
 import React from "react";
+import { connect } from "react-redux";
 import InterviewComponent from "./components/interview.component";
-import { Redirect } from "react-router-dom";
-
+import SemanticLoader from "../../components/loaders/semantic-loader";
+import * as actionCreators from "./interview-actions";
 import "./interview-page.css";
 
-const data = {
-  id: "1",
-  skills: ["skill 1", "skill 2", "skill 3", "skill 4"],
-  location: "Minsk",
-  time: "18:00",
-  candidate: {
-    name: "Nick",
-    surname: "Zabolotskiy"
-  }
-};
-
-export default class InterviewPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      interview: null,
-      isLoaded: false,
-      feedbackClicked: false
-    };
-  }
-
+class InterviewPage extends React.Component {
   componentDidMount() {
-    this.setState({ interview: data, isLoaded: true });
+    const id = this.props.match.url;
+    this.props.getInterviewById(id);
   }
-
-  feedbackClicked = () => {
-    this.setState({ feedbackClicked: true });
-  };
 
   render() {
     const url = this.props.match.url;
-    if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
-
     return (
       <div className="interview-page">
-        {!this.state.isLoaded
-          ? <p>Not Loaded</p>
-          : <InterviewComponent
-              interview={this.state.interview}
-              feedbackClicked={this.feedbackClicked}
-            />}
+        {!this.props.interview
+          ? <SemanticLoader />
+          : <InterviewComponent interview={this.props.interview} url={url} />}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  interview: state.interview.currentInterview
+});
+
+export default connect(mapStateToProps, actionCreators)(InterviewPage);
