@@ -41,12 +41,11 @@ A JSON object, that contains an array of interview objects.
   - **type: 'TECH'** — technical interview
   - **type: 'HR'** — HRM interview
   - **type: 'CLIENT'** — clinet interview
-- **date** *(may be not defined)* — date of the interview
-- **time** *(may be not defined)* — time of the interview
+- **date** *(may be not defined)* — date of the interview (DD/MM/YYYY)
+- **time** *(may be not defined)* — time of the interview (HH:mm)
 - **place** *(may be not defined)* — place of the interview
-- **candidate** — candidate object:
-  - **name** *(may be not defined)* — candidate first name
-  - **surname** *(may be not defined)* — candidate last name
+- **name** — candidate first name
+- **surname** — candidate last name
 
 ## Errors
 
@@ -71,32 +70,26 @@ GET interviews?type=assigned&page=4
     {
       "id": 3,
       "type": "TECH",
-      "date": "2017-07-18",
-      "time":  "15:30:00",
+      "date": "18/07/2017",
+      "time":  "15:30",
       "place": "somewhere",
-      "candidate": {
-        "name": "John",
-        "surname": "Smith"
-      }
+      "name": "John",
+      "surname": "Smith"
     },
     {
       "id": 2,
       "type": "HR",
-      "place": "somewhere",
-      "candidate": {
-        "name": "Sohn",
-        "surname": "Jmith"
-      }
+      "place": "somewhere else",
+      "name": "Sohn",
+      "surname": "Jmith"
     },
     {
       "id": 1,
       "type": "CLIENT",
-      "date": "2017-07-19",
-      "time": "16:00:00"
-      "candidate": {
-        "name": "Jmin",
-        "surname": "Sohth"
-      }
+      "date": "19/07/2017",
+      "time": "16:00",
+      "name": "Nhos",
+      "surname": "Htimj"
     }
   ]
 }

@@ -38,9 +38,9 @@ A JSON object that contains interview fields.
 - **type** — type of the interview:
   - **type: 'TECH'** — technical interview
   - **type: 'HR'** — HRM interview
-  - **type: 'CLIENT'** — clinet interview
-- **date** *(may be not defined)* — date of the interview
-- **time** *(may be not defined)* — time of the interview
+  - **type: 'CLIENT'** — client interview
+- **date** *(may be not defined)* — date of the interview (DD/MM/YYYY)
+- **time** *(may be not defined)* — time of the interview (HH:mm)
 - **place** *(may be not defined)* — place of the interview
 - **hiringId** — parent hiring id
 - **candidate** — candidate object:
@@ -49,8 +49,24 @@ A JSON object that contains interview fields.
 - **users** — array of user objects:
   - **id** — user id
   - **name** — user name
-- **skills** — array ([String]) of skills
-- **feedbacks** — array of feedback objects:
+- **skills** — string array of skills
+- **userFeedback** (*undefined if `status: 1`*) — feedback assigned to current user:
+  - **id** — unique feedback id
+  - **userId** — assigned user id
+  - **interviewId** — parent interview id
+  - **candidateId** — assigned candidate id
+  - **comment** — review text
+  - **status: 0** — feedback status (redundant info)
+  - **fields** — array of feedback field objects
+    - **id** — unique feedback field id
+    - **name** — feedback field name (title)
+    - **typeSkill** — type of a skill (primary, secondary, etc.), if the interview is a '**TECH**' interview
+    - **feedbackId** — parent feedback id
+    - **type** — type of field:
+      - **type: 'tech'** — has **name**, **value**, **comment** and **typeSkill**
+      - **type: 'hr'** — has **name** and **comment**
+      - **type: 'client'** — has **comment**
+- **feedbacks** (*undefined if user role is 'user'*) — array of feedback objects:
   - **id** — unique feedback id
   - **userId** — assigned user id
   - **interviewId** — parent interview id
@@ -92,8 +108,8 @@ GET interviews/3
 {
   "id": 3,
   "type": "TECH",
-  "date": "2017-07-18",
-  "time": "15:30:00",
+  "date": "18/07/2017",
+  "time": "15:30",
   "place": "somewhere",
   "hiringId": 1,
   "candidate": {
@@ -111,6 +127,29 @@ GET interviews/3
     }
   ],
   "skills": ["Skill 1", "Skill 2", "Super Skill"],
+  "userFeedback": {
+    "id": 5,
+    "userId": 1,
+    "interviewId": 3,
+    "candidateId": 1,
+    "status": 0,
+    "fields": [
+      {
+        "id": 11,
+        "name": "C++ level",
+        "typeSkill": "primary",
+        "feedbackId": 5,
+        "type": "tech"
+      },
+      {
+        "id": 12,
+        "name": "Some skill",
+        "typeSkill": "secondary",
+        "feedbackId": 5,
+        "type": "tech"
+      }
+    ]
+  }
   "feedbacks": [
     {
       "id": 5,

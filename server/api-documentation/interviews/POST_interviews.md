@@ -25,13 +25,13 @@ Authentication is required.
     - **type: 'TECH'** — technical interview
     - **type: 'HR'** — HRM interview
     - **type: 'CLIENT'** — client interview
-  - **date** — date of the interview
-  - **time** — time of the interview
+  - **date** — date of the interview (DD/MM/YYYY)
+  - **time** — time of the interview (HH:mm)
   - **place** — place of the interview
   - **hiringId** *(required)* — parent hiring id
 - **users** *(required)* — array of users ids
 - **candidateId** *(required)* — candidate id
-- **feedbackFields** — array of feedbacks fields:
+- **fields** — array of feedbacks fields:
   - **name** — feedback field name (title)
   - **typeSkill** — type of a skill (primary, secondary, etc.), if the interview is a '**TECH**' interview
   - **type** — type of field:
@@ -69,9 +69,9 @@ POST interviews
   },
   "users": [1, 2, 3],
   "candidateId": 2,
-  "date": "2017-07-24",
-  "time": "14:00:00",
-  "feedbackFields": [
+  "date": "24/07/2017",
+  "time": "14:00",
+  "fields": [
     {
       "name": "C++ skill",
       "typeSkill": "primary",
