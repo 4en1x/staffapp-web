@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import VacanciesFilterForm from "../../../components/filter/filter-forms/vacancies-filter-form";
+
 import "./filter.css";
 
 function check(values) {
   window.alert(JSON.stringify(values));
 }
+
 const Statuses = ["Pool ", "In progress", "Hired"].map(item => ({
   key: item,
   name: item
@@ -38,20 +41,31 @@ const Cities = ["Minsk", "Moscow", "London"].map(item => ({
   text: item
 }));
 
+const EnglishLevels = ["option_1", "option_2", "option_3"].map(item => ({
+  key: item,
+  value: item,
+  text: item
+}));
+
 const data = {
   statuses: Statuses,
   primarySkills: PrimarySkills,
   secondarySkills: SecondarySkills,
-  cities: Cities
+  cities: Cities,
+  englishLevels: EnglishLevels
 };
 
-export default class FilterComponent extends React.Component {
+class FilterComponent extends React.Component {
+  componentDidMount() {}
+
+  onSumbitClicked = filter => {};
+
   render() {
-    const FilterForm = this.props.form;
-    console.log(FilterForm);
+    if (!filter.props.filterValues) return <p />;
+
     return (
       <div className="filter-container">
-        <FilterForm onSubmit={check} data={data} />
+        <VacanciesFilterForm onSubmit={check} data={this.props.filterValues} />
       </div>
     );
   }
@@ -60,3 +74,11 @@ export default class FilterComponent extends React.Component {
 FilterComponent.propTypes = {
   form: PropTypes.func.isRequired
 };
+
+const mapStateToProps = state => {
+  return {
+    filterValues: state.vacancy.filterValues
+  };
+};
+
+export default connect(mapStateToProps)(FilterComponent);
