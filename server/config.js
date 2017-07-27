@@ -22,4 +22,6 @@ const config = {
 
 if (myDbConfig.mode === 'test') config.db = myDbConfig;
 
+console.log(config.db);
+
 module.exports = config;
