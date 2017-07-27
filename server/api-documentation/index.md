@@ -23,3 +23,7 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 
 - **[```GET``` feedbacks/:id](./feedbacks/GET_feedbacks_id.md)**
 - **[```PUT``` feedbacks/:id](./feedbacks/PUT_feedbacks_id.md)**
+
+### Candidates
+
+- **[```GET``` candidates](./candidates/GET_candidates.md)**
