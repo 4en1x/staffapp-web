@@ -1,0 +1,35 @@
+.ui.list > .item.flex-interview-list-item,
+.ui.list > .item.flex-interview-list-item:first-child {
+  height: 10rem;
+}
+.ui.list > .item.flex-interview-list-item > a,
+.ui.list > .item.flex-interview-list-item:first-child > a {
+  width: 100%;
+  height: 100%;
+  padding: 1.5% 3% 0.5% 3%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  color: rgba(0,0,0,.87);
+}
+
+.interview-list-item-header,
+.interview-list-item-extra {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+h4.ui.header.name,
+h4.ui.header.time {
+  font-size: 1.2rem;
+}
+
+span.interview-list-item-description {
+  font-size: 1.4rem;
+}
+span.location,
+span.date {
+  font-size: 1.1rem;
+}

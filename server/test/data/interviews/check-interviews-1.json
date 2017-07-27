@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "type": "HR",
+  "place": "exadel",
+  "hiringId": 1,
+  "feedbacks": [
+    {
+      "id": 1,
+      "userId": 2,
+      "interviewId": 1,
+      "candidateId": 1,
+      "comment": "some comment",
+      "status": 0
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "interviewId": 1,
+      "candidateId": 1,
+      "comment": "some comment 2",
+      "status": 0
+    },
+    {
+      "id": 3,
+      "userId": 4,
+      "interviewId": 1,
+      "candidateId": 1,
+      "comment": "some comment 3",
+      "status": 0
+    }
+  ]
+}

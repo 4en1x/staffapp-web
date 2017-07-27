@@ -1,0 +1,24 @@
+{
+  "name": "Justify",
+  "status": "Closed",
+  "description": ".................",
+  "skills": [
+    {
+      "name": "python",
+      "weight": 435
+    },
+    {
+      "name": "java",
+      "weight": 1
+    },
+    {
+      "name": "ruby",
+      "weight": 1
+    },
+    {
+      "name": "js",
+      "weight": 56
+    }
+  ],
+  "city": "Paris"
+}
