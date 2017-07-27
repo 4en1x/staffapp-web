@@ -20,7 +20,7 @@ function init(app) {
   app.use('/search', search);
 
   app.use((req, res) => {
-    res.status(404).send('Uh oh! 404:(');
+    res.status(404).end();
   });
 }
 

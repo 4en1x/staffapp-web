@@ -31,5 +31,6 @@
     "eject": "react-scripts eject",
     "build-semantic": "cd semantic && gulp build",
     "watch-semantic": "cd semantic && gulp watch"
-  }
+  },
+  "proxy": "http://localhost:3300"
 }
