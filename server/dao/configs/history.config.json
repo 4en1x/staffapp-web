@@ -1,0 +1,5 @@
+{
+  "create":["candidates","cities","hirings","interviews","skills","users","vacancies"],
+  "update":["candidates","cities","hirings","interviews","skills","users","vacancies","feedbacks"],
+  "delete":["candidates","cities","hirings","interviews","skills","users","vacancies"]
+}

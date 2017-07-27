@@ -5,7 +5,7 @@ class CRUDController {
 
   async create(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      const id = await this.dao.create(resource);
+      const id = await this.dao.create(resource, req.user.id);
 
       await onload(id);
       res.json({ id });
@@ -41,10 +41,11 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resources = await this.dao.find(req.query.page);
+      const resources = await this.dao.find(req.query.page, req.query);
       await onload(resources);
       res.json(resources);
     } catch (err) {
+      console.log(err);
       if (onerror(err)) {
         res.status(500).end();
       }
@@ -53,7 +54,7 @@ class CRUDController {
 
   async update(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      await this.dao.update(req.params.id, resource);
+      await this.dao.update(req.params.id, resource, req.user.id);
       await onload(resource);
       res.json({});
     } catch (err) {
@@ -70,7 +71,7 @@ class CRUDController {
 
   async delete(req, res, onload = () => { }, onerror = () => true) {
     try {
-      await this.dao.delete(req.params.id);
+      await this.dao.delete(req.params.id, req.user.id);
       await onload();
       res.json({});
     } catch (err) {
