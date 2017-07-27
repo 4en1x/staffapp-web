@@ -15,7 +15,7 @@ const corsOptions = {
 
 app.set('port', config.web.port);
 console.log(path.join());
-app.use(express.static(path.join() + './client/build'));
+app.use(express.static(path.join() + '/client/build'));
 
 app.use(bodyParser.json({}));
 app.use(bodyParser.urlencoded({ extended: true }));
