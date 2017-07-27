@@ -73,7 +73,7 @@ describe('#Feedbacks-Api', () => {
   });
 
   describe('#Update Feedback', () => {
-    it.only('This test should pass, because hr and admin have access for all feedbacks and can update them',
+    it('This test should pass, because hr and admin have access for all feedbacks and can update them',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -85,7 +85,7 @@ describe('#Feedbacks-Api', () => {
           .put(`${defaultUrl}/feedbacks/8`)
           .set('Accept', 'application/json')
           .send(JSON.parse(data))
-            .ok(res => res.status <= 500);
+          .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(200);
 
         data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');

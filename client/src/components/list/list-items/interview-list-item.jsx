@@ -24,7 +24,7 @@ const InterviewListItem = props => {
         </span>
         <div className="interview-list-item-extra">
           <span className="location">
-            {interview.location}
+            {interview.place}
           </span>
           <span className="date">
             {interview.date}

@@ -4,6 +4,7 @@ const FeedbacksController = require('./crud/feedbacks.controller');
 const HiringsController = require('./crud/hirings.controller');
 const InterviewsController = require('./crud/interviews.controller');
 const VacanciesController = require('./crud/vacancies.controller');
+const HistoryController = require('./crud/history.controller');
 
 const controllers = {
   auth: AuthController,
@@ -12,6 +13,7 @@ const controllers = {
   hirings: new HiringsController(),
   interviews: new InterviewsController(),
   vacancies: new VacanciesController(),
+  history: new HistoryController(),
 };
 
 module.exports = controllers;

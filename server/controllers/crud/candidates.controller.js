@@ -1,5 +1,5 @@
 const CRUDController = require('../crud.controller');
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 
 class CandidatesController extends CRUDController {
@@ -9,23 +9,28 @@ class CandidatesController extends CRUDController {
 
   async readOne(req, res) {
     try {
-      let candidate = await this.dao.readOne(req.params.id);
+      let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
       res.json(candidate);
     } catch (err) {
+      if (err.message === '404') {
+        res.status(404).end();
+        return;
+      }
+
       res.status(500).end();
     }
   }
 
   async create(req, res) {
-    const { candidate, links, city } = service.createCandidate(req.body);
+    const candidate = service.createCandidate(req.body);
     candidate.userId = req.user.id;
-    await super.create(req, res, { candidate, links, city });
+    await super.create(req, res, candidate);
   }
 
   async update(req, res) {
-    const { candidate, links, city, skills } = service.updateCandidate(req.params.id, req.body);
-    await super.update(req, res, { candidate, links, city, skills });
+    const candidate = service.updateCandidate(req.params.id, req.body);
+    await super.update(req, res, candidate);
   }
 }
 
