@@ -6,18 +6,27 @@ class HistoryDAO extends BasicDAO {
   constructor(connection) {
     super('history', connection);
   }
+
   /**
    * @returns {HistoryDAO}
    */
+
   static get instance() {
     return HistoryDAO._instance || (HistoryDAO._instance = new HistoryDAO());
   }
+
+  /**
+   *
+   * @param {Number} [page] - default=1
+   * @returns {Promise <[Object]>}
+   */
 
   async find(page, query) {
     const history = await super.find({
       page,
       amount: this.itemsPerPage,
       condition: makeFilterQuery(query),
+      order: 'ORDER BY time DESC',
     });
     return history;
   }
