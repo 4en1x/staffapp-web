@@ -20,17 +20,14 @@ Authentication is required.
 
 ## Body
 
-- **interview** — interview object:
-  - **type** *(required)* — type of the interview:
-    - **type: 'TECH'** — technical interview
-    - **type: 'HR'** — HRM interview
-    - **type: 'CLIENT'** — client interview
-  - **date** — date of the interview (DD/MM/YYYY)
-  - **time** — time of the interview (HH:mm)
-  - **place** — place of the interview
-  - **hiringId** *(required)* — parent hiring id
+- **type** *(required)* — type of the interview:
+  - **type: 'TECH'** — technical interview
+  - **type: 'HR'** — HRM interview
+  - **type: 'CLIENT'** — client interview
+- **date** — date and time of the interview ("YYYY-MM-DDTHH:mm:ss.000Z")
+- **place** — place of the interview
+- **hiringId** *(required)* — parent hiring id
 - **users** *(required)* — array of users ids
-- **candidateId** *(required)* — candidate id
 - **fields** — array of feedbacks fields:
   - **name** — feedback field name (title)
   - **typeSkill** — type of a skill (primary, secondary, etc.), if the interview is a '**TECH**' interview
@@ -63,14 +60,10 @@ POST interviews
 
 ``` JSON
 {
-  "interview": {
-    "type": "TECH",
-    "hiringId": 1
-  },
+  "type": "TECH",
+  "hiringId": 1,
   "users": [1, 2, 3],
-  "candidateId": 2,
-  "date": "24/07/2017",
-  "time": "14:00",
+  "date": "2017-07-27T15:00:00.000Z",
   "fields": [
     {
       "name": "C++ skill",
