@@ -41,9 +41,20 @@ Read a page of candidates.
 
 A JSON object, that contains an array of candidate objects.
 
+### Candidate object
+
+- **id** — unique id of the candidate
+- **name** — first name of the candidate
+- **surname** — second name of the candidate
+- **primarySkill** — primary skill of the candidate
+- **status** — candidate status
+- **lastChangeDate** — last candidate change date ("YYYY-MM-DDTHH:mm:ss.000Z")
+- **city** — candidate city
+
 ## Errors
 
 - **400 Bad request** — **page** is not a number or filters can not be parsed
+- **403 Forbidden** — user with 'user' role can not read candidates
 
 ***
 

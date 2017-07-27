@@ -27,3 +27,4 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 ### Candidates
 
 - **[```GET``` candidates](./candidates/GET_candidates.md)**
+- **[```GET``` candidates/:id](./candidates/GET_candidates_id.md)**
