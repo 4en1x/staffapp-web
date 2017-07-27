@@ -1,9 +1,9 @@
-import axios from "axios";
-import userService from "../../service/user-service";
+import axios from 'axios';
+import userService from '../../service/user-service';
 axios.defaults.withCredentials = true;
 
-const ADD_USER = "ADD_USER";
-const ADD_USER_ERROR = "ADD_USER_ERROR";
+const ADD_USER = 'ADD_USER';
+const ADD_USER_ERROR = 'ADD_USER_ERROR';
 
 function addUser(user) {
   return {
@@ -24,5 +24,18 @@ export function login(user) {
     userService.login(user).then(response => {
       dispatch(addUser(response.data));
     });
+  };
+}
+
+export function isAuthorized() {
+  return dispatch => {
+    userService
+      .isAuthorized()
+      .then(res => {
+        dispatch(addUser(res.data));
+      })
+      .catch(err => {
+        addUserError();
+      });
   };
 }

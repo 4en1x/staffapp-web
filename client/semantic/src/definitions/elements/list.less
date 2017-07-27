@@ -177,6 +177,12 @@ ol.ui.list ol li,
   color: @itemHeaderColor;
 }
 
+/* Inline */
+.ui.list.inline .list > .item .header,
+.ui.list.inline > .item .header {
+  display: inline-block;
+}
+
 /* Description */
 .ui.list .list > .item .description,
 .ui.list > .item .description {
@@ -271,6 +277,26 @@ ol.ui.list ol li,
 /*******************************
             Types
 *******************************/
+
+/*-------------------
+      Grid-list
+--------------------*/
+
+.ui.grid-list.list{
+  padding: 0em 2em;
+}
+
+.ui.grid-list.list > .item {
+  width:50%;
+  display: inline-block;
+  margin-bottom: 1em;
+}
+/* Padding on all elements */
+.ui.grid-list.list > .item:first-child,
+.ui.grid-list.list > .item:last-child {
+  padding-top: @itemVerticalPadding;
+  padding-bottom: @itemVerticalPadding;
+}
 
 /*-------------------
       Horizontal

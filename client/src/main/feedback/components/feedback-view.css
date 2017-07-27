@@ -1,0 +1,34 @@
+.feedback-component {
+  margin: 0.5% auto;
+  max-width: 1200px;
+  width: 90%;
+}
+
+.flex-block {
+  margin-left: 2%;
+}
+
+.feedback-component_header {
+  margin-left: 2%;
+}
+
+.feedback-component_primary-skill {
+  margin-top: 2%;
+}
+
+.card-content{
+  padding: 1em 4em;
+}
+
+.skill-location{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.display-accordion{
+  display: inline-block;
+}
+
+.margin-stars{
+  margin:0 1em;
+}

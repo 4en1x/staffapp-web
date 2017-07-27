@@ -19,9 +19,6 @@ const InterviewListItem = props => {
             {interview.time}
           </Header>
         </div>
-        <span className="interview-list-item-description">
-          {interview.primarySkill}
-        </span>
         <div className="interview-list-item-extra">
           <span className="location">
             {interview.place}
