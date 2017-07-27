@@ -27,6 +27,12 @@ const CandidatesFilterForm = props => {
         items={data.secondarySkills}
         component={DropdownComponent}
       />
+        <Field
+            name="englishLevel"
+            label="English level"
+            items={data.englishLevels}
+            component={DropdownComponent}
+        />
       <div className="filter-item right">
         <Button color="twitter" icon="filter" content="Apply" type="submit" />
       </div>
