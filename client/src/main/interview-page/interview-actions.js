@@ -1,7 +1,8 @@
-import interviewService from "../../service/interview-service";
+import interviewService from '../../service/interview-service';
 
-const ADD_INTERVIEW_LIST = "ADD_INTERVIEW_LIST";
-const ADD_CURRENT_INTERVIEW = "ADD_CURRENT_INTERVIEW";
+const ADD_INTERVIEW_LIST = 'ADD_INTERVIEW_LIST';
+const ADD_CURRENT_INTERVIEW = 'ADD_CURRENT_INTERVIEW';
+const ADD_FILTER = 'ADD_FILTER';
 
 function addInterviewsList(list) {
   return {
@@ -17,9 +18,16 @@ function addCurrentInterview(interview) {
   };
 }
 
-export function getInterviewList() {
+export function addFilter(filter) {
+  return {
+    type: ADD_FILTER,
+    filter
+  };
+}
+
+export function getInterviewList(filter = {type: 'my'}) {
   return dispatch => {
-    interviewService.getInterviewList().then(response => {
+    interviewService.getInterviewList(filter).then(response => {
       dispatch(addInterviewsList(response.data));
     });
   };

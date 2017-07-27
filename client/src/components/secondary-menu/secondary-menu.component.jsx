@@ -1,19 +1,24 @@
-import React from "react";
-import { Menu } from "semantic-ui-react";
-import "./secondary-menu.css";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Menu } from 'semantic-ui-react';
+import { addFilter } from '../../main/interview-page/interview-actions';
+import './secondary-menu.css';
 
-const ItemsList = ["my interviews", "assigments", "all"].map(item => ({
+const ItemsList = ['my', 'assigned', 'all'].map(item => ({
   key: item,
-  name: item
+  name: item,
 }));
 
-export default class SecondaryMenuComponent extends React.Component {
-    constructor() {
-        super();
-        this.state = {};
-    }
+class SecondaryMenuComponent extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = (e, { name }) => {
+    this.props.addFilter({ type: name });
+    this.setState({ activeItem: name });
+  };
 
   render() {
     // const ItemsList = this.props.itemsList.map(item => {
@@ -32,3 +37,19 @@ export default class SecondaryMenuComponent extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addFilter: filter => {
+      dispatch(addFilter(filter));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(
+  SecondaryMenuComponent
+);
