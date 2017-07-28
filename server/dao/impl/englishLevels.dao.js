@@ -13,15 +13,6 @@ class EnglishLevelsDAO extends BasicDAO {
     return EnglishLevelsDAO._instance || (EnglishLevelsDAO._instance = new EnglishLevelsDAO());
   }
 
-  async findById(id) {
-    const [level] = await super.find({
-      condition: 'WHERE id = ?',
-      values: [id],
-    });
-
-    return level;
-  }
-
   async findByName(name) {
     const [level] = await super.find({
       condition: 'WHERE name = ?',

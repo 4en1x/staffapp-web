@@ -14,15 +14,6 @@ class CandidateStatusesDAO extends BasicDAO {
       (CandidateStatusesDAO._instance = new CandidateStatusesDAO());
   }
 
-  async findById(id) {
-    const [status] = await super.find({
-      condition: 'WHERE id = ?',
-      values: [id],
-    });
-
-    return status;
-  }
-
   async findByName(name) {
     const [status] = await super.find({
       condition: 'WHERE name = ?',
