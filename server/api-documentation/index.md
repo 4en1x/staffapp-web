@@ -33,3 +33,4 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 
 - **[```GET``` vacancies](./vacancies/GET_vacancies.md)**
 - **[```GET``` vacancies/:id](./vacancies/GET_vacancies_id.md)**
+- **[```POST``` vacancies](./vacancies/POST_vacancies.md)**

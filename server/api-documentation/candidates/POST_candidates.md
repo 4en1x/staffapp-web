@@ -28,7 +28,7 @@ Add a candidate.
 - **email** *(required)* — candidate email
 - **skype** — candidate skype
 - **phone** — candidate phone
-- **resumes** — candidate resume
+- **resume** — candidate resume
 - **status** *(required)* — candidate status
 - **linkedin** — candidate linkedin
 - **primarySkillYearStart** — year when candidate started their primary skill
