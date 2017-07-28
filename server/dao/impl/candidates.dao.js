@@ -53,9 +53,21 @@ class CandidatesDAO extends BasicDAO {
       const links = candidate.links || [];
       delete candidate.links;
 
+      const skills = candidate.skills || [];
+      delete candidate.skills;
+
       const id = await superCreate(candidate, userId);
 
       await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
+
+      await Promise.all(skills.map(async (skill) => {
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
+                (skill_id, candidate_id) VALUES (?, ?)`,
+          values: [skillId, id],
+        });
+      }));
 
       return id;
     });
