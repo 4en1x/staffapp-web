@@ -1,22 +1,6 @@
--- MySQL Workbench Forward Engineering
-
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
--- -----------------------------------------------------
--- Schema exadel-team-db
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema exadel-team-db
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `exadel-team-db` DEFAULT CHARACTER SET utf8 ;
-USE `exadel-team-db` ;
-
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: mysql5.gear.host    Database: exadelteamdb
+-- Host: mysql5.gear.host    Database: exadelteamdb2
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -32,6 +16,36 @@ USE `exadel-team-db` ;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `candidate_statuses`
+--
+CREATE SCHEMA IF NOT EXISTS `exadelteamdb2` ;
+DEFAULT CHARACTER SET utf8 ;
+
+
+
+USE `exadelteamdb2` ;
+
+DROP TABLE IF EXISTS `candidate_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `candidate_statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `candidate_statuses`
+--
+
+LOCK TABLES `candidate_statuses` WRITE;
+/*!40000 ALTER TABLE `candidate_statuses` DISABLE KEYS */;
+INSERT INTO `candidate_statuses` VALUES (1,'Pool'),(2,'In progress'),(3,'On hold'),(4,'Rejected'),(5,'Interview'),(6,'Job offer'),(7,'Job offer rejected'),(8,'Job offer accepted'),(9,'Hired');
+/*!40000 ALTER TABLE `candidate_statuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `candidates`
 --
 
@@ -43,12 +57,12 @@ CREATE TABLE `candidates` (
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
-  `primary_skill` varchar(45) NOT NULL,
+  `primary_skill` int(11) NOT NULL,
   `skype` varchar(45) DEFAULT NULL,
   `phone` varchar(45) DEFAULT NULL,
   `resume` varchar(45) DEFAULT NULL,
-  `status` set('Pool','In progress','On hold','Rejected','Interview','Job offer','Job offer rejected','Job offer accepted','Hired') NOT NULL,
-  `english_level` set('0','A1','A2','B1','B2','C1','C2') NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `english_level_id` int(11) NOT NULL,
   `created_date` datetime NOT NULL,
   `last_change_date` datetime NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -60,9 +74,15 @@ CREATE TABLE `candidates` (
   PRIMARY KEY (`id`),
   KEY `fk_candidates_users1_idx` (`user_id`),
   KEY `fk_candidates_cities1_idx` (`city_id`),
+  KEY `fk_candidates_skills1_idx` (`primary_skill`),
+  KEY `fk_candidates_english_levels1_idx` (`english_level_id`),
+  KEY `fk_candidates_candidate_statuses1_idx` (`status_id`),
+  CONSTRAINT `fk_candidates_candidate_statuses1` FOREIGN KEY (`status_id`) REFERENCES `candidate_statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_candidates_cities1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_candidates_english_levels1` FOREIGN KEY (`english_level_id`) REFERENCES `english_levels` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_candidates_skills1` FOREIGN KEY (`primary_skill`) REFERENCES `skills` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_candidates_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +91,7 @@ CREATE TABLE `candidates` (
 
 LOCK TABLES `candidates` WRITE;
 /*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
-INSERT INTO `candidates` VALUES (1,'Kostya','Stsefanovich','freeplayercot@gmail.com','js',NULL,'+375293552746',NULL,'Pool','0','2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,1,'5000$',NULL,NULL),(2,'Nina','Balerina','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(3,'Lena','VEryBig','@exist.ru','python',NULL,NULL,NULL,'Hired','B1','2009-06-03 11:13:56','2009-06-03 11:13:56',2,NULL,NULL,'5000000$',NULL,NULL),(4,'Kostya','Stsefanovich','freeplayercot@gmail.com','js',NULL,'+375293552746',NULL,'Pool','0','2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,1,'5000$',NULL,NULL),(5,'Sergey','Moiseenko','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(6,'Ivan','Ivanov','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(7,'Anton','Dosov','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(8,'Dmitry','Rusakov','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(9,'Zhenya','Basaranovich','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(10,'Ivan','Ivanov','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(11,'Ilya','Sidorov','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(12,'Alexey','Stsefanovich','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(13,'Name','Surname','Something','java',NULL,'+375293162746',NULL,'Hired','A1','2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL);
+INSERT INTO `candidates` VALUES (1,'Kostya','Stsefanovich','freeplayercot@gmail.com',1,NULL,'+375293552746',NULL,1,1,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,1,'5000$',NULL,NULL),(2,'Nina','Balerina','Something',1,NULL,'+375293162746',NULL,2,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(3,'Lena','VEryBig','@exist.ru',2,NULL,NULL,NULL,3,3,'2009-06-03 11:13:56','2009-06-03 11:13:56',2,NULL,NULL,'5000000$',NULL,NULL),(4,'Kostya','Stsefanovich','freeplayercot@gmail.com',3,NULL,'+375293552746',NULL,4,4,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,5,'5000$',NULL,NULL),(5,'Sergey','Moiseenko','Something',4,NULL,'+375293162746',NULL,5,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,9,'5000000$',NULL,NULL),(6,'Ivan','Ivanov','Something',4,NULL,'+375293162746',NULL,6,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(7,'Anton','Dosov','Something',3,NULL,'+375293162746',NULL,7,7,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,'5000000$',NULL,NULL),(8,'Dmitry','Rusakov','Something',3,NULL,'+375293162746',NULL,8,1,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,'5000000$',NULL,NULL),(9,'Zhenya','Basaranovich','Something',7,NULL,'+375293162746',NULL,9,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,6,'5000000$',NULL,NULL),(10,'Ivan','Ivanov','Something',7,NULL,'+375293162746',NULL,1,3,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(11,'Ilya','Sidorov','Something',10,NULL,'+375293162746',NULL,2,4,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,5,'5000000$',NULL,NULL),(12,'Alexey','Stsefanovich','Something',11,NULL,'+375293162746',NULL,3,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,'5000000$',NULL,NULL),(13,'Name','Surname','Something',11,NULL,'+375293162746',NULL,4,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,'5000000$',NULL,NULL),(16,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 05:03:42','2017-07-28 06:43:16',1,NULL,1,NULL,NULL,NULL),(17,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 06:44:13','2017-07-28 06:44:13',1,NULL,1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +106,7 @@ CREATE TABLE `cities` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,8 +115,32 @@ CREATE TABLE `cities` (
 
 LOCK TABLES `cities` WRITE;
 /*!40000 ALTER TABLE `cities` DISABLE KEYS */;
-INSERT INTO `cities` VALUES (1,'Minsk'),(2,'Pinsk');
+INSERT INTO `cities` VALUES (1,'Minsk'),(2,'Mogilev'),(3,'Brest'),(4,'New-York'),(5,'Vitebsk'),(6,'Pinsk');
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `english_levels`
+--
+
+DROP TABLE IF EXISTS `english_levels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `english_levels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `english_levels`
+--
+
+LOCK TABLES `english_levels` WRITE;
+/*!40000 ALTER TABLE `english_levels` DISABLE KEYS */;
+INSERT INTO `english_levels` VALUES (1,'0'),(2,'A1'),(3,'A2'),(4,'B1'),(5,'B2'),(6,'C1'),(7,'C2');
+/*!40000 ALTER TABLE `english_levels` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -115,8 +159,8 @@ CREATE TABLE `feedback_fields` (
   `feedback_id` int(11) NOT NULL,
   `type` set('tech','hr','owner') DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_table1_feedback_tech1_idx` (`feedback_id`),
-  CONSTRAINT `fk_table1_feedback_tech1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_feedback_fields_feedbacks1_idx` (`feedback_id`),
+  CONSTRAINT `fk_feedback_fields_feedbacks1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -140,17 +184,17 @@ DROP TABLE IF EXISTS `feedbacks`;
 CREATE TABLE `feedbacks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `interview_id` int(11) NOT NULL,
   `candidate_id` int(11) NOT NULL,
   `comment` varchar(45) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '0',
+  `interview_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_feedback_tech_users1_idx` (`user_id`),
-  KEY `fk_feedback_tech_interviews1_idx` (`interview_id`),
-  KEY `fk_feedback_candidates1_idx` (`candidate_id`),
-  CONSTRAINT `fk_feedback_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_feedback_tech_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_feedback_tech_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_feedbacks_candidates1_idx` (`candidate_id`),
+  KEY `fk_feedbacks_users1_idx` (`user_id`),
+  KEY `fk_feedbacks_interviews1_idx` (`interview_id`),
+  CONSTRAINT `fk_feedbacks_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_feedbacks_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_feedbacks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -160,7 +204,7 @@ CREATE TABLE `feedbacks` (
 
 LOCK TABLES `feedbacks` WRITE;
 /*!40000 ALTER TABLE `feedbacks` DISABLE KEYS */;
-INSERT INTO `feedbacks` VALUES (1,2,1,1,'some comment',0),(2,3,1,1,'some comment 2',0),(3,4,1,1,'some comment 3',0),(4,2,2,1,'some comment 4',1),(5,3,2,1,'some comment 5',1),(6,4,2,1,'some comment 6',0),(7,5,3,2,'some comment 7',0),(8,1,3,2,'some comment 8',0),(9,9,4,1,'some comment',0),(10,9,5,1,'some comment',0),(11,10,6,5,NULL,1),(12,10,7,6,NULL,1),(13,10,8,7,NULL,1),(14,10,9,8,NULL,0),(15,10,10,9,NULL,0),(16,10,11,10,NULL,0),(17,10,12,11,NULL,0),(18,10,13,12,NULL,0),(19,10,14,13,NULL,1),(20,2,6,5,NULL,0),(21,2,7,6,NULL,0),(22,2,8,7,NULL,0),(23,2,9,8,NULL,0),(24,2,10,9,NULL,0),(25,2,11,10,NULL,0),(26,2,12,11,NULL,0),(27,2,13,12,NULL,0),(28,2,14,13,NULL,0);
+INSERT INTO `feedbacks` VALUES (1,2,1,'some comment',0,1),(2,3,1,'some comment 2',0,1),(3,4,1,'some comment 3',0,1),(4,2,1,'some comment 4',1,2),(5,3,1,'some comment 5',1,2),(6,4,1,'some comment 6',0,2),(7,5,2,'some comment 7',0,3),(8,1,2,'some comment 8',0,3),(9,9,1,'some comment',0,4),(10,9,1,'some comment',0,5),(11,10,5,NULL,1,6),(12,10,6,NULL,1,7),(13,10,7,NULL,0,8),(14,10,8,NULL,0,9),(15,10,9,NULL,0,10),(16,10,10,NULL,0,11),(17,10,11,NULL,0,12),(18,10,12,NULL,0,13),(19,10,13,NULL,1,14),(20,2,5,NULL,0,6),(21,2,6,NULL,0,7),(22,2,7,NULL,0,8),(23,2,8,NULL,0,9),(24,2,9,NULL,0,10),(25,2,10,NULL,0,11),(26,2,11,NULL,0,12),(27,2,12,NULL,0,13),(28,2,13,NULL,0,14);
 /*!40000 ALTER TABLE `feedbacks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,12 +251,14 @@ DROP TABLE IF EXISTS `history`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role` set('Candidate','Vacancy','Hiring') NOT NULL,
+  `role` varchar(45) DEFAULT NULL,
+  `event` varchar(45) DEFAULT NULL,
   `foreign_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `time` datetime NOT NULL,
   `logs` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,6 +267,7 @@ CREATE TABLE `history` (
 
 LOCK TABLES `history` WRITE;
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
+INSERT INTO `history` VALUES (12,'candidates','create',16,2,'2017-07-28 05:03:43','Some changes in table candidates: create some data.'),(13,'candidates','update',16,1,'2017-07-28 05:46:45','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 05:46:44\",\"userId\":1,\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(19,'vacancies','update',1,1,'2017-07-28 06:33:08','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(20,'vacancies','create',10,1,'2017-07-28 06:39:23','Some changes in table vacancies: create some data.'),(21,'vacancies','update',1,1,'2017-07-28 06:39:56','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(22,'candidates','update',16,1,'2017-07-28 06:43:17','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 06:43:16\",\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(23,'candidates','create',17,1,'2017-07-28 06:44:14','Some changes in table candidates: create some data.');
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,34 +328,6 @@ LOCK TABLES `interviews_has_skills` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `interviews_has_users`
---
-
-DROP TABLE IF EXISTS `interviews_has_users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `interviews_has_users` (
-  `interviews_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`interviews_id`,`users_id`),
-  KEY `fk_interviews_has_users_users1_idx` (`users_id`),
-  KEY `fk_interviews_has_users_interviews1_idx` (`interviews_id`),
-  CONSTRAINT `fk_interviews_has_users_interviews1` FOREIGN KEY (`interviews_id`) REFERENCES `interviews` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_interviews_has_users_users1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `interviews_has_users`
---
-
-LOCK TABLES `interviews_has_users` WRITE;
-/*!40000 ALTER TABLE `interviews_has_users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `interviews_has_users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `links`
 --
 
@@ -322,7 +341,7 @@ CREATE TABLE `links` (
   PRIMARY KEY (`id`),
   KEY `fk_links_candidates1_idx` (`candidate_id`),
   CONSTRAINT `fk_links_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -331,7 +350,7 @@ CREATE TABLE `links` (
 
 LOCK TABLES `links` WRITE;
 /*!40000 ALTER TABLE `links` DISABLE KEYS */;
-INSERT INTO `links` VALUES (1,'i dont no',1),(2,'i dont no but i',1),(3,'i dont no but i?',1),(4,'i',2),(5,'dont',2),(6,'no',3),(7,'on',3),(8,'nono',3),(9,'onon',3);
+INSERT INTO `links` VALUES (1,'i dont no',1),(2,'i dont no but i',1),(3,'i dont no but i?',1),(4,'i',2),(5,'dont',2),(6,'no',3),(7,'on',3),(8,'nono',3),(9,'onon',3),(16,'1234',16),(17,'myl555nk',16),(18,'someting',16),(19,'1234',17),(20,'myl555nk',17),(21,'someting',17);
 /*!40000 ALTER TABLE `links` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -411,7 +430,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('74SopcEAcEPX1O7-RMwrUheaY3lsjxn2',1501154423,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('G3OVTDjK6EJMhktpru3-fjBWMUk4kMXF',1501154650,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('GonkeenufdXdn-90sdzsrHczY0OfGkqF',1501115592,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('anNuFOLsIpTOXaXebwafG8LklAnmyZ8T',1501153012,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('mc5v3u6zfPgBADC0_eQfUndntDETCaIp',1501152525,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('osJhzmGW21QFEe-HIOcsYaOvBmxPlkUQ',1501070856,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":1}}'),('t8QpTMPEe5jzgdH_EdsSg6qyeUNAkqA_',1501154441,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}');
+INSERT INTO `sessions` VALUES ('nrYAsSglUztRRyjsITozWqB4HquAKPdb',1501301426,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -425,8 +444,9 @@ DROP TABLE IF EXISTS `skills`;
 CREATE TABLE `skills` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
+  `type` set('primary','secondary','other','hr') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +455,7 @@ CREATE TABLE `skills` (
 
 LOCK TABLES `skills` WRITE;
 /*!40000 ALTER TABLE `skills` DISABLE KEYS */;
-INSERT INTO `skills` VALUES (1,'js'),(2,'java'),(3,'c'),(4,'c++'),(5,'python'),(6,'ruby'),(7,'pascal'),(8,'html'),(9,'css3'),(10,'smth');
+INSERT INTO `skills` VALUES (1,'.NET','primary'),(2,'Android','primary'),(3,'BI','primary'),(4,'C++','primary'),(5,'DBE','primary'),(6,'Data Science','primary'),(7,'DWH','primary'),(8,'ETL','primary'),(9,'iOS','primary'),(10,'Java','primary'),(11,'JavaScript','primary'),(12,'PHP','primary'),(13,'Python','primary'),(14,'Ruby on Rails','primary'),(15,'QA','primary'),(16,'BA','primary'),(17,'DevOps','primary'),(18,'SysAdmin','primary'),(19,'HRM','primary'),(20,'Angular','secondary'),(21,'ReactJS','secondary'),(22,'NodeJS','secondary'),(23,'MongoDB','secondary'),(24,'Hadoop','secondary'),(25,'PosgreSQL','secondary'),(26,'Linux','secondary'),(27,'Spring','secondary'),(28,'Django','secondary'),(29,'Bootstrap','secondary'),(30,'Scrum','secondary'),(31,'Programming basics','other'),(32,'Networking','other'),(33,'Database','other'),(34,'Design Patterns','other'),(35,'Testing','other'),(36,'Design and Architecture','other'),(37,'Причина смены работы','hr'),(38,'Готовность приступить к работе','hr'),(39,'Готовность к командировкам','hr'),(40,'Мотивация (что интересно)','hr'),(41,'Уровень английского языка','hr'),(42,'Ожидания по заработной плате','hr'),(43,'Другое (поле для комментария)','hr');
 /*!40000 ALTER TABLE `skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -463,7 +483,6 @@ CREATE TABLE `skills_has_candidates` (
 
 LOCK TABLES `skills_has_candidates` WRITE;
 /*!40000 ALTER TABLE `skills_has_candidates` DISABLE KEYS */;
-INSERT INTO `skills_has_candidates` VALUES (2,1),(3,1),(7,1),(8,1),(10,1);
 /*!40000 ALTER TABLE `skills_has_candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -505,16 +524,21 @@ CREATE TABLE `vacancies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `city_id` int(11) DEFAULT NULL,
   `name` varchar(120) NOT NULL,
-  `status` set('On hold','Active','CV provided','Waiting for interview with customer','Interview with customer','Candidate declined','Candidate approved','Closed','Cancelled') NOT NULL,
+  `status_id` int(11) NOT NULL,
   `job_start` date DEFAULT NULL,
   `created_date` datetime NOT NULL,
   `salary` varchar(45) DEFAULT NULL,
-  `primary_skill` varchar(45) DEFAULT NULL,
+  `primary_skill` int(11) NOT NULL,
   `description` longtext,
   PRIMARY KEY (`id`),
   KEY `fk_vacancy_cities1_idx` (`city_id`),
+  KEY `fk_vacancies_vacancy_statuses1_idx` (`status_id`),
+  KEY `fk_vacancies_skills1_idx` (`primary_skill`),
+  CONSTRAINT `fk_vacancies_skills1` FOREIGN KEY (`primary_skill`) REFERENCES `skills` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vacancies_vacancy_statuses1` FOREIGN KEY (`status_id`) REFERENCES `vacancy_statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vacancies_vacancy_statuses2` FOREIGN KEY (`status_id`) REFERENCES `vacancy_statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_vacancy_cities1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -523,7 +547,7 @@ CREATE TABLE `vacancies` (
 
 LOCK TABLES `vacancies` WRITE;
 /*!40000 ALTER TABLE `vacancies` DISABLE KEYS */;
-INSERT INTO `vacancies` VALUES (1,1,'job in exadel','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?'),(2,1,'job in exadel 2','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','description 2'),(3,1,'job in exadel 3','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','description 3'),(4,1,'job in exadel 4','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','description 4'),(5,1,'job in exadel 5','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','description 5'),(6,1,'job in exadel 6','On hold','2009-06-03','2009-06-03 11:13:56','5000$','js','description 6'),(7,1,'Justify','Closed',NULL,'2017-07-24 12:31:49',NULL,NULL,'.................');
+INSERT INTO `vacancies` VALUES (1,1,'job in exadel',1,'2009-06-03','2009-06-03 11:13:56','5000$',1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?'),(2,1,'job in exadel 2',2,'2009-06-03','2009-06-03 11:13:56','5000$',1,'description 2'),(3,1,'job in exadel 3',3,'2009-06-03','2009-06-03 11:13:56','5000$',2,'description 3'),(4,1,'job in exadel 4',4,'2009-06-03','2009-06-03 11:13:56','5000$',4,'description 4'),(5,1,'job in exadel 5',5,'2009-06-03','2009-06-03 11:13:56','5000$',5,'description 5'),(6,1,'job in exadel 6',6,'2009-06-03','2009-06-03 11:13:56','5000$',1,'description 6'),(7,1,'Justify',7,NULL,'2017-07-24 12:31:49',NULL,1,'.................'),(10,1,'job in exadel',1,NULL,'2017-07-28 06:39:22','5000$',1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?');
 /*!40000 ALTER TABLE `vacancies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -552,8 +576,32 @@ CREATE TABLE `vacancy_has_skills` (
 
 LOCK TABLES `vacancy_has_skills` WRITE;
 /*!40000 ALTER TABLE `vacancy_has_skills` DISABLE KEYS */;
-INSERT INTO `vacancy_has_skills` VALUES (1,1,2),(1,2,2),(1,4,2),(1,8,2),(2,4,2),(2,8,2),(3,3,2),(3,4,2),(3,7,2),(4,1,2),(4,4,2),(5,3,2),(5,9,2),(6,2,2),(6,6,2),(6,7,2),(6,8,2),(6,10,2),(7,1,56),(7,2,1),(7,5,435),(7,6,1);
+INSERT INTO `vacancy_has_skills` VALUES (1,2,2),(1,4,2),(1,8,2),(2,4,2),(2,8,2),(3,3,2),(3,4,2),(3,7,2),(4,1,2),(4,4,2),(5,3,2),(5,9,2),(6,2,2),(6,6,2),(6,7,2),(6,8,2),(6,10,2),(7,1,56),(7,2,1),(7,5,435),(7,6,1),(10,2,2),(10,4,2),(10,8,2);
 /*!40000 ALTER TABLE `vacancy_has_skills` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vacancy_statuses`
+--
+
+DROP TABLE IF EXISTS `vacancy_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vacancy_statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vacancy_statuses`
+--
+
+LOCK TABLES `vacancy_statuses` WRITE;
+/*!40000 ALTER TABLE `vacancy_statuses` DISABLE KEYS */;
+INSERT INTO `vacancy_statuses` VALUES (1,'On hold'),(2,'Active'),(3,'CV provided'),(4,'Waiting for interview with customer'),(5,'Interview with customer'),(6,'Candidate declined'),(7,'Candidate approved'),(8,'Closed'),(9,'Cancelled');
+/*!40000 ALTER TABLE `vacancy_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -565,4 +613,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-26 14:25:09
+-- Dump completed on 2017-07-28  7:13:33
