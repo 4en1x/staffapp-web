@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SignInComponent from "./main/auth/sign-in/sign-in.component";
 
-ReactDOM.render(<SignInComponent />, document.getElementById("root"));
+import CandidateAddPage from "./main/add-edit-form/vacancy-page/add-vacancy-page";
+
+ReactDOM.render(<CandidateAddPage />, document.getElementById("root"));

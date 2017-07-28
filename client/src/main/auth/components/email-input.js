@@ -1,6 +1,5 @@
 import React from "react";
-import { Button } from "semantic-ui-react";
-import { Form } from "semantic-ui-react";
+import { Header, Form, Button, Icon } from "semantic-ui-react";
 
 export default class EmailInputForm extends React.Component {
   constructor(props) {
@@ -13,15 +12,21 @@ export default class EmailInputForm extends React.Component {
 
   render() {
     return (
-      <Form size="large" key="large">
+      <Form size="large">
+        <Header as="h3">Log in</Header>
         <Form.Field>
-          <label>Log in</label>
           <input
             placeholder="joe@schmoe.com"
             ref={input => (this.input = input)}
           />
         </Form.Field>
-        <Button onClick={this.onNextClicked}>NEXT</Button>
+          <Button
+              color="twitter"
+              floated="right"
+              onClick={this.onNextClicked}
+          >
+              Next
+          </Button>
       </Form>
     );
   }

@@ -1,0 +1,99 @@
+.vacancy-detail-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.vacancy-detail-page .vacancy-content {
+    display: flex;
+    flex-direction: inherit;
+    width: 80%;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+/* content top styles*/
+
+.vacancy-content .content-top {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.content-top .name-label {
+    margin: 0;
+}
+
+.content-top .position-label {
+    margin: 0;
+}
+
+/* content description styles*/
+
+.vacancy-detail-page .content-description{
+    display: flex;
+    flex-direction: column;
+}
+
+.vacancy-detail-page .content-description .status-label{
+    margin-bottom: 5%;
+    width: 20%;
+}
+
+/* list container styles */
+
+.vacancy-detail-page .list-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: auto;
+    flex-wrap: wrap;
+}
+
+.vacancy-detail-page .contacts{
+    margin-bottom: 6%;
+}
+
+.list-container{
+    margin: 3% 0 3% 0%;
+}
+
+.add-vacancy {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 10px 30px 5px 30px;
+}
+
+.item-with-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-style: italic;
+    margin: 5px;
+}
+
+.first-form-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.left-form-block{
+    display: flex;
+    background-color:#fbfbfb;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    border-right: solid;
+    border-right-width: 2px;
+    border-right-color: #f2f2f2;
+    width: 50%;
+}
+.right-form-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    width: 50%;
+}

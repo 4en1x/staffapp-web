@@ -1,0 +1,20 @@
+{
+  "name": "Justify",
+  "status": "Closed",
+  "description": ".................",
+  "skills": [
+    {
+      "name": "python",
+      "weight": 435
+    },
+    {
+      "name": "javarush123",
+      "weight": 1
+    },
+    {
+      "name": "js",
+      "weight": 56
+    }
+  ],
+  "city": "Minsk"
+}
