@@ -8,6 +8,7 @@ import {
   Input,
   Button,
   Icon,
+  Popup,
   List
 } from "semantic-ui-react";
 import CommunicationsList from "./list/communications-list";

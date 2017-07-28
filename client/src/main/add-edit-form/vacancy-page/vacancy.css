@@ -1,0 +1,9 @@
+
+.item-with-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-style: italic;
+    margin: 5px;
+}
+

@@ -24,16 +24,17 @@ const minorSkills = [
   }
 ];
 const majorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
+const cities = ["pinsk", "minsk", "dobrush", "borisov"];
+const statuses = ["on hold", "die", "live", "was born"];
 const data = {
   id: 1,
   name: "job in exadel",
-  status: "On hold",
+  status: "on hold",
   jobStart: "03/06/2009",
-  createdDate: "03/06/2009",
-  salary: "5000$",
+  salary: "5000",
   primarySkill: "ReactJS",
   description: "description 1",
-  city: "Minsk",
+  city: "minsk",
   skills: [
     {
       name: "js",
@@ -86,6 +87,8 @@ export default class InterviewPage extends React.Component {
                 minorSkills={minorSkills}
                 majorSkills={majorSkills}
                 data={data}
+                cities={cities}
+                statuses={statuses}
               />}
         </div>
       </Provider>
