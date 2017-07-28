@@ -22,6 +22,20 @@ class CandidatesController extends CRUDController {
     }
   }
 
+  async fillLists(req, res) {
+    try {
+      res.json({
+        primarySkills: await db.skills.find('primary'),
+        secondarySkills: await db.skills.find('secondary'),
+        cities: await db.cities.find(),
+        englishLevels: await db.englishLevels.find(),
+        statuses: await db.candidateStatuses.find(),
+      });
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async create(req, res) {
     const candidate = service.createCandidate(req.body);
     candidate.userId = req.user.id;

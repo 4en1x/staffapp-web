@@ -30,8 +30,8 @@ class CitiesDAO extends BasicDAO {
     const cities = await super.find({
       fields: 'name',
       order: 'ORDER BY name',
-    }).map(city => city.name);
-    return cities;
+    });
+    return cities.map(city => city.name);
   }
 }
 

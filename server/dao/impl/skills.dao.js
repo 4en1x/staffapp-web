@@ -25,6 +25,14 @@ class SkillsDAO extends BasicDAO {
     return skill;
   }
 
+  async findById(id) {
+    const [skill] = await super.find({
+      condition: 'WHERE id = ?',
+      values: [id],
+    });
+
+    return skill;
+  }
   /**
    *
    * @param {Number | String} id
@@ -60,14 +68,14 @@ class SkillsDAO extends BasicDAO {
     const condition =
       (type === 'all')
         ? 'WHERE type <> "hr"'
-        : `WHERE type=${type}`;
+        : `WHERE type='${type}'`;
 
     const skills = await super.find({
       condition,
       fields: 'name',
       order: 'ORDER BY name',
-    }).map(skill => skill.name);
-    return skills;
+    });
+    return skills.map(skill => skill.name);
   }
 }
 

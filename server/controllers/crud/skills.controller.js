@@ -8,7 +8,7 @@ class SkillsController extends CRUDController {
 
   async read(req, res) {
     try {
-      const skills = await db.skills.find(req.params.type);
+      const skills = await db.skills.find(req.query.type);
       res.json(skills);
     } catch (err) {
       res.status(500).end();

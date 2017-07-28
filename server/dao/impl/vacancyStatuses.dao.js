@@ -2,7 +2,7 @@ const BasicDAO = require('../basic.dao');
 
 class VacancyStatusesDAO extends BasicDAO {
   constructor(connection) {
-    super('vacancyStatuses', connection);
+    super('vacancy_statuses', connection);
   }
 
   /**
@@ -14,12 +14,30 @@ class VacancyStatusesDAO extends BasicDAO {
       (VacancyStatusesDAO._instance = new VacancyStatusesDAO());
   }
 
+  async findById(id) {
+    const [status] = await super.find({
+      condition: 'WHERE id = ?',
+      values: [id],
+    });
+
+    return status;
+  }
+
+  async findByName(name) {
+    const [status] = await super.find({
+      condition: 'WHERE name = ?',
+      values: [name],
+    });
+
+    return status;
+  }
+
   async find() {
     const statuses = await super.find({
       fields: 'name',
       order: 'ORDER BY name',
-    }).map(status => status.name);
-    return statuses;
+    });
+    return statuses.map(status => status.name);
   }
 }
 
