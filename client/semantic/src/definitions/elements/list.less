@@ -282,14 +282,15 @@ ol.ui.list ol li,
       Grid-list
 --------------------*/
 
-.ui.grid-list.list{
-  padding: 0em 2em;
+.ui.grid-list.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .ui.grid-list.list > .item {
-  width:50%;
-  display: inline-block;
-  margin-bottom: 1em;
+  min-width: 45%;
+  margin-top: 1em;
 }
 /* Padding on all elements */
 .ui.grid-list.list > .item:first-child,
