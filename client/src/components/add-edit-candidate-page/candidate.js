@@ -18,13 +18,20 @@ import "./candidate.css";
 
 const statusList = [];
 const skillList = [];
-// let links = [];
-// let counter = -1;
+
+let counter = 0;
 
 class Candidate extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      links: []
+    };
+  }
   componentDidMount() {
     if (this.props.data) {
-      // links = this.props.data.contacts.links;
+      this.setState({ links: this.props.data.contacts.links });
+
       let initData = {
         name: this.props.data.communication.name,
         surname: this.props.data.communication.surname,
@@ -41,19 +48,25 @@ class Candidate extends React.Component {
         linkedIn: this.props.data.contacts.linkedIn,
         skype: this.props.data.contacts.skype,
         vacancy: this.props.data.communication.vacancy,
-        links: this.props.data.contacts.links
+        links: {}
+        // links: this.props.data.contacts.links
       };
-      // this.props.data.contacts.links.map(link => {
-      //   const temp = "link" + counter;
-      //   initData[temp] = link;
-      //   counter++;
-      // });
+
+      this.props.data.contacts.links.map(link => {
+        const temp = "link" + counter;
+        initData.links[temp] = link;
+        counter++;
+      });
+
       this.props.initialize(initData);
     }
   }
 
   nameInput = ({ input }) => {
     return <Input {...input} placeholder="name" className="text-area" />;
+  };
+  linkInput = ({ input }) => {
+    return <Input {...input} placeholder="other link"  className="small-margin-links" />;
   };
   primarySkillDataInput = ({ input }) => {
     return (
@@ -93,11 +106,36 @@ class Candidate extends React.Component {
       />
     );
   };
-  // addNewLink = () => {
-  //   console.log("LALALLALALA");
-  //   links.push("link" + counter);
-  //   counter++;
-  // };
+  prepareData = values => {
+    let data = {
+      name: values.name,
+      surname: values.surname,
+      email: values.email,
+      primarySkill: values.primarySkill,
+      primarySkillYearStart: values.primarySkillYearStart,
+      phone: values.phone,
+      englishLevel: values.englishLevel,
+      secondarySkills: values.secondarySkills,
+      status: values.status,
+      city: values.city,
+      salary: values.salary,
+      resume: values.resume,
+      linkedIn: values.linkedIn,
+      skype: values.skype,
+      vacancy: values.vacancy,
+      links: []
+    };
+    for (var item in values.links) {
+      data.links.push(values.links[item]);
+    }
+    this.props.onSubmit(data);
+  };
+  addNewLink = () => {
+    const links = this.state.links.slice();
+    links.push("link" + counter);
+    this.setState({ links });
+    counter++;
+  };
 
   render() {
     this.props.majorSkills.map(step => {
@@ -119,9 +157,13 @@ class Candidate extends React.Component {
       return null;
     });
     const { handleSubmit, submitting } = this.props;
+    const links = this.state.links;
 
     return (
-      <form onSubmit={handleSubmit} className="candidate-detail-page">
+      <form
+        onSubmit={handleSubmit(this.prepareData)}
+        className="candidate-detail-page"
+      >
         <div className="content">
           <div className="content-top">
             <div className="data-top">
@@ -194,18 +236,20 @@ class Candidate extends React.Component {
               </div>
             </div>
 
-            {/*<div className="pudding-other-links">*/}
-              {/*<div className="label-info"> Other links </div>*/}
-              {/*<div className="theard-form-line">*/}
-                {/*{links.map((step, move) =>*/}
-                  {/*<Field*/}
-                    {/*name={"links"+move}*/}
-                    {/*component={this.nameInput}*/}
-                  {/*/>*/}
-                {/*)}*/}
-                {/*<a href={this.addNewLink()}>+++++++++++</a>*/}
-              {/*</div>*/}
-            {/*</div>*/}
+            <div className="pudding-other-links">
+              <div className="label-info"> Other links </div>
+              <div className="theard-form-line">
+                {links.map((step, move) =>
+                  <Field
+                    name={"links.link" + move}
+                    component={this.linkInput}
+                  />
+                )}
+                <Button type="button" onClick={this.addNewLink}  className="small-margin-button">
+                  +
+                </Button>
+              </div>
+            </div>
 
             <div className="add-candidate">
               <Button primary disabled={submitting}>
