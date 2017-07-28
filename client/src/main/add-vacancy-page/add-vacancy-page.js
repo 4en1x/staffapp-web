@@ -1,14 +1,34 @@
 import React from "react";
-import InterviewComponent from "./components/interview.component";
+import VacancyComponent from "../../components/add-edit-vacancy-page/vacancy";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import { Redirect } from "react-router-dom";
 
-import "./interview-page.css";
-
-const cities = ["Minsk", "Pinsk", "Dobrush", "Borisov"];
-
+const minorSkills = [
+  {
+    name: "js",
+    weight: 2
+  },
+  {
+    name: "java",
+    weight: 2
+  },
+  {
+    name: "c++",
+    weight: 2
+  },
+  {
+    name: "html",
+    weight: 2
+  }
+];
+const majorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
+const cities = ["pinsk", "minsk", "dobrush", "borisov"];
+const statuses = ["on hold", "die", "live", "was born"];
+const data = {
+  id: "1"
+};
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 });
@@ -35,15 +55,18 @@ export default class InterviewPage extends React.Component {
   render() {
     // const url = this.props.match.url;
     // if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
-
     return (
       <Provider store={store}>
-        <div className="interview-page">
+        <div className="vacancy-page">
           {!this.state.isLoaded
             ? <p>Not Loaded</p>
-            : <InterviewComponent
+            : <VacancyComponent
                 onSubmit={this.showResults}
+                minorSkills={minorSkills}
+                majorSkills={majorSkills}
                 cities={cities}
+                statuses={statuses}
+                data={data}
               />}
         </div>
       </Provider>

@@ -1,5 +1,5 @@
 import React from "react";
-import VacancyComponent from "./vacancy";
+import VacancyComponent from "../../components/add-edit-vacancy-page/vacancy";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
@@ -27,8 +27,30 @@ const majorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
 const cities = ["pinsk", "minsk", "dobrush", "borisov"];
 const statuses = ["on hold", "die", "live", "was born"];
 const data = {
-  id: "1"
+  id: 1,
+  name: "job in exadel",
+  status: "on hold",
+  jobStart: "03/06/2009",
+  salary: "5000",
+  primarySkill: "ReactJS",
+  description: "description 1",
+  city: "minsk",
+  skills: [
+    {
+      name: "js",
+      weight: 2
+    },
+    {
+      name: "java",
+      weight: 2
+    },
+    {
+      name: "c++",
+      weight: 2
+    }
+  ]
 };
+
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 });
@@ -64,9 +86,9 @@ export default class InterviewPage extends React.Component {
                 onSubmit={this.showResults}
                 minorSkills={minorSkills}
                 majorSkills={majorSkills}
+                data={data}
                 cities={cities}
                 statuses={statuses}
-                data={data}
               />}
         </div>
       </Provider>

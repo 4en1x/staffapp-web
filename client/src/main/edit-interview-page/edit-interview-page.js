@@ -1,54 +1,44 @@
 import React from "react";
-import VacancyComponent from "./vacancy";
+import InterviewComponent from "../../components/add-edit-interview-page/interview.component";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { reducer as reduxFormReducer } from "redux-form";
 import { Redirect } from "react-router-dom";
 
-const minorSkills = [
-  {
-    name: "js",
-    weight: 2
-  },
-  {
-    name: "java",
-    weight: 2
-  },
-  {
-    name: "c++",
-    weight: 2
-  },
-  {
-    name: "html",
-    weight: 2
-  }
-];
-const majorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
-const cities = ["pinsk", "minsk", "dobrush", "borisov"];
-const statuses = ["on hold", "die", "live", "was born"];
+import "./interview-page.css";
+
+const cities = ["Minsk", "Pinsk", "Dobrush", "Borisov"];
 const data = {
-  id: 1,
-  name: "job in exadel",
-  status: "on hold",
-  jobStart: "03/06/2009",
-  salary: "5000",
-  primarySkill: "ReactJS",
-  description: "description 1",
-  city: "minsk",
-  skills: [
+  place: "Pinsk",
+  type: "tech",
+  fields: [
     {
-      name: "js",
-      weight: 2
+      name: "primaryOne",
+      type: "tech",
+      typeSkill: "primary"
     },
     {
-      name: "java",
-      weight: 2
+      name: "secondaryOne",
+      type: "tech",
+      typeSkill: "secondary"
     },
     {
-      name: "c++",
-      weight: 2
+      name: "secondaryTwo",
+      type: "tech",
+      typeSkill: "secondary"
+    },
+    {
+      name: "otherOne",
+      type: "tech",
+      typeSkill: "other"
+    },
+    {
+      name: "otherTwo",
+      type: "tech",
+      typeSkill: "other"
     }
-  ]
+  ],
+  users: ["2", "4"]
 };
 
 const reducer = combineReducers({
@@ -77,18 +67,16 @@ export default class InterviewPage extends React.Component {
   render() {
     // const url = this.props.match.url;
     // if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
+
     return (
       <Provider store={store}>
-        <div className="vacancy-page">
+        <div className="interview-page">
           {!this.state.isLoaded
             ? <p>Not Loaded</p>
-            : <VacancyComponent
+            : <InterviewComponent
                 onSubmit={this.showResults}
-                minorSkills={minorSkills}
-                majorSkills={majorSkills}
-                data={data}
                 cities={cities}
-                statuses={statuses}
+                data={data}
               />}
         </div>
       </Provider>
