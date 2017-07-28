@@ -5,7 +5,8 @@ const FeedbacksDAO = require('./feedbacks.dao');
 const SkillsDAO = require('./skills.dao');
 const EnglishLevelsDAO = require('./englishLevels.dao');
 const CandidateStatusesDAO = require('./candidateStatuses.dao');
-const HiringsDAO = require('./hirings.dao');
+
+const getHiringsDAO = require.bind(null, './hirings.dao');
 
 const { makeFilterQuery } = require('../utils/filter');
 
@@ -106,7 +107,7 @@ class CandidatesDAO extends BasicDAO {
     }
 
     candidate.skills = await SkillsDAO.instance.findByCandidate(id);
-    candidate.hirings = await HiringsDAO.instance.findByCandidate(id);
+    candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
 
     return candidate;
   }
