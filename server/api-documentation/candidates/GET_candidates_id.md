@@ -44,8 +44,14 @@ A JSON object, that contains candidate object.
   - **secondarySkills** — array of candidate secondary skills
 - **communication** — additional object:
   - **resume** *(may be null)* — candidate resume
-  - **lastChangeDate** — last candidate change date ("YYYY-MM-DDTHH:mm:ss.000Z")
+  - **lastChangeDate** — last candidate change date ("DD/MM/YYYY")
   - **salary** *(may be null)* — candidate salary (String)
+- **hirings** — array of hiring objects:
+  - **id** — unique hiring id
+  - **userId** —  hiring creator id
+  - **vacancyId** *(may be null)* — assigned vacancy id
+  - **dateOpen** — hiring opening date ("YYYY-MM-DDTHH:mm:ss.000Z")
+  - **dateClose** *(may be null, if hiring is not closed)* — hiring closing date ("YYYY-MM-DDTHH:mm:ss.000Z")
 
 ## Errors
 
@@ -86,6 +92,15 @@ GET candidates/4
     "resume": null,
     "lastChangeDate": "04/06/2009",
     "salary": "5000$"
-  }
+  },
+  "hirings": [
+    {
+      "id": 1,
+      "userId": 1,
+      "vacancyId": null,
+      "dateOpen": "2009-06-03T08:13:56.000Z",
+      "dateClose": null
+    }
+  ]
 }
 ```
