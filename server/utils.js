@@ -48,7 +48,7 @@ function clearFields(object) {
 
 function clearFilter(filter) {
   Object.keys(filter).forEach((key) => {
-    if (typeof filter[key] !== 'object' && !Array.isArray(filter[key])) {
+    if (filter[key] === null || typeof filter[key] !== 'object') {
       delete filter[key];
       return;
     }
