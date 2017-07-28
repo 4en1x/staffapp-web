@@ -41,7 +41,7 @@ A JSON object, that contains candidate object.
 - **skills** — skills object:
   - **primarySkill** — candidate primary skill
   - **englishLevel** — candidate english level: Beginner|Elementary|Pre-Intermediate|Intermediate|Upper-Intermediate|Pre-Advanced|Advanced
-  - **secondarySkill** — array of candidate secondary skills
+  - **secondarySkills** — array of candidate secondary skills
 - **communication** — additional object:
   - **resume** *(may be null)* — candidate resume
   - **lastChangeDate** — last candidate change date ("YYYY-MM-DDTHH:mm:ss.000Z")
