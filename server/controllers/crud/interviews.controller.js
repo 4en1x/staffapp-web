@@ -70,6 +70,24 @@ class InterviewsController extends CRUDController {
     }
   }
 
+  async fillLists(req, res) {
+    try {
+      if (req.query.type === 'hr') {
+        res.json({
+          hr: await db.skills.find('hr'),
+        });
+      } else {
+        res.json({
+          primary: await db.skills.find('primary'),
+          secondary: await db.skills.find('secondary'),
+          other: await db.skills.find('other'),
+        });
+      }
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async update(req, res) {
     await super.update(req, res, req.body);
   }
