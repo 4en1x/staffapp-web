@@ -16,9 +16,7 @@ function makeCriterion(key, value) {
     case 'time':
       return buidDateFilter(key, value);
 
-    case 'status':
     case 'english_level':
-    case 'primary_skill':
     case 'role':
     case 'event':
       return `${key} in ("${value.join('","')}")`;
@@ -29,6 +27,14 @@ function makeCriterion(key, value) {
     case 'city':
       return `ct.name in ("${value.join('","')}")`;
 
+    case 'vacancy_status':
+      return `vs.name in ("${value.join('","')}")`;
+
+    case 'candidate_status':
+      return `cs.name in ("${value.join('","')}")`;
+
+    case 'primary_skill':
+      return `s.name in ("${value.join('","')}")`;
     default:
       return '';
   }

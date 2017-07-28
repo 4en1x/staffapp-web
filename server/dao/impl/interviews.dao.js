@@ -32,8 +32,8 @@ class InterviewsDAO extends BasicDAO {
 
       const { candidateId } = await getHiringsDAO().instance.findById(interview.hiringId);
 
-      const fields = interview.feedbackFiels || [];
-      delete interview.feedbackFiels;
+      const fields = interview.fields || [];
+      delete interview.fields;
 
       const interviewId = await superCreate(interview);
 
