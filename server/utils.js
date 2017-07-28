@@ -46,9 +46,30 @@ function clearFields(object) {
   });
 }
 
+function clearFilter(filter) {
+  Object.keys(filter).forEach((key) => {
+    if (typeof filter[key] !== 'object' && !Array.isArray(filter[key])) {
+      delete filter[key];
+      return;
+    }
+
+    if (Array.isArray(filter[key]) && !filter[key].length) {
+      delete filter[key];
+      return;
+    }
+
+    if (typeof filter[key] === 'object' && !Object.keys(filter[key]).length) {
+      delete filter[key];
+    }
+  });
+
+  return filter;
+}
+
 module.exports = {
   applyDefault,
   clearFields,
   toCamel,
   toSnake,
+  clearFilter,
 };

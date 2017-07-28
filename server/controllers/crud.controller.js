@@ -1,3 +1,5 @@
+const { clearFilter } = require('../utils');
+
 class CRUDController {
   constructor(dao) {
     this.dao = dao;
@@ -41,7 +43,7 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+      const filter = req.query.filter ? clearFilter(JSON.parse(req.query.filter)) : {};
       const resources = await this.dao.find(req.query.page, filter);
       await onload(resources);
       res.json(resources);

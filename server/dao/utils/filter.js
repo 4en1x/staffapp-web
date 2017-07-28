@@ -2,9 +2,8 @@ const fecha = require('fecha');
 const snakeCase = require('lodash.snakecase');
 
 function buidDateFilter(key, value) {
-  const dateFrom = fecha.format(new Date(value.from), 'YYYY-MM-DD HH:mm:ss');
-  const dateTo = fecha.format(new Date(value.to), 'YYYY-MM-DD HH:mm:ss');
-
+  const dateFrom = fecha.format(value.from ? new Date(value.from) : new Date(0), 'YYYY-MM-DD HH:mm:ss');
+  const dateTo = fecha.format(value.to ? new Date(value.to) : new Date(), 'YYYY-MM-DD HH:mm:ss');
   return `${key}>="${dateFrom}" AND ${key}<="${dateTo}"`;
 }
 
