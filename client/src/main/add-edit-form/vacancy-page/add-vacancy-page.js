@@ -24,7 +24,11 @@ const minorSkills = [
   }
 ];
 const majorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
-
+const cities = ["pinsk", "minsk", "dobrush", "borisov"];
+const statuses = ["on hold", "die", "live", "was born"];
+const data = {
+  id: "1"
+};
 const reducer = combineReducers({
   form: reduxFormReducer // mounted under "form"
 });
@@ -60,6 +64,9 @@ export default class InterviewPage extends React.Component {
                 onSubmit={this.showResults}
                 minorSkills={minorSkills}
                 majorSkills={majorSkills}
+                cities={cities}
+                statuses={statuses}
+                data={data}
               />}
         </div>
       </Provider>

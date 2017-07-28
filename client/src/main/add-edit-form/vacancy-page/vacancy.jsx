@@ -1,6 +1,14 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { Dropdown, Input, Button } from "semantic-ui-react";
+import {
+  Dropdown,
+  Input,
+  Button,
+  Header,
+  Divider,
+  Segment,
+  List
+} from "semantic-ui-react";
 import "./vacancy.css";
 
 const primarySkillList = [];
@@ -10,9 +18,9 @@ const statusList = [];
 
 class Vacancy extends React.Component {
   componentDidMount() {
-      let initData ={};
+    let initData = {};
     if (this.props.data.status) {
-        initData = {
+      initData = {
         status: this.props.data.status,
         jobStart: this.props.data.jobStart,
         salary: this.props.data.salary,
@@ -23,8 +31,8 @@ class Vacancy extends React.Component {
         city: this.props.data.city
       };
     }
-      initData.id = this.props.data.id;
-      this.props.initialize(initData);
+    initData.id = this.props.data.id;
+    this.props.initialize(initData);
   }
   nameInput = ({ input }) =>
     <Input {...input} placeholder="name" className="text-area" />;
@@ -137,83 +145,77 @@ class Vacancy extends React.Component {
 
     return (
       <form onSubmit={handleSubmit} className="vacancy-detail-page">
-        <div className="item-with-label">
-          project name
-          <Field name={"name"} component={this.nameInput} />
-        </div>
-        <div className="item-with-label">
-          place
-          <Field name={"city"} component={this.cityInput} />
-        </div>
-        <div className="item-with-label">
-          status
-          <Field name={"status"} component={this.statusInput} />
-        </div>
-        <div className="item-with-label">
-          project salary
-          <Field name={"salary"} component={this.salaryInput} />
-        </div>
-        <div className="item-with-label">
-          primary skill
-          <Field name={"primarySkill"} component={this.primarySkillInput} />
-        </div>
-        <div className="item-with-label">
-          job start date
-          <Field name={"jobStart"} component={this.dateInput} />
-        </div>
-        <div className="item-with-label">
-          secondary skills
-          <Field
-            name={"secondarySkills"}
-            component={this.secondarySkillsInput}
-          />
-        </div>
-        <div className="item-with-label">
-          description
-          <Field name={"description"} component={this.descriptionInput} />
-        </div>
-        <Button primary disabled={submitting}>
-          Send vacancy card
-        </Button>
+        <div className="vacancy-content">
+          <div className="content-top">
+            <div className="data-top">
+              <Header as="h2" className="name-label">
+                {!this.props.data.status && "creating vacancy form"}
+                {this.props.data.status && "editing vacancy form"}
+              </Header>
+            </div>
+            <Divider />
+          </div>
+          <Segment className="content-description" raised>
+            <div className="first-form-line">
+              <div className="left-form-block">
+                <div className="item-with-label">
+                  <Header as="h3">project name</Header>
+                  <Field name={"name"} component={this.nameInput} />
+                </div>
 
-        {/*<div className="vacancy-detail-page_project-name">*/}
-        {/*<Field name={"name"} component={this.nameInput} />*/}
-        {/*</div>*/}
-        {/*<Segment className="vacancy-detail-page_content">*/}
-        {/*<div className="vacancy-detail-page_content-top">*/}
-        {/*<div className="vacancy-detail-page_primary-skill">*/}
-        {/*<Field name={"primarySkill"} component={this.primarySkillInput} />*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_deadline-date">*/}
-        {/*<Field name={"date"} component={this.dateInput} />*/}
-        {/*</div>*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_content-list">*/}
-        {/*<div className="vacancy-detail-page_skills-list">*/}
-        {/*<Field*/}
-        {/*name={"secondarySkills"}*/}
-        {/*component={this.secondarySkillsInput}*/}
-        {/*/>*/}
-        {/*</div>*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_content-description">*/}
-        {/*<div className="vacancy-detail-page_label">*/}
-        {/*<Field name={"label"} component={this.labelInput} />*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_description">*/}
-        {/*<Field name={"description"} component={this.descriptionInput} />*/}
-        {/*</div>*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_content-date">*/}
-        {/*<div className="vacancy-detail-page_create-date" />*/}
-        {/*<div className="vacancy-detail-page_change-date" />*/}
-        {/*</div>*/}
-        {/*<div className="vacancy-detail-page_edit-button">*/}
-        {/*<Button primary disabled={submitting}>*/}
-        {/*Send vacancy card*/}
-        {/*</Button>*/}
-        {/*</div>*/}
-        {/*</Segment>*/}
+                <div className="item-with-label">
+                  <Header as="h3">place</Header>
+                  <Field name={"city"} component={this.cityInput} />
+                </div>
+
+                <div className="item-with-label">
+                  <Header as="h3">status</Header>
+                  <Field name={"status"} component={this.statusInput} />
+                </div>
+
+                <div className="item-with-label">
+                  <Header as="h3">project salary</Header>
+                  <Field name={"salary"} component={this.salaryInput} />
+                </div>
+              </div>
+
+              <div className="right-form-block">
+                <div className="item-with-label">
+                  <Header as="h3">primary skill</Header>
+                  <Field
+                    name={"primarySkill"}
+                    component={this.primarySkillInput}
+                  />
+                </div>
+
+                <div className="item-with-label">
+                  <Header as="h3">job start date</Header>
+                  <Field name={"jobStart"} component={this.dateInput} />
+                </div>
+
+                <div className="item-with-label">
+                  <Header as="h3">secondary skills</Header>
+                  <Field
+                    name={"secondarySkills"}
+                    component={this.secondarySkillsInput}
+                  />
+                </div>
+                <div className="item-with-label">
+                  <Header as="h3">description</Header>
+                  <Field
+                    name={"description"}
+                    component={this.descriptionInput}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="add-vacancy">
+              <Button primary disabled={submitting}>
+                Send vacancy card
+              </Button>
+            </div>
+          </Segment>
+        </div>
       </form>
     );
   }
