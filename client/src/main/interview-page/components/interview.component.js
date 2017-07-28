@@ -65,6 +65,19 @@ export default class InterviewComponent extends React.Component {
                 Feedback
               </Button>
             </Link>
+            <Link
+                className="button-container"
+                to={`${this.props.url}/feedback/${this.props.interview
+                    .feedbacks[0].id}`}
+            >
+              <Button
+                  content="Edit"
+                  icon="edit"
+                  labelPosition="left"
+                  color="twitter"
+                  floated="right"
+              />
+            </Link>
           </div>
         </Card>
       </div>
