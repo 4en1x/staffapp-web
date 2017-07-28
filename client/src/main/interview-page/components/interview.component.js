@@ -1,11 +1,17 @@
 import React from "react";
+
+import {
+  Divider,
+  Button,
+  List,
+  Header,
+  Statistic,
+  Card
+} from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import "./interview-page.css";
 
-import { Divider, Button, List, Header, Statistic, Card } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-
 export default class InterviewComponent extends React.Component {
-
   render() {
     const data = this.props.interview;
     return (
@@ -14,33 +20,44 @@ export default class InterviewComponent extends React.Component {
           Technical interview No{data.id}
         </Header>
 
-        <Card fluid className="myCard">
+        <Card fluid className="row">
           <div className="info">
             <Statistic className="date" value={data.time} label={data.date} />
-            <div className="horizontal-divider" />
-            <div className="detail-location">
-              <Header as="h3">Room 404</Header>
-              <Header as="h3">
-                {data.place}
-              </Header>
-            </div>
-          </div>
-          <div className="vertical-divider" />
-          <div className="interview-content">
-            <Header as="h1">
-              {data.candidate.name} {data.candidate.surname}
+            <Divider />
+            <Header textAlign="center" as="h2">
+              Room 404
+              <Header.Subheader> {data.place}</Header.Subheader>
             </Header>
-            <Divider hidden />
-            <List size="massive">
+          </div>
+          <div className="interview-content">
+            <List size="massive" className=" grid-list">
               <List.Item>
-                Primary skill: {data.skills[0]}
+                <List.Header>Interviewee</List.Header>
+                {data.candidate.name} {data.candidate.surname}
               </List.Item>
               <List.Item>
-                Secondary skills:
-                <List className="skills" items={data.skills.slice(1)} />
+                <List.Header>Interviewer</List.Header>
+                Anatoliy Levakov
+              </List.Item>
+              <List.Item>
+                <List.Header>Vacansy</List.Header>
+                Junior JS Developer
+              </List.Item>
+              <List.Item>
+                <List.Header>Primary skill</List.Header>
+                {data.skills[0]}
+              </List.Item>
+              <List.Item>
+                <List.Header>Secondary skills</List.Header>
+                <List
+                  bulleted
+                  className="skills"
+                  items={data.skills.slice(1)}
+                />
               </List.Item>
             </List>
             <Link
+              className="button-container"
               to={`${this.props.url}/feedback/${this.props.interview
                 .feedbacks[0].id}`}
             >
