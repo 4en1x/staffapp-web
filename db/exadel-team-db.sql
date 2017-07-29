@@ -18,12 +18,6 @@
 --
 -- Table structure for table `candidate_statuses`
 --
-CREATE SCHEMA IF NOT EXISTS `exadelteamdb2` ;
-DEFAULT CHARACTER SET utf8 ;
-
-
-
-USE `exadelteamdb2` ;
 
 DROP TABLE IF EXISTS `candidate_statuses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -68,7 +62,7 @@ CREATE TABLE `candidates` (
   `user_id` int(11) NOT NULL,
   `linkedin` varchar(45) DEFAULT NULL,
   `city_id` int(11) DEFAULT NULL,
-  `salary` varchar(45) DEFAULT NULL,
+  `salary` int(11) DEFAULT NULL,
   `notification_date` datetime DEFAULT NULL,
   `primary_skill_year_start` year(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -82,7 +76,7 @@ CREATE TABLE `candidates` (
   CONSTRAINT `fk_candidates_english_levels1` FOREIGN KEY (`english_level_id`) REFERENCES `english_levels` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_candidates_skills1` FOREIGN KEY (`primary_skill`) REFERENCES `skills` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_candidates_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +85,7 @@ CREATE TABLE `candidates` (
 
 LOCK TABLES `candidates` WRITE;
 /*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
-INSERT INTO `candidates` VALUES (1,'Kostya','Stsefanovich','freeplayercot@gmail.com',1,NULL,'+375293552746',NULL,1,1,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,1,'5000$',NULL,NULL),(2,'Nina','Balerina','Something',1,NULL,'+375293162746',NULL,2,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(3,'Lena','VEryBig','@exist.ru',2,NULL,NULL,NULL,3,3,'2009-06-03 11:13:56','2009-06-03 11:13:56',2,NULL,NULL,'5000000$',NULL,NULL),(4,'Kostya','Stsefanovich','freeplayercot@gmail.com',3,NULL,'+375293552746',NULL,4,4,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,5,'5000$',NULL,NULL),(5,'Sergey','Moiseenko','Something',4,NULL,'+375293162746',NULL,5,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,9,'5000000$',NULL,NULL),(6,'Ivan','Ivanov','Something',4,NULL,'+375293162746',NULL,6,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(7,'Anton','Dosov','Something',3,NULL,'+375293162746',NULL,7,7,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,'5000000$',NULL,NULL),(8,'Dmitry','Rusakov','Something',3,NULL,'+375293162746',NULL,8,1,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,'5000000$',NULL,NULL),(9,'Zhenya','Basaranovich','Something',7,NULL,'+375293162746',NULL,9,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,6,'5000000$',NULL,NULL),(10,'Ivan','Ivanov','Something',7,NULL,'+375293162746',NULL,1,3,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,'5000000$',NULL,NULL),(11,'Ilya','Sidorov','Something',10,NULL,'+375293162746',NULL,2,4,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,5,'5000000$',NULL,NULL),(12,'Alexey','Stsefanovich','Something',11,NULL,'+375293162746',NULL,3,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,'5000000$',NULL,NULL),(13,'Name','Surname','Something',11,NULL,'+375293162746',NULL,4,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,'5000000$',NULL,NULL),(16,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 05:03:42','2017-07-28 06:43:16',1,NULL,1,NULL,NULL,NULL),(17,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 06:44:13','2017-07-28 06:44:13',1,NULL,1,NULL,NULL,NULL);
+INSERT INTO `candidates` VALUES (1,'Kostya','Stsefanovich','freeplayercot@gmail.com',1,NULL,'+375293552746',NULL,1,1,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,1,5000,NULL,NULL),(2,'Nina','Balerina','Something',1,NULL,'+375293162746',NULL,2,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,5000000,NULL,NULL),(3,'Lena','VEryBig','@exist.ru',2,NULL,NULL,NULL,3,3,'2009-06-03 11:13:56','2009-06-03 11:13:56',2,NULL,NULL,5000000,NULL,NULL),(4,'Kostya','Stsefanovich','freeplayercot@gmail.com',3,NULL,'+375293552746',NULL,4,4,'2009-06-04 18:13:56','2009-06-04 18:13:56',1,NULL,5,5000,NULL,NULL),(5,'Sergey','Moiseenko','Something',4,NULL,'+375293162746',NULL,5,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,9,5000000,NULL,NULL),(6,'Ivan','Ivanov','Something',4,NULL,'+375293162746',NULL,6,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,5000000,NULL,NULL),(7,'Anton','Dosov','Something',3,NULL,'+375293162746',NULL,7,7,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,5000000,NULL,NULL),(8,'Dmitry','Rusakov','Something',3,NULL,'+375293162746',NULL,8,1,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,7,5000000,NULL,NULL),(9,'Zhenya','Basaranovich','Something',7,NULL,'+375293162746',NULL,9,2,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,6,5000000,NULL,NULL),(10,'Ivan','Ivanov','Something',7,NULL,'+375293162746',NULL,1,3,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,2,5000000,NULL,NULL),(11,'Ilya','Sidorov','Something',10,NULL,'+375293162746',NULL,2,4,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,5,5000000,NULL,NULL),(12,'Alexey','Stsefanovich','Something',11,NULL,'+375293162746',NULL,3,5,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,5000000,NULL,NULL),(13,'Name','Surname','Something',11,NULL,'+375293162746',NULL,4,6,'2009-06-03 18:13:56','2009-06-03 18:13:56',2,NULL,3,5000000,NULL,NULL),(16,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 05:03:42','2017-07-28 06:43:16',1,NULL,1,NULL,NULL,NULL),(17,'myfavorite','unic','grixl',1,NULL,NULL,NULL,1,1,'2017-07-28 06:44:13','2017-07-28 06:44:13',1,NULL,1,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -153,7 +147,7 @@ DROP TABLE IF EXISTS `feedback_fields`;
 CREATE TABLE `feedback_fields` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
-  `value` varchar(45) DEFAULT NULL,
+  `value` int(11) DEFAULT NULL,
   `comment` varchar(45) DEFAULT NULL,
   `type_skill` varchar(45) DEFAULT NULL,
   `feedback_id` int(11) NOT NULL,
@@ -229,7 +223,7 @@ CREATE TABLE `hirings` (
   CONSTRAINT `fk_hirings_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_hirings_vacancy1` FOREIGN KEY (`vacancy_id`) REFERENCES `vacancies` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +252,7 @@ CREATE TABLE `history` (
   `time` datetime NOT NULL,
   `logs` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +261,7 @@ CREATE TABLE `history` (
 
 LOCK TABLES `history` WRITE;
 /*!40000 ALTER TABLE `history` DISABLE KEYS */;
-INSERT INTO `history` VALUES (12,'candidates','create',16,2,'2017-07-28 05:03:43','Some changes in table candidates: create some data.'),(13,'candidates','update',16,1,'2017-07-28 05:46:45','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 05:46:44\",\"userId\":1,\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(19,'vacancies','update',1,1,'2017-07-28 06:33:08','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(20,'vacancies','create',10,1,'2017-07-28 06:39:23','Some changes in table vacancies: create some data.'),(21,'vacancies','update',1,1,'2017-07-28 06:39:56','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(22,'candidates','update',16,1,'2017-07-28 06:43:17','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 06:43:16\",\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(23,'candidates','create',17,1,'2017-07-28 06:44:14','Some changes in table candidates: create some data.');
+INSERT INTO `history` VALUES (12,'candidates','create',16,2,'2017-07-28 05:03:43','Some changes in table candidates: create some data.'),(13,'candidates','update',16,1,'2017-07-28 05:46:45','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 05:46:44\",\"userId\":1,\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(19,'vacancies','update',1,1,'2017-07-28 06:33:08','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(20,'vacancies','create',10,1,'2017-07-28 06:39:23','Some changes in table vacancies: create some data.'),(21,'vacancies','update',1,1,'2017-07-28 06:39:56','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":1,\"statusId\":1} '),(22,'candidates','update',16,1,'2017-07-28 06:43:17','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 06:43:16\",\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(23,'candidates','create',17,1,'2017-07-28 06:44:14','Some changes in table candidates: create some data.'),(24,'candidates','create',18,2,'2017-07-28 09:39:37','Some changes in table candidates: create some data.'),(25,'candidates','update',18,2,'2017-07-28 09:41:13','Some changes in table candidates: update some data.Insert data: {\"name\":\"myfavorite\",\"surname\":\"unic\",\"email\":\"grixl\",\"primarySkill\":1,\"lastChangeDate\":\"2017-07-28 09:41:12\",\"cityId\":1,\"englishLevelId\":1,\"statusId\":1} '),(26,'candidates','delete',18,1,'2017-07-28 09:44:18','Some changes in table candidates: delete some data.'),(27,'vacancies','delete',2,1,'2017-07-28 09:47:29','Some changes in table vacancies: delete some data.'),(28,'vacancies','create',11,1,'2017-07-28 09:48:49','Some changes in table vacancies: create some data.'),(29,'vacancies','update',11,1,'2017-07-28 09:49:52','Some changes in table vacancies: update some data.Insert data: {\"name\":\"job in exadel\",\"salary\":\"5000$\",\"primarySkill\":1,\"description\":\"But I must r avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\",\"city_id\":6,\"statusId\":1} '),(30,'hirings','create',13,1,'2017-07-28 10:11:04','Some changes in table hirings: create some data.'),(31,'hirings','delete',13,1,'2017-07-28 10:12:04','Some changes in table hirings: delete some data.');
 /*!40000 ALTER TABLE `history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +335,7 @@ CREATE TABLE `links` (
   PRIMARY KEY (`id`),
   KEY `fk_links_candidates1_idx` (`candidate_id`),
   CONSTRAINT `fk_links_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -430,7 +424,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('nrYAsSglUztRRyjsITozWqB4HquAKPdb',1501301426,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}');
+INSERT INTO `sessions` VALUES ('JV2OcT7VzsHFPw4EYID2acHGc6b_FLc7',1501321885,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}'),('nrYAsSglUztRRyjsITozWqB4HquAKPdb',1501321932,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":1}}'),('o7KUb6sfcmEDzaO0CvAdn1wVaPVdJlu3',1501320688,'{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"passport\":{\"user\":2}}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -527,7 +521,7 @@ CREATE TABLE `vacancies` (
   `status_id` int(11) NOT NULL,
   `job_start` date DEFAULT NULL,
   `created_date` datetime NOT NULL,
-  `salary` varchar(45) DEFAULT NULL,
+  `salary` int(11) DEFAULT NULL,
   `primary_skill` int(11) NOT NULL,
   `description` longtext,
   PRIMARY KEY (`id`),
@@ -538,7 +532,7 @@ CREATE TABLE `vacancies` (
   CONSTRAINT `fk_vacancies_vacancy_statuses1` FOREIGN KEY (`status_id`) REFERENCES `vacancy_statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_vacancies_vacancy_statuses2` FOREIGN KEY (`status_id`) REFERENCES `vacancy_statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_vacancy_cities1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -547,7 +541,7 @@ CREATE TABLE `vacancies` (
 
 LOCK TABLES `vacancies` WRITE;
 /*!40000 ALTER TABLE `vacancies` DISABLE KEYS */;
-INSERT INTO `vacancies` VALUES (1,1,'job in exadel',1,'2009-06-03','2009-06-03 11:13:56','5000$',1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?'),(2,1,'job in exadel 2',2,'2009-06-03','2009-06-03 11:13:56','5000$',1,'description 2'),(3,1,'job in exadel 3',3,'2009-06-03','2009-06-03 11:13:56','5000$',2,'description 3'),(4,1,'job in exadel 4',4,'2009-06-03','2009-06-03 11:13:56','5000$',4,'description 4'),(5,1,'job in exadel 5',5,'2009-06-03','2009-06-03 11:13:56','5000$',5,'description 5'),(6,1,'job in exadel 6',6,'2009-06-03','2009-06-03 11:13:56','5000$',1,'description 6'),(7,1,'Justify',7,NULL,'2017-07-24 12:31:49',NULL,1,'.................'),(10,1,'job in exadel',1,NULL,'2017-07-28 06:39:22','5000$',1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?');
+INSERT INTO `vacancies` VALUES (1,1,'job in exadel',1,'2009-06-03','2009-06-03 11:13:56',5000,1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?'),(3,1,'job in exadel 3',3,'2009-06-03','2009-06-03 11:13:56',5000,2,'description 3'),(4,1,'job in exadel 4',4,'2009-06-03','2009-06-03 11:13:56',5000,4,'description 4'),(5,1,'job in exadel 5',5,'2009-06-03','2009-06-03 11:13:56',5000,5,'description 5'),(6,1,'job in exadel 6',6,'2009-06-03','2009-06-03 11:13:56',5000,1,'description 6'),(7,1,'Justify',7,NULL,'2017-07-24 12:31:49',NULL,1,'.................'),(10,1,'job in exadel',1,NULL,'2017-07-28 06:39:22',5000,1,'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?'),(11,6,'job in exadel',1,NULL,'2017-07-28 09:48:48',5000,1,'But I must r avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?');
 /*!40000 ALTER TABLE `vacancies` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -576,7 +570,7 @@ CREATE TABLE `vacancy_has_skills` (
 
 LOCK TABLES `vacancy_has_skills` WRITE;
 /*!40000 ALTER TABLE `vacancy_has_skills` DISABLE KEYS */;
-INSERT INTO `vacancy_has_skills` VALUES (1,2,2),(1,4,2),(1,8,2),(2,4,2),(2,8,2),(3,3,2),(3,4,2),(3,7,2),(4,1,2),(4,4,2),(5,3,2),(5,9,2),(6,2,2),(6,6,2),(6,7,2),(6,8,2),(6,10,2),(7,1,56),(7,2,1),(7,5,435),(7,6,1),(10,2,2),(10,4,2),(10,8,2);
+INSERT INTO `vacancy_has_skills` VALUES (1,2,2),(1,4,2),(1,8,2),(3,3,2),(3,4,2),(3,7,2),(4,1,2),(4,4,2),(5,3,2),(5,9,2),(6,2,2),(6,6,2),(6,7,2),(6,8,2),(6,10,2),(7,1,56),(7,2,1),(7,5,435),(7,6,1),(10,2,2),(10,4,2),(10,8,2),(11,8,2);
 /*!40000 ALTER TABLE `vacancy_has_skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -613,4 +607,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-28  7:13:33
+-- Dump completed on 2017-07-28 13:00:28

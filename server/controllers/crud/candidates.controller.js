@@ -1,6 +1,7 @@
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
+const fecha = require('fecha');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -20,6 +21,16 @@ class CandidatesController extends CRUDController {
 
       res.status(500).end();
     }
+  }
+
+  async read(req, res) {
+    const onload = async (candidates) => {
+      candidates.forEach((candidate) => {
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY');
+        return candidate;
+      });
+    };
+    await super.read(req, res, onload);
   }
 
   async fillLists(req, res) {

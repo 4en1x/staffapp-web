@@ -67,6 +67,7 @@ class SkillsDAO extends BasicDAO {
       fields: 'name',
       order: 'ORDER BY name',
     });
+
     return skills.map(skill => skill.name);
   }
 }

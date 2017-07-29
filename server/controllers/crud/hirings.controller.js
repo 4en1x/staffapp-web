@@ -21,7 +21,7 @@ class HiringsController extends CRUDController {
 
     const onload = async (insertId) => {
       id = insertId;
-      await service.createInterviews(req.body.interviews, id, req.query.candidate);
+      await service.createInterviews(req.body.interviews, id, req.user.id);
     };
 
     const onerror = async () => {

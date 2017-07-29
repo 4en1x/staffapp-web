@@ -48,7 +48,10 @@ class HiringsDAO extends BasicDAO {
    */
   async findByCandidate(id) {
     return super.find({
+      fields: `${this.tableName}.${this.idField}, user_id, vacancy_id,
+               date_open, date_close`,
       condition: 'WHERE candidate_id = ?',
+      order: `ORDER BY -date_close, -date_open`,
       values: [id],
     });
   }

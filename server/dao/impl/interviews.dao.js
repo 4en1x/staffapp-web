@@ -23,7 +23,7 @@ class InterviewsDAO extends BasicDAO {
    * @param {Object} interview
    * @returns {Promise <Number>}
    */
-  async create(interview) {
+  async create(interview, user) {
     const superCreate = super.create.bind(this);
 
     return this.wrapTransaction(async () => {
@@ -32,10 +32,10 @@ class InterviewsDAO extends BasicDAO {
 
       const { candidateId } = await getHiringsDAO().instance.findById(interview.hiringId);
 
-      const fields = interview.feedbackFiels || [];
-      delete interview.feedbackFiels;
+      const fields = interview.fields || [];
+      delete interview.fields;
 
-      const interviewId = await superCreate(interview);
+      const interviewId = await superCreate(interview, user);
 
       const feedback = {
         interviewId,
