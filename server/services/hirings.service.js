@@ -1,5 +1,8 @@
 const db = require('../dao/dao');
 const fecha = require('fecha');
+const { clearFields } = require('../utils');
+const FeedbacksDAO = require('../dao/impl/feedbacks.dao');
+const InterviewsDAO = require('../dao/impl/interviews.dao');
 
 async function createInterviews(interviews = [], hiringId, userId) {
   await Promise.all(interviews.map(async (interview) => {
@@ -7,6 +10,19 @@ async function createInterviews(interviews = [], hiringId, userId) {
     interview.date = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
     await db.interviews.create(interview, userId);
   }));
+}
+
+async function addInterviewsToHiring(id) {
+  const interviews = await InterviewsDAO.instance.findByHiring(id);
+  await Promise.all(interviews.map(async (interview) => {
+    const feedbacks = await FeedbacksDAO.instance.findByInterview(interview.id);
+    await Promise.all(feedbacks.map(async (feedback, index) => {
+      feedbacks[index] = await FeedbacksDAO.instance.findById(feedback);
+      feedbacks[index].fields = clearFields(feedbacks[index].fields);
+    }));
+    interview.feedbacks = feedbacks;
+  }));
+  return interviews;
 }
 
 function createHiringObject(req) {
@@ -31,4 +47,5 @@ module.exports = {
   createInterviews,
   createHiringObject,
   createHiringUpdateObject,
+  addInterviewsToHiring,
 };

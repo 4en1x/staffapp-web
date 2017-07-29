@@ -51,12 +51,17 @@ class HiringsController extends CRUDController {
 
   async read(req, res) {
     try {
-      if (!req.query.candidate) {
+      if (!req.query.candidate && !req.query.user) {
         res.status(400).end();
         return;
       }
+      let result;
 
-      const result = await this.dao.findByCandidate(req.query.candidate);
+      if (req.query.candidate) {
+        result = await this.dao.findByCandidate(req.query.candidate);
+      } else {
+        result = await this.dao.findByUser(req.query.user);
+      }
 
       if (!result) {
         res.status(404).end();
