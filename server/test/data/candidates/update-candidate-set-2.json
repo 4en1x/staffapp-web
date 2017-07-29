@@ -1,10 +1,3 @@
 {
-  "name":"myfavorite",
-  "surname":"unic",
-  "email":"grixl",
-  "primary_skill":"j555s",
-  "english_level":"0",
-  "status":"Pool",
-  "city":"Minsk",
-  "links":["1234","myl555nk","someting"]
+  "city":"notexist"
 }

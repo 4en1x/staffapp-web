@@ -154,7 +154,7 @@ CREATE TABLE   `exadelteamdbtest`.`feedback_fields` (
   `type` set('tech','hr','owner') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_feedback_fields_feedbacks1_idx` (`feedback_id`),
-  CONSTRAINT `fk_feedback_fields_feedbacks1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_feedback_fields_feedbacks1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -186,9 +186,9 @@ CREATE TABLE   `exadelteamdbtest`.`feedbacks` (
   KEY `fk_feedbacks_candidates1_idx` (`candidate_id`),
   KEY `fk_feedbacks_users1_idx` (`user_id`),
   KEY `fk_feedbacks_interviews1_idx` (`interview_id`),
-  CONSTRAINT `fk_feedbacks_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_feedbacks_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_feedbacks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_feedbacks_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_feedbacks_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_feedbacks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
