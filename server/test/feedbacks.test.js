@@ -112,5 +112,21 @@ describe('#Feedbacks-Api', () => {
           .ok(res => res.status <= 500);
         expect(response.statusCode).to.equal(403);
       });
+
+    it('This test should fail with 500 error because admin try to update feedback by incorrect data',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/feedbacks/update-feedbacks-1.json', 'utf8');
+        response = await req
+          .put(`${defaultUrl}/feedbacks/10000000`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(200);
+      });
   });
 });
