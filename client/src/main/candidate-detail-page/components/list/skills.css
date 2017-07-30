@@ -1,0 +1,9 @@
+.skills-list {
+  text-align: left;
+}
+
+.skills-list .ui.list,
+ol.ui.list,
+ul.ui.list.collapse {
+  margin-top: 0;
+}

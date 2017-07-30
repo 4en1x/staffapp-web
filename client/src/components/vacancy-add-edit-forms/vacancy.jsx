@@ -1,6 +1,5 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Field, reduxForm } from "redux-form";
 import {
   Dropdown,
   Input,
@@ -8,32 +7,38 @@ import {
   Header,
   Divider,
   Segment,
-  List
-} from 'semantic-ui-react';
-import './vacancy.css';
+} from "semantic-ui-react";
+import "./vacancy.css";
 
 const primarySkillList = [];
-const secondarySkillList = [];
+let secondarySkillList = [];
 const citiesList = [];
 const statusList = [];
+const secondaryDataMap = {};
 
 class Vacancy extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     let initData = {};
-    if (this.props.data.status) {
+    if (props.data.status) {
       initData = {
-        status: this.props.data.status,
-        jobStart: this.props.data.jobStart,
-        salary: this.props.data.salary,
-        name: this.props.data.name,
-        primarySkill: this.props.data.primarySkill,
-        secondarySkills: this.props.data.skills,
-        description: this.props.data.description,
-        city: this.props.data.city
+        status: props.data.status,
+        jobStart: props.data.jobStart,
+        salary: props.data.salary,
+        name: props.data.name,
+        primarySkill: props.data.primarySkill,
+        secondarySkills: [],
+        description: props.data.description,
+        city: props.data.city
       };
+      props.data.skills.map(value => initData.secondarySkills.push(value.name));
+      initData.id = props.data.id;
+      props.initialize(initData);
     }
-    this.props.initialize(initData);
+
   }
+
   nameInput = ({ input }) =>
     <Input {...input} placeholder="name" className="text-area" />;
   salaryInput = ({ input }) =>
@@ -48,7 +53,6 @@ class Vacancy extends React.Component {
   primarySkillInput = ({ input }) =>
     <Dropdown
       placeholder="major skill"
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);
@@ -60,7 +64,6 @@ class Vacancy extends React.Component {
   secondarySkillsInput = ({ input }) =>
     <Dropdown
       selection
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);
@@ -103,7 +106,12 @@ class Vacancy extends React.Component {
       />
     );
   };
-
+  prepareData = values => {
+    values.secondarySkills.map(
+      (data, move) => (values.secondarySkills[move] = secondaryDataMap[data])
+    );
+    this.props.onSubmit(values);
+  };
   render() {
     this.props.majorSkills.map(step => {
       const temp = {
@@ -114,15 +122,18 @@ class Vacancy extends React.Component {
       primarySkillList.push(temp);
       return null;
     });
+    const tempList = [];
     this.props.minorSkills.map(step => {
       const temp = {
-        key: step,
-        text: step,
-        value: step
+        key: step.name,
+        text: step.name,
+        value: step.name
       };
-      secondarySkillList.push(temp);
+      tempList.push(temp);
+      secondaryDataMap[step.name] = step;
       return null;
     });
+    secondarySkillList = tempList;
     this.props.statuses.map(step => {
       const temp = {
         key: step,
@@ -144,13 +155,16 @@ class Vacancy extends React.Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit} className="vacancy-detail-page">
+      <form
+        onSubmit={handleSubmit(this.prepareData)}
+        className="vacancy-detail-page"
+      >
         <div className="vacancy-content">
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">
-                {!this.props.data.status && 'creating vacancy form'}
-                {this.props.data.status && 'editing vacancy form'}
+                {!this.props.data.status && "creating vacancy form"}
+                {this.props.data.status && "editing vacancy form"}
               </Header>
             </div>
             <Divider />
@@ -160,22 +174,22 @@ class Vacancy extends React.Component {
               <div className="left-form-block">
                 <div className="item-with-label">
                   <Header as="h3">project name</Header>
-                  <Field name={'name'} component={this.nameInput} />
+                  <Field name={"name"} component={this.nameInput} />
                 </div>
 
                 <div className="item-with-label">
                   <Header as="h3">place</Header>
-                  <Field name={'city'} component={this.cityInput} />
+                  <Field name={"city"} component={this.cityInput} />
                 </div>
 
                 <div className="item-with-label">
                   <Header as="h3">status</Header>
-                  <Field name={'status'} component={this.statusInput} />
+                  <Field name={"status"} component={this.statusInput} />
                 </div>
 
                 <div className="item-with-label">
                   <Header as="h3">project salary</Header>
-                  <Field name={'salary'} component={this.salaryInput} />
+                  <Field name={"salary"} component={this.salaryInput} />
                 </div>
               </div>
 
@@ -183,36 +197,36 @@ class Vacancy extends React.Component {
                 <div className="item-with-label">
                   <Header as="h3">primary skill</Header>
                   <Field
-                    name={'primarySkill'}
+                    name={"primarySkill"}
                     component={this.primarySkillInput}
                   />
                 </div>
 
                 <div className="item-with-label">
                   <Header as="h3">job start date</Header>
-                  <Field name={'jobStart'} component={this.dateInput} />
+                  <Field name={"jobStart"} component={this.dateInput} />
                 </div>
 
                 <div className="item-with-label">
                   <Header as="h3">secondary skills</Header>
                   <Field
-                    name={'skills'}
+                    name={"secondarySkills"}
                     component={this.secondarySkillsInput}
                   />
                 </div>
                 <div className="item-with-label">
                   <Header as="h3">description</Header>
                   <Field
-                    name={'description'}
+                    name={"description"}
                     component={this.descriptionInput}
                   />
                 </div>
               </div>
             </div>
             <div className="add-vacancy">
-                <Button primary disabled={submitting}>
-                  Send vacancy card
-                </Button>
+              <Button primary disabled={submitting}>
+                Send vacancy card
+              </Button>
             </div>
           </Segment>
         </div>
@@ -221,4 +235,4 @@ class Vacancy extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'addVacancy' })(Vacancy);
+export default reduxForm({ form: "addVacancy" })(Vacancy);

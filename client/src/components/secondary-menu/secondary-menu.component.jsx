@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Menu } from 'semantic-ui-react';
-import { addFilter } from '../../main/interview-page/interview-actions';
+import { addFilter } from '../../main/interview/interview-actions';
 import './secondary-menu.css';
 
 const ItemsList = ['my', 'assigned', 'all'].map(item => ({

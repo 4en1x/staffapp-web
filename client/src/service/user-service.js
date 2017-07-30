@@ -12,10 +12,15 @@ function isAuthorized() {
   return axios.get('/username');
 }
 
+function logout() {
+  return axios.post(`/logout`);
+}
+
 const userService = {
   login,
   checkEmail,
-  isAuthorized
+  isAuthorized,
+  logout
 };
 
 export default userService;

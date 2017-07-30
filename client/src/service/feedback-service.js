@@ -7,7 +7,7 @@ function getFeedbackFormFields(id) {
 }
 
 function putFeedback(id, feedback) {
-  return axios.put(`${id}`, feedback);
+  return axios.put(`/feedbacks/${id}`, feedback);
 }
 
 const feedbackService = {

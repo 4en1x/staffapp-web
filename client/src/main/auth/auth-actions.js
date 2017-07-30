@@ -4,11 +4,19 @@ axios.defaults.withCredentials = true;
 
 const ADD_USER = 'ADD_USER';
 const ADD_USER_ERROR = 'ADD_USER_ERROR';
+const REMOVE_USER = 'REMOVE_USER';
 
 function addUser(user) {
   return {
     type: ADD_USER,
     user
+  };
+}
+
+function removeUser() {
+  return {
+    type: REMOVE_USER,
+    user: {}
   };
 }
 
@@ -23,6 +31,14 @@ export function login(user) {
   return dispatch => {
     userService.login(user).then(response => {
       dispatch(addUser(response.data));
+    });
+  };
+}
+
+export function logout() {
+  return dispatch => {
+    userService.logout().then(response => {
+      dispatch(removeUser());
     });
   };
 }

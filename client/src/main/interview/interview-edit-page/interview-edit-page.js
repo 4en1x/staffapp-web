@@ -1,5 +1,6 @@
 import React from 'react';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
+import interviewService from '../../../service/interview-service';
 import './interview-edit-page.css';
 
 const cities = ['Minsk', 'Pinsk', 'Dobrush', 'Borisov'];
@@ -45,7 +46,13 @@ export default class EditInterviewPage extends React.Component {
     };
   }
   componentDidMount() {
-    this.setState({ isLoaded: true });
+    interviewService.getEditFormById(this.props.match.params.id).then(res => {
+      this.interview = res.data;
+      interviewService.getInterviewFillList().then(res => {
+        this.lists = res.data;
+        this.setState({ isLoaded: true });
+      });
+    });
   }
 
   showResults = values => {
@@ -56,16 +63,14 @@ export default class EditInterviewPage extends React.Component {
     // const url = this.props.match.url;
     // if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
 
-    console.log(data);
-
     return (
       <div className="edit-interview-page">
         {!this.state.isLoaded
           ? <p>Not Loaded</p>
           : <InterviewComponent
               onSubmit={this.showResults}
-              cities={cities}
-              data={data}
+              //cities={this.candidate.place}
+              data={this.candidate.data}
             />}
       </div>
     );

@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "redux-form";
 import { List, Input, Dropdown, Icon } from "semantic-ui-react";
 import "./contacts-list.css";
-import "../candidate.css";
+import "./candidate.css";
 
 const citiesList = [];
 
@@ -50,7 +50,6 @@ const cityInput = ({ input }) => {
   return (
     <Dropdown
       placeholder="city"
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);

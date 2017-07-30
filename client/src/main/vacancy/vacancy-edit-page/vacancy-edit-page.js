@@ -1,5 +1,6 @@
 import React from 'react';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
+import vacancyService from '../../../service/vacancy-service';
 
 const minorSkills = [
   {
@@ -56,7 +57,14 @@ export default class InterviewPage extends React.Component {
     };
   }
   componentDidMount() {
-    this.setState({ isLoaded: true });
+    vacancyService.getVacancyById(this.props.match.params.id).then(res => {
+      this.vacancy = res.data;
+      vacancyService.getVacancyFillList().then(res => {
+        this.lists = res.data;
+        console.log(this.lists);
+        this.setState({isLoaded: true});
+      })
+    });
   }
 
   showResults = values => {
@@ -72,11 +80,11 @@ export default class InterviewPage extends React.Component {
           ? <p>Not Loaded</p>
           : <VacancyComponent
               onSubmit={this.showResults}
-              minorSkills={minorSkills}
-              majorSkills={majorSkills}
-              data={data}
-              cities={cities}
-              statuses={statuses}
+              minorSkills={this.lists.secondarySkills}
+              majorSkills={this.lists.primarySkills}
+              data={this.vacancy}
+              cities={this.lists.cities}
+              statuses={this.lists.statuses}
             />}
       </div>
     );

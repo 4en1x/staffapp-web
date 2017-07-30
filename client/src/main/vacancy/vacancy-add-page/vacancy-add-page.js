@@ -17,7 +17,10 @@ export default class AddVacancyPage extends React.Component {
   componentDidMount() {
     vacancyService.getAddFormValues().then(res => {
       this.value = res.data;
-      this.setState({ isLoaded: true });
+      vacancyService.getVacancyFillList().then(res => {
+        this.lists = res.data;
+        this.setState({isLoaded: true});
+      })
     });
   }
 
@@ -37,10 +40,10 @@ export default class AddVacancyPage extends React.Component {
           ? <p>Not Loaded</p>
           : <VacancyComponent
               onSubmit={this.showResults}
-              minorSkills={this.value.secondarySkills}
-              majorSkills={this.value.primarySkills}
-              cities={this.value.cities}
-              statuses={this.value.statuses}
+              minorSkills={this.lists.secondarySkills}
+              majorSkills={this.lists.primarySkills}
+              cities={this.lists.cities}
+              statuses={this.lists.statuses}
               data={data}
             />}
       </div>

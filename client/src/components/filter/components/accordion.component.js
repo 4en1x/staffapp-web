@@ -16,7 +16,7 @@ const AccordionComponent = ({ input, label, items }) =>
         text
         vertical
         items={items}
-        onItemClick={(event, obj) => input.onChange(obj.name)}
+        onItemClick={(event, obj) => input.onChange([obj.name])}
       />
     </Accordion.Content>
   </Accordion>;

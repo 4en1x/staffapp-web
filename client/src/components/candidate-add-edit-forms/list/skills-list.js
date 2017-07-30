@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "redux-form";
 import { List, Dropdown } from "semantic-ui-react";
 import "./skills.css";
-import "../candidate.css";
+import "./candidate.css";
 
 const skillsList = [];
 const englishLevelsList = [
@@ -19,7 +19,6 @@ const secondarySkills = ({ input }) => {
   return (
     <Dropdown
       selection
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);
@@ -40,7 +39,6 @@ const englishLevel = ({ input }) => {
   return (
     <Dropdown
       placeholder="english level"
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);

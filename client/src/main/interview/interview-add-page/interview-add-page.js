@@ -17,7 +17,7 @@ export default class ADDInterviewPage extends React.Component {
 
   componentDidMount() {
 
-    interviewService.getSkillsList().then(res => {
+    interviewService.getInterviewFillList().then(res => {
       console.log(res);
       this.skillsList = res.data;
       this.setState({ isLoaded: true });
@@ -25,9 +25,7 @@ export default class ADDInterviewPage extends React.Component {
   }
 
   showResults = values => {
-    interviewService.postInterview(values).then(res => {
-      window.alert(res.data);
-    });
+    console.log(values);
   };
 
   render() {

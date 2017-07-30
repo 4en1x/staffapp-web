@@ -5,7 +5,7 @@ import ListComponent from "../../components/list/list.component";
 import InterviewListItem from "../../components/list/list-items/interview-list-item";
 import WorkerNavigationBar from "../../components/worker-navigation-bar/navigation-bar";
 import SemanticLoader from "../../components/loaders/semantic-loader";
-import * as actionCreators from "../interview-page/interview-actions";
+import * as actionCreators from "../interview/interview-actions";
 import "./worker-page.css";
 
 class WorkerPage extends React.Component {

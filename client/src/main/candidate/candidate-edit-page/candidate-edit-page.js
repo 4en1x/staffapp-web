@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
-import Candidate from '../../../components/candidate-add-edit-forms/candidate';
+import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 
 ///////////// for testing
 const data = {

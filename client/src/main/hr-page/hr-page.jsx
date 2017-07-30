@@ -1,14 +1,14 @@
-import React from "react";
-import { Route, Redirect, Link } from "react-router-dom";
-import { Button } from "semantic-ui-react";
-import HRNavigationBar from "../../components/hr-navigation-bar/navigation-bar";
-import InterviewListWrapper from "./components/interview-list-wrapper";
-import CandidateListWrapper from "./components/candidate-list-wrapper";
-import VacancyListWrapper from "./components/vacancy-list-wrapper";
-import SecondaryMenuComponent from "../../components/secondary-menu/secondary-menu.component";
-import VacanciesFilterForm from "./components/filter/vacancies-filter.container";
-import CandidateFilter from "./components/filter/candidates-filter.container";
-import "./hr-page.css";
+import React from 'react';
+import { Route, Redirect, Link } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
+import HRNavigationBar from '../../components/hr-navigation-bar/navigation-bar';
+import InterviewListWrapper from '../interview/list-wrapper/interview-list-wrapper';
+import CandidateListWrapper from '../candidate/list-wrapper/candidate-list-wrapper';
+import VacancyListWrapper from '../vacancy/list-wrapper/vacancy-list-wrapper';
+import SecondaryMenuComponent from '../../components/secondary-menu/secondary-menu.component';
+import VacanciesFilterForm from './components/filter/vacancies-filter.container';
+import CandidateFilter from './components/filter/candidates-filter.container';
+import './hr-page.css';
 
 export default class HRPage extends React.Component {
   render() {
@@ -26,7 +26,7 @@ export default class HRPage extends React.Component {
             component={() =>
               <div className="hr-page_content">
                 <InterviewListWrapper />
-                <Link to="/">
+                <Link to="/interviews/add">
                   <Button color="twitter">Add</Button>
                 </Link>
                 <SecondaryMenuComponent />
@@ -37,7 +37,7 @@ export default class HRPage extends React.Component {
             component={() =>
               <div>
                 <VacancyListWrapper />
-                <Link to="/">
+                <Link to="vacancies/add">
                   <Button color="twitter">Add</Button>
                 </Link>
                 <VacanciesFilterForm />
@@ -48,7 +48,7 @@ export default class HRPage extends React.Component {
             component={() =>
               <div>
                 <CandidateListWrapper />
-                <Link to="/">
+                <Link to="candidates/add">
                   <Button color="twitter">Add</Button>
                 </Link>
                 <CandidateFilter />

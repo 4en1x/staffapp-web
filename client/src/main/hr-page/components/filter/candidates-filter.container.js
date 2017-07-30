@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addFilter } from '../../../candidate/candidate-actions';
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
 
 import './filter.css';
-
-function check(values) {
-  window.alert(JSON.stringify(values));
-}
 
 const Statuses = ['Pool ', 'In progress', 'Hired'].map(item => ({
   key: item,
@@ -59,16 +56,21 @@ const data = {
 class FilterComponent extends React.Component {
   componentDidMount() {}
 
-  onSumbitClicked = filter => {};
+  onSubmitClicked = filter => {
+
+    Object.keys(filter).forEach(prop => {
+      if (!filter[prop] || !filter[prop].length) delete filter[prop];
+    });
+
+    this.props.addFilter(filter);
+  };
 
   render() {
-    console.log(this.props.filter);
-
     //if (!filter.props.filterValues) return <p />;
 
     return (
       <div className="filter-container">
-        <CandidatesFilterForm onSubmit={check} data={this.props.filterValues} />
+        <CandidatesFilterForm onSubmit={this.onSubmitClicked} data={data} />
       </div>
     );
   }
@@ -84,4 +86,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(FilterComponent);
+export default connect(mapStateToProps, { addFilter })(FilterComponent);
