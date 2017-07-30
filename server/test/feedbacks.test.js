@@ -126,7 +126,7 @@ describe('#Feedbacks-Api', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data))
           .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
+        expect(response.statusCode).to.equal(500);
       });
   });
 });
