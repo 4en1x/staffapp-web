@@ -7,14 +7,14 @@ import {
   Header,
   Divider,
   Segment,
-  List
 } from "semantic-ui-react";
 import "./vacancy.css";
 
 const primarySkillList = [];
-const secondarySkillList = [];
+let secondarySkillList = [];
 const citiesList = [];
 const statusList = [];
+const secondaryDataMap = {};
 
 class Vacancy extends React.Component {
   constructor(props) {
@@ -28,11 +28,12 @@ class Vacancy extends React.Component {
         salary: props.data.salary,
         name: props.data.name,
         primarySkill: props.data.primarySkill,
-        secondarySkills: props.data.skills,
+        secondarySkills: [],
         description: props.data.description,
         city: props.data.city
       };
     }
+    props.data.skills.map(value => initData.secondarySkills.push(value.name));
     initData.id = props.data.id;
     props.initialize(initData);
   }
@@ -51,7 +52,6 @@ class Vacancy extends React.Component {
   primarySkillInput = ({ input }) =>
     <Dropdown
       placeholder="major skill"
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);
@@ -63,7 +63,6 @@ class Vacancy extends React.Component {
   secondarySkillsInput = ({ input }) =>
     <Dropdown
       selection
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);
@@ -106,7 +105,12 @@ class Vacancy extends React.Component {
       />
     );
   };
-
+  prepareData = values => {
+    values.secondarySkills.map(
+      (data, move) => (values.secondarySkills[move] = secondaryDataMap[data])
+    );
+    this.props.onSubmit(values);
+  };
   render() {
     this.props.majorSkills.map(step => {
       const temp = {
@@ -117,15 +121,18 @@ class Vacancy extends React.Component {
       primarySkillList.push(temp);
       return null;
     });
+    const tempList = [];
     this.props.minorSkills.map(step => {
       const temp = {
         key: step.name,
         text: step.name,
-        value: step
+        value: step.name
       };
-      secondarySkillList.push(temp);
+      tempList.push(temp);
+      secondaryDataMap[step.name] = step;
       return null;
     });
+    secondarySkillList = tempList;
     this.props.statuses.map(step => {
       const temp = {
         key: step,
@@ -147,7 +154,10 @@ class Vacancy extends React.Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit} className="vacancy-detail-page">
+      <form
+        onSubmit={handleSubmit(this.prepareData)}
+        className="vacancy-detail-page"
+      >
         <div className="vacancy-content">
           <div className="content-top">
             <div className="data-top">

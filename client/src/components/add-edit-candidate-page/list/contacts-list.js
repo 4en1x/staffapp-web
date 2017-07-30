@@ -50,7 +50,6 @@ const cityInput = ({ input }) => {
   return (
     <Dropdown
       placeholder="city"
-      {...input}
       value={input.value}
       onChange={(param, data) => {
         input.onChange(data.value);

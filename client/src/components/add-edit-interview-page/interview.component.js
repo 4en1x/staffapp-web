@@ -122,7 +122,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         selection
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           input.onChange(data.value);
@@ -138,7 +137,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         selection
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           input.onChange(data.value);
@@ -154,7 +152,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         selection
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           input.onChange(data.value);
@@ -170,7 +167,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         selection
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           input.onChange(data.value);
@@ -187,7 +183,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         placeholder="city"
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           input.onChange(data.value);
@@ -207,7 +202,6 @@ class InterviewComponent extends React.Component {
     return (
       <Dropdown
         placeholder="type of meeting"
-        {...input}
         value={input.value}
         onChange={(param, data) => {
           this.setState({ typeInterview: data.value }, () => {
