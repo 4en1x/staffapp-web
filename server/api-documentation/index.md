@@ -37,3 +37,7 @@ The present documentation provides information on RESTful Exadel.Axel Server API
 ### Hirings
 
 - **[```POST``` hirings](./hirings/POST_hirings.md)**
+- **[```GET``` hirings](./hirings/GET_hirings.md)**
+- **[```GET``` hirings/:id](./hirings/GET_hirings_id.md)**
+- **[```PATCH``` hirings/:id](./hirings/PATCH_hirings_id.md)**
+- **[```DELETE``` hirings/:id](./hirings/DELETE_hirings_id.md)**

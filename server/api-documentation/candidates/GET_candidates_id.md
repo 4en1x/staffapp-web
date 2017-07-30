@@ -47,11 +47,45 @@ A JSON object, that contains candidate object.
   - **lastChangeDate** — last candidate change date ("DD/MM/YYYY")
   - **salary** *(may be null)* — candidate salary (String)
 - **hirings** — array of hiring objects:
-  - **id** — unique hiring id
-  - **userId** —  hiring creator id
-  - **vacancyId** *(may be null)* — assigned vacancy id
-  - **dateOpen** — hiring opening date ("YYYY-MM-DDTHH:mm:ss.000Z")
-  - **dateClose** *(may be null, if hiring is not closed)* — hiring closing date ("YYYY-MM-DDTHH:mm:ss.000Z")
+
+### Hiring object
+
+- **id** — unique id of the hiring
+- **dateOpen** — date of opening hiring (DD/MM/YYYY)
+- **timeOpen** — time of opening hiring (HH:mm)
+- **dateClose** *(may be not defined)* — closing date of the hiring (DD/MM/YYYY)
+- **timeClose** *(may be not defined)* — closing time of the hiring (HH:mm)
+- **vacancyId** *(may be not defined)* — id vacancy attached to hiring
+- **userId** — user who appointed hiring
+- **interviews** — array of interview objects
+  - **id** — unique interviews field id
+  - **type** — type of the interview:
+    - **type: 'TECH'** — technical interview
+    - **type: 'HR'** — HRM interview
+    - **type: 'OWNER'** — owner interview
+  - **date** *(may be not defined)* — date of the interview (DD/MM/YYYY)
+  - **time** *(may be not defined)* — time of the interview (HH:mm)
+  - **place** *(may be not defined)* — place of the interview
+  - **feedbacks** — array of feedback objects
+    - **id** — unique id of the feedback
+    - **userId** — assigned user id
+    - **interviewId** — parent interview id
+    - **candidateId** — assigned candidate id
+    - **comment** — review text
+    - **status** — feedback status:
+      - **status: 0** — opened feedback
+      - **status: 1** — closed feedback
+    - **fields** — array of feedback field objects
+      - **id** — unique feedback field id
+      - **name** — feedback field name (title)
+      - **value** — skill level (integer)
+      - **comment** — comment to a skill
+      - **typeSkill** — type of a skill (primary, secondary, etc.), if the interview is a '**TECH**' interview
+      - **feedbackId** — parent feedback id
+      - **type** — type of field:
+        - **type: 'tech'** — has **name**, **value**, **comment** and **typeSkill**
+        - **type: 'hr'** — has **name** and **comment**
+        - **type: 'owner'** — has **comment**
 
 ## Errors
 
@@ -65,42 +99,176 @@ A JSON object, that contains candidate object.
 #### **Request**
 
 ``` Text
-GET candidates/4
+GET candidates/16
 ```
 
 #### **Return**
 
 ``` JSON
 {
-  "name": "Kostya",
-  "surname": "Stsefanovich",
-  "status": "Pool",
-  "contacts": {
-    "email": "freeplayercot@gmail.com",
-    "phone": "+375293552746",
-    "skype": null,
-    "city": "Minsk",
-    "linkedin": null,
-    "links": []
-  },
-  "skills": {
-    "primarySkill": "js",
-    "englishLevel": "0",
-    "secondarySkills": []
-  },
-  "communication": {
-    "resume": null,
-    "lastChangeDate": "04/06/2009",
-    "salary": "5000$"
-  },
-  "hirings": [
-    {
-      "id": 1,
-      "userId": 1,
-      "vacancyId": null,
-      "dateOpen": "2009-06-03T08:13:56.000Z",
-      "dateClose": null
-    }
-  ]
+    "name": "myfavorite",
+    "surname": "unic",
+    "status": "Pool",
+    "contacts": {
+        "email": "grixl",
+        "phone": null,
+        "skype": null,
+        "city": "Minsk",
+        "linkedin": null,
+        "links": [
+            "1234",
+            "myl555nk",
+            "someting"
+        ]
+    },
+    "skills": {
+        "primarySkill": ".NET",
+        "englishLevel": "0",
+        "secondarySkills": []
+    },
+    "communication": {
+        "resume": null,
+        "lastChangeDate": "28/07/2017",
+        "salary": null
+    },
+    "hirings": [
+        {
+            "id": 20,
+            "userId": 1,
+            "vacancyId": null,
+            "candidateId": 16,
+            "dateOpen": "29/07/2017",
+            "dateClose": null,
+            "interviews": [
+                {
+                    "id": 28,
+                    "type": "TECH",
+                    "date": "27/07/2017",
+                    "place": null,
+                    "feedbacks": [
+                        {
+                            "id": 52,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 28,
+                            "fields": [
+                                {
+                                    "id": 110,
+                                    "name": "C++ skill",
+                                    "typeSkill": "primary",
+                                    "feedbackId": 52,
+                                    "type": "tech"
+                                },
+                                {
+                                    "id": 111,
+                                    "name": "Some skill",
+                                    "typeSkill": "secondary",
+                                    "feedbackId": 52,
+                                    "type": "tech"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 53,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 28,
+                            "fields": []
+                        },
+                        {
+                            "id": 54,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 28,
+                            "fields": []
+                        }
+                    ],
+                    "time": "18:00"
+                }
+            ],
+            "timeOpen": "22:50",
+            "timeClose": null
+        },
+        {
+            "id": 19,
+            "userId": 1,
+            "vacancyId": null,
+            "candidateId": 16,
+            "dateOpen": "29/07/2017",
+            "dateClose": "29/07/2017",
+            "interviews": [],
+            "timeOpen": "22:45",
+            "timeClose": "22:50"
+        },
+        {
+            "id": 18,
+            "userId": 1,
+            "vacancyId": null,
+            "candidateId": 16,
+            "dateOpen": "29/07/2017",
+            "dateClose": "29/07/2017",
+            "interviews": [
+                {
+                    "id": 27,
+                    "type": "TECH",
+                    "date": "27/07/2017",
+                    "place": null,
+                    "feedbacks": [
+                        {
+                            "id": 49,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 27,
+                            "fields": [
+                                {
+                                    "id": 108,
+                                    "name": "C++ skill",
+                                    "typeSkill": "primary",
+                                    "feedbackId": 49,
+                                    "type": "tech"
+                                },
+                                {
+                                    "id": 109,
+                                    "name": "Some skill",
+                                    "typeSkill": "secondary",
+                                    "feedbackId": 49,
+                                    "type": "tech"
+                                }
+                            ]
+                        },
+                        {
+                            "id": 50,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 27,
+                            "fields": []
+                        },
+                        {
+                            "id": 51,
+                            "userId": 3,
+                            "candidateId": 16,
+                            "comment": null,
+                            "status": 0,
+                            "interviewId": 27,
+                            "fields": []
+                        }
+                    ],
+                    "time": "18:00"
+                }
+            ],
+            "timeOpen": "21:19",
+            "timeClose": "22:42"
+        }
+    ]
 }
 ```

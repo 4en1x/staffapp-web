@@ -49,6 +49,7 @@ A JSON object, that contains hiring id.
 ## Errors
 
 - **403 Forbidden** — user with 'user' role tries to create a hiring.
+- **422 Unprocessable Entity** — user try add hiring to candidate which already have hiring.
 
 ***
 
