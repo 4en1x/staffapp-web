@@ -108,7 +108,6 @@ class CandidatesDAO extends BasicDAO {
 
     candidate.skills = await SkillsDAO.instance.findByCandidate(id);
     candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
-
     return candidate;
   }
 

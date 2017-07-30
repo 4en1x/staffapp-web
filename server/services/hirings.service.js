@@ -2,6 +2,7 @@ const fecha = require('fecha');
 const { clearFields } = require('../utils');
 const FeedbacksDAO = require('../dao/impl/feedbacks.dao');
 const InterviewsDAO = require('../dao/impl/interviews.dao');
+const CandidatesDAO = require('../dao/impl/candidates.dao');
 
 async function createInterviews(interviews = [], hiringId, userId) {
   await Promise.all(interviews.map(async (interview) => {
@@ -20,10 +21,20 @@ async function addInterviewsToHiring(id) {
       feedbacks[index].fields = clearFields(feedbacks[index].fields);
     }));
     interview.feedbacks = feedbacks;
-    interview.time = fecha.format(interview.date, 'HH:mm');
-    interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
   }));
   return interviews;
+}
+
+async function updateHiringInterviews(hiring) {
+  hiring.interviews = await Promise.all(
+    hiring.interviews.map(async (interview) => {
+      interview.feedbacks = await FeedbacksDAO.instance.findByInterview(interview.id);
+      interview.candidate = await CandidatesDAO.instance.findByFeedback(interview.feedbacks[0]);
+      interview.time = fecha.format(interview.date, 'HH:mm');
+      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      return interview;
+    }));
+  return hiring;
 }
 
 function createHiringObject(req) {
@@ -45,6 +56,9 @@ function createHiringUpdateObject(reqBody) {
 }
 
 function rebuildHiring(hiring) {
+  hiring.vacancyName = hiring.vacancyName
+    ? hiring.vacancyName
+    : 'Passed hiring process to the company';
   hiring.timeOpen = fecha.format(hiring.dateOpen, 'HH:mm');
   hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD/MM/YYYY');
   hiring.timeClose = hiring.dateClose
@@ -55,11 +69,11 @@ function rebuildHiring(hiring) {
     : null;
   return hiring;
 }
-
 module.exports = {
   createInterviews,
   createHiringObject,
   createHiringUpdateObject,
   addInterviewsToHiring,
   rebuildHiring,
+  updateHiringInterviews,
 };
