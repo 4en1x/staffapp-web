@@ -36,7 +36,7 @@ const store = (window.devToolsExtension
   ? window.devToolsExtension()(createStore)
   : createStore)(reducer);
 
-export default class InterviewPage extends React.Component {
+export default class VacancyPage extends React.Component {
   constructor(props) {
     super(props);
 

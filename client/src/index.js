@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import CandidateAddPage from "./main/add-interview-page/add-interview-page";
+import VacancyPage from "./main/hiring-page/hiring-page.component";
 
-ReactDOM.render(<CandidateAddPage />, document.getElementById("root"));
+ReactDOM.render(<VacancyPage />, document.getElementById("root"));

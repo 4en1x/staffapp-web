@@ -32,10 +32,11 @@ class Vacancy extends React.Component {
         description: props.data.description,
         city: props.data.city
       };
+        props.data.skills.map(value => initData.secondarySkills.push(value.name));
+        initData.id = props.data.id;
+        props.initialize(initData);
     }
-    props.data.skills.map(value => initData.secondarySkills.push(value.name));
-    initData.id = props.data.id;
-    props.initialize(initData);
+
   }
 
   nameInput = ({ input }) =>
