@@ -114,7 +114,7 @@ class InterviewsDAO extends BasicDAO {
     return super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
       basis: `${feedbacksTableName} f
-              LEFT JOIN ${this.tableName} i
+              INNER JOIN ${this.tableName} i
               ON f.interview_id = i.${this.idField}
               INNER JOIN ${candidatesTableName} c
               ON f.candidate_id = c.${candidatesIdField}`,
