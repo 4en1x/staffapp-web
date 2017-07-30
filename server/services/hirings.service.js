@@ -1,4 +1,3 @@
-const db = require('../dao/dao');
 const fecha = require('fecha');
 const { clearFields } = require('../utils');
 const FeedbacksDAO = require('../dao/impl/feedbacks.dao');
@@ -8,7 +7,7 @@ async function createInterviews(interviews = [], hiringId, userId) {
   await Promise.all(interviews.map(async (interview) => {
     interview.hiringId = hiringId;
     interview.date = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
-    await db.interviews.create(interview, userId);
+    await InterviewsDAO.instance.create(interview, userId);
   }));
 }
 

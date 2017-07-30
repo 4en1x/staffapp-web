@@ -8,7 +8,6 @@ chai.use(require('chai-shallow-deep-equal'));
 const defaultUrl = require('../config').web.backendOrigin;
 
 const expect = chai.expect;
-const { toCamel } = require('convert-keys');
 
 let userAuthData;
 let adminAuthData;
@@ -152,7 +151,7 @@ describe('#Candidates-Api', () => {
           .get(`${defaultUrl}/candidates/1`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
-        expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
       });
 
     it('This test should fail with 404 error : id doesn\'t exist and we can not read it',
@@ -292,7 +291,7 @@ describe('#Candidates-Api', () => {
           .get(`${defaultUrl}/candidates/1`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
-        expect(response.body).to.shallowDeepEqual(toCamel(JSON.parse(data)));
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
       });
 
     it('This test should fail with 500 error because city doesn\'t exist and admin can not update them',
