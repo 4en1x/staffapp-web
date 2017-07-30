@@ -1,6 +1,7 @@
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
+const hiringsService = require('../../services/hirings.service');
 const fecha = require('fecha');
 
 class CandidatesController extends CRUDController {
@@ -11,6 +12,7 @@ class CandidatesController extends CRUDController {
   async readOne(req, res) {
     try {
       let candidate = await this.dao.findById(req.params.id);
+      candidate.hirings = candidate.hirings.map(hiring => hiringsService.rebuildHiring(hiring));
       candidate = service.rebuildCandidate(candidate);
       res.json(candidate);
     } catch (err) {

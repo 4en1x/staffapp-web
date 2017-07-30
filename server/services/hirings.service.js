@@ -20,6 +20,8 @@ async function addInterviewsToHiring(id) {
       feedbacks[index].fields = clearFields(feedbacks[index].fields);
     }));
     interview.feedbacks = feedbacks;
+    interview.time = fecha.format(interview.date, 'HH:mm');
+    interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
   }));
   return interviews;
 }
@@ -42,9 +44,22 @@ function createHiringUpdateObject(reqBody) {
   };
 }
 
+function rebuildHiring(hiring) {
+  hiring.timeOpen = fecha.format(hiring.dateOpen, 'HH:mm');
+  hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD/MM/YYYY');
+  hiring.timeClose = hiring.dateClose
+    ? fecha.format(hiring.dateClose, 'HH:mm')
+    : null;
+  hiring.dateClose = hiring.dateClose
+    ? fecha.format(hiring.dateClose, 'DD/MM/YYYY')
+    : null;
+  return hiring;
+}
+
 module.exports = {
   createInterviews,
   createHiringObject,
   createHiringUpdateObject,
   addInterviewsToHiring,
+  rebuildHiring,
 };
