@@ -1,9 +1,6 @@
 {
-  "name":"myFavorite",
-  "surname":"unicorn",
-  "email":"something@mail.ru",
-  "primary_skill":"js",
-  "english_level":"0",
+  "englishLevel":"0",
+  "status":"Pool",
   "city":"Minsk",
-  "links":["12345","myLink","something"]
+  "links":["1234","myl555nk","someting"]
 }

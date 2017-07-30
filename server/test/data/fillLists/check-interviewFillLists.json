@@ -1,0 +1,44 @@
+{
+  "primary": [
+    ".NET",
+    "Android",
+    "BA",
+    "BI",
+    "C++",
+    "Data Science",
+    "DBE",
+    "DevOps",
+    "DWH",
+    "ETL",
+    "HRM",
+    "iOS",
+    "Java",
+    "JavaScript",
+    "PHP",
+    "Python",
+    "QA",
+    "Ruby on Rails",
+    "SysAdmin"
+  ],
+  "secondary": [
+    "Angular",
+    "Bootstrap",
+    "Django",
+    "Hadoop",
+    "Linux",
+    "MongoDB",
+    "NodeJS",
+    "PosgreSQL",
+    "ReactJS",
+    "Scrum",
+    "Spring"
+  ],
+  "other": [
+    "Database",
+    "Design and Architecture",
+    "Design Patterns",
+    "Networking",
+    "Programming basics",
+    "Testing"
+  ]
+}

@@ -1,6 +1,65 @@
-[
-  {
-    "type": "HR",
-    "place": "exadel"
-  }
-]
+{
+  "id": 3,
+  "type": "TECH",
+  "date": "03/06/2009",
+  "place": "exadel 3",
+  "hiringId": 2,
+  "feedbacks": [
+    {
+      "id": 7,
+      "userId": 5,
+      "candidateId": 2,
+      "comment": "some comment 7",
+      "status": 0,
+      "interviewId": 3
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "candidateId": 2,
+      "comment": "some comment 8",
+      "status": 0,
+      "interviewId": 3
+    }
+  ],
+  "candidate": {
+    "name": "Nina",
+    "surname": "Balerina"
+  },
+  "users": [
+    {
+      "id": 5,
+      "name": "Kostya"
+    },
+    {
+      "id": 1,
+      "name": "Kostya"
+    }
+  ],
+  "skills": [],
+  "userFeedback": {
+    "id": 8,
+    "userId": 1,
+    "candidateId": 2,
+    "comment": "some comment 8",
+    "status": 0,
+    "interviewId": 3,
+    "fields": [
+      {
+        "id": 16,
+        "name": "ascel",
+        "typeSkill": "secondary",
+        "feedbackId": 8,
+        "type": "tech"
+      },
+      {
+        "id": 17,
+        "name": "ruby",
+        "typeSkill": "secondary",
+        "feedbackId": 8,
+        "type": "tech"
+      }
+    ]
+  },
+  "time": "11:13"
+}

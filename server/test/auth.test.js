@@ -15,16 +15,6 @@ describe('#Autentification', () => {
     await connection.queryAsync(data);
   });
 
-  describe('#Get main page', () => {
-    it('This test should pass: all users can see main page',
-      async () => {
-        const response = await req
-          .get(`${defaultUrl}`)
-          .set('Accept', 'application/json');
-        expect(response.statusCode).to.equal(200);
-      });
-  });
-
   describe('#Get any page without authentication', () => {
     it('This test should fail with 401 error because no one can see any page without authorization ',
       async () => {

@@ -1,12 +1,12 @@
 {
-  "commentw": "some comment",
-  "fieldsw": [
+  "notexist": "some comment",
+  "notexist": [
     {
       "id":16,
       "name": "ascel",
       "value": null,
       "comment": null,
-      "type_skill": "secondary",
+      "typeSkill": "secondary",
       "type": "tech"
     },
     {
@@ -14,7 +14,7 @@
       "name": "ruby",
       "value": "123",
       "comment": "not very vell",
-      "type_skill": "secondary",
+      "typeSkill": "secondary",
       "type": "tech"
     }
   ]

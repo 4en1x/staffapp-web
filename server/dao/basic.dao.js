@@ -110,7 +110,7 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async update(id, resource, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.update.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
     }
 
@@ -126,7 +126,7 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async delete(id, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.delete.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'delete', userId);
     }
 

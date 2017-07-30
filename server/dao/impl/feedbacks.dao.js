@@ -87,13 +87,12 @@ class FeedbacksDAO extends BasicDAO {
    * @param {Object} feedback
    * @returns {Promise <void>}
    */
-  async update(id, { comment, fields }) {
+  async update(id, { comment, fields }, userId) {
     const superUpdate = super.update.bind(this);
 
-    return this.wrapTransaction(async () => {
+    await this.wrapTransaction(async () => {
       const feedback = { comment, status: 1 };
-      await superUpdate(id, feedback);
-
+      await superUpdate(id, feedback, userId);
       await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;
         delete field.id;

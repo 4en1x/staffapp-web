@@ -154,7 +154,7 @@ CREATE TABLE   `exadelteamdbtest`.`feedback_fields` (
   `type` set('tech','hr','owner') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_feedback_fields_feedbacks1_idx` (`feedback_id`),
-  CONSTRAINT `fk_feedback_fields_feedbacks1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_feedback_fields_feedbacks1` FOREIGN KEY (`feedback_id`) REFERENCES `feedbacks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -186,9 +186,9 @@ CREATE TABLE   `exadelteamdbtest`.`feedbacks` (
   KEY `fk_feedbacks_candidates1_idx` (`candidate_id`),
   KEY `fk_feedbacks_users1_idx` (`user_id`),
   KEY `fk_feedbacks_interviews1_idx` (`interview_id`),
-  CONSTRAINT `fk_feedbacks_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_feedbacks_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_feedbacks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_feedbacks_candidates1` FOREIGN KEY (`candidate_id`) REFERENCES `candidates` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_feedbacks_interviews1` FOREIGN KEY (`interview_id`) REFERENCES `interviews` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_feedbacks_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -232,7 +232,7 @@ CREATE TABLE   `exadelteamdbtest`.`hirings` (
 
 LOCK TABLES  `exadelteamdbtest`.`hirings` WRITE;
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`hirings` DISABLE KEYS */;
-INSERT INTO `exadelteamdbtest`.`hirings` VALUES (1,1,NULL,1,'2009-06-03 11:13:56',NULL),(2,2,NULL,2,'2009-06-03 11:13:56',NULL),(3,1,NULL,4,'2009-06-03 11:13:56',NULL),(4,1,NULL,5,'2009-06-03 11:13:56',NULL),(5,1,NULL,6,'2009-06-03 11:13:56',NULL),(6,1,NULL,7,'2009-06-03 11:13:56',NULL),(7,1,NULL,8,'2009-06-03 11:13:56',NULL),(8,1,NULL,9,'2009-06-03 11:13:56',NULL),(9,1,NULL,10,'2009-06-03 11:13:56',NULL),(10,1,NULL,11,'2009-06-03 11:13:56',NULL),(11,1,NULL,12,'2009-06-03 11:13:56',NULL),(12,1,NULL,13,'2009-06-03 11:13:56',NULL);
+INSERT INTO `exadelteamdbtest`.`hirings` VALUES (1,1,NULL,1,'2009-06-03 11:13:56',NULL),(2,2,NULL,2,'2009-06-03 11:13:56',NULL),(3,1,NULL,4,'2009-06-03 11:13:56',NULL),(4,1,NULL,5,'2009-06-03 11:13:56',NULL),(5,1,NULL,6,'2009-06-03 11:13:56',NULL),(6,1,NULL,7,'2009-06-03 11:13:56',NULL),(7,1,NULL,8,'2009-06-03 11:13:56',NULL),(8,1,NULL,9,'2009-06-03 11:13:56',NULL),(9,1,NULL,10,'2009-06-03 11:13:56',NULL),(10,1,NULL,11,'2009-06-03 11:13:56',NULL),(11,1,NULL,12,'2009-06-03 11:13:56',NULL),(12,1,NULL,13,'2009-06-03 11:13:56','2010-06-03 11:13:56'),(13,1,NULL,13,'2009-06-03 11:13:56',NULL);
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`hirings` ENABLE KEYS */;
 UNLOCK TABLES;
 
