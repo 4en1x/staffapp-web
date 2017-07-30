@@ -2,6 +2,7 @@ import candidateService from '../../service/candidate-service';
 
 const ADD_CANDIDATE_LIST = 'ADD_CANDIDATE_LIST';
 const ADD_CURRENT_CANDIDATE = 'ADD_CURRENT_CANDIDATE';
+const ADD_FILTER = 'ADD_FILTER';
 
 function addCandidateList(list) {
   return {
@@ -17,9 +18,16 @@ function addCurrentCandidate(candidate) {
   };
 }
 
-export function getCandidateList() {
+export function addFilter(filter) {
+  return {
+    type: ADD_FILTER,
+    filter
+  };
+}
+
+export function getCandidateList(filter) {
   return dispatch => {
-    candidateService.getCandidateList().then(res => {
+    candidateService.getCandidateList(filter).then(res => {
       dispatch(addCandidateList(res.data));
     });
   };

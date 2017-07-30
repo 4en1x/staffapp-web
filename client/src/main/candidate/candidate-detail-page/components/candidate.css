@@ -1,0 +1,52 @@
+.candidate-detail-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.candidate-detail-page_content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 80%;
+}
+
+.ui.segment.candidate-detail-page_candidate-card {
+  width: 50%;
+  margin: 0;
+}
+
+.ui.segment.candidate-detail-page_hiring-list {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: 0;
+}
+
+.candidate-detail-page_candidate-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui.label:first-child.candidate-detail-page_overview-label {
+  width: 30%;
+  margin-bottom: 2%;
+}
+
+.candidate-detail-page_lists {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.ui.label:first-child.candidate-detail-page_hiring-label {
+  width: 30%;
+  margin-bottom: 2%;
+}
+
+.candidate-detail-page_accordion {
+}
+
+.ui.accordion:not(.styled) .title~.content:not(.ui):last-child {
+  width: 100%;
+}

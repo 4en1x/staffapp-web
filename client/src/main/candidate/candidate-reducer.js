@@ -6,6 +6,9 @@ const candidateHandle = (state = {}, action) => {
     case 'ADD_CURRENT_CANDIDATE':
       return { ...state, currentCandidate: action.candidate };
 
+    case 'ADD_FILTER':
+      return { ...state, filter: action.filter };
+
     default:
       return state;
   }

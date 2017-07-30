@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Segment,
   Header,
@@ -6,12 +6,14 @@ import {
   Divider,
   Label,
   List
-} from "semantic-ui-react";
-import Collapsible from "react-collapsible";
-import "./vacancy.css";
+} from 'semantic-ui-react';
+import Collapsible from 'react-collapsible';
+import { Link } from 'react-router-dom';
+import './vacancy.css';
 
 const Vacancy = props => {
   const vacancy = props.vacancy;
+  const url = props.url;
 
   return (
     <div className="vacancy-detail-page">
@@ -71,9 +73,11 @@ const Vacancy = props => {
         </div>
         <div className="vacancy-detail-page_content-bottom">
           <div className="vacancy-detail-page_edit-btn-change-date">
+            <Link to={`${url}/edit`}>
             <Button primary className="vacancy-detail-page_edit-button">
               Edit
             </Button>
+            </Link>
           </div>
           <div className="vacancy-detail-page_create-date">
             Creating: {vacancy.createdDate}

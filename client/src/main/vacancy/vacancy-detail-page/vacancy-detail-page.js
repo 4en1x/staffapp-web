@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Vacancy from './components/vacancy';
-import { getVacancyById } from './vacancy-actions';
-import './vacancy-page.css';
+import { getVacancyById } from '../vacancy-actions';
+import './vacancy-detail-page.css';
 
 class VacancyPage extends React.Component {
   componentDidMount() {
     const id = this.props.match.url;
+    console.log(this.props.match.url);
     this.props.getVacancyById(id);
   }
 
@@ -15,7 +16,7 @@ class VacancyPage extends React.Component {
 
     return (
       <div className="vacancy-page">
-        <Vacancy vacancy={this.props.vacancy} />
+        <Vacancy vacancy={this.props.vacancy} url={this.props.match.url}/>
       </div>
     );
   }

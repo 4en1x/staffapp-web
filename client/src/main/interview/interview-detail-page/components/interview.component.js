@@ -58,8 +58,8 @@ export default class InterviewComponent extends React.Component {
             </List>
             <Link
               className="button-container"
-              to={`${this.props.url}/feedback/${this.props.interview
-                .feedbacks[0].id}`}
+              to={`${this.props.url}/feedbacks/${this.props.interview
+                .userFeedback.id}`}
             >
               <Button color="twitter" floated="right">
                 Feedback
@@ -67,8 +67,7 @@ export default class InterviewComponent extends React.Component {
             </Link>
             <Link
                 className="button-container"
-                to={`${this.props.url}/feedback/${this.props.interview
-                    .feedbacks[0].id}`}
+                to={`${this.props.url}/edit`}
             >
               <Button
                   content="Edit"

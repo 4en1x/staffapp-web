@@ -1,39 +1,39 @@
-import React from "react";
-import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
-import { reducer as reduxFormReducer } from "redux-form";
-import Candidate from "../../components/add-edit-candidate-page/candidate";
+import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, combineReducers } from 'redux';
+import { reducer as reduxFormReducer } from 'redux-form';
+import Candidate from '../../../components/candidate-add-edit-forms/candidate';
 
 ///////////// for testing
 const data = {
   contacts: {
-    email: "freeplayercot@gmail.com",
-    phone: "+375293552746",
+    email: 'freeplayercot@gmail.com',
+    phone: '+375293552746',
     skype: null,
-    city: "Minsk",
+    city: 'Minsk',
     linkedin: null,
-    links: ["i dont no", "i dont no but i", "i dont no but i?"]
+    links: ['i dont no', 'i dont no but i', 'i dont no but i?']
   },
   skills: {
-    primarySkill: "PHP",
-    primarySkillYearStart: "1998",
-    englishLevel: "A0",
-    secondarySkills: ["NodeJS", "MongoBD", "Hadoop"]
+    primarySkill: 'PHP',
+    primarySkillYearStart: '1998',
+    englishLevel: 'A0',
+    secondarySkills: ['NodeJS', 'MongoBD', 'Hadoop']
   },
   communication: {
-    name: "Kostya",
-    surname: "Stsefanovich",
+    name: 'Kostya',
+    surname: 'Stsefanovich',
     resume: null,
-    lastChangeDate: "04/06/2009",
-    salary: "5000$",
-    status: "pool",
-    vacancy: "c++ developer"
+    lastChangeDate: '04/06/2009',
+    salary: '5000$',
+    status: 'pool',
+    vacancy: 'c++ developer'
   }
 };
-const majorSkills = ["C++", "Android", "PHP", "Python", "iOS"];
-const statuses = ["live", "die", "was born", "pool"];
-const minorSkills = ["Angular", "ReactJS", "NodeJS", "MongoBD", "Hadoop"];
-const cities = ["Minsk", "Pinsk", "Dobrush", "Borisov"];
+const majorSkills = ['C++', 'Android', 'PHP', 'Python', 'iOS'];
+const statuses = ['live', 'die', 'was born', 'pool'];
+const minorSkills = ['Angular', 'ReactJS', 'NodeJS', 'MongoBD', 'Hadoop'];
+const cities = ['Minsk', 'Pinsk', 'Dobrush', 'Borisov'];
 /////////////////////////
 
 const reducer = combineReducers({
