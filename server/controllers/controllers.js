@@ -10,6 +10,7 @@ const SkillsController = require('./crud/skills.controller');
 const EnglishLevelsController = require('./crud/englishLevels.controller');
 const CandidateStatusesController = require('./crud/candidateStatuses.controller');
 const VacancyStatusesController = require('./crud/vacancyStatuses.controller');
+const NotificationsController = require('./crud/notifications.controller');
 
 const controllers = {
   auth: AuthController,
@@ -24,6 +25,7 @@ const controllers = {
   englishLevels: new EnglishLevelsController(),
   candidateStatuses: new CandidateStatusesController(),
   vacancyStatuses: new VacancyStatusesController(),
+  notifications: new NotificationsController(),
 };
 
 module.exports = controllers;
