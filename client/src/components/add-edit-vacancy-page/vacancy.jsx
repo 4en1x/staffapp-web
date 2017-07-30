@@ -17,23 +17,26 @@ const citiesList = [];
 const statusList = [];
 
 class Vacancy extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     let initData = {};
-    if (this.props.data.status) {
+    if (props.data.status) {
       initData = {
-        status: this.props.data.status,
-        jobStart: this.props.data.jobStart,
-        salary: this.props.data.salary,
-        name: this.props.data.name,
-        primarySkill: this.props.data.primarySkill,
-        secondarySkills: this.props.data.skills,
-        description: this.props.data.description,
-        city: this.props.data.city
+        status: props.data.status,
+        jobStart: props.data.jobStart,
+        salary: props.data.salary,
+        name: props.data.name,
+        primarySkill: props.data.primarySkill,
+        secondarySkills: props.data.skills,
+        description: props.data.description,
+        city: props.data.city
       };
     }
-    initData.id = this.props.data.id;
-    this.props.initialize(initData);
+    initData.id = props.data.id;
+    props.initialize(initData);
   }
+
   nameInput = ({ input }) =>
     <Input {...input} placeholder="name" className="text-area" />;
   salaryInput = ({ input }) =>

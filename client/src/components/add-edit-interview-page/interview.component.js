@@ -1,7 +1,14 @@
 import React from "react";
 import "./interview.css";
 import { Field, reduxForm } from "redux-form";
-import { Button, Dropdown, Segment, Divider, Header } from "semantic-ui-react";
+import {
+  Button,
+  Dropdown,
+  Segment,
+  Divider,
+  Header,
+  Input
+} from "semantic-ui-react";
 import CustonSearch from "./search";
 
 const typeList = [
@@ -26,46 +33,23 @@ const hrSkillList = [];
 const primarySkillList = [];
 const secondarySkillList = [];
 const otherSkillList = [];
+let users = [];
 
 class InterviewComponent extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       typeInterview: ""
     };
-  }
 
-  componentDidMount() {
-    if (this.props.data) {
-      this.setState({ typeInterview: this.props.data.type }, () => {
-        this.buildArrays();
-        let initData = {
-          place: this.props.data.place,
-          type: this.props.data.type,
-          users: this.props.data.users,
-          primary: [],
-          secondary: [],
-          other: [],
-          hr: []
-        };
-
-        if (this.props.data.type === "tech") {
-          this.props.data.fields.map(item => {
-            if (item.type === "tech") {
-              if (item.typeSkill === "primary")
-                initData.primary.push(item.name);
-              if (item.typeSkill === "secondary") initData.secondary.push(item.name);
-              if (item.typeSkill === "other") initData.other.push(item.name);
-            }
-          });
-        } else if (this.props.data.type === "HR") {
-          this.props.data.fields.map(item => {
-            initData.hr.push(item.name);
-          });
-        }
-
-        this.props.initialize(initData);
-      });
+    if (props.data) {
+      users = props.data.users;
+      let initData = {
+        place: props.data.place,
+        date: props.data.date,
+        users: props.data.users
+      };
+      props.initialize(initData);
     }
   }
 
@@ -130,6 +114,7 @@ class InterviewComponent extends React.Component {
         onDataChange={(param, data) => {
           input.onChange(data);
         }}
+        tempData={users}
       />
     );
   };
@@ -213,6 +198,11 @@ class InterviewComponent extends React.Component {
       />
     );
   };
+  dateInput = ({ input }) => {
+    return (
+      <Input {...input} placeholder="from" className="text-area" type="date" />
+    );
+  };
   typeSkillInput = ({ input }) => {
     return (
       <Dropdown
@@ -233,49 +223,53 @@ class InterviewComponent extends React.Component {
   };
   prepareData = value => {
     let data = {};
-    data.type = value.type;
     data.place = value.place;
     data.users = value.users;
-    data.fields = [];
-    if (value.type === "tech") {
-      if (value.primary)
-        value.primary.map(item => {
-          const temp = {
-            name: item,
-            type: "tech",
-            typeSkill: "primary"
-          };
-          data.fields.push(temp);
-        });
-      if (value.secondary)
-        value.secondary.map(item => {
-          const temp = {
-            name: item,
-            type: "tech",
-            typeSkill: "secondary"
-          };
-          data.fields.push(temp);
-        });
-      if (value.other)
-        value.other.map(item => {
-          const temp = {
-            name: item,
-            type: "tech",
-            typeSkill: "other"
-          };
-          data.fields.push(temp);
-        });
-    } else if (value.type === "HR") {
-      if (value.hr)
-        value.hr.map(item => {
-          const temp = {
-            name: item
-          };
-          data.fields.push(temp);
-        });
+    data.date = value.date;
+    if (!this.props.data) {
+      data.type = value.type;
+      data.fields = [];
+      if (value.type === "tech") {
+        if (value.primary)
+          value.primary.map(item => {
+            const temp = {
+              name: item,
+              type: "tech",
+              typeSkill: "primary"
+            };
+            data.fields.push(temp);
+          });
+        if (value.secondary)
+          value.secondary.map(item => {
+            const temp = {
+              name: item,
+              type: "tech",
+              typeSkill: "secondary"
+            };
+            data.fields.push(temp);
+          });
+        if (value.other)
+          value.other.map(item => {
+            const temp = {
+              name: item,
+              type: "tech",
+              typeSkill: "other"
+            };
+            data.fields.push(temp);
+          });
+      } else if (value.type === "HR") {
+        if (value.hr)
+          value.hr.map(item => {
+            const temp = {
+              name: item
+            };
+            data.fields.push(temp);
+          });
+      }
     }
     this.props.onSubmit(data);
   };
+
   render() {
     this.props.cities.map(step => {
       const temp = {
@@ -297,8 +291,8 @@ class InterviewComponent extends React.Component {
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">
-                  {!this.props.data && "creating interview form"}
-                  {this.props.data && "editing interview form"}
+                {!this.props.data && "creating interview form"}
+                {this.props.data && "editing interview form"}
               </Header>
             </div>
             <Divider />
@@ -315,33 +309,45 @@ class InterviewComponent extends React.Component {
             </div>
             <Divider />
             <div className="item-with-label">
-              <Header as="h3">Type</Header>
-              <Field name={"type"} component={this.typeSkillInput} />
+              <Header as="h3">Date</Header>
+              <Field name={"date"} component={this.dateInput} />
             </div>
-            {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
+
+            {!this.props.data &&
+              <div>
                 <Divider />
-                <Header as="h3">Primary skills</Header>
-                <Field name={"primary"} component={this.primarySkillsInput} />
-              </div>}
-            {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
-                <Header as="h3">Secondary Skills</Header>
-                <Field
-                  name={"secondary"}
-                  component={this.secondarySkillsInput}
-                />
-              </div>}
-            {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
-                <Header as="h3">Other skills</Header>
-                <Field name={"other"} component={this.otherSkillsInput} />
-              </div>}
-            {this.state.typeInterview === "HR" &&
-              <div className="item-with-label">
-                <Divider />
-                <Header as="h3">Communication Skills</Header>
-                <Field name={"hr"} component={this.hrSkillsInput} />
+                <div className="item-with-label">
+                  <Header as="h3">Type</Header>
+                  <Field name={"type"} component={this.typeSkillInput} />
+                </div>
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Divider />
+                    <Header as="h3">Primary skills</Header>
+                    <Field
+                      name={"primary"}
+                      component={this.primarySkillsInput}
+                    />
+                  </div>}
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Header as="h3">Secondary Skills</Header>
+                    <Field
+                      name={"secondary"}
+                      component={this.secondarySkillsInput}
+                    />
+                  </div>}
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Header as="h3">Other skills</Header>
+                    <Field name={"other"} component={this.otherSkillsInput} />
+                  </div>}
+                {this.state.typeInterview === "HR" &&
+                  <div className="item-with-label">
+                    <Divider />
+                    <Header as="h3">Communication Skills</Header>
+                    <Field name={"hr"} component={this.hrSkillsInput} />
+                  </div>}
               </div>}
 
             <div className="add-interview">

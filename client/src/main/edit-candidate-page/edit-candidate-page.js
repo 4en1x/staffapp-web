@@ -25,7 +25,7 @@ const data = {
     surname: "Stsefanovich",
     resume: null,
     lastChangeDate: "04/06/2009",
-    salary: "5000$",
+    salary: "5000",
     status: "pool",
     vacancy: "c++ developer"
   }

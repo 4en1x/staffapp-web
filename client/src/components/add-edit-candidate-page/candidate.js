@@ -8,7 +8,6 @@ import {
   Input,
   Button,
   Icon,
-  Popup,
   List
 } from "semantic-ui-react";
 import CommunicationsList from "./list/communications-list";
@@ -22,43 +21,45 @@ const skillList = [];
 let counter = 0;
 
 class Candidate extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      links: []
-    };
-  }
-  componentDidMount() {
-    if (this.props.data) {
-      this.setState({ links: this.props.data.contacts.links });
+  constructor(props) {
+    super(props);
+
+    if (props.data) {
+      this.state = {
+        links: props.data.contacts.links
+      };
 
       let initData = {
-        name: this.props.data.communication.name,
-        surname: this.props.data.communication.surname,
-        email: this.props.data.contacts.email,
-        primarySkill: this.props.data.skills.primarySkill,
-        primarySkillYearStart: this.props.data.skills.primarySkillYearStart,
-        phone: this.props.data.contacts.phone,
-        englishLevel: this.props.data.skills.englishLevel,
-        secondarySkills: this.props.data.skills.secondarySkills,
-        status: this.props.data.communication.status,
-        city: this.props.data.contacts.city,
-        salary: this.props.data.communication.salary,
-        resume: this.props.data.communication.resume,
-        linkedIn: this.props.data.contacts.linkedIn,
-        skype: this.props.data.contacts.skype,
-        vacancy: this.props.data.communication.vacancy,
+        name: props.data.communication.name,
+        surname: props.data.communication.surname,
+        email: props.data.contacts.email,
+        primarySkill: props.data.skills.primarySkill,
+        primarySkillYearStart: props.data.skills.primarySkillYearStart,
+        phone: props.data.contacts.phone,
+        englishLevel: props.data.skills.englishLevel,
+        secondarySkills: props.data.skills.secondarySkills,
+        status: props.data.communication.status,
+        city: props.data.contacts.city,
+        salary: props.data.communication.salary,
+        resume: props.data.communication.resume,
+        linkedIn: props.data.contacts.linkedIn,
+        skype: props.data.contacts.skype,
+        vacancy: props.data.communication.vacancy,
         links: {}
         // links: this.props.data.contacts.links
       };
 
-      this.props.data.contacts.links.map(link => {
+      props.data.contacts.links.map(link => {
         const temp = "link" + counter;
         initData.links[temp] = link;
         counter++;
       });
 
-      this.props.initialize(initData);
+      props.initialize(initData);
+    } else {
+      this.state = {
+        links: []
+      };
     }
   }
 
@@ -66,7 +67,13 @@ class Candidate extends React.Component {
     return <Input {...input} placeholder="name" className="text-area" />;
   };
   linkInput = ({ input }) => {
-    return <Input {...input} placeholder="other link"  className="small-margin-links" />;
+    return (
+      <Input
+        {...input}
+        placeholder="other link"
+        className="small-margin-links"
+      />
+    );
   };
   primarySkillDataInput = ({ input }) => {
     return (
@@ -157,8 +164,6 @@ class Candidate extends React.Component {
       return null;
     });
     const { handleSubmit, submitting } = this.props;
-    const links = this.state.links;
-
     return (
       <form
         onSubmit={handleSubmit(this.prepareData)}
@@ -239,13 +244,17 @@ class Candidate extends React.Component {
             <div className="pudding-other-links">
               <div className="label-info"> Other links </div>
               <div className="theard-form-line">
-                {links.map((step, move) =>
+                {this.state.links.map((step, move) =>
                   <Field
                     name={"links.link" + move}
                     component={this.linkInput}
                   />
                 )}
-                <Button type="button" onClick={this.addNewLink}  className="small-margin-button">
+                <Button
+                  type="button"
+                  onClick={this.addNewLink}
+                  className="small-margin-button"
+                >
                   +
                 </Button>
               </div>

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Search } from "semantic-ui-react";
 
-const data = [];
+let data = [];
 
 export default class SearchExampleStandard extends Component {
   componentWillMount() {
     this.resetComponent();
+    data = this.props.tempData;
   }
   serverSearch = value => [
     {

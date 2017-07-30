@@ -10,35 +10,8 @@ import "./interview-page.css";
 const cities = ["Minsk", "Pinsk", "Dobrush", "Borisov"];
 const data = {
   place: "Pinsk",
-  type: "tech",
-  fields: [
-    {
-      name: "primaryOne",
-      type: "tech",
-      typeSkill: "primary"
-    },
-    {
-      name: "secondaryOne",
-      type: "tech",
-      typeSkill: "secondary"
-    },
-    {
-      name: "secondaryTwo",
-      type: "tech",
-      typeSkill: "secondary"
-    },
-    {
-      name: "otherOne",
-      type: "tech",
-      typeSkill: "other"
-    },
-    {
-      name: "otherTwo",
-      type: "tech",
-      typeSkill: "other"
-    }
-  ],
-  users: ["2", "4"]
+  users: ["2", "4"],
+  date: "2017-05-13"
 };
 
 const reducer = combineReducers({
