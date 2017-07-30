@@ -25,6 +25,14 @@ class CitiesDAO extends BasicDAO {
 
     return city;
   }
+
+  async find() {
+    const cities = await super.find({
+      fields: 'name',
+      order: 'ORDER BY name',
+    });
+    return cities.map(city => city.name);
+  }
 }
 
 module.exports = CitiesDAO;

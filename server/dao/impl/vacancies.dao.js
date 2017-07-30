@@ -1,6 +1,8 @@
 const BasicDAO = require('../basic.dao');
 const CitiesDAO = require('./cities.dao');
 const SkillsDAO = require('./skills.dao');
+const VacancyStatusesDAO = require('./vacancyStatuses.dao');
+const { makeFilterQuery } = require('../utils/filter');
 
 class VacanciesDAO extends BasicDAO {
   constructor(connection) {
@@ -19,7 +21,7 @@ class VacanciesDAO extends BasicDAO {
    * @param {Object} vacancy
    * @returns {Promise <Number>}
    */
-  async create(vacancy) {
+  async create(vacancy, userId) {
     const superCreate = super.create.bind(this);
 
     return this.wrapTransaction(async () => {
@@ -29,10 +31,21 @@ class VacanciesDAO extends BasicDAO {
         delete vacancy.city;
       }
 
+      if (vacancy.primarySkill) {
+        ({ id: vacancy.primarySkill } =
+          await SkillsDAO.instance.findByName(vacancy.primarySkill));
+      }
+
+      if (vacancy.status) {
+        ({ id: vacancy.statusId } =
+          await VacancyStatusesDAO.instance.findByName(vacancy.status));
+        delete vacancy.status;
+      }
+
       const skills = vacancy.skills || [];
       delete vacancy.skills;
 
-      const id = await superCreate(vacancy);
+      const id = await superCreate(vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
         const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
@@ -59,6 +72,17 @@ class VacanciesDAO extends BasicDAO {
     ({ name: vacancy.city } = await CitiesDAO.instance.findById(vacancy.cityId));
     delete vacancy.cityId;
 
+    if (vacancy.statusId) {
+      ({ name: vacancy.status } =
+        await VacancyStatusesDAO.instance.findById(vacancy.statusId));
+      delete vacancy.statusId;
+    }
+
+    if (vacancy.primarySkill) {
+      ({ name: vacancy.primarySkill } =
+        await SkillsDAO.instance.findById(vacancy.primarySkill));
+    }
+
     vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
     return vacancy;
   }
@@ -68,15 +92,24 @@ class VacanciesDAO extends BasicDAO {
    * @param {Number} [page]
    * @returns {Promise <[Object]>}
    */
-  async find(page) {
+  async find(page, query) {
     const citiesTableName = CitiesDAO.instance.tableName;
     const citiesIdField = CitiesDAO.instance.idField;
+    const vacancyStatusesTableName = VacancyStatusesDAO.instance.tableName;
+    const vacancyStatusesIdField = VacancyStatusesDAO.instance.idField;
+    const skillsTableName = SkillsDAO.instance.tableName;
+    const skillsIdField = SkillsDAO.instance.idField;
 
     return super.find({
-      fields: `v.${this.idField}, v.name, status, job_start, primary_skill, c.name AS city`,
+      fields: `v.${this.idField}, v.name, vs.name AS status, job_start, s.name AS primarySkill, ct.name AS city`,
       basis: `${this.tableName} v
-              LEFT JOIN ${citiesTableName} c
-              ON v.city_id = c.${citiesIdField}`,
+              LEFT JOIN ${citiesTableName} ct
+              ON v.city_id = ct.${citiesIdField}
+              LEFT JOIN ${vacancyStatusesTableName} vs
+              ON v.status_id = vs.${vacancyStatusesIdField}
+              LEFT JOIN ${skillsTableName} s
+              ON v.primary_skill = s.${skillsIdField}`,
+      condition: makeFilterQuery(query),
       amount: this.itemsPerPage,
       page,
     });
@@ -88,7 +121,7 @@ class VacanciesDAO extends BasicDAO {
    * @param {Object} vacancy
    * @returns {Promise <void>}
    */
-  async update(id, vacancy) {
+  async update(id, vacancy, userId) {
     const superUpdate = super.update.bind(this);
 
     return this.wrapTransaction(async () => {
@@ -96,6 +129,17 @@ class VacanciesDAO extends BasicDAO {
         const city = await CitiesDAO.instance.findByName(vacancy.city);
         vacancy.city_id = city.id;
         delete vacancy.city;
+      }
+
+      if (vacancy.primarySkill) {
+        ({ id: vacancy.primarySkill } =
+          await SkillsDAO.instance.findByName(vacancy.primarySkill));
+      }
+
+      if (vacancy.status) {
+        ({ id: vacancy.statusId } =
+          await VacancyStatusesDAO.instance.findByName(vacancy.status));
+        delete vacancy.status;
       }
 
       const skills = vacancy.skills || [];
@@ -106,7 +150,7 @@ class VacanciesDAO extends BasicDAO {
         values: [id],
       });
 
-      await superUpdate(id, vacancy);
+      await superUpdate(id, vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
         const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);

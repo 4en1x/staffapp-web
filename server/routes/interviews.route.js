@@ -4,7 +4,9 @@ const router = require('express').Router();
 
 // user + hr + admin section:
 router.get('/', (req, res) => controllers.interviews.read(req, res));
+router.get('/fillLists', (req, res) => controllers.interviews.fillLists(req, res));
 router.get('/:id', (req, res) => controllers.interviews.readOne(req, res));
+
 
 // hr + admin section:
 router.use(authorization.checkHR);

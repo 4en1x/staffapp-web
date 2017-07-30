@@ -33,6 +33,19 @@ class VacanicesController extends CRUDController {
     await super.readOne(req, res, onload);
   }
 
+  async fillLists(req, res) {
+    try {
+      res.json({
+        primarySkills: await db.skills.find('primary'),
+        secondarySkills: await db.skills.find('secondary'),
+        cities: await db.cities.find(),
+        statuses: await db.vacancyStatuses.find(),
+      });
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async create(req, res) {
     const vacancy = service.createVacancy(req.body);
     await super.create(req, res, vacancy);
