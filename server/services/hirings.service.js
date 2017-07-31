@@ -56,9 +56,7 @@ function createHiringUpdateObject(reqBody) {
 }
 
 function rebuildHiring(hiring) {
-  hiring.vacancyName = hiring.vacancyName
-    ? hiring.vacancyName
-    : 'Passed hiring process to the company';
+  hiring.vacancyName = hiring.vacancyName || 'Passed hiring process to the company';
   hiring.timeOpen = fecha.format(hiring.dateOpen, 'HH:mm');
   hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD/MM/YYYY');
   hiring.timeClose = hiring.dateClose
@@ -69,6 +67,7 @@ function rebuildHiring(hiring) {
     : null;
   return hiring;
 }
+
 module.exports = {
   createInterviews,
   createHiringObject,
