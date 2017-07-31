@@ -20,7 +20,7 @@ class Vacancy extends React.Component {
     super(props);
 
     let initData = {};
-    if (props.data.status) {
+    if (props.data) {
       initData = {
         status: props.data.status,
         jobStart: props.data.jobStart,
@@ -32,7 +32,6 @@ class Vacancy extends React.Component {
         city: props.data.city
       };
       // props.data.skills.map(value => initData.secondarySkills.push(value.name));
-      initData.id = props.data.id;
       props.initialize(initData);
     }
   }
@@ -150,8 +149,8 @@ class Vacancy extends React.Component {
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">
-                {!this.props.data.status && "creating vacancy form"}
-                {this.props.data.status && "editing vacancy form"}
+                {!this.props.data && "creating vacancy form"}
+                {this.props.data && "editing vacancy form"}
               </Header>
             </div>
             <Divider />

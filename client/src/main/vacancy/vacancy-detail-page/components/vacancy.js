@@ -51,8 +51,8 @@ const Vacancy = props => {
         >
           {vacancy.skills.map(skill => {
             return (
-              <List.Item key={skill.name.toString()}>
-                {skill.name}
+              <List.Item key={skill}>
+                {skill}
               </List.Item>
             );
           })}
