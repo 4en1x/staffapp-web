@@ -1,12 +1,30 @@
-[
-  {
-    "type": "HR",
-    "date": "2009-06-03T08:13:56.000Z",
-    "place": "exadel"
+{
+  "id": 1,
+  "type": "TECH",
+  "place": "exadel 4",
+  "hiringId": 1,
+  "candidate": {
+    "name": "Kostya",
+    "surname": "Stsefanovich"
   },
-  {
-    "type": "TECH",
-    "date": "2009-06-03T08:13:56.000Z",
-    "place": "exadel 2"
-  }
-]
+  "users": [
+    {
+      "id": 2,
+      "name": "nero"
+    },
+    {
+      "id": 3,
+      "name": "Kostya"
+    },
+    {
+      "id": 4,
+      "name": "nero"
+    }
+  ],
+  "skills": [
+    "js",
+    "java",
+    "python",
+    "sql"
+  ]
+}

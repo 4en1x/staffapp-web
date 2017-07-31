@@ -1,0 +1,18 @@
+{
+  "type": "TECH",
+  "hiringId": 2,
+  "notexist":"notexist",
+  "users": [1, 2, 3],
+  "fields": [
+    {
+      "name": "C++ skill",
+      "typeSkill": "primary",
+      "type": "tech"
+    },
+    {
+      "name": "Some skill",
+      "typeSkill": "secondary",
+      "type": "tech"
+    }
+  ]
+}

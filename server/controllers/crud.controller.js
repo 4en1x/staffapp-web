@@ -1,17 +1,11 @@
-const db = require('../dao');
-
 class CRUDController {
-  constructor(daoName) {
-    this.daoName = daoName;
+  constructor(dao) {
+    this.dao = dao;
   }
 
   async create(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      const id = await db[this.daoName].create(resource);
-
-      if (!id) {
-        throw new Error('500'); // FIXME: 500?`
-      }
+      const id = await this.dao.create(resource, req.user.id);
 
       await onload(id);
       res.json({ id });
@@ -24,11 +18,7 @@ class CRUDController {
 
   async readOne(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const resource = await db[this.daoName].readOne(req.params.id);
-
-      if (!resource) {
-        throw new Error('404');
-      }
+      const resource = await this.dao.findById(req.params.id);
 
       await onload(resource);
       res.json(resource);
@@ -51,9 +41,11 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
-      const candidates = await db[this.daoName].read(req.query.page);
-      await onload(candidates);
-      res.json(candidates);
+      const report = req.query.report;
+      const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+      const resources = await this.dao.find(req.query.page, filter, report);
+      await onload(resources);
+      res.json(resources);
     } catch (err) {
       if (onerror(err)) {
         res.status(500).end();
@@ -63,7 +55,7 @@ class CRUDController {
 
   async update(req, res, resource, onload = () => { }, onerror = () => true) {
     try {
-      await db[this.daoName].update(req.params.id, resource);
+      await this.dao.update(req.params.id, resource, req.user.id);
       await onload(resource);
       res.json({});
     } catch (err) {
@@ -80,7 +72,7 @@ class CRUDController {
 
   async delete(req, res, onload = () => { }, onerror = () => true) {
     try {
-      await db[this.daoName].delete(req.params.id);
+      await this.dao.delete(req.params.id, req.user.id);
       await onload();
       res.json({});
     } catch (err) {

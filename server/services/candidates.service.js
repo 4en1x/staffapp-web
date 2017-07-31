@@ -1,39 +1,61 @@
 const fecha = require('fecha');
 
 function createCandidate(reqBody) {
-  const { links, city } = reqBody;
-  const candidate = Object.assign({}, reqBody);
-  delete candidate.links;
-  delete candidate.city;
+  const candidate = reqBody;
 
   const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.createdDate = date;
   candidate.lastChangeDate = date;
 
+  return candidate;
+}
+
+function rebuildCandidate(candidate) {
+  const contacts = {
+    email: candidate.email,
+    phone: candidate.phone,
+    skype: candidate.skype,
+    city: candidate.city,
+    linkedin: candidate.linkedin,
+    links: candidate.links,
+  };
+
+  const skills = {
+    primarySkill: candidate.primarySkill,
+    englishLevel: candidate.englishLevel,
+    secondarySkills: candidate.skills,
+    primarySkillYearStart: candidate.primarySkillYearStart,
+  };
+
+  const communication = {
+    resume: candidate.resume,
+    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY'),
+    salary: candidate.salary,
+    hrName: candidate.hrName,
+  };
+
   return {
-    candidate,
-    links,
-    city,
+    name: candidate.name,
+    surname: candidate.surname,
+    status: candidate.status,
+    contacts,
+    skills,
+    communication,
+    hirings: candidate.hirings,
   };
 }
 
 function updateCandidate(id, reqBody) {
-  const { links, city } = reqBody;
-  const candidate = Object.assign({}, reqBody);
-  delete candidate.links;
-  delete candidate.city;
+  const candidate = reqBody;
 
   const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.lastChangeDate = date;
 
-  return {
-    candidate,
-    links,
-    city,
-  };
+  return candidate;
 }
 
 module.exports = {
   createCandidate,
   updateCandidate,
+  rebuildCandidate,
 };
