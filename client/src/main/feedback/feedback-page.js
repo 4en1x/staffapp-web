@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import FeedbackView from './components/feedback-view';
-import { getFeedbackFormFields, putFeedback } from './feedback-actions';
 import SemanticLoader from '../../components/loaders/semantic-loader';
+import { getFeedbackFormFields, putFeedback } from './feedback-actions';
+import './feedback-page.css';
 
 class FeedbackPage extends React.Component {
   componentDidMount() {
@@ -18,13 +19,13 @@ class FeedbackPage extends React.Component {
     if (this.props.isFeedbackUploaded) return <Redirect to="/" />;
 
     return (
-      <div>
+      <div className="feedback-page">
         {!this.props.fields
           ? <SemanticLoader />
           : <FeedbackView
-          data={this.props.fields}
-          onSubmitClicked={this.onSubmitClicked}
-        />}
+              data={this.props.fields}
+              onSubmitClicked={this.onSubmitClicked}
+            />}
       </div>
     );
   }

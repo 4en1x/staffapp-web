@@ -18,16 +18,10 @@ const CandidateListItem = props => {
             {data.status}
           </Header>
         </div>
-        <span className="list-item-description">
-          {data.primarySkill}
-        </span>
+        <Header as="h3" content={data.primarySkill}  />
         <div className="list-item-extra">
-          <span className="extra-left">
-            {data.city}
-          </span>
-          <span className="extra-right">
-            {data.lastChangeDate}
-          </span>
+          <Header as="h3" content={data.city} disabled />
+          <Header as="h3" content={data.lastChangeDate} disabled />
         </div>
       </NavLink>
     </List.Item>

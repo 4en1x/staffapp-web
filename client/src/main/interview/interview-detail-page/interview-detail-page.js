@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import InterviewComponent from './components/interview.component';
-import InvertedLoader from '../../../components/loaders/inverted-loader';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
 import * as actionCreators from '../interview-actions';
 import './interview-detail-page.css';
 
@@ -17,7 +17,7 @@ class InterviewPage extends React.Component {
     return (
       <div className="interview-page">
         {!this.props.interview
-          ? <InvertedLoader />
+          ? <SemanticLoader />
           : <InterviewComponent interview={this.props.interview} url={url} />}
       </div>
     );

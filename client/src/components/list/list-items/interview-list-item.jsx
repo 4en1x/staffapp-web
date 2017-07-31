@@ -2,30 +2,24 @@ import React from "react";
 import { List, Header } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 
-import "./interview-list-item.css";
-
 const InterviewListItem = props => {
   const interview = props.element;
   const url = props.url;
 
   return (
-    <List.Item className="flex-interview-list-item">
+    <List.Item className="flex-list-item">
       <NavLink to={`${url}/${interview.id}`}>
-        <div className="interview-list-item-header">
-          <Header href="/interviews/111" as="h2" className="name">
+        <div className="list-item-top">
+          <Header as="h2" className="top-left">
             {`${interview.name} ${interview.surname}`}
           </Header>
-          <Header as="h2" className="time">
+          <Header as="h2" className="top-right">
             {interview.time}
           </Header>
         </div>
-        <div className="interview-list-item-extra">
-          <span className="location">
-            {interview.place}
-          </span>
-          <span className="date">
-            {interview.date}
-          </span>
+        <div className="list-item-extra">
+          <Header as="h3" content={interview.place} disabled />
+          <Header as="h3" content={interview.date} disabled />
         </div>
       </NavLink>
     </List.Item>

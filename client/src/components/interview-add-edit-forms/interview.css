@@ -3,7 +3,7 @@
     flex-direction: column;
 }
 
-.interview-detail-page .interview-content {
+.interview-detail-page .interview-edit-add-content {
     display: flex;
     flex-direction: inherit;
     width: 80%;
@@ -13,7 +13,7 @@
 
 /* content top styles*/
 
-.interview-content .content-top {
+.interview-edit-add-content .content-top {
     display: flex;
     flex-direction: column;
     text-align: left;
@@ -71,6 +71,3 @@
     margin: 5px;
 }
 
-.content-description{
-    width: 40%;
-}

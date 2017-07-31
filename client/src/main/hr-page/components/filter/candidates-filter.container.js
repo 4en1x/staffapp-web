@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { addFilter } from '../../../candidate/candidate-actions';
+
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
 
 import './filter.css';

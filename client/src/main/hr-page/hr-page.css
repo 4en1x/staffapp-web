@@ -1,12 +1,30 @@
 .hr-page {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding: 0.5% 3%;
+  padding: 0.5% 8%;
+  overflow: auto;
 }
-.hr-page_content {
+.hr-page_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.hr-page_content{
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
+.content-right{
+  width:28%;
+}
+
+.main-component {
+  margin: 0.5% auto;
+  max-width: 1200px;
+  width: 90%;
+}

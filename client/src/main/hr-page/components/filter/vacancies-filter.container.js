@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addFilter } from '../../../vacany-detail-page/vacancy-actions';
+import { addFilter } from '../../../vacancy/vacancy-actions';
 import VacanciesFilterForm from '../../../../components/filter/filter-forms/vacancies-filter-form';
 
 import './filter.css';

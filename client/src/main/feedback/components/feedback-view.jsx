@@ -41,7 +41,6 @@ class FeedbackView extends React.Component {
       onRate={(param, data) => {
         input.onChange(data.rating);
       }}
-      className="margin-stars"
     />;
   descriptionInput = ({ input }) =>
     <Form>
@@ -62,39 +61,54 @@ class FeedbackView extends React.Component {
   render() {
     const { handleSubmit, submitting } = this.props;
     return (
-      <form
-        onSubmit={handleSubmit(this.prepareData)}
-        className="feedback-component"
-      >
-        <Header dividing as="h2">
-          {'Feedback ' + this.props.data.id}
+      <div className="main-component">
+        <Header dividing as="h2" className="custom-header">
+          Feedback {this.props.data.id}
         </Header>
+
         <Card fluid>
-          <Header as="h1" className="feedback-component_header">Description: </Header>
-          <List size="massive" className="grid-list inline">
-            <List.Item className="flex-block">
-              <List.Header>Interviewee: </List.Header> Name Surname
-            </List.Item>
-            <List.Item className="flex-block">
-              <List.Header>Interviewer: </List.Header> Anatoliy Levakov
-            </List.Item>
-            <List.Item className="flex-block">
-              <List.Header>Vacansy: </List.Header> Junior JS Developer
-            </List.Item>
-            <List.Item className="flex-block">
-              <List.Header>Date:</List.Header> 01.01.1991
-            </List.Item>
-          </List>
-          <Divider />
-          <Header as="h1">Results: </Header>
-          <div className="card-content">
+          <Header
+            as="h1"
+            textAlign="center"
+            className="feedback-component_header"
+          >
+            Description:
+          </Header>
+          <div className="feedback-description">
+            <List size="massive" className="grid-list">
+              <List.Item>
+                <List.Header>Interviewee: </List.Header>
+                Name Surname
+              </List.Item>
+              <List.Item>
+                <List.Header>Interviewer: </List.Header>
+                Anatoliy Levakov
+              </List.Item>
+              <List.Item>
+                <List.Header>Vacansy: </List.Header>
+                Junior JS Developer
+              </List.Item>
+              <List.Item>
+                <List.Header>Date:</List.Header> 01.01.1991
+              </List.Item>
+            </List>
+          </div>
+          <Divider section />
+          <form
+            onSubmit={handleSubmit(this.prepareData)}
+            className="feedback-form"
+          >
+            <Header as="h1" textAlign="center">
+              Results:
+            </Header>
+
             <List size="massive">
-              <List.Item className="flex-block">
+              <List.Item>
                 <List.Header>Primary skill: </List.Header>
                 {this.props.data.fields.map(step => {
                   if (step.typeSkill === 'primary')
                     return (
-                      <div className="feedback-component_primary-skill">
+                      <div className="feedback-results_primary-skill">
                         <label>
                           {step.name}
                           <Field
@@ -110,7 +124,7 @@ class FeedbackView extends React.Component {
                     );
                 })}
               </List.Item>
-              <List.Item className="flex-block">
+              <List.Item>
                 <List.Header>Secondary skills: </List.Header>
                 <List>
                   {this.props.data.fields.map(step => {
@@ -165,12 +179,14 @@ class FeedbackView extends React.Component {
                 </List>
               </List.Item>
             </List>
-          </div>
+            <div className="button-container">
+              <Button color="twitter" primary disabled={submitting}>
+                Feedback
+              </Button>
+            </div>
+          </form>
         </Card>
-        <Button color="twitter" floated="right" primary disabled={submitting}>
-          Feedback
-        </Button>
-      </form>
+      </div>
     );
   }
 }

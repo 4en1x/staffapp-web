@@ -1,6 +1,7 @@
 import React from 'react';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 import candidateService from '../../../service/candidate-service';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
 
 export default class AddCandidatePage extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class AddCandidatePage extends React.Component {
               cities={this.lists.cities}
               onSubmit={this.showResults}
             />
-          : <p>not found</p>}
+          : <SemanticLoader />}
       </div>
     );
   }

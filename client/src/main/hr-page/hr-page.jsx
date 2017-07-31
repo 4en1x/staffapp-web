@@ -8,6 +8,7 @@ import VacancyListWrapper from '../vacancy/list-wrapper/vacancy-list-wrapper';
 import SecondaryMenuComponent from '../../components/secondary-menu/secondary-menu.component';
 import VacanciesFilterForm from './components/filter/vacancies-filter.container';
 import CandidateFilter from './components/filter/candidates-filter.container';
+import AddButton from '../../components/add-button/add-button';
 import './hr-page.css';
 
 export default class HRPage extends React.Component {
@@ -26,32 +27,29 @@ export default class HRPage extends React.Component {
             component={() =>
               <div className="hr-page_content">
                 <InterviewListWrapper />
-                <Link to="/interviews/add">
-                  <Button color="twitter">Add</Button>
-                </Link>
                 <SecondaryMenuComponent />
               </div>}
           />
           <Route
             path={`/vacancies`}
             component={() =>
-              <div>
+              <div className="hr-page_content">
                 <VacancyListWrapper />
-                <Link to="vacancies/add">
-                  <Button color="twitter">Add</Button>
-                </Link>
-                <VacanciesFilterForm />
+                <div className="content-right">
+                  <AddButton to="/vacancies/add" content="Add vacancy" />
+                  <VacanciesFilterForm />
+                </div>
               </div>}
           />
           <Route
             path={`/candidates`}
             component={() =>
-              <div>
+              <div className="hr-page_content">
                 <CandidateListWrapper />
-                <Link to="candidates/add">
-                  <Button color="twitter">Add</Button>
-                </Link>
-                <CandidateFilter />
+                <div className="content-right">
+                  <AddButton to="/candidates/add" content="Add candidate" />
+                  <CandidateFilter />
+                </div>
               </div>}
           />
         </div>
@@ -59,4 +57,3 @@ export default class HRPage extends React.Component {
     );
   }
 }
-3

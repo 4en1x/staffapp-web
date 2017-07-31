@@ -1,15 +1,9 @@
 import React from "react";
-import { Dimmer, Loader, Image, Segment } from "semantic-ui-react";
-import images from "../../assets/images";
+import { Card, Segment, Dimmer, Loader } from "semantic-ui-react";
 
 const SemanticLoader = () =>
-  <div className="semanctic-loader">
-    <Segment>
-      <Dimmer active inverted>
-        <Loader inverted>Loading</Loader>
-      </Dimmer>
-      <Image src={images.loaderBackground} />
-    </Segment>
-  </div>;
+  <Dimmer as={Segment} active inverted>
+    <Loader size="massive">Loading</Loader>
+  </Dimmer>;
 
 export default SemanticLoader;

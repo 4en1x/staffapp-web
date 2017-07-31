@@ -16,7 +16,8 @@ export default class EmailInputForm extends React.Component {
         <Header as="h3">Log in</Header>
         <Form.Field>
           <input
-            placeholder="joe@schmoe.com"
+            type="email"
+            placeholder="email"
             ref={input => (this.input = input)}
           />
         </Form.Field>

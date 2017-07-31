@@ -4,7 +4,7 @@ import { getVacancyList } from '../vacancy-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import VacancyListItem from '../../../components/list/list-items/vacancy-list-item';
-import './vacancy-list-wrapper.css';
+// import './vacancy-list-wrapper.css';
 
 class VacancyListWrapper extends React.Component {
   componentDidMount() {

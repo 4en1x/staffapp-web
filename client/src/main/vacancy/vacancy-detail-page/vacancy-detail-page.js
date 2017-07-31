@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Vacancy from './components/vacancy';
 import { getVacancyById } from '../vacancy-actions';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
 import './vacancy-detail-page.css';
 
 class VacancyPage extends React.Component {
@@ -11,7 +12,7 @@ class VacancyPage extends React.Component {
   }
 
   render() {
-    if (!this.props.vacancy) return <p>Is Loading</p>;
+    if (!this.props.vacancy) return <SemanticLoader />;
 
     return (
       <div className="vacancy-page">
