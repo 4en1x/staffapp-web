@@ -32,6 +32,7 @@
 .candidate-detail-page .content-description{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .candidate-detail-page .content-description .status-label{

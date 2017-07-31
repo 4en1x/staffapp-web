@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Segment,
   Divider,
@@ -7,19 +7,40 @@ import {
   List,
   Accordion,
   Button
-} from "semantic-ui-react";
-import CommunicationsList from "./communications-list";
-import Contacts from "./contacts-list";
-import SkillsList from "./skills-list";
-import "./candidate.css";
-import ListComponent from "../../components/list/list.component";
-import InterviewListItem from "../../components/list/list-items/interview-list-item";
+} from 'semantic-ui-react';
+import CommunicationsList from './communications-list';
+import Contacts from './contacts-list';
+import SkillsList from './skills-list';
+import './candidate.css';
+import ListComponent from '../../../components/list/list.component';
+import InterviewListItem from '../../../components/list/list-items/interview-list-item';
+import candidateService from '../../../service/candidate-service';
 
 export default class Candidate extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoaded: false
+    };
+  }
+
+  componentDidMount() {
+    candidateService.getCandidateById(this.props.match.params.id).then(res => {
+      console.log(res.data);
+      this.data = res.data;
+      this.setState({isLoaded: true});
+    });
+  }
+
   render() {
-    let otherLinks = "";
-    this.props.data.contacts.links.map(
-      step => (otherLinks = otherLinks + step + " / ")
+
+    if (!this.state.isLoaded) return <p> Loaded </p>;
+
+    let otherLinks = '';
+    this.data.contacts.links.map(
+      step => (otherLinks = otherLinks + step + ' / ')
     );
     if (otherLinks.length !== 0)
       otherLinks = otherLinks.slice(0, otherLinks.length - 3);
@@ -46,7 +67,7 @@ export default class Candidate extends React.Component {
                         <div className="item-with-label">
                           name
                           <div className="email-font-size">
-                            {this.props.data.name}
+                            {this.data.name}
                           </div>
                         </div>
                       </List.Item>
@@ -54,7 +75,7 @@ export default class Candidate extends React.Component {
                         <div className="item-with-label">
                           surname
                           <div className="email-font-size">
-                            {this.props.data.surname}
+                            {this.data.surname}
                           </div>
                         </div>
                       </List.Item>
@@ -62,7 +83,7 @@ export default class Candidate extends React.Component {
                         <div className="item-with-label">
                           primary skill
                           <div className="email-font-size">
-                            {this.props.data.skills.primarySkill}
+                            {this.data.skills.primarySkill}
                           </div>
                         </div>
                       </List.Item>
@@ -70,7 +91,7 @@ export default class Candidate extends React.Component {
                         <div className="item-with-label">
                           Year started with primary skill
                           <div className="email-font-size">
-                            {this.props.data.skills.primarySkillYearStart}
+                            {this.data.skills.primarySkillYearStart}
                           </div>
                         </div>
                       </List.Item>
@@ -78,7 +99,7 @@ export default class Candidate extends React.Component {
                         <div className="item-with-label">
                           status
                           <div className="email-font-size">
-                            {this.props.data.status}
+                            {this.data.status}
                           </div>
                         </div>
                       </List.Item>
@@ -87,19 +108,19 @@ export default class Candidate extends React.Component {
 
                   <div className="contacts-form-block">
                     <div className="label-info"> Contacts </div>
-                    <Contacts data={this.props.data} />
+                    <Contacts data={this.data} />
                   </div>
                 </div>
 
                 <div className="second-form-line">
                   <div className="skill-form-block">
                     <div className="label-info"> Skills </div>
-                    <SkillsList data={this.props.data} />
+                    <SkillsList data={this.data} />
                   </div>
 
                   <div className="communication-form-block">
                     <div className="label-info"> Communication </div>
-                    <CommunicationsList data={this.props.data} />
+                    <CommunicationsList data={this.data} />
                   </div>
                 </div>
 
@@ -107,7 +128,7 @@ export default class Candidate extends React.Component {
                   <div className="label-info"> Other links </div>
                   <div className="theard-form-line">
                     <div className="email-font-size">
-                      {" "}{otherLinks}{" "}
+                      {' '}{otherLinks}{' '}
                     </div>
                   </div>
                 </div>
@@ -116,22 +137,6 @@ export default class Candidate extends React.Component {
 
             <div className="candidate-detail-page_accordion">
               <Button primary> add hiring </Button>
-
-              {/*{this.props.data.hirings.map(hiring =>*/}
-              {/*<Accordion>*/}
-              {/*<Accordion.Title>*/}
-              {/*{hiring.id}*/}
-              {/*</Accordion.Title>*/}
-              {/*<Accordion.Content>*/}
-              {/*<ListComponent*/}
-              {/*listItem={InterviewListItem}*/}
-              {/*elements={this.props.data.hirings[0].interviews}*/}
-              {/*url={`/interviews`}*/}
-              {/*styles={{ width: "100%" }}*/}
-              {/*/>*/}
-              {/*</Accordion.Content>*/}
-              {/*</Accordion>*/}
-              {/*)}*/}
             </div>
           </div>
         </div>
