@@ -4,9 +4,9 @@ import { Image, Dropdown, Icon } from 'semantic-ui-react';
 import images from '../../assets/images';
 import './header.css';
 
-const trigger = (
+const trigger = name => (
   <span>
-    <Icon name="user" /> Hello, Bob
+    <Icon name="user" /> {name}
   </span>
 );
 
@@ -16,7 +16,7 @@ const options = [
 ];
 
 const DropDownTrigger = (props) =>
-  <Dropdown trigger={trigger} options={options} onChange={props.itemSelected} />;
+  <Dropdown trigger={trigger(props.user.name)} options={options} onChange={props.itemSelected} />;
 
 export default class HeaderComponent extends React.Component {
   constructor(props) {
