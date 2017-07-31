@@ -41,8 +41,9 @@ class CRUDController {
 
   async read(req, res, onload = () => { }, onerror = () => true) {
     try {
+      const report = req.query.report;
       const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
-      const resources = await this.dao.find(req.query.page, filter);
+      const resources = await this.dao.find(req.query.page, filter, report);
       await onload(resources);
       res.json(resources);
     } catch (err) {

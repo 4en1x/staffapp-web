@@ -12,8 +12,12 @@ class CandidatesController extends CRUDController {
   async readOne(req, res) {
     try {
       let candidate = await this.dao.findById(req.params.id);
-      candidate.hirings = candidate.hirings.map(hiring => hiringsService.rebuildHiring(hiring));
       candidate = service.rebuildCandidate(candidate);
+      candidate.hirings = await Promise.all(candidate.hirings.map(async (hiring) => {
+        hiring = await hiringsService.rebuildHiring(hiring);
+        hiring = await hiringsService.updateHiringInterviews(hiring);
+        return hiring;
+      }));
       res.json(candidate);
     } catch (err) {
       if (err.message === '404') {
