@@ -4,7 +4,7 @@ import WorkerPage from '../worker-page/worker-page';
 import HRPage from '../hr-page/hr-page';
 import Header from '../../components/header/header.components';
 import InterviewPage from '../interview/interview-detail-page/interview-detail-page';
-import CandidatePage from '../candidate/candidate-detail-page/candidate-detail-page';
+import CandidatePage from '../candidate/candidate-detail-page/candidate';
 import VacancyPage from '../vacancy/vacancy-detail-page/vacancy-detail-page';
 import FeedBackPage from '../feedback/feedback-page';
 import EditInterviewPage from '../interview/interview-edit-page/interview-edit-page';
@@ -32,12 +32,15 @@ export default class App extends React.Component {
 
     return (
       <div className="root-class">
-        <Header user={{ name: user.name}} itemSelected={this.itemSelected}/>
+        <Header user={{ name: user.name }} itemSelected={this.itemSelected} />
         <Switch>
           <Route path="/interviews/add" component={AddInterviewPage} />
           <Route exact path="/interviews/:id" component={InterviewPage} />
           <Route path="/interviews/:id/edit" component={EditInterviewPage} />
-          <Route path="/interviews/:id/feedbacks/:id" component={FeedBackPage} />
+          <Route
+            path="/interviews/:id/feedbacks/:id"
+            component={FeedBackPage}
+          />
           <Route path="/candidates/add" component={AddCandidate} />
           <Route path="/candidates/:id" component={CandidatePage} />
           <Route path="/vacancies/add" component={AddVacancyPage} />

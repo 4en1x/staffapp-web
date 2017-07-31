@@ -1,73 +1,44 @@
-import React from "react";
-import InterviewComponent from "../../../components/interview-add-edit-forms/interview.component";
-import interviewService from "../../../service/interview-service";
-import { Provider } from "react-redux";
-import { createStore, combineReducers } from "redux";
-import { reducer as reduxFormReducer } from "redux-form";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
+import { getFillList, postInterview } from '../interview-actions';
+import './interview-add-page.css';
 
-import "./interview-add-page.css";
-
-
-
-
-/////////////////////////////////////////////////////////////
-const reducer = combineReducers({
-    form: reduxFormReducer // mounted under "form"
-});
-const store = (window.devToolsExtension
-    ? window.devToolsExtension()(createStore)
-    : createStore)(reducer);
-/////////////////////////////////////////////////////////////
-
-
-
-
-export default class ADDInterviewPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoaded: false
-    };
-  }
-
+class AddInterviewPage extends React.Component {
   componentDidMount() {
-    interviewService.getInterviewFillList().then(res => {
-      console.log(res);
-      this.skillsList = res.data;
-      this.setState({ isLoaded: true });
-    });
-
-    ///////////////////////////////////temp///////
-      this.skillsList = {
-          primary: ["primaryOne"],
-          secondary: ["secondaryOne", "secondaryTwo", "secondaryThree"],
-          other: ["otherOne", "otherTwo", "otherThree"],
-          hr: ["something1", "something2", "something3"]
-      }
-      this.setState({ isLoaded: true });
-    ///////////////////////////////////////////////
+    this.props.getFillList();
   }
 
   showResults = values => {
-    console.log(values);
+    this.props.postInterview(values);
   };
 
   render() {
-    // const url = this.props.match.url;
-    // if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
+    console.log(this.props.formValues);
+
+    if (this.props.isAddFormLoaded) return <Redirect to="/" />;
+    if (!this.props.isFormLoaded) return <p>Not Loaded</p>;
 
     return (
-        <Provider store={store}>
       <div className="interview-page">
-        {!this.state.isLoaded
-          ? <p>Not Loaded</p>
-          : <InterviewComponent
-              onSubmit={this.showResults}
-              skillsList={this.skillsList}
-            />}
+        <InterviewComponent
+          onSubmit={this.showResults}
+          skillsList={this.props.formValues}
+        />}
       </div>
-        </Provider>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isFormLoaded: state.interview.isFormLoaded,
+    formValues: state.interview.formValues,
+    isAddFormSubmitted: state.interview.isAddFormSubmitted
+  };
+};
+
+export default connect(mapStateToProps, { getFillList, postInterview })(
+  AddInterviewPage
+);

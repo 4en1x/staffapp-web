@@ -7,13 +7,12 @@ import './interview-detail-page.css';
 
 class InterviewPage extends React.Component {
   componentDidMount() {
-    const id = this.props.match.url;
+    const id = this.props.match.params.id;
     this.props.getInterviewById(id);
+    console.log(this.props.interview);
   }
 
   render() {
-    console.log(this.props.interview);
-
     const url = this.props.match.url;
     return (
       <div className="interview-page">

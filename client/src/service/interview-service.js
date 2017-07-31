@@ -10,24 +10,24 @@ function getInterviewById(id) {
   return axios.get(`${id}`);
 }
 
-function getEditFormById(id) {
-  return axios.get(`/interviews/${id}`);
-}
-
 function getInterviewFillList() {
   return axios.get(`/interviews/fillLists`);
 }
 
-function postInterview(value) {
-  return axios.post(`/interviews`, value);
+function postInterview(interview) {
+  return axios.post(`/interviews`, interview);
+}
+
+function patchInterview(id, interview) {
+  return axios.patch(`/interviews/${id}`, interview);
 }
 
 const interviewService = {
   getInterviewList,
   getInterviewById,
-  getEditFormById,
   getInterviewFillList,
-  postInterview
+  postInterview,
+  patchInterview
 };
 
 export default interviewService;
