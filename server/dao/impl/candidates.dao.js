@@ -133,6 +133,21 @@ class CandidatesDAO extends BasicDAO {
     return candidate;
   }
 
+
+  async findByVacancyId(id) {
+    const hiringsTableName = getHiringsDAO().instance.tableName;
+
+    const candidates = await super.find({
+      fields: 'c.id, c.name, c.surname',
+      basis: `${this.tableName} c INNER JOIN ${hiringsTableName}
+              ON ${hiringsTableName}.candidate_id = c.id`,
+      condition: `WHERE ${hiringsTableName}.vacancy_id = ?`,
+      values: [id],
+    });
+
+    return candidates;
+  }
+
   /**
    *
    * @param {Number} [page] - default=1
