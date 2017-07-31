@@ -24,12 +24,14 @@ function rebuildCandidate(candidate) {
     primarySkill: candidate.primarySkill,
     englishLevel: candidate.englishLevel,
     secondarySkills: candidate.skills,
+    primarySkillYearStart: candidate.primarySkillYearStart,
   };
 
   const communication = {
     resume: candidate.resume,
-    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY'),
+    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY'),
     salary: candidate.salary,
+    hrName: candidate.hrName,
   };
 
   return {

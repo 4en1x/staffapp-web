@@ -33,7 +33,7 @@ class InterviewsController extends CRUDController {
 
       if (interview.date) {
         interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
       }
     };
 
@@ -69,7 +69,7 @@ class InterviewsController extends CRUDController {
       interviews.forEach(interview => {
         if (interview.date) {
           interview.time = fecha.format(interview.date, 'HH:mm');
-          interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+          interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
         }
       });
 

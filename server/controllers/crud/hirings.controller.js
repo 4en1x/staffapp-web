@@ -48,7 +48,7 @@ class HiringsController extends CRUDController {
       hiring = service.rebuildHiring(hiring);
       interviews = interviews.map((interview) => {
         interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
         return interview;
       });
       hiring.interviews = interviews;

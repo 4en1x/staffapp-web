@@ -32,7 +32,7 @@ class CandidatesController extends CRUDController {
   async read(req, res) {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY');
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY');
         return candidate;
       });
     };
