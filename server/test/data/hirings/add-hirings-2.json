@@ -1,13 +1,21 @@
 {
+  "candidateId": 100000,
   "interviews": [
     {
-      "interview": {
-        "type": "TECH",
-        "place": "Minsk"
-      },
-      "users": [1236542],
-      "feedback_fields": [
-        { "name":"c++", "type": "tech", "type_skill": "primary" }
+      "type": "TECH",
+      "date": "2017-07-27T15:00:00.000Z",
+      "users": [1, 2, 3],
+      "fields": [
+        {
+          "name": "C++ skill",
+          "typeSkill": "primary",
+          "type": "tech"
+        },
+        {
+          "name": "Some skill",
+          "typeSkill": "secondary",
+          "type": "tech"
+        }
       ]
     }
   ]

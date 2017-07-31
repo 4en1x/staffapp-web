@@ -1,6 +1,7 @@
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
+const hiringsService = require('../../services/hirings.service');
 const fecha = require('fecha');
 
 class CandidatesController extends CRUDController {
@@ -12,6 +13,11 @@ class CandidatesController extends CRUDController {
     try {
       let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
+      candidate.hirings = await Promise.all(candidate.hirings.map(async (hiring) => {
+        hiring = await hiringsService.rebuildHiring(hiring);
+        hiring = await hiringsService.updateHiringInterviews(hiring);
+        return hiring;
+      }));
       res.json(candidate);
     } catch (err) {
       if (err.message === '404') {
@@ -26,7 +32,7 @@ class CandidatesController extends CRUDController {
   async read(req, res) {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY');
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY');
         return candidate;
       });
     };

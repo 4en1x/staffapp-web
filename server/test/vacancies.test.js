@@ -55,15 +55,16 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
+        const insertId = response.body.id;
 
         data = await readFileAsync('./test/data/vacancies/check-vacancy-1.json', 'utf8');
         response = await req
-          .get(`${defaultUrl}/vacancies/3`)
+          .get(`${defaultUrl}/vacancies/${insertId}`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
         expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(4);
+        expect(response.body.skills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try add vacancy with skill which don\'t exist',
@@ -138,12 +139,12 @@ describe('#Vacancies-Api', () => {
 
         const data = await readFileAsync('./test/data/vacancies/check-vacancy-2.json', 'utf8');
         response = await req
-          .get(`${defaultUrl}/vacancies/1`)
+          .get(`${defaultUrl}/vacancies/3`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
         expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(4);
+        expect(response.body.skills).to.have.lengthOf(3);
       });
     it('This test should fail with 404 error : admin or hr try get vacancy that doen\'t exist',
       async () => {
@@ -187,6 +188,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(8);
       });
 
     it('This test should pass - admin and hr have access to get vacancies.But this list is empty and test should return empty array',
@@ -239,7 +242,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
         expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(4);
+        expect(response.body.skills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try update vacancy with skill which don\'t exist',
@@ -302,7 +305,7 @@ describe('#Vacancies-Api', () => {
         expect(response.statusCode).to.equal(200);
       });
 
-    it('This test should fail with 500 error : admin delete vacansy that don\'t exist',
+    it('This test should pass with no changes -  admin delete vacansy that don\'t exist',
       async () => {
         let response = await req
           .post(`${defaultUrl}/login`)
@@ -312,8 +315,7 @@ describe('#Vacancies-Api', () => {
         response = await req
           .delete(`${defaultUrl}/vacancies/1000`)
           .set('Accept', 'application/json')
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(200);
       });
   });
 });

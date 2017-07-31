@@ -48,12 +48,12 @@ class VacanciesDAO extends BasicDAO {
       const id = await superCreate(vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
 
@@ -153,12 +153,12 @@ class VacanciesDAO extends BasicDAO {
       await superUpdate(id, vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
     });

@@ -28,14 +28,14 @@ describe('#Search-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(2);
+        expect(response.body).to.have.lengthOf(4);
 
         response = await req
           .get(`${defaultUrl}/search?table=candidates&searchString=free`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(1);
+        expect(response.body).to.have.lengthOf(2);
 
         response = await req
           .get(`${defaultUrl}/search?table=users&searchString=free`)
