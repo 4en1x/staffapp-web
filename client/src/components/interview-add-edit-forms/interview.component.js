@@ -267,7 +267,7 @@ class InterviewComponent extends React.Component {
         onSubmit={handleSubmit(this.prepareData)}
         className="interview-detail-page"
       >
-        <div className="interview-content">
+        <div className="interview-edit-add-content">
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">

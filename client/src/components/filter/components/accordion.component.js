@@ -5,7 +5,7 @@ import { Accordion, Menu, Icon } from "semantic-ui-react";
 import "./accordion.css";
 
 const AccordionComponent = ({ input, label, items }) =>
-  <Accordion as="h3">
+  <Accordion as="h3" className="filter">
     <Accordion.Title>
       {label}
       <Icon name="triangle down" />
@@ -16,7 +16,7 @@ const AccordionComponent = ({ input, label, items }) =>
         text
         vertical
         items={items}
-        onItemClick={(event, obj) => input.onChange([obj.name])}
+        onItemClick={(event, obj) => input.onChange(obj.name)}
       />
     </Accordion.Content>
   </Accordion>;

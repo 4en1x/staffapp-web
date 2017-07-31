@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
 import { getFillList, postInterview } from '../interview-actions';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
+
 import './interview-add-page.css';
 
 class AddInterviewPage extends React.Component {
@@ -18,7 +20,7 @@ class AddInterviewPage extends React.Component {
     console.log(this.props.formValues);
 
     if (this.props.isAddFormLoaded) return <Redirect to="/" />;
-    if (!this.props.isFormLoaded) return <p>Not Loaded</p>;
+    if (!this.props.isFormLoaded) return <SemanticLoader />;
 
     return (
       <div className="interview-page">

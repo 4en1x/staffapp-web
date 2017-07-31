@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { getVacancyFillList, patchVacancy } from '../vacancy-actions';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
+
 
 class EditVacancyPage extends React.Component {
   componentDidMount() {
@@ -14,10 +16,6 @@ class EditVacancyPage extends React.Component {
     this.props.patchVacancy(this.props.match.params.id, values);
   };
 
-  componentWillReceiveProps() {
-    window.alert('asdfsadfa');
-  }
-
   render() {
     if (this.props.isEditFormSubmitted) {
       return <Redirect to={`/vacancies/${this.props.match.params.id}`} />;
@@ -28,7 +26,7 @@ class EditVacancyPage extends React.Component {
     return (
       <div className="edit-vacancy-page">
         {!this.props.isFormLoaded
-          ? <p>Not Loaded</p>
+          ? <SemanticLoader/>
           : <VacancyComponent
               onSubmit={this.showResults}
               minorSkills={lists.secondarySkills}

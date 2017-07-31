@@ -1,0 +1,41 @@
+/*.candidate-detail-page {*/
+/*display: flex;*/
+/*flex-direction: column;*/
+/*}*/
+
+/*.candidate-detail-page .content {*/
+/*display: flex;*/
+/*flex-direction: inherit;*/
+/*width: 80%;*/
+/*margin-left: 2%;*/
+/*margin-top: 2%;*/
+/*}*/
+
+/* content top styles*/
+
+.candidate-header{
+    padding: 0 2em;
+}
+.candidate-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 5em;
+}
+
+.candidate-content .candidate-lists{
+    width:30%;
+}
+
+a.ui.blue.big.right.ribbon.label.custom-label {
+  left: calc(100% + 1rem + 2em);
+  margin: -1em 0;
+  width: 10%;
+}
+
+/* list container styles */
+
+.candidate-detail-page .list-container .contacts {
+  margin-bottom: 6%;
+}

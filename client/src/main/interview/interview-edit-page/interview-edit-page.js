@@ -7,6 +7,8 @@ import {
   postInterview,
   patchInterview
 } from '../interview-actions';
+import SemanticLoader from '../../../components/loaders/semantic-loader';
+
 import './interview-edit-page.css';
 
 class EditInterviewPage extends React.Component {
@@ -16,14 +18,13 @@ class EditInterviewPage extends React.Component {
 
   showResults = values => {
     console.log(values);
-    this.props.patchInterview(this.props.match.params.id ,values);
+    this.props.patchInterview(this.props.match.params.id, values);
   };
 
   render() {
-
     console.log(this.props.formValues);
 
-    if (!this.props.isFormLoaded) return <p>Not Loaded</p>;
+    if (!this.props.isFormLoaded) return <SemanticLoader />;
     if (this.props.isEditFormSubmitted) return <Redirect to="/" />;
 
     return (

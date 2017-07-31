@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import {
   Divider,
@@ -7,15 +7,15 @@ import {
   Header,
   Statistic,
   Card
-} from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import "./interview-page.css";
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import './interview-page.css';
 
 export default class InterviewComponent extends React.Component {
   render() {
     const data = this.props.interview;
     return (
-      <div className="interview-component">
+      <div className="main-component">
         <Header dividing as="h2" className="custom-header">
           Technical interview No{data.id}
         </Header>
@@ -65,16 +65,13 @@ export default class InterviewComponent extends React.Component {
                 Feedback
               </Button>
             </Link>
-            <Link
-                className="button-container"
-                to={`${this.props.url}/edit`}
-            >
+            <Link className="button-container" to={`${this.props.url}/edit`}>
               <Button
-                  content="Edit"
-                  icon="edit"
-                  labelPosition="left"
-                  color="twitter"
-                  floated="right"
+                content="Edit"
+                icon="edit"
+                labelPosition="left"
+                color="twitter"
+                floated="right"
               />
             </Link>
           </div>

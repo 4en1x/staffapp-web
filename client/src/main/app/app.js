@@ -4,7 +4,7 @@ import WorkerPage from '../worker-page/worker-page';
 import HRPage from '../hr-page/hr-page';
 import Header from '../../components/header/header.components';
 import InterviewPage from '../interview/interview-detail-page/interview-detail-page';
-import CandidatePage from '../candidate/candidate-detail-page/candidate';
+import CandidatePage from '../candidate/candidate-detail-page/candidate-page';
 import VacancyPage from '../vacancy/vacancy-detail-page/vacancy-detail-page';
 import FeedBackPage from '../feedback/feedback-page';
 import EditInterviewPage from '../interview/interview-edit-page/interview-edit-page';
