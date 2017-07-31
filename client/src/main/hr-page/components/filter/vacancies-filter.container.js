@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addFilter } from '../../../vacancy/vacancy-actions';
+import { addFilter } from '../../../vacany-detail-page/vacancy-actions';
 import VacanciesFilterForm from '../../../../components/filter/filter-forms/vacancies-filter-form';
 
 import './filter.css';
+
+function check(values) {
+  window.alert(JSON.stringify(values));
+}
 
 const Statuses = ['Pool ', 'In progress', 'Hired'].map(item => ({
   key: item,
@@ -55,24 +59,17 @@ const data = {
 
 class FilterComponent extends React.Component {
   onSumbitClicked = filter => {
-    Object.keys(filter).forEach(prop => {
-      if (!filter[prop] || !filter[prop].length) delete filter[prop];
-    });
-
     console.log(filter);
-
     this.props.addFilter(filter);
   };
 
   render() {
+
     //if (!filter.props.filterValues) return <p />;
 
     return (
       <div className="filter-container">
-        <VacanciesFilterForm
-          onSubmitClicked={this.onSumbitClicked}
-          data={data}
-        />
+        <VacanciesFilterForm onSubmitClicked={this.onSumbitClicked} data={data} />
       </div>
     );
   }
