@@ -18,26 +18,8 @@ const statusList = [];
 class Vacancy extends React.Component {
   constructor(props) {
     super(props);
-<<<<<<< Updated upstream
 
-    let initData = {};
-    if (props.data) {
-      initData = {
-        status: props.data.status,
-        jobStart: props.data.jobStart,
-        salary: props.data.salary,
-        name: props.data.name,
-        primarySkill: props.data.primarySkill,
-        skills: props.data.skills,
-        description: props.data.description,
-        city: props.data.city
-      };
-      // props.data.skills.map(value => initData.secondarySkills.push(value.name));
-      props.initialize(initData);
-    }
-=======
     this.fillLists();
->>>>>>> Stashed changes
   }
 
   nameInput = ({ input }) =>
