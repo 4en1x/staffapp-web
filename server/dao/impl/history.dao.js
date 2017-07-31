@@ -31,6 +31,16 @@ class HistoryDAO extends BasicDAO {
     return history;
   }
 
+  async findById(page, id) {
+    const history = await super.find({
+      page,
+      amount: this.itemsPerPage,
+      condition: `WHERE user_id = ${id}`,
+      order: 'ORDER BY time DESC',
+    });
+    return history;
+  }
+
   async addEvent(id, tableName, event, userId, logs = '') {
     if (logs) logs = `Insert data: ${JSON.stringify(logs)} `;
     await super.create({
