@@ -29,7 +29,7 @@ function rebuildCandidate(candidate) {
 
   const communication = {
     resume: candidate.resume,
-    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY'),
+    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY'),
     salary: candidate.salary,
     hrName: candidate.hrName,
   };

@@ -58,12 +58,12 @@ function createHiringUpdateObject(reqBody) {
 function rebuildHiring(hiring) {
   hiring.vacancyName = hiring.vacancyName || 'Passed hiring process to the company';
   hiring.timeOpen = fecha.format(hiring.dateOpen, 'HH:mm');
-  hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD/MM/YYYY');
+  hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD-MM-YYYY');
   hiring.timeClose = hiring.dateClose
     ? fecha.format(hiring.dateClose, 'HH:mm')
     : null;
   hiring.dateClose = hiring.dateClose
-    ? fecha.format(hiring.dateClose, 'DD/MM/YYYY')
+    ? fecha.format(hiring.dateClose, 'DD-MM-YYYY')
     : null;
   return hiring;
 }
