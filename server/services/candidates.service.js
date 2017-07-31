@@ -24,6 +24,7 @@ function rebuildCandidate(candidate) {
     primarySkill: candidate.primarySkill,
     englishLevel: candidate.englishLevel,
     secondarySkills: candidate.skills,
+    primarySkillYearStart: candidate.primarySkillYearStart,
   };
 
   const communication = {
