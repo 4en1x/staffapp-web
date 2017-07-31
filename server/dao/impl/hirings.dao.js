@@ -1,5 +1,6 @@
 const BasicDAO = require('../basic.dao');
 const InterviewsDAO = require('./interviews.dao');
+const { addInterviewsToHiring } = require('../../services/hirings.service');
 
 class HiringsDAO extends BasicDAO {
   constructor(connection) {
@@ -35,10 +36,15 @@ class HiringsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findByUser(id) {
-    return super.find({
+    const hirings = await super.find({
       condition: 'WHERE user_id = ?',
+      order: 'ORDER BY -date_close, -date_open',
       values: [id],
     });
+    await Promise.all(hirings.map(async (hiring) => {
+      hiring.interviews = await addInterviewsToHiring(hiring.id);
+    }));
+    return hirings;
   }
 
   /**
@@ -47,10 +53,19 @@ class HiringsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findByCandidate(id) {
-    return super.find({
-      condition: 'WHERE candidate_id = ?',
+    const hirings = await super.find({
+      fields: 'h.id, h.user_id, h.vacancy_id, h.candidate_id, h.date_open, h.date_close, v.name AS vacancyName',
+      basis: `vacancies v
+              RIGHT JOIN ${this.tableName} h
+              ON h.vacancy_id = v.id`,
+      condition: 'WHERE h.candidate_id = ?',
+      order: 'ORDER BY -h.date_close, -h.date_open',
       values: [id],
     });
+    await Promise.all(hirings.map(async (hiring) => {
+      hiring.interviews = await addInterviewsToHiring(hiring.id);
+    }));
+    return hirings;
   }
 }
 

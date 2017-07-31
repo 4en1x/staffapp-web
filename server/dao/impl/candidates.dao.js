@@ -5,6 +5,9 @@ const FeedbacksDAO = require('./feedbacks.dao');
 const SkillsDAO = require('./skills.dao');
 const EnglishLevelsDAO = require('./englishLevels.dao');
 const CandidateStatusesDAO = require('./candidateStatuses.dao');
+const UsersDAO = require('./users.dao');
+
+const getHiringsDAO = require.bind(null, './hirings.dao');
 
 const { makeFilterQuery } = require('../utils/filter');
 
@@ -105,7 +108,8 @@ class CandidatesDAO extends BasicDAO {
     }
 
     candidate.skills = await SkillsDAO.instance.findByCandidate(id);
-
+    candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
+    candidate.hrName = await UsersDAO.instance.nameById(candidate.userId);
     return candidate;
   }
 
@@ -134,13 +138,17 @@ class CandidatesDAO extends BasicDAO {
    * @param {Number} [page] - default=1
    * @returns {Promise <[Object]>}
    */
-  async find(page, query) {
+  async find(page, query, report) {
     const citiesTableName = CitiesDAO.instance.tableName;
     const citiesIdField = CitiesDAO.instance.idField;
     const candidateStatusesTableName = CandidateStatusesDAO.instance.tableName;
     const candidateStatusesIdField = CandidateStatusesDAO.instance.idField;
     const skillsTableName = SkillsDAO.instance.tableName;
     const skillsIdField = SkillsDAO.instance.idField;
+
+    const amount = report
+      ? Infinity
+      : this.itemsPerPage;
 
     return super.find({
       fields: `cnd.${this.idField}, cnd.name, surname, s.name AS primary_skill,
@@ -154,7 +162,7 @@ class CandidatesDAO extends BasicDAO {
               ON cnd.primary_skill = s.${skillsIdField}`,
       page,
       condition: makeFilterQuery(query),
-      amount: this.itemsPerPage,
+      amount,
     });
   }
 

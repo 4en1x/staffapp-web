@@ -48,9 +48,11 @@ class BasicDAO {
     if (!insertId) {
       throw new Error('500');
     }
+
     if (defaultConfig.create.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(insertId, this.tableName, 'create', userId);
     }
+
     return insertId;
   }
 
@@ -108,9 +110,10 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async update(id, resource, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.update.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
     }
+
     return this.connection.queryAsync({
       sql: `UPDATE ${this.tableName} SET ? WHERE ${this.idField} = ?`,
       values: [this.toDAOEntity(resource), id],
@@ -123,9 +126,10 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async delete(id, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.delete.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'delete', userId);
     }
+
     return this.connection.queryAsync({
       sql: `DELETE FROM ${this.tableName} WHERE ${this.idField} = ?`,
       values: [id],

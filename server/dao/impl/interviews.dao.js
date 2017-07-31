@@ -23,7 +23,7 @@ class InterviewsDAO extends BasicDAO {
    * @param {Object} interview
    * @returns {Promise <Number>}
    */
-  async create(interview) {
+  async create(interview, user) {
     const superCreate = super.create.bind(this);
 
     return this.wrapTransaction(async () => {
@@ -35,7 +35,7 @@ class InterviewsDAO extends BasicDAO {
       const fields = interview.fields || [];
       delete interview.fields;
 
-      const interviewId = await superCreate(interview);
+      const interviewId = await superCreate(interview, user);
 
       const feedback = {
         interviewId,
@@ -113,13 +113,14 @@ class InterviewsDAO extends BasicDAO {
 
     return super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
-      basis: `${this.tableName} i
-              INNER JOIN ${feedbacksTableName} f
+      basis: `${feedbacksTableName} f
+              INNER JOIN ${this.tableName} i
               ON f.interview_id = i.${this.idField}
               INNER JOIN ${candidatesTableName} c
               ON f.candidate_id = c.${candidatesIdField}`,
       condition: 'WHERE f.user_id = ? AND f.status = 0',
       page,
+      order: 'ORDER BY date DESC',
       amount: this.itemsPerPage,
       values: [id],
     });
