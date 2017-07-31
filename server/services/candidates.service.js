@@ -30,6 +30,7 @@ function rebuildCandidate(candidate) {
     resume: candidate.resume,
     lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD/MM/YYYY'),
     salary: candidate.salary,
+    hrName: candidate.hrName,
   };
 
   return {
