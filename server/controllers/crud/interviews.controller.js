@@ -1,11 +1,16 @@
 const CRUDController = require('../crud.controller');
 
-const db = require('../../dao');
+const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
+const fecha = require('fecha');
 
 class InterviewsController extends CRUDController {
   constructor() {
-    super('interviews');
+    super(db.interviews);
+  }
+
+  async create(req, res) {
+    await super.create(req, res, req.body);
   }
 
   async readOne(req, res) {
@@ -16,17 +21,25 @@ class InterviewsController extends CRUDController {
         throw new Error('403');
       }
 
-      interview.feedbacks = await feedbacksService.readFeedbacks(interview.feedbacks);
+      ({
+        allFeedbacks: interview.feedbacks,
+        userFeedback: interview.userFeedback,
+      } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
+
+      if (interview.date) {
+        interview.time = fecha.format(interview.date, 'HH:mm');
+        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+      }
     };
 
     await super.readOne(req, res, onload);
   }
 
-  async read(req, res) { // TODO: refactor (next PR)
+  async read(req, res) {
     const actions = {
-      my: db[this.daoName].readAssignedTo,
-      assigned: db[this.daoName].readCreatedBy,
-      all: db[this.daoName].readAll,
+      my: this.dao.findAssignedToUser,
+      assigned: this.dao.findCreatedByUser,
+      all: this.dao.findAllByUser,
     };
 
     const page = req.query.page;
@@ -37,14 +50,34 @@ class InterviewsController extends CRUDController {
     }
 
     try {
-      const interviews = await actions[req.query.type || 'my'].call(db[this.daoName], id, page);
+      const interviews = await actions[req.query.type || 'my'].call(this.dao, id, page);
 
       if (!interviews) {
         res.json([]);
         return;
       }
 
+      interviews.forEach((interview) => {
+        if (interview.date) {
+          interview.time = fecha.format(interview.date, 'HH:mm');
+          interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+        }
+      });
+
       res.json(interviews);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async fillLists(req, res) {
+    try {
+      res.json({
+        primary: await db.skills.find('primary'),
+        secondary: await db.skills.find('secondary'),
+        other: await db.skills.find('other'),
+        hr: await db.skills.find('hr'),
+      });
     } catch (err) {
       res.status(500).end();
     }

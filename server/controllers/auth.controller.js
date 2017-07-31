@@ -1,9 +1,9 @@
-const db = require('../dao');
+const db = require('../dao/dao');
 const service = require('../services/auth.service');
 
 async function checkEmail(req, res) {
   try {
-    const user = await db.users.checkEmail(req.body.email);
+    const user = await db.users.findByEmail(req.body.email);
 
     if (user) {
       res.send();
@@ -77,9 +77,19 @@ async function authCheck(req, res, next) {
   next();
 }
 
+function getUser(req, res) {
+  if (!req.user) {
+    res.status(401).end();
+    return;
+  }
+
+  res.json({ name: req.user.name, role: req.user.role });
+}
+
 module.exports = {
   checkEmail,
   login,
   logout,
   authCheck,
+  getUser,
 };

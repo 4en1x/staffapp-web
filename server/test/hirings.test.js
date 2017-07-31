@@ -1,189 +1,349 @@
 const Bluebird = require('bluebird');
 const connection = Bluebird.promisifyAll(require('../dao/connection/connect'));
 const readFileAsync = Bluebird.promisify(require('fs').readFile);
-const request = require('superagent').agent();
-const expect = require('chai').expect;
+const req = require('superagent').agent();
+const chai = require('chai');
+chai.use(require('chai-shallow-deep-equal'));
 const app = require('./app-test');
 const defaultUrl = require('../config').web.backendOrigin;
 
+let userAuthData;
+let adminAuthData;
+
+const expect = chai.expect;
+
 describe('#Hirings-Api', () => {
   beforeEach(async () => {
-    let data = await readFileAsync('../db/prepare_sql_for_hirings.txt', 'utf8');
+    const data = await readFileAsync('../db/prepare_sql.txt', 'utf8');
     await connection.queryAsync(data);
-    data = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
-    const response = await request
-      .post(`${defaultUrl}/login`)
-      .send(JSON.parse(data));
-    expect(response.statusCode).to.equal(200);
+    adminAuthData = await readFileAsync('./test/data/auth/login-1.json', 'utf8');
+    userAuthData = await readFileAsync('./test/data/auth/login-3.json', 'utf8');
+  });
+
+  afterEach(async () => {
+    await req
+      .post(`${defaultUrl}/logout`)
+      .set('Accept', 'application/json')
+      .ok(res => res.status <= 500);
   });
 
   describe('#Add hirings', () => {
-    it('This test should pass, because admin and hr can add hirings',
+    it('This test should fail with 403 error because user doesn\'t have access to add hirings',
       async () => {
-        const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        const response = await request
-          .post(`${defaultUrl}/hirings?candidate=5`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
-      });
-
-    it('This test should fail with 500 error because candidate does not exist. We can not appoint hiring.',
-      async () => {
-        const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        const response = await request
-          .post(`${defaultUrl}/hirings?candidate=41`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(500);
-      });
-
-    it('This test should fail with 500 error because candidate already has hiring. We can not appoint hiring.',
-      async () => {
-        let data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        let response = await request
-          .post(`${defaultUrl}/hirings?candidate=5`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
-
-        data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        response = await request
-          .post(`${defaultUrl}/hirings?candidate=5`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(false);
-        expect(response.body.message).to.equal('candidate already has hiring');
-      });
-
-    it('This test  should fail with 500 error : user is not exist. We can not appoint hiring.',
-      async () => {
-        const data = await readFileAsync('./test/data/hirings/add-hirings-2.json', 'utf8');
-        const response = await request
-          .post(`${defaultUrl}/hirings?candidate=8`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(500);
-      });
-  });
-
-
-  describe('#Read hiring', () => {
-    it('This test should pass, because admin and hr can read hirings',
-      async () => {
-        const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        let response = await request
-          .post(`${defaultUrl}/hirings?candidate=5`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
-
-        response = await request
-          .get(`${defaultUrl}/hirings?id=5`)
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(1);
-        expect(response.body[0]).to.be.an('object');
-      });
-
-    it('This test should pass, because admin and hr can read hirings (another example)',
-      async () => {
-        const response = await request
-          .get(`${defaultUrl}/hirings?id=7`)
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(1);
-        expect(response.body[0]).to.be.an('object');
-      });
-
-    it('This test should pass because admin and hr can read hirings, but return empty array: candidate is not exist',
-      async () => {
-        const response = await request
-          .get(`${defaultUrl}/hirings?id=4865415648`)
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(0);
-      });
-  });
-
-  describe('#Update hiring', () => {
-    it('This test should pass, because admin and hr can update hirings',
-      async () => {
-        const data = await readFileAsync('./test/data/hirings/update-hirings-1.json', 'utf8');
-        let response = await request
-          .patch(`${defaultUrl}/hirings/6`)
-          .set('Accept', 'application/json')
-          .send(JSON.parse(data))
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-
-        response = await request
-          .get(`${defaultUrl}/hirings/6`)
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('id', 6);
-        expect(response.body).to.have.property('userId', 1);
-        expect(response.body).to.have.property('interviews');
-        expect(response.body.interviews).to.be.an('array');
-      });
-  });
-
-  describe('#Delete hiring ', () => {
-    it('This test should pass, because admin can delete hirings',
-      async () => {
-        const response = await request
-          .delete(`${defaultUrl}/hirings/6`);
-        expect(response.statusCode).to.equal(200);
-      });
-
-    it('This test should fail with 500 error because hiring does not exist and nobody can delete it',
-      async () => {
-        const response = await request
-          .delete(`${defaultUrl}/hirings/685421`)
-          .ok(res => res.status <= 500);
-        expect(response.statusCode).to.equal(500);
-      });
-
-    it('This test should pass, but return empty array: hiring was already deleted',
-      async () => {
-        let response = await request
-          .delete(`${defaultUrl}/hirings/6`);
-        expect(response.statusCode).to.equal(200);
-
-        response = await request
-          .get(`${defaultUrl}/hirings?id=7`);
-        expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(0);
-      });
-
-    it('This test should pass, because if we delete hiring, candidate now doesn\'t have hiring and we can appoint it',
-      async () => {
-        let response = await request
-          .delete(`${defaultUrl}/hirings/6`);
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
         expect(response.statusCode).to.equal(200);
 
         const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
-        response = await request
-          .post(`${defaultUrl}/hirings?candidate=7`)
+        response = await req
+          .post(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access to add hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/add-hirings-1.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/hirings`)
           .set('Accept', 'application/json')
           .send(JSON.parse(data));
         expect(response.statusCode).to.equal(200);
-        expect(response.body.added).to.equal(true);
+      });
+
+    it('This test should fail with 422 error candidate user already have hiring and we can not add hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/add-hirings-5.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(422);
+      });
+
+    it('This test should fail with 500 error because candidate id  doesn\'t exist and we can not add hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/add-hirings-2.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(500);
+      });
+
+    it('This test should fail with 500 error because user try to add hiring with missing a required field',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/add-hirings-3.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(500);
+      });
+
+    it('This test should fail with 500 error because because field doesn\'t exist and admin can not add hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/add-hirings-4.json', 'utf8');
+        response = await req
+          .post(`${defaultUrl}/hirings`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data))
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(500);
+      });
+  });
+
+  describe('#Get Hirings by Candidate Id', () => {
+    it('This test should fail with 403 error because user doesn\'t have access to get hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?candidate=13`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access for all hirings, and he can get this hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?candidate=13`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(2);
+      });
+
+    it('This test should pass but he return empty array, because candidate id doesn\'t exist and we can not get hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?candidate=13000`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual([]);
+      });
+  });
+
+  describe('#Get Hirings by User Id', () => {
+    it('This test should fail with 403 error because user doesn\'t have access to get hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?user=1`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access for all hirings, and he can get this hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?user=1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(12);
+      });
+
+    it('This test should pass but he return empty array, because candidate id doesn\'t exist and we can not get hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings?user=13000`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual([]);
+      });
+  });
+
+  describe('#Get Hiring by Id', () => {
+    it('This test should fail with 403 error because user doesn\'t have access to get hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access for all hirings, and he can get that hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/hirings/check-hirings-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+        expect(response.body.interviews).to.be.an('array');
+        expect(response.body.interviews).to.have.lengthOf(2);
+      });
+
+    it('This test should fail with 404 error because hiring id doesn\'t exist and we can not get hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/hirings/13000`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(404);
+      });
+  });
+
+  describe('#Update Hiring', () => {
+    it('This test should fail with 403 error because user doesn\'t have access to update hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .patch(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json')
+          .send({})
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access for all hirings, and he can update that hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .patch(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json')
+          .send({});
+        expect(response.statusCode).to.equal(200);
+      });
+
+    it('This test should pass but nothing is change, because hiring id doesn\'t exist and we can not update that hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .patch(`${defaultUrl}/hirings/13000`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
+  });
+
+  describe('#Delete Hiring', () => {
+    it('This test should fail with 403 error because user doesn\'t have access to delete hirings',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .delete(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass because admin have access for all hirings, and he can delete that hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .delete(`${defaultUrl}/hirings/1`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
+
+    it('This test should pass but nothing is change, because hiring id doesn\'t exist and we can not delete that hiring',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .delete(`${defaultUrl}/hirings/13000`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
       });
   });
 });

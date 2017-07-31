@@ -3,55 +3,43 @@ import EmailInputForm from "../components/email-input";
 import PasswordInputForm from "../components/password-input";
 import { Image } from "semantic-ui-react";
 import logos from "../../../assets/images";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actionCreators from '../auth-actions';
+import userService from '../../../service/user-service';
 import "./sign-in.css";
 
 const EMAIL = "EMAIL";
 const PASSWORD = "PASSWORD";
 
-export default class SignInComponent extends React.Component {
+class SignInComponent extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentState: EMAIL,
-      isAuthorize: false
+      currentState: EMAIL
     };
   }
 
   emailInputHandle = value => {
-    /*
-      check email address and if email is valid, show password form (create request to server)
-      else stay on email form
-     */
-    let users = JSON.parse(localStorage.getItem('users'));
-    if (!users) return;
-    let findUser = users.find(user => (
-      value === user.name
-    ));
-    if(!findUser) return;
-    this.setState({ currentState: PASSWORD });
+    this.email = value;
+    userService.checkEmail({email: value}).then(res => {
+        this.setState({ currentState: PASSWORD });
+      });
   };
 
   passwordInputHandle = value => {
-    /*
-      check password and if password is valid, show password form (create request to server)
-      else stay on email form
-     */
-
-    this.setState({isAuthorize: true});
+    this.props.login({ email: this.email, password: value });
   };
 
   render() {
-
-    let user = {name: 'Sergey', role: 'Worker'};
-
     let form = <EmailInputForm inputHandle={this.emailInputHandle} />;
     if (this.state.currentState !== EMAIL) {
       form = <PasswordInputForm inputHandle={this.passwordInputHandle} />;
     }
 
-    if (this.state.isAuthorize) return <Redirect to={{pathname: '/', state: user}}/>;
+    if (!this.props.auth.isAuthError)
+      return <Redirect to={{ pathname: "/" }} />;
 
     return (
       <div className="auth-container">
@@ -65,3 +53,9 @@ export default class SignInComponent extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, actionCreators)(SignInComponent);

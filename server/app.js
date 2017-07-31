@@ -10,6 +10,9 @@ const app = express();
 const corsOptions = {
   origin: config.web.frontendOrigin,
   optionsSuccessStatus: 200,
+  credentials: true,
+  methods: ['GET', 'PUT', 'POST', 'OPTIONS', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Cache-Control', 'Expires'],
 };
 
 app.set('port', config.web.port);
