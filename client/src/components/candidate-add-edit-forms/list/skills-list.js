@@ -54,34 +54,41 @@ const englishLevel = ({ input }) => {
   );
 };
 
-const SkillsList = props => {
-  props.minorSkills.map(step => {
-    const temp = {
-      key: step,
-      text: step,
-      value: step
-    };
-    skillsList.push(temp);
-    return null;
-  });
+export default class SkillsListextends extends React.Component {
+  constructor(props) {
+    super(props);
+    this.fillLists();
+  }
 
-  return (
-    <List className="skills-list">
-      <List.Item>
-        <div className="item-with-label">
-          secondary skills
-          <Field name={"secondarySkills"} component={secondarySkills} />
-        </div>
-      </List.Item>
+  fillLists = () => {
+    this.props.minorSkills.map(step => {
+      const temp = {
+        key: step,
+        text: step,
+        value: step
+      };
+      skillsList.push(temp);
+      return null;
+    });
+  };
 
-      <List.Item>
-        <div className="item-with-label">
-          english label
-          <Field name={"englishLevel"} component={englishLevel} />
-        </div>
-      </List.Item>
-    </List>
-  );
-};
+  render() {
+    return (
+      <List className="skills-list">
+        <List.Item>
+          <div className="item-with-label">
+            secondary skills
+            <Field name={"secondarySkills"} component={secondarySkills} />
+          </div>
+        </List.Item>
 
-export default SkillsList;
+        <List.Item>
+          <div className="item-with-label">
+            english label
+            <Field name={"englishLevel"} component={englishLevel} />
+          </div>
+        </List.Item>
+      </List>
+    );
+  }
+}

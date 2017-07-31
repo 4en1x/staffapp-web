@@ -18,6 +18,7 @@ const statusList = [];
 class Vacancy extends React.Component {
   constructor(props) {
     super(props);
+<<<<<<< Updated upstream
 
     let initData = {};
     if (props.data) {
@@ -34,6 +35,9 @@ class Vacancy extends React.Component {
       // props.data.skills.map(value => initData.secondarySkills.push(value.name));
       props.initialize(initData);
     }
+=======
+    this.fillLists();
+>>>>>>> Stashed changes
   }
 
   nameInput = ({ input }) =>
@@ -103,8 +107,7 @@ class Vacancy extends React.Component {
       />
     );
   };
-
-  render() {
+  fillLists = () => {
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,
@@ -141,6 +144,26 @@ class Vacancy extends React.Component {
       citiesList.push(temp);
       return null;
     });
+
+    /////////////////////////
+      let initData = {};
+      if (this.props.data) {
+          initData = {
+              status: this.props.data.status,
+              jobStart: this.props.data.jobStart,
+              salary: this.props.data.salary,
+              name: this.props.data.name,
+              primarySkill: this.props.data.primarySkill,
+              skills: this.props.data.skills,
+              description: this.props.data.description,
+              city: this.props.data.city
+          };
+          // props.data.skills.map(value => initData.secondarySkills.push(value.name));
+          this.props.initialize(initData);
+      }
+  };
+
+  render() {
     const { handleSubmit, submitting } = this.props;
 
     return (

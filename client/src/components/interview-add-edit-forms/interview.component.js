@@ -7,7 +7,8 @@ import {
   Segment,
   Divider,
   Header,
-  Input
+  Input,
+  Icon
 } from "semantic-ui-react";
 import CustonSearch from "./search";
 
@@ -40,16 +41,19 @@ class InterviewComponent extends React.Component {
     this.state = {
       typeInterview: ""
     };
-
-    if (props.data) {
-      let initData = {
-        place: props.data.place,
-        date: props.data.date
-      };
-      props.initialize(initData);
-    }
+    this.fillLists();
   }
 
+  fillLists = () => {
+    if (this.props.data) {
+      let initData = {
+        place: this.props.data.place,
+        date: this.props.data.date.slice(0, 10),
+        time: this.props.data.date.slice(11, 16)
+      };
+      this.props.initialize(initData);
+    }
+  };
   buildArrays = () => {
     if (this.state.typeInterview === "tech") {
       this.props.skillsList.primary.map(step => {
@@ -61,7 +65,7 @@ class InterviewComponent extends React.Component {
         primarySkillList.push(temp);
         return null;
       });
-        this.props.skillsList.secondary.map(step => {
+      this.props.skillsList.secondary.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -70,7 +74,7 @@ class InterviewComponent extends React.Component {
         secondarySkillList.push(temp);
         return null;
       });
-        this.props.skillsList.other.map(step => {
+      this.props.skillsList.other.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -80,7 +84,7 @@ class InterviewComponent extends React.Component {
         return null;
       });
     } else if (this.state.typeInterview === "HR") {
-        this.props.skillsList.hr.map(step => {
+      this.props.skillsList.hr.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -91,7 +95,6 @@ class InterviewComponent extends React.Component {
       });
     }
   };
-
   nameInput = ({ input }) => {
     return (
       <CustonSearch
@@ -169,7 +172,24 @@ class InterviewComponent extends React.Component {
   };
   dateInput = ({ input }) => {
     return (
-      <Input {...input} placeholder="from" className="text-area" type="date" />
+      <Input
+        {...input}
+        className="text-area"
+        type="date"
+        label={{ basic: true, content: <Icon name="calendar" /> }}
+        labelPosition="left"
+      />
+    );
+  };
+  timeInput = ({ input }) => {
+    return (
+      <Input
+        {...input}
+        className="text-area"
+        type="time"
+        label={{ basic: true, content: <Icon name="time" /> }}
+        labelPosition="left"
+      />
     );
   };
   typeSkillInput = ({ input }) => {
@@ -193,7 +213,8 @@ class InterviewComponent extends React.Component {
     let data = {};
     data.place = value.place;
     data.users = value.users;
-    data.date = value.date;
+    data.date = value.date + " " + value.time + ":00";
+    data.userNames = users;
     if (!this.props.data) {
       data.type = value.type;
       data.fields = [];
@@ -270,6 +291,7 @@ class InterviewComponent extends React.Component {
             <div className="item-with-label">
               <Header as="h3">Date</Header>
               <Field name={"date"} component={this.dateInput} />
+              <Field name={"time"} component={this.timeInput} />
             </div>
 
             {!this.props.data &&
