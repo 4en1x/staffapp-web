@@ -6,7 +6,6 @@ let data = [];
 export default class SearchExampleStandard extends Component {
   componentWillMount() {
     this.resetComponent();
-    data = this.props.tempData;
   }
   serverSearch = value => [
     {
@@ -56,6 +55,7 @@ export default class SearchExampleStandard extends Component {
   handleResultSelect = (e, { result }) => {
     this.setState({ value: result.title });
     data.push(result.id);
+    this.props.tempData.push(result.title);
     this.props.onDataChange(e, data);
   };
   buildList = array => {
