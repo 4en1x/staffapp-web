@@ -1,0 +1,173 @@
+.candidate-detail-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.candidate-detail-page .content {
+    display: flex;
+    flex-direction: inherit;
+    width: 80%;
+    margin-left: 2%;
+    margin-top: 2%;
+}
+
+/* content top styles*/
+
+.content .content-top {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.content-top .name-label {
+    margin: 0;
+}
+
+.content-top .position-label {
+    margin: 0;
+}
+
+/* content description styles*/
+
+.candidate-detail-page .content-description{
+    display: flex;
+    flex-direction: column;
+}
+
+.candidate-detail-page .content-description .status-label{
+    margin-bottom: 5%;
+    width: 20%;
+}
+
+/* list container styles */
+
+.candidate-detail-page .list-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: auto;
+    flex-wrap: wrap;
+}
+
+.candidate-detail-page .contacts{
+    margin-bottom: 6%;
+}
+
+.list-container{
+    margin: 3% 0 3% 0%;
+}
+
+.add-candidate {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 10px 30px 5px 30px;
+}
+
+.item-with-label{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-style: italic;
+    margin: 5px;
+}
+
+
+
+.first-form-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.second-form-line{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-top: solid;
+    border-top-width: 2px;
+    border-top-color: #f2f2f2;
+}
+.theard-form-line{
+    padding: 30px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+.pudding-other-links{
+    padding: 0 0 20px 0;
+}
+.name-form-block{
+    display: flex;
+    background-color:#fbfbfb;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    border-right: solid;
+    border-right-width: 2px;
+    border-right-color: #f2f2f2;
+    width: 50%;
+}
+.contacts-form-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    width: 50%;
+}
+.skill-form-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    border-right: solid;
+    border-right-width: 2px;
+    border-right-color: #f2f2f2;
+    width: 50%;
+}
+.communication-form-block{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 14px;
+    padding: 20px;
+    width: 50%;
+    background-color: #fbfbfb;
+}
+
+.label-info{
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.primary-skill-data-input{
+    width: 20%;
+}
+
+.email-font-size{
+    font-size: 2em;
+    margin: 10px 0;
+}
+
+.hr-page {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5% 3%;
+}
+.hr-page_content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.main-form{
+    display: flex;
+    justify-content: space-between;
+}
+
+.segment-location{
+    width: 70%;
+}

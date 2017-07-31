@@ -2,40 +2,20 @@ import React from 'react';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
 import interviewService from '../../../service/interview-service';
 import './interview-edit-page.css';
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import { reducer as reduxFormReducer } from "redux-form";
 
-const cities = ['Minsk', 'Pinsk', 'Dobrush', 'Borisov'];
-const data = {
-  place: 'Pinsk',
-  type: 'tech',
-  fields: [
-    {
-      name: 'primaryOne',
-      type: 'tech',
-      typeSkill: 'primary'
-    },
-    {
-      name: 'secondaryOne',
-      type: 'tech',
-      typeSkill: 'secondary'
-    },
-    {
-      name: 'secondaryTwo',
-      type: 'tech',
-      typeSkill: 'secondary'
-    },
-    {
-      name: 'otherOne',
-      type: 'tech',
-      typeSkill: 'other'
-    },
-    {
-      name: 'otherTwo',
-      type: 'tech',
-      typeSkill: 'other'
-    }
-  ],
-  users: ['2', '4']
-};
+/////////////////////////////////////////////////////////////
+const reducer = combineReducers({
+    form: reduxFormReducer // mounted under "form"
+});
+const store = (window.devToolsExtension
+    ? window.devToolsExtension()(createStore)
+    : createStore)(reducer);
+/////////////////////////////////////////////////////////////
+
+
 
 export default class EditInterviewPage extends React.Component {
   constructor(props) {
@@ -46,13 +26,29 @@ export default class EditInterviewPage extends React.Component {
     };
   }
   componentDidMount() {
-    interviewService.getEditFormById(this.props.match.params.id).then(res => {
-      this.interview = res.data;
-      interviewService.getInterviewFillList().then(res => {
-        this.lists = res.data;
-        this.setState({ isLoaded: true });
-      });
-    });
+
+    // interviewService.getEditFormById(this.props.match.params.id).then(res => {
+    //   this.interview = res.data;
+    //   interviewService.getInterviewFillList().then(res => {
+    //     this.lists = res.data;
+    //     this.setState({ isLoaded: true });
+    //   });
+    // });
+
+      ///////////////////////////////////temp///////
+      this.skillsList = {
+          primary: ["primaryOne"],
+          secondary: ["secondaryOne", "secondaryTwo", "secondaryThree"],
+          other: ["otherOne", "otherTwo", "otherThree"],
+          hr: ["something1", "something2", "something3"]
+      }
+      this.candidate={};
+      this.candidate["data"] = {
+          place: 'Pinsk',
+          date: "2017-02-03"
+      };
+      this.setState({ isLoaded: true });
+      ///////////////////////////////////////////////
   }
 
   showResults = values => {
@@ -64,15 +60,17 @@ export default class EditInterviewPage extends React.Component {
     // if (this.state.feedbackClicked) return <Redirect to={`${url}/feedback`} />;
 
     return (
+        <Provider store={store}>
       <div className="edit-interview-page">
         {!this.state.isLoaded
           ? <p>Not Loaded</p>
           : <InterviewComponent
               onSubmit={this.showResults}
-              //cities={this.candidate.place}
               data={this.candidate.data}
+              skillsList={this.skillsList}
             />}
       </div>
+        </Provider>
     );
   }
 }
