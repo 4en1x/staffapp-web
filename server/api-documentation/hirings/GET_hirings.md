@@ -1,4 +1,4 @@
-# Get hiring
+# Get hirings
 
 ``` Text
 Get hirings
@@ -6,7 +6,7 @@ Get hirings
 
 ## Description
 
-Get hiring by candidate or user id
+Get hirings by candidate or user id
 
 ***
 
@@ -20,9 +20,11 @@ Authentication is required.
 
 ## Parameters
 
-- **candidate=id**  — candidate id
-- **user=id**  — user id
+- **candidate** — candidate id
+- **user** — user id
+
 One of them required
+
 ***
 
 ## Return format
@@ -37,9 +39,9 @@ A JSON object, that contains an array of hiring objects.
 - **dateClose** *(may be not defined)* — closing date of the hiring (DD/MM/YYYY)
 - **timeClose** *(may be not defined)* — closing time of the hiring (HH:mm)
 - **vacancyId** *(may be not defined)* — id vacancy attached to hiring
-- **userId** — user who appointed hiring
-- **interviews** — array of interview objects
-  - **id** — unique interviews field id
+- **userId** — hiring creator id
+- **interviews** — array of interview objects:
+  - **id** — unique interview id
   - **type** — type of the interview:
     - **type: 'TECH'** — technical interview
     - **type: 'HR'** — HRM interview
@@ -48,7 +50,7 @@ A JSON object, that contains an array of hiring objects.
   - **time** *(may be not defined)* — time of the interview (HH:mm)
   - **place** *(may be not defined)* — place of the interview
   - **feedbacks** — array of feedback objects
-    - **id** — unique id of the feedback
+    - **id** — unique feedback id
     - **userId** — assigned user id
     - **interviewId** — parent interview id
     - **candidateId** — assigned candidate id
@@ -56,7 +58,7 @@ A JSON object, that contains an array of hiring objects.
     - **status** — feedback status:
       - **status: 0** — opened feedback
       - **status: 1** — closed feedback
-    - **fields** — array of feedback field objects
+    - **fields** — array of feedback field objects:
       - **id** — unique feedback field id
       - **name** — feedback field name (title)
       - **value** — skill level (integer)
@@ -67,11 +69,12 @@ A JSON object, that contains an array of hiring objects.
         - **type: 'tech'** — has **name**, **value**, **comment** and **typeSkill**
         - **type: 'hr'** — has **name** and **comment**
         - **type: 'owner'** — has **comment**
+
 ## Errors
 
-
-- **403 Forbidden** — user tries to read hiring without required permission
+- **403 Forbidden** — user tries to read hirings without required permission
 - **400 Bad Request** — wrong parameters
+
 ## Example
 
 ### Request

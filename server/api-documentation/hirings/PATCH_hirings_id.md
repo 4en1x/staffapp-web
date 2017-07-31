@@ -1,12 +1,12 @@
-# Close hiring
+# Update hiring
 
 ``` Text
-Patch hirings/:id
+PATCH hirings/:id
 ```
 
 ## Description
 
-Close hiring
+Update hiring
 
 ***
 
@@ -22,6 +22,10 @@ Authentication is required.
 
 - **id** *(required)* — hiring id
 
+## Body
+
+- **vacancyId** — attached vacancy id
+
 ***
 
 ## Return format
@@ -30,14 +34,14 @@ Authentication is required.
 
 ## Errors
 
+- **403 Forbidden** — read **"Requires authentication"** section
 
-- **403 Forbidden** — user tries to read hiring without required permission
 ## Example
 
 ### Request
 
 ``` Text
-Patch hirings/2
+PATCH hirings/2
 ```
 
 ### Return

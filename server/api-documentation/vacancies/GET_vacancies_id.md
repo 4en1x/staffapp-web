@@ -37,9 +37,7 @@ A JSON object, that contains vacancy object.
 - **primarySkill** — primary skill of the vacancy
 - **description** — vacancy description
 - **city** — vacancy city
-- **skills** — array of skill objects:
-  - **name** — skill title
-  - **weight** — skill weight
+- **skills** — string array of skills
 
 ## Errors
 
@@ -69,23 +67,6 @@ GET vacancies/123
     "primarySkill": "js",
     "description": "Long description",
     "city": "Minsk",
-    "skills": [
-        {
-            "name": "js",
-            "weight": 6
-        },
-        {
-            "name": "java",
-            "weight": 2
-        },
-        {
-            "name": "c++",
-            "weight": 2
-        },
-        {
-            "name": "html",
-            "weight": 4
-        }
-    ]
+    "skills": ["js", "java", "c++", "html"]
 }
 ```

@@ -26,19 +26,19 @@ Authentication is required.
 
 ## Return format
 
-A JSON object, that contains an array of hiring objects (but now only one).
+A JSON object, that contains a hiring object.
 
 ### Hiring object
 
 - **id** — unique id of the hiring
-- **dateOpen** — date of opening hiring (DD/MM/YYYY)
-- **timeOpen** — time of opening hiring (HH:mm)
-- **dateClose** *(may be not defined)* — closing date of the hiring (DD/MM/YYYY)
-- **timeClose** *(may be not defined)* — closing time of the hiring (HH:mm)
-- **vacancyId** *(may be not defined)* — id vacancy attached to hiring
-- **userId** — user who appointed hiring
-- **interviews** — array of interview objects
-  - **id** — unique interviews field id
+- **dateOpen** — hiring opening date (DD/MM/YYYY)
+- **timeOpen** — hiring opening time (HH:mm)
+- **dateClose** *(may be not defined)* — hiring closing date (DD/MM/YYYY)
+- **timeClose** *(may be not defined)* — hiring closing time (HH:mm)
+- **vacancyId** *(may be not defined)* — attached vacancy id
+- **userId** — hiring creator id
+- **interviews** — array of interview objects:
+  - **id** — unique interview id
   - **type** — type of the interview:
     - **type: 'TECH'** — technical interview
     - **type: 'HR'** — HRM interview
@@ -46,12 +46,12 @@ A JSON object, that contains an array of hiring objects (but now only one).
   - **date** *(may be not defined)* — date of the interview (DD/MM/YYYY)
   - **time** *(may be not defined)* — time of the interview (HH:mm)
   - **place** *(may be not defined)* — place of the interview
- 
+
 ## Errors
 
+- **403 Forbidden** — user tries to read a hiring without required permission
+- **404 Not Found** — hiring does not exist
 
-- **403 Forbidden** — user tries to read hiring without required permission
-- **404 Not Found** — hiring don\'t exist
 ## Example
 
 ### Request

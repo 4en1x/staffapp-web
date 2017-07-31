@@ -18,16 +18,14 @@ Add a vacancy.
 
 ## Body
 
-- **name** *(required)* — cvacancy title
+- **name** *(required)* — vacancy title
 - **status** *(required)* — vacancy status
 - **city** — vacancy city
 - **jobStart** — job start date ("YYYY-MM-DDTHH:mm:ss.000")
 - **primarySkill** — vacancy primary skill
 - **salary** — vacancy salary
 - **description** — vacancy description
-- **skills** — array of skill objects:
-  - **name** — skill name
-  - **weight** — skill weight
+- **skills** — string array of skills
 
 ***
 
@@ -59,16 +57,7 @@ POST vacancies
   "primarySkill": "JavaScript",
   "salary": 1000,
   "description": "Long description",
-  "skills": [
-    {
-      "name": "html",
-      "weight": 6
-    },
-    {
-      "name": "css3",
-      "weight": 4
-    }
-  ]
+  "skills": ["html", "css3"]
 }
 ```
 

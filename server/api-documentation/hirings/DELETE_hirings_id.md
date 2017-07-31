@@ -30,8 +30,8 @@ Authentication is required.
 
 ## Errors
 
+- **403 Forbidden** — user tries to delete a hiring without required permission
 
-- **403 Forbidden** — user tries to read hiring without required permission
 ## Example
 
 ### Request
