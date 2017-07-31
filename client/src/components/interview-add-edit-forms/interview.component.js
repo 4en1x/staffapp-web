@@ -28,7 +28,6 @@ const typeList = [
     value: "owner"
   }
 ];
-const citiesList = [];
 const hrSkillList = [];
 const primarySkillList = [];
 const secondarySkillList = [];
@@ -43,31 +42,17 @@ class InterviewComponent extends React.Component {
     };
 
     if (props.data) {
-      users = props.data.users;
       let initData = {
         place: props.data.place,
-        date: props.data.date,
-        users: props.data.users
+        date: props.data.date
       };
       props.initialize(initData);
     }
   }
 
-  getDataFromServer = value => {
-    if (value === "tech") {
-      return {
-        primary: ["primaryOne"],
-        secondary: ["secondaryOne", "secondaryTwo", "secondaryThree"],
-        other: ["otherOne", "otherTwo", "otherThree"]
-      };
-    } else return { hr: ["something1", "something2", "something3"] };
-  };
   buildArrays = () => {
-    let value;
-    if (this.state.typeInterview !== "owner")
-      value = this.getDataFromServer(this.state.typeInterview);
     if (this.state.typeInterview === "tech") {
-      value.primary.map(step => {
+      this.props.skillsList.primary.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -76,7 +61,7 @@ class InterviewComponent extends React.Component {
         primarySkillList.push(temp);
         return null;
       });
-      value.secondary.map(step => {
+        this.props.skillsList.secondary.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -85,7 +70,7 @@ class InterviewComponent extends React.Component {
         secondarySkillList.push(temp);
         return null;
       });
-      value.other.map(step => {
+        this.props.skillsList.other.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -95,7 +80,7 @@ class InterviewComponent extends React.Component {
         return null;
       });
     } else if (this.state.typeInterview === "HR") {
-      value.hr.map(step => {
+        this.props.skillsList.hr.map(step => {
         const temp = {
           key: step,
           text: step,
@@ -180,18 +165,7 @@ class InterviewComponent extends React.Component {
     );
   };
   cityInput = ({ input }) => {
-    return (
-      <Dropdown
-        placeholder="city"
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        search
-        selection
-        options={citiesList}
-      />
-    );
+    return <Input {...input} placeholder="city" className="text-area" />;
   };
   dateInput = ({ input }) => {
     return (
@@ -265,15 +239,6 @@ class InterviewComponent extends React.Component {
   };
 
   render() {
-    this.props.cities.map(step => {
-      const temp = {
-        key: step,
-        text: step,
-        value: step
-      };
-      citiesList.push(temp);
-      return null;
-    });
     const { handleSubmit, submitting } = this.props;
 
     return (
@@ -308,41 +273,41 @@ class InterviewComponent extends React.Component {
             </div>
 
             {!this.props.data &&
-            <div>
-              <Divider />
-              <div className="item-with-label">
-                <Header as="h3">Type</Header>
-                <Field name={"type"} component={this.typeSkillInput} />
-              </div>
-              {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
+              <div>
                 <Divider />
-                <Header as="h3">Primary skills</Header>
-                <Field
-                  name={"primary"}
-                  component={this.primarySkillsInput}
-                />
+                <div className="item-with-label">
+                  <Header as="h3">Type</Header>
+                  <Field name={"type"} component={this.typeSkillInput} />
+                </div>
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Divider />
+                    <Header as="h3">Primary skills</Header>
+                    <Field
+                      name={"primary"}
+                      component={this.primarySkillsInput}
+                    />
+                  </div>}
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Header as="h3">Secondary Skills</Header>
+                    <Field
+                      name={"secondary"}
+                      component={this.secondarySkillsInput}
+                    />
+                  </div>}
+                {this.state.typeInterview === "tech" &&
+                  <div className="item-with-label">
+                    <Header as="h3">Other skills</Header>
+                    <Field name={"other"} component={this.otherSkillsInput} />
+                  </div>}
+                {this.state.typeInterview === "HR" &&
+                  <div className="item-with-label">
+                    <Divider />
+                    <Header as="h3">Communication Skills</Header>
+                    <Field name={"hr"} component={this.hrSkillsInput} />
+                  </div>}
               </div>}
-              {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
-                <Header as="h3">Secondary Skills</Header>
-                <Field
-                  name={"secondary"}
-                  component={this.secondarySkillsInput}
-                />
-              </div>}
-              {this.state.typeInterview === "tech" &&
-              <div className="item-with-label">
-                <Header as="h3">Other skills</Header>
-                <Field name={"other"} component={this.otherSkillsInput} />
-              </div>}
-              {this.state.typeInterview === "HR" &&
-              <div className="item-with-label">
-                <Divider />
-                <Header as="h3">Communication Skills</Header>
-                <Field name={"hr"} component={this.hrSkillsInput} />
-              </div>}
-            </div>}
 
             <div className="add-interview">
               <Button primary disabled={submitting}>
