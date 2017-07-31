@@ -213,7 +213,8 @@ class InterviewComponent extends React.Component {
     let data = {};
     data.place = value.place;
     data.users = value.users;
-    data.date = value.date + " " + value.time + ":00";
+    if(value.time) data.date = value.date + " " + value.time + ":00";
+    else data.date = value.date;
     data.userNames = users;
     if (!this.props.data) {
       data.type = value.type;

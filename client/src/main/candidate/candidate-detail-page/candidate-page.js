@@ -1,26 +1,27 @@
 import React from 'react';
-import { Loader, Dimmer } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { getCandidateById } from '../candidate-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import Candidate from './components/candidate';
 
-export default class CandidatePage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoaded: false
-    };
-  }
-
+class CandidatePage extends React.Component {
   componentDidMount() {
-    this.setState({ isLoaded: true });
+    this.props.getCandidateById(this.props.match.params.id);
   }
 
   render() {
     return (
       <div className="candidate-page">
-        {this.state.isLoaded ? <Candidate /> : <SemanticLoader />}
+        {this.props.candidate ? <Candidate candidate={this.props.candidate}/> : <SemanticLoader />}
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    candidate: state.candidate.currentCandidate
+  };
+};
+
+export default connect(mapStateToProps, { getCandidateById })(CandidatePage);

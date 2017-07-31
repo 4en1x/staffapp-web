@@ -13,6 +13,7 @@ class AddInterviewPage extends React.Component {
   }
 
   showResults = values => {
+    delete values.userNames;
     this.props.postInterview(values);
   };
 

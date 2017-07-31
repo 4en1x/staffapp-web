@@ -7,12 +7,9 @@ import SkillsList from './list/skills-list';
 import './candidate.css';
 
 const Candidate = props => {
-  const Skills = {
-    id: '1',
-    primarySkill: 'JavaScript',
-    otherSkills: ['Java', 'Ruby', 'C/C++', 'Python', 'Objective-C', 'Swift'],
-    englishLevel: 'upper-intermediate'
-  };
+
+  console.log(props.candidate);
+
   return (
     <div className="main-component">
       <Header dividing as="h2" className="custom-header" content="">
@@ -26,26 +23,26 @@ const Candidate = props => {
           size="big"
           className="custom-label"
         >
-          Status
+          {props.candidate.status}
         </Label>
         <div className="candidate-header">
-          <Header as="h1" content="Sergey Moiseyenko" />
+          <Header as="h1" content={`${props.candidate.surname}`} />
           <Header as="h3" content="City, Country" disabled />
         </div>
         <Divider section />
 
         <div className="candidate-content">
-          <SkillsList />
-          <ContactList />
-          <CommunicationsList />
+          <SkillsList skills={props.candidate.skills} />
+          <ContactList contacts={props.candidate.contacts} />
+          <CommunicationsList communication={props.candidate.communication} />
         </div>
         <Link className="button-container" to="/">
           <Button
-              content="Add hiring"
-              icon="add"
-              labelPosition="left"
-              color="twitter"
-              floated="right"
+            content="Add hiring"
+            icon="add"
+            labelPosition="left"
+            color="twitter"
+            floated="right"
           />
         </Link>
         <Link className="button-container" to="/">

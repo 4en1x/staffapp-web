@@ -1,5 +1,5 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
 import {
   Segment,
   Divider,
@@ -9,11 +9,11 @@ import {
   Button,
   Icon,
   List
-} from "semantic-ui-react";
-import CommunicationsList from "./communications-list";
-import Contacts from "./contacts-list";
-import SkillsList from "./skills-list";
-import "./candidate.css";
+} from 'semantic-ui-react';
+import CommunicationsList from './communications-list';
+import Contacts from './contacts-list';
+import SkillsList from './skills-list';
+import './candidate.css';
 
 let statusList = [];
 let skillList = [];
@@ -23,9 +23,9 @@ let counter = 0;
 class Candidate extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={
-      links:[]
-    }
+    this.state = {
+      links: []
+    };
     this.fillLists();
   }
 
@@ -41,7 +41,7 @@ class Candidate extends React.Component {
     });
     this.props.statuses.map(step => {
       const temp = {
-        key: "key" + step,
+        key: 'key' + step,
         text: step,
         value: step
       };
@@ -50,41 +50,39 @@ class Candidate extends React.Component {
     });
 
     ////////////////////////////
-      if (this.props.data) {
+    if (this.props.data) {
+      const links = this.state.links;
+      this.props.data.contacts.links.map(link => links.push(link));
+      this.setState({ links });
 
-          const links = this.state.links;
-          this.props.data.contacts.links.map(link => links.push(link));
-          this.setState({ links });
+      let initData = {
+        name: this.props.data.communication.name,
+        surname: this.props.data.communication.surname,
+        email: this.props.data.contacts.email,
+        primarySkill: this.props.data.skills.primarySkill,
+        primarySkillYearStart: this.props.data.skills.primarySkillYearStart,
+        phone: this.props.data.contacts.phone,
+        englishLevel: this.props.data.skills.englishLevel,
+        secondarySkills: this.props.data.skills.secondarySkills,
+        status: this.props.data.communication.status,
+        city: this.props.data.contacts.city,
+        salary: this.props.data.communication.salary,
+        resume: this.props.data.communication.resume,
+        linkedIn: this.props.data.contacts.linkedIn,
+        skype: this.props.data.contacts.skype,
+        vacancy: this.props.data.communication.vacancy,
+        links: {}
+        // links: this.props.data.contacts.links
+      };
 
-          let initData = {
-              name: this.props.data.communication.name,
-              surname: this.props.data.communication.surname,
-              email: this.props.data.contacts.email,
-              primarySkill: this.props.data.skills.primarySkill,
-              primarySkillYearStart: this.props.data.skills.primarySkillYearStart,
-              phone: this.props.data.contacts.phone,
-              englishLevel: this.props.data.skills.englishLevel,
-              secondarySkills: this.props.data.skills.secondarySkills,
-              status: this.props.data.communication.status,
-              city: this.props.data.contacts.city,
-              salary: this.props.data.communication.salary,
-              resume: this.props.data.communication.resume,
-              linkedIn: this.props.data.contacts.linkedIn,
-              skype: this.props.data.contacts.skype,
-              vacancy: this.props.data.communication.vacancy,
-              links: {}
-              // links: this.props.data.contacts.links
-          };
+      this.props.data.contacts.links.map(link => {
+        const temp = 'link' + counter;
+        initData.links[temp] = link;
+        counter++;
+      });
 
-          this.props.data.contacts.links.map(link => {
-              const temp = "link" + counter;
-              initData.links[temp] = link;
-              counter++;
-          });
-
-          this.props.initialize(initData);
-
-      }
+      this.props.initialize(initData);
+    }
   };
   nameInput = ({ input }) => {
     return <Input {...input} placeholder="name" className="text-area" />;
@@ -162,7 +160,7 @@ class Candidate extends React.Component {
   };
   addNewLink = () => {
     const links = this.state.links.slice();
-    links.push("link" + counter);
+    links.push('link' + counter);
     this.setState({ links });
     counter++;
   };
@@ -178,8 +176,8 @@ class Candidate extends React.Component {
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">
-                {!this.props.data && "creating candidate form"}
-                {this.props.data && "editing candidate form"}
+                {!this.props.data && 'creating candidate form'}
+                {this.props.data && 'editing candidate form'}
               </Header>
             </div>
             <Divider />
@@ -192,20 +190,20 @@ class Candidate extends React.Component {
                   <List.Item>
                     <div className="item-with-label">
                       name
-                      <Field name={"name"} component={this.nameInput} />
+                      <Field name={'name'} component={this.nameInput} />
                     </div>
                   </List.Item>
                   <List.Item>
                     <div className="item-with-label">
                       surname
-                      <Field name={"surname"} component={this.surnameInput} />
+                      <Field name={'surname'} component={this.surnameInput} />
                     </div>
                   </List.Item>
                   <List.Item>
                     <div className="item-with-label">
                       primary skill
                       <Field
-                        name={"primarySkill"}
+                        name={'primarySkill'}
                         component={this.primarySkillInput}
                       />
                     </div>
@@ -214,7 +212,7 @@ class Candidate extends React.Component {
                     <div className="item-with-label">
                       Year started with primary skill
                       <Field
-                        name={"primarySkillYearStart"}
+                        name={'primarySkillYearStart'}
                         component={this.primarySkillDataInput}
                       />
                     </div>
@@ -222,7 +220,7 @@ class Candidate extends React.Component {
                   <List.Item>
                     <div className="item-with-label">
                       status
-                      <Field name={"status"} component={this.statusInput} />
+                      <Field name={'status'} component={this.statusInput} />
                     </div>
                   </List.Item>
                 </List>
@@ -251,9 +249,9 @@ class Candidate extends React.Component {
               <div className="theard-form-line">
                 {this.state.links.map((step, move) =>
                   <Field
-                    name={"links.link" + move}
+                    name={'links.link' + move}
                     component={this.linkInput}
-                    key={"links.link" + move}
+                    key={'links.link' + move}
                   />
                 )}
                 <Button
@@ -278,4 +276,4 @@ class Candidate extends React.Component {
   }
 }
 
-export default reduxForm({ form: "addCandidate" })(Candidate);
+export default reduxForm({ form: 'addCandidate' })(Candidate);

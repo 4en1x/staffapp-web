@@ -35,7 +35,7 @@ export function getCandidateList(filter) {
 
 export function getCandidateById(id) {
   return dispatch => {
-    candidateService.getCandidateById().then(res => {
+    candidateService.getCandidateById(id).then(res => {
       dispatch(addCurrentCandidate(res.data));
     });
   };
