@@ -26,13 +26,13 @@ const VacanciesFilterForm = props => {
       <Field
         name="status"
         label="Status"
-        items={clone.statuses}
+        items={clone.statuses || []}
         component={AccordionComponent}
       />
       <Field
         name="primarySkill"
         label="Primary Skill"
-        items={clone.primarySkills}
+        items={clone.primarySkills || []}
         component={DropdownComponent}
       />
       <Field

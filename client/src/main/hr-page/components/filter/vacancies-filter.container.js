@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addFilter, getFilterValues } from '../../../vacancy/vacancy-actions';
 import VacanciesFilterForm from '../../../../components/filter/filter-forms/vacancies-filter-form';
-import SemanticLoader from '../../../../components/loaders/semantic-loader';
 import './filter.css';
 
 class FilterComponent extends React.Component {
@@ -17,7 +16,6 @@ class FilterComponent extends React.Component {
   };
 
   render() {
-    if (!this.props.filterValues) return <SemanticLoader />;
 
     return (
       <div className="filter-container">
@@ -36,7 +34,7 @@ FilterComponent.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filterValues: state.vacancy.filterValues
+    filterValues: state.vacancy.filterValues || {}
   };
 };
 

@@ -25,25 +25,25 @@ const CandidatesFilterForm = props => {
       <Field
         name="status"
         label="Status"
-        items={clone.statuses}
+        items={clone.statuses || []}
         component={AccordionComponent}
       />
       <Field
         name="primarySkill"
         label="Primary Skill"
-        items={clone.primarySkills}
+        items={clone.primarySkills || []}
         component={DropdownComponent}
       />
       <Field
-        name="secondarySkill"
-        label="Secondary skill"
-        items={clone.secondarySkills}
+        name="secondarySkills"
+        label="Secondary skills"
+        items={clone.secondarySkills || []}
         component={DropdownComponent}
       />
       <Field
         name="englishLevel"
         label="English level"
-        items={clone.englishLevels}
+        items={clone.englishLevels || []}
         component={DropdownComponent}
       />
       <div className="filter-item right">
