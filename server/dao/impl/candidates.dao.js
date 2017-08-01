@@ -153,17 +153,13 @@ class CandidatesDAO extends BasicDAO {
    * @param {Number} [page] - default=1
    * @returns {Promise <[Object]>}
    */
-  async find(page, query, report) {
+  async find(page, query) {
     const citiesTableName = CitiesDAO.instance.tableName;
     const citiesIdField = CitiesDAO.instance.idField;
     const candidateStatusesTableName = CandidateStatusesDAO.instance.tableName;
     const candidateStatusesIdField = CandidateStatusesDAO.instance.idField;
     const skillsTableName = SkillsDAO.instance.tableName;
     const skillsIdField = SkillsDAO.instance.idField;
-
-    const amount = report
-      ? Infinity
-      : this.itemsPerPage;
 
     return super.find({
       fields: `cnd.${this.idField}, cnd.name, surname, s.name AS primary_skill,
@@ -177,7 +173,36 @@ class CandidatesDAO extends BasicDAO {
               ON cnd.primary_skill = s.${skillsIdField}`,
       page,
       condition: makeFilterQuery(query),
-      amount,
+      amount: this.itemsPerPage,
+    });
+  }
+
+
+  async report(query) {
+    return super.find({
+      fields: `cnd.id, cnd.name, cnd.email, cnd.surname, 
+               cnd.skype,cnd.phone,cnd.resume, e_l.name AS english_level, 
+               cnd.created_date, cnd.last_change_date, u.name AS hrName, 
+               cnd.linkedin, cnd.salary, cnd.notification_date, 
+               cnd.primary_skill_year_start, s.name AS primary_skill,
+               cs.name AS status,ct.name AS city,GROUP_CONCAT(sk.name SEPARATOR ', ') AS secondarySkills`,
+      basis: `${this.tableName} cnd
+              LEFT JOIN cities ct
+              ON cnd.city_id = ct.id
+              LEFT JOIN candidate_statuses cs
+              ON cnd.status_id = cs.id
+              LEFT JOIN skills s
+              ON cnd.primary_skill = s.id
+              LEFT JOIN users u
+              ON u.id = cnd.user_id
+              LEFT JOIN english_levels e_l
+              ON e_l.id = cnd.english_level_id
+              LEFT JOIN skills_has_candidates s_h_c
+              ON s_h_c.candidate_id = cnd.id
+              LEFT JOIN skills sk
+              ON sk.id = s_h_c.skill_id `,
+      condition: makeFilterQuery(query),
+      order: 'GROUP BY cnd.id',
     });
   }
 

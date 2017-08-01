@@ -3,6 +3,8 @@ const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
 const fecha = require('fecha');
+const fs = require('fs');
+const csv = require('fast-csv');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -37,6 +39,27 @@ class CandidatesController extends CRUDController {
       });
     };
     await super.read(req, res, onload);
+  }
+
+  async report(req, res) {
+    try {
+      const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+      let candidates = await this.dao.report(filter);
+
+      candidates = candidates.map((candidate) => {
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'YYYY-MM-DD HH:mm:ss');
+        candidate.createdDate = fecha.format(candidate.createdDate, 'YYYY-MM-DD HH:mm:ss');
+        return candidate;
+      });
+
+      const ws = fs.createWriteStream(`${req.user.id}_${new Date().getTime()}.csv`);
+      csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
+
+      res.end();
+    } catch (err) {
+      console.log(err);
+      res.status(500).end();
+    }
   }
 
   async fillLists(req, res) {
