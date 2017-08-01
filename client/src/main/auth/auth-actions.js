@@ -5,6 +5,7 @@ axios.defaults.withCredentials = true;
 const ADD_USER = 'ADD_USER';
 const ADD_USER_ERROR = 'ADD_USER_ERROR';
 const REMOVE_USER = 'REMOVE_USER';
+const FAILED_LOGIN_WITH_COOKIES = 'FAILED_LOGIN_WITH_COOKIES';
 
 function addUser(user) {
   return {
@@ -43,6 +44,12 @@ export function logout() {
   };
 }
 
+function loginWithCookies() {
+  return {
+    type: FAILED_LOGIN_WITH_COOKIES,
+  }
+}
+
 export function isAuthorized() {
   return dispatch => {
     userService
@@ -51,7 +58,7 @@ export function isAuthorized() {
         dispatch(addUser(res.data));
       })
       .catch(err => {
-        addUserError();
+        loginWithCookies();
       });
   };
 }
