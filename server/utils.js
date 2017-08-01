@@ -49,7 +49,7 @@ function clearFields(object) {
 /**
  * Removes all keys with invalid filter values from filter object.
  * Filter value is invalid if it is not an Object or Array, or it is empty.
- * {Object} filter - filter object
+ * @param {Object} filter - filter object
  * @returns {Object} - clear copy of filter object
  **/
 
