@@ -1,0 +1,9 @@
+#notification-label{
+    position: absolute;
+    right: 1em;
+    top: 4.5em;
+    display: none;
+    z-index:10;
+}
+
+
