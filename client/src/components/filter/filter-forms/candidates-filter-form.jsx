@@ -7,30 +7,43 @@ import DropdownComponent from "../components/dropdown.component";
 
 const CandidatesFilterForm = props => {
   const { handleSubmit, onSubmit, data } = props;
+
+  const clone = Object.assign({}, data);
+  Object.keys(clone).forEach(prop => {
+    if (prop !== 'statuses') {
+      const items = clone[prop];
+      clone[prop] = items.map(item => ({
+        key: item,
+        value: item,
+        text: item
+      }));
+    }
+  });
+
   return (
     <form className="filter-form" onSubmit={handleSubmit(onSubmit)}>
       <Field
         name="status"
         label="Status"
-        items={data.statuses}
+        items={clone.statuses}
         component={AccordionComponent}
       />
       <Field
         name="primarySkill"
         label="Primary Skill"
-        items={data.primarySkills}
+        items={clone.primarySkills}
         component={DropdownComponent}
       />
       <Field
         name="secondarySkill"
         label="Secondary skill"
-        items={data.secondarySkills}
+        items={clone.secondarySkills}
         component={DropdownComponent}
       />
         <Field
             name="englishLevel"
             label="English level"
-            items={data.englishLevels}
+            items={clone.englishLevels}
             component={DropdownComponent}
         />
       <div className="filter-item right">
