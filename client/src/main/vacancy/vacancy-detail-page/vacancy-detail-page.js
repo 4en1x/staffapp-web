@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Vacancy from './components/vacancy';
-import { getVacancyById } from '../vacancy-actions';
+import { getVacancyById, resetVacancyList } from '../vacancy-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import './vacancy-detail-page.css';
 
@@ -9,6 +9,10 @@ class VacancyPage extends React.Component {
   componentDidMount() {
     const id = this.props.match.params.id;
     this.props.getVacancyById(id);
+  }
+
+  componentWillUnmount() {
+    this.props.resetVacancysList();
   }
 
   render() {
@@ -32,6 +36,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getVacancyById: id => {
       dispatch(getVacancyById(id));
+    },
+    resetVacancysList: () => {
+      dispatch(resetVacancyList());
     }
   };
 };

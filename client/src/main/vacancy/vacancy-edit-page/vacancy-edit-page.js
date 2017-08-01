@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getVacancyFillList, patchVacancy } from '../vacancy-actions';
+import { getVacancyFillList, patchVacancy , resetCurrentVacancy} from '../vacancy-actions';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
@@ -15,6 +15,10 @@ class EditVacancyPage extends React.Component {
     delete values.jobStart;
     this.props.patchVacancy(this.props.match.params.id, values);
   };
+
+  componentWillUnmount() {
+    this.props.resetCurrentVacancy();
+  }
 
   render() {
     if (this.props.isEditFormSubmitted) {
@@ -51,5 +55,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   getVacancyFillList,
-  patchVacancy
+  patchVacancy,
+  resetCurrentVacancy
 })(EditVacancyPage);

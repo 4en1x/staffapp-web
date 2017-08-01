@@ -19,7 +19,7 @@ const vacancyReducer = (state = {}, action) => {
       };
 
     case 'FILTER_VALUES':
-      return { ...state, filterValues: action.values};
+      return { ...state, filterValues: action.values };
 
     case 'ADD_FILTER':
       return { ...state, filter: action.filter };
@@ -35,6 +35,12 @@ const vacancyReducer = (state = {}, action) => {
 
     case 'EDIT_FORM_SUBMITTED':
       return { ...state, isEditFormSubmitted: true };
+
+    case 'RESET_VACANCY_LIST':
+      return { ...state, vacancyList: null };
+
+    case 'RESET_CURRENT_VACANCY':
+      return { ...state, currentVacancy: null};
 
     default:
       return state;

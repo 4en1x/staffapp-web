@@ -7,6 +7,8 @@ const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
 const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
 const ADD_FILTER = 'ADD_FILTER';
 const FILTER_VALUES = 'FILTER_VALUES';
+const RESET_VACANCY_LIST = 'RESET_VACANCY_LIST';
+const RESET_CURRENT_VACANCY = 'RESET_CURRENT_VACANCY';
 
 function addVacancyList(list) {
   return {
@@ -99,5 +101,17 @@ export function getVacancyById(id) {
     vacancyService.getVacancyById(id).then(res => {
       dispatch(addCurrentVacancy(res.data));
     });
+  };
+}
+
+export function resetVacancyList() {
+  return {
+    type: RESET_VACANCY_LIST
+  };
+}
+
+export function resetCurrentVacancy() {
+  return {
+    type: RESET_CURRENT_VACANCY
   };
 }

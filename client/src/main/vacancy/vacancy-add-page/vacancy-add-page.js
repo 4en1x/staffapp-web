@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getVacancyFillList, postVacancy } from '../vacancy-actions';
+import { getVacancyFillList, postVacancy, resetVacancyList} from '../vacancy-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
 
@@ -13,6 +13,10 @@ class AddVacancyPage extends React.Component {
   showResults = values => {
     this.props.postVacancy(values);
   };
+
+  componentWillUnmount() {
+    this.props.resetVacancyList();
+  }
 
   render() {
     const lists = this.props.formValues;
@@ -43,6 +47,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getVacancyFillList, postVacancy })(
+export default connect(mapStateToProps, { getVacancyFillList, postVacancy, resetVacancyList })(
   AddVacancyPage
 );
