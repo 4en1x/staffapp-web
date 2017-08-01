@@ -114,6 +114,7 @@ class VacanciesDAO extends BasicDAO {
               LEFT JOIN ${skillsTableName} ss
               ON ss.${skillsIdField} = vhs.skill_id`,
       condition: `${makeFilterQuery(query)} GROUP BY v.${this.idField}`,
+      order: 'ORDER BY -v.created_date',
       amount: this.itemsPerPage,
       page,
     });

@@ -146,9 +146,7 @@ class CandidatesDAO extends BasicDAO {
     const skillsTableName = SkillsDAO.instance.tableName;
     const skillsIdField = SkillsDAO.instance.idField;
 
-    const amount = report
-      ? Infinity
-      : this.itemsPerPage;
+    const amount = report ? Infinity : this.itemsPerPage;
 
     return super.find({
       fields: `cnd.${this.idField}, cnd.name, surname, ps.name AS primary_skill,
@@ -165,6 +163,7 @@ class CandidatesDAO extends BasicDAO {
               LEFT JOIN ${skillsTableName} ss
               ON ss.${skillsIdField} = shc.skill_id`,
       page,
+      order: 'ORDER BY -last_change_date',
       condition: `${makeFilterQuery(query)} GROUP BY cnd.${this.idField}`,
       amount,
     });

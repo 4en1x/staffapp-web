@@ -93,6 +93,7 @@ class InterviewsDAO extends BasicDAO {
             INNER JOIN candidates c ON f.candidate_id = c.id
             WHERE f.user_id = ${id} AND f.status = 0
 
+            ORDER BY date
             LIMIT ?, ?`,
       values: [(page - 1) * this.itemsPerPage, this.itemsPerPage],
     });
@@ -119,8 +120,8 @@ class InterviewsDAO extends BasicDAO {
               INNER JOIN ${candidatesTableName} c
               ON f.candidate_id = c.${candidatesIdField}`,
       condition: 'WHERE f.user_id = ? AND f.status = 0',
+      order: 'ORDER BY date',
       page,
-      order: 'ORDER BY date DESC',
       amount: this.itemsPerPage,
       values: [id],
     });
@@ -144,6 +145,7 @@ class InterviewsDAO extends BasicDAO {
               INNER JOIN ${candidatesTableName} c
               ON h.candidate_id = c.${candidatesIdField}`,
       condition: 'WHERE h.user_id = ? AND h.date_close IS NULL',
+      order: 'ORDER BY date',
       page,
       amount: this.itemsPerPage,
       values: [id],
@@ -159,6 +161,7 @@ class InterviewsDAO extends BasicDAO {
     return super.find({
       fields: `${this.tableName}.${this.idField}, type, date, place`,
       condition: `WHERE ${this.tableName}.hiring_id = ?`,
+      order: 'ORDER BY date',
       values: [id],
     });
   }
