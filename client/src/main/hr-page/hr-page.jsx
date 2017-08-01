@@ -13,6 +13,7 @@ import './hr-page.css';
 
 export default class HRPage extends React.Component {
   render() {
+
     return (
       <div className="hr-page">
         <HRNavigationBar url="/" activeItem="Interviews" />

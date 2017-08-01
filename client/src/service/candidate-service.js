@@ -19,7 +19,6 @@ function getFillList() {
 }
 
 function postCandidate(interview) {
-  console.log('lallala');
   return axios.post(`/candidates`, interview);
 }
 
@@ -27,12 +26,22 @@ function patchCandidate(id, candidate) {
   return axios.patch(`/candidates/${id}`, candidate);
 }
 
+function getCandidatesReport(filter = {}) {
+  window.open(`/candidates/report`, 'lalala');
+  return axios.get(`/candidates/report`, {
+    params: {
+      filter: JSON.stringify(filter)
+    }
+  });
+}
+
 const candidateService = {
   getCandidateList,
   getCandidateById,
   getFillList,
   postCandidate,
-  patchCandidate
+  patchCandidate,
+  getCandidatesReport
 };
 
 export default candidateService;

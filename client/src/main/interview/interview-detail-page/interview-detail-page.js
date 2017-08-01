@@ -13,19 +13,23 @@ class InterviewPage extends React.Component {
   }
 
   render() {
+
     const url = this.props.match.url;
+    const role = this.props.role;
+
     return (
       <div className="interview-page">
         {!this.props.interview
           ? <SemanticLoader />
-          : <InterviewComponent interview={this.props.interview} url={url} />}
+          : <InterviewComponent interview={this.props.interview} role={role} url={url} />}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  interview: state.interview.currentInterview
+  interview: state.interview.currentInterview,
+  role: state.auth.role
 });
 
 export default connect(mapStateToProps, actionCreators)(InterviewPage);
