@@ -1,5 +1,4 @@
-const fecha = require('fecha');
-const { clearFields } = require('../utils');
+const utils = require('../utils');
 const FeedbacksDAO = require('../dao/impl/feedbacks.dao');
 const InterviewsDAO = require('../dao/impl/interviews.dao');
 const CandidatesDAO = require('../dao/impl/candidates.dao');
@@ -7,7 +6,7 @@ const CandidatesDAO = require('../dao/impl/candidates.dao');
 async function createInterviews(interviews = [], hiringId, userId) {
   await Promise.all(interviews.map(async (interview) => {
     interview.hiringId = hiringId;
-    interview.date = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
+    interview.date = utils.date.getSQL(new Date(interview.date));
     await InterviewsDAO.instance.create(interview, userId);
   }));
 }
@@ -18,7 +17,7 @@ async function addInterviewsToHiring(id) {
     const feedbacks = await FeedbacksDAO.instance.findByInterview(interview.id);
     await Promise.all(feedbacks.map(async (feedback, index) => {
       feedbacks[index] = await FeedbacksDAO.instance.findById(feedback);
-      feedbacks[index].fields = clearFields(feedbacks[index].fields);
+      feedbacks[index].fields = utils.clearFields(feedbacks[index].fields);
     }));
     interview.feedbacks = feedbacks;
   }));
@@ -30,8 +29,8 @@ async function updateHiringInterviews(hiring) {
     hiring.interviews.map(async (interview) => {
       interview.feedbacks = await FeedbacksDAO.instance.findByInterview(interview.id);
       interview.candidate = await CandidatesDAO.instance.findByFeedback(interview.feedbacks[0]);
-      interview.time = fecha.format(interview.date, 'HH:mm');
-      interview.date = fecha.format(interview.date, 'DD/MM/YYYY');
+      interview.time = utils.date.getTime(interview.date);
+      interview.date = utils.date.getDate(interview.date);
       return interview;
     }));
   return hiring;
@@ -40,7 +39,7 @@ async function updateHiringInterviews(hiring) {
 function createHiringObject(req) {
   return {
     userId: req.user.id,
-    dateOpen: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+    dateOpen: utils.date.getSQL(new Date()),
     candidateId: req.body.candidateId,
   };
 }
@@ -51,19 +50,19 @@ function createHiringUpdateObject(reqBody) {
   }
 
   return {
-    dateClose: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+    dateClose: utils.date.getSQL(new Date()),
   };
 }
 
 function rebuildHiring(hiring) {
   hiring.vacancyName = hiring.vacancyName || 'Passed hiring process to the company';
-  hiring.timeOpen = fecha.format(hiring.dateOpen, 'HH:mm');
-  hiring.dateOpen = fecha.format(hiring.dateOpen, 'DD-MM-YYYY');
+  hiring.timeOpen = utils.date.getTime(hiring.dateOpen);
+  hiring.dateOpen = utils.date.getDate(hiring.dateOpen);
   hiring.timeClose = hiring.dateClose
-    ? fecha.format(hiring.dateClose, 'HH:mm')
+    ? utils.date.getTime(hiring.dateClose)
     : null;
   hiring.dateClose = hiring.dateClose
-    ? fecha.format(hiring.dateClose, 'DD-MM-YYYY')
+    ? utils.date.getDate(hiring.dateClose)
     : null;
   return hiring;
 }

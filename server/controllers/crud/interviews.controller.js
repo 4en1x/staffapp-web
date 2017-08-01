@@ -2,7 +2,7 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
-const fecha = require('fecha');
+const utils = require('../../utils');
 
 class InterviewsController extends CRUDController {
   constructor() {
@@ -27,8 +27,8 @@ class InterviewsController extends CRUDController {
       } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
       if (interview.date) {
-        interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+        interview.time = utils.date.getTime(interview.date);
+        interview.date = utils.date.getDate(interview.date);
       }
     };
 
@@ -59,8 +59,8 @@ class InterviewsController extends CRUDController {
 
       interviews.forEach((interview) => {
         if (interview.date) {
-          interview.time = fecha.format(interview.date, 'HH:mm');
-          interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+          interview.time = utils.date.getTime(interview.date);
+          interview.date = utils.date.getDate(interview.date);
         }
       });
 

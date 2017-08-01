@@ -2,7 +2,7 @@
   "event": "create",
   "foreignId": 19,
   "id": 32,
-  "logs": "Some changes in table candidates: create some data.",
+  "logs": "Some changes in table candidates: create",
   "role": "candidates",
   "userId": 1
 }
