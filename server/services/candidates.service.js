@@ -42,6 +42,7 @@ function rebuildCandidate(candidate) {
     skills,
     communication,
     hirings: candidate.hirings,
+    history: candidate.history,
   };
 }
 
