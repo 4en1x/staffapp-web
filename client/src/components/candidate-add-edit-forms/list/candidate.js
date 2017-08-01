@@ -56,8 +56,8 @@ class Candidate extends React.Component {
       this.setState({ links });
 
       let initData = {
-        name: this.props.data.communication.name,
-        surname: this.props.data.communication.surname,
+        name: this.props.data.name,
+        surname: this.props.data.surname,
         email: this.props.data.contacts.email,
         primarySkill: this.props.data.skills.primarySkill,
         primarySkillYearStart: this.props.data.skills.primarySkillYearStart,
@@ -143,7 +143,7 @@ class Candidate extends React.Component {
       primarySkillYearStart: values.primarySkillYearStart,
       phone: values.phone,
       englishLevel: values.englishLevel,
-      secondarySkills: values.secondarySkills,
+      skills: values.secondarySkills,
       status: values.status,
       city: values.city,
       salary: values.salary,

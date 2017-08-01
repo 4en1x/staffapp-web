@@ -7,8 +7,9 @@ import SkillsList from './list/skills-list';
 import './candidate.css';
 
 const Candidate = props => {
-
   console.log(props.candidate);
+
+  console.log(props.url);
 
   return (
     <div className="main-component">
@@ -26,8 +27,11 @@ const Candidate = props => {
           {props.candidate.status}
         </Label>
         <div className="candidate-header">
-          <Header as="h1" content={`${props.candidate.surname}`} />
-          <Header as="h3" content="City, Country" disabled />
+          <Header
+            as="h1"
+            content={`${props.candidate.name} ${props.candidate.surname}`}
+          />
+          <Header as="h3" content={``} disabled />
         </div>
         <Divider section />
 
@@ -45,7 +49,7 @@ const Candidate = props => {
             floated="right"
           />
         </Link>
-        <Link className="button-container" to="/">
+        <Link className="button-container" to={`${props.url}/edit`}>
           <Button
             content="Edit"
             icon="edit"

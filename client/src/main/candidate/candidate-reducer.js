@@ -1,7 +1,13 @@
 const candidateHandle = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_CANDIDATE_LIST':
-      return { ...state, candidateList: action.list };
+      return {
+        ...state,
+        candidateList: action.list,
+        isFormLoaded: false,
+        isEditFormSubmitted: false,
+        isAddFormSubmitted: false
+      };
 
     case 'ADD_CURRENT_CANDIDATE':
       return {

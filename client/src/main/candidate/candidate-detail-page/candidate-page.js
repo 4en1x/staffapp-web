@@ -12,7 +12,7 @@ class CandidatePage extends React.Component {
   render() {
     return (
       <div className="candidate-page">
-        {this.props.candidate ? <Candidate candidate={this.props.candidate}/> : <SemanticLoader />}
+        {this.props.candidate ? <Candidate candidate={this.props.candidate} url={this.props.match.url}/> : <SemanticLoader />}
       </div>
     );
   }

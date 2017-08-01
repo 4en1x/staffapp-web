@@ -73,7 +73,7 @@ export function getFormValues() {
 
 export function patchCandidate(id, interview) {
   return dispatch => {
-    candidateService.patchInterview(id, interview).then(res => {
+    candidateService.patchCandidate(id, interview).then(res => {
       dispatch(editFormSubmit());
     });
   };
