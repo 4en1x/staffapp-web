@@ -1,6 +1,7 @@
 const BasicDAO = require('../basic.dao');
 const fecha = require('fecha');
 const { makeFilterQuery } = require('../utils/filter');
+const utils = require('../../utils');
 
 class HistoryDAO extends BasicDAO {
   constructor(connection) {
@@ -68,7 +69,7 @@ class HistoryDAO extends BasicDAO {
       role: tableName,
       event,
       user_id: userId,
-      time: fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+      time: utils.date.getSQL(new Date()),
       logs,
     });
   }

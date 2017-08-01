@@ -3,10 +3,7 @@ const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
 const fecha = require('fecha');
-const fs = require('fs');
-const csv = require('fast-csv');
-const Bluebird = require('bluebird');
-const writeAsync = Bluebird.promisify(require('fast-csv').write);
+const utils = require('../../utils');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -36,7 +33,7 @@ class CandidatesController extends CRUDController {
   async read(req, res) {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY');
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
         return candidate;
       });
     };
