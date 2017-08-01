@@ -162,21 +162,24 @@ class CandidatesDAO extends BasicDAO {
     const skillsIdField = SkillsDAO.instance.idField;
 
     return super.find({
-      fields: `cnd.${this.idField}, cnd.name, surname, s.name AS primary_skill,
+      fields: `cnd.${this.idField}, cnd.name, surname, ps.name AS primary_skill,
                cs.name AS status, last_change_date, ct.name AS city`,
       basis: `${this.tableName} cnd
               LEFT JOIN ${citiesTableName} ct
               ON cnd.city_id = ct.${citiesIdField}
               LEFT JOIN ${candidateStatusesTableName} cs
               ON cnd.status_id = cs.${candidateStatusesIdField}
-              LEFT JOIN ${skillsTableName} s
-              ON cnd.primary_skill = s.${skillsIdField}`,
+              LEFT JOIN ${skillsTableName} ps
+              ON cnd.primary_skill = ps.${skillsIdField}
+              LEFT JOIN skills_has_candidates shc
+              ON shc.candidate_id = cnd.${this.idField}
+              LEFT JOIN ${skillsTableName} ss
+              ON ss.${skillsIdField} = shc.skill_id`,
       page,
-      condition: makeFilterQuery(query),
+      condition: `${makeFilterQuery(query)} GROUP BY cnd.${this.idField}`,
       amount: this.itemsPerPage,
     });
   }
-
 
   async report(query) {
     return super.find({

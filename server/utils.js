@@ -46,9 +46,31 @@ function clearFields(object) {
   });
 }
 
+/**
+ * Removes all keys with invalid filter values from filter object.
+ * Filter value is invalid if it is not an Object or Array, or it is empty.
+ * @param {Object} filter - filter object
+ * @returns {Object} - clear copy of filter object
+ **/
+
+function clearFilter(filter) {
+  const result = Object.assign({}, filter);
+
+  Object.keys(result).forEach((key) => {
+    if (result[key] && typeof result[key] === 'object' && Object.keys(result[key]).length) {
+      return;
+    }
+
+    delete result[key];
+  });
+
+  return result;
+}
+
 module.exports = {
   applyDefault,
   clearFields,
   toCamel,
   toSnake,
+  clearFilter,
 };
