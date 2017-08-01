@@ -5,6 +5,8 @@ const hiringsService = require('../../services/hirings.service');
 const fecha = require('fecha');
 const fs = require('fs');
 const csv = require('fast-csv');
+const Bluebird = require('bluebird');
+const writeAsync = Bluebird.promisify(require('fast-csv').write);
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -52,10 +54,14 @@ class CandidatesController extends CRUDController {
         return candidate;
       });
 
-      const ws = fs.createWriteStream(`${req.user.id}_${new Date().getTime()}.csv`);
-      csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
-
-      res.end();
+      const fileName = `${req.user.id}_${new Date().getTime()}.csv`;
+      const ws = fs.createWriteStream(fileName);
+      const stream = csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
+      stream.on('finish', () => {
+        res.download(fileName, () => {
+          fs.unlink(fileName);
+        });
+      });
     } catch (err) {
       console.log(err);
       res.status(500).end();
