@@ -22,7 +22,7 @@ class NotificationsDAO extends BasicDAO {
   async read(page, id, dateFrom, dateTo) {
     const resources = await super.find({
       page,
-      condition: `WHERE user_id=${id} AND date>='${dateFrom}' AND date<='${dateTo}'`,
+      condition: `WHERE user_id=${id} AND date>='${dateFrom}' AND date<='${dateTo}' AND status=0`,
     });
 
     return resources;

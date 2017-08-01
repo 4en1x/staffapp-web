@@ -9,6 +9,7 @@ function createMessage(userId, interview) {
     date,
     text,
     userId,
+    interviewId: interview.id,
   };
 }
 

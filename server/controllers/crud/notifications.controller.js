@@ -8,6 +8,10 @@ class NotificationsController extends CRUDController {
     super(db.notifications);
   }
 
+  async update(req, res) {
+    await super.update(req, res, { status: 1 });
+  }
+
   async read(req, res) {
     const page = req.query.page;
     const id = req.user.id;
@@ -27,7 +31,6 @@ class NotificationsController extends CRUDController {
       res.status(500).end();
     }
   }
-  
 }
 
 module.exports = NotificationsController;
