@@ -1,8 +1,6 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
-import { store } from '../../index.js';
-import changeActiveTab from './navigation-actions';
 import './navigation.css';
 
 export default class HRNavigationBar extends React.Component {
@@ -61,9 +59,3 @@ export default class HRNavigationBar extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    activeTab: state.navigationBar.activeTab
-  };
-};
