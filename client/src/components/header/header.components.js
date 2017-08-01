@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, Dropdown, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import images from '../../assets/images';
 import './header.css';
 
@@ -28,7 +29,7 @@ export default class HeaderComponent extends React.Component {
 
     return (
       <div className="header-component">
-        <Image className="image" src={images.logo1} />
+        <Link to="/"><Image className="image" src={images.logo1} /></Link>
         <DropDownTrigger user={user} itemSelected={this.props.itemSelected}/>
       </div>
     );
