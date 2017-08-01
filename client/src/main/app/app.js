@@ -12,6 +12,7 @@ import EditVacancyPage from '../vacancy/vacancy-edit-page/vacancy-edit-page';
 import AddInterviewPage from '../interview/interview-add-page/interview-add-page';
 import AddVacancyPage from '../vacancy/vacancy-add-page/vacancy-add-page';
 import AddCandidate from '../candidate/candidate-add-page/add-candidate-page';
+import CandidateEditPage from '../candidate/candidate-edit-page/candidate-edit-page';
 import { logout } from '../auth/auth-actions';
 import { store } from '../../index';
 import '../../index.css';
@@ -42,6 +43,7 @@ export default class App extends React.Component {
             component={FeedBackPage}
           />
           <Route path="/candidates/add" component={AddCandidate} />
+          <Route path="/candidates/:id/edit" component={CandidateEditPage} />
           <Route path="/candidates/:id" component={CandidatePage} />
           <Route path="/vacancies/add" component={AddVacancyPage} />
           <Route path="/vacancies/:id/edit" component={EditVacancyPage} />

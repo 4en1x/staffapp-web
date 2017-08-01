@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect, Link } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
 import HRNavigationBar from '../../components/hr-navigation-bar/navigation-bar';
 import InterviewListWrapper from '../interview/list-wrapper/interview-list-wrapper';
 import CandidateListWrapper from '../candidate/list-wrapper/candidate-list-wrapper';
@@ -9,6 +8,7 @@ import SecondaryMenuComponent from '../../components/secondary-menu/secondary-me
 import VacanciesFilterForm from './components/filter/vacancies-filter.container';
 import CandidateFilter from './components/filter/candidates-filter.container';
 import AddButton from '../../components/add-button/add-button';
+import HistoryPage from '../history/history-page';
 import './hr-page.css';
 
 export default class HRPage extends React.Component {
@@ -51,6 +51,10 @@ export default class HRPage extends React.Component {
                   <CandidateFilter />
                 </div>
               </div>}
+          />
+          <Route
+            path={`/history`}
+            component={HistoryPage}
           />
         </div>
       </div>

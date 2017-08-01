@@ -14,7 +14,7 @@ import feedbackReducer from './main/feedback/feedback-reducer';
 import vacancyReducer from './main/vacancy/vacancy-reducer';
 import candidateReducer from './main/candidate/candidate-reducer';
 import navigationBarReducer from './components/hr-navigation-bar/navigation-reducer';
-//import CandidatePage from './main/candidate/candidate-detail-page/candidate-detail-page';
+import historyReducer from './main/history/history-reducer';
 import './index.css';
 
 const reducer = combineReducers({
@@ -24,6 +24,7 @@ const reducer = combineReducers({
   vacancy: vacancyReducer,
   candidate: candidateReducer,
   navigationBar: navigationBarReducer,
+  history: historyReducer,
   form: reduxFormReducer
 });
 
@@ -43,4 +44,4 @@ ReactDOM.render(
 
 export { store };
 
-//ReactDOM.render(<CandidatePage/>, document.getElementById('root'));
+//ReactDOM.render(<CandidateEditPage/>, document.getElementById('root'));

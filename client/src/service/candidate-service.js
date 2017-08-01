@@ -23,11 +23,16 @@ function postCandidate(interview) {
   return axios.post(`/candidates`, interview);
 }
 
+function patchCandidate(id, candidate) {
+  return axios.patch(`/candidates/${id}`, candidate);
+}
+
 const candidateService = {
   getCandidateList,
   getCandidateById,
   getFillList,
-  postCandidate
+  postCandidate,
+  patchCandidate
 };
 
 export default candidateService;
