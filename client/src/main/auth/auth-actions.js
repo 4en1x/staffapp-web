@@ -58,7 +58,7 @@ export function isAuthorized() {
         dispatch(addUser(res.data));
       })
       .catch(err => {
-        loginWithCookies();
+        dispatch(loginWithCookies());
       });
   };
 }

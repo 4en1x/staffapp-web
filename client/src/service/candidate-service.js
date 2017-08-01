@@ -27,7 +27,6 @@ function patchCandidate(id, candidate) {
 }
 
 function getCandidatesReport(filter = {}) {
-  window.open(`/candidates/report`, 'lalala');
   return axios.get(`/candidates/report`, {
     params: {
       filter: JSON.stringify(filter)
