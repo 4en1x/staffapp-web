@@ -66,7 +66,7 @@ export default class InterviewComponent extends React.Component {
                 Feedback
               </Button>
             </Link>
-            {this.props.role === 'hr'
+            {this.props.role !== 'worker'
               ? <Link
                   className="button-container"
                   to={`${this.props.url}/edit`}

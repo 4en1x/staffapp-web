@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getInterviewList } from '../interview-actions';
+import { getInterviewList, resetInterviewList } from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import InterviewListItem from '../../../components/list/list-items/interview-list-item';
@@ -15,6 +15,10 @@ class InterviewListWrapper extends React.Component {
     if (this.props.filter !== nextProps.filter) {
       this.props.getInterviewList(nextProps.filter);
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetInterviewList();
   }
 
   render() {
@@ -35,6 +39,6 @@ const mapStateToProps = state => ({
   filter: state.interview.filter
 });
 
-export default connect(mapStateToProps, { getInterviewList })(
+export default connect(mapStateToProps, { getInterviewList, resetInterviewList })(
   InterviewListWrapper
 );

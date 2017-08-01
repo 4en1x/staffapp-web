@@ -33,6 +33,12 @@ const interviewReducer = (state = {}, action) => {
         isFormLoaded: true
       });
 
+    case 'RESET_CURRENT_INTERVIEW':
+      return Object.assign({}, state, { currentInterview: null });
+
+    case 'RESET_INTERVIEW_LIST':
+      return Object.assign({}, state, { interviewList: null });
+
     default:
       return state;
   }

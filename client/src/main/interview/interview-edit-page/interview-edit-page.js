@@ -5,7 +5,8 @@ import InterviewComponent from '../../../components/interview-add-edit-forms/int
 import {
   getFillList,
   postInterview,
-  patchInterview
+  patchInterview,
+  resetCurrentInterview
 } from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
@@ -21,6 +22,10 @@ class EditInterviewPage extends React.Component {
     delete values.userNames;
     this.props.patchInterview(this.props.match.params.id, values);
   };
+
+  componentWillUnmount() {
+    this.props.resetCurrentInterview();
+  }
 
   render() {
     console.log(this.props.formValues);
@@ -52,5 +57,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   getFillList,
   postInterview,
-  patchInterview
+  patchInterview,
+  resetCurrentInterview
 })(EditInterviewPage);

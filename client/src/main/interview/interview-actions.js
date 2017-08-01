@@ -5,6 +5,8 @@ const ADD_CURRENT_INTERVIEW = 'ADD_CURRENT_INTERVIEW';
 const FORM_LOADED = 'FORM_LOADED';
 const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
 const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
+const RESET_INTERVIEW_LIST = 'RESET_INTERVIEW_LIST';
+const RESET_CURRENT_INTERVIEW = 'RESET_CURRENT_INTERVIEW';
 const ADD_FILTER = 'ADD_FILTER';
 
 function addInterviewsList(list) {
@@ -79,9 +81,22 @@ export function postInterview(interview) {
   };
 }
 
+export function resetInterviewList() {
+  return {
+    type: RESET_INTERVIEW_LIST
+  }
+}
+
+export function resetCurrentInterview() {
+ return {
+   type: RESET_CURRENT_INTERVIEW
+ }
+}
+
 export function getInterviewById(id) {
   return dispatch => {
     interviewService.getInterviewById(id).then(response => {
+      console.log(response.data);
       dispatch(addCurrentInterview(response.data));
     });
   };

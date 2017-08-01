@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
-import { getFillList, postInterview } from '../interview-actions';
+import { getFillList, postInterview, resetInterviewList } from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
 import './interview-add-page.css';
@@ -16,6 +16,10 @@ class AddInterviewPage extends React.Component {
     delete values.userNames;
     this.props.postInterview(values);
   };
+
+  componentWillUnmount() {
+    this.props.resetInterviewList();
+  }
 
   render() {
     console.log(this.props.formValues);
@@ -42,6 +46,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getFillList, postInterview })(
+export default connect(mapStateToProps, { getFillList, postInterview, resetInterviewList })(
   AddInterviewPage
 );
