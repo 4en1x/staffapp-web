@@ -1,7 +1,7 @@
 const fecha = require('fecha');
 const snakeCase = require('lodash.snakecase');
 
-function buidDateFilter(key, value) {
+function buildDateFilter(key, value) {
   const dateFrom = value.from ? fecha.format( new Date(value.from), 'YYYY-MM-DD HH:mm:ss') : -Infinity;
   const dateTo = value.to ? fecha.format(new Date(value.to), 'YYYY-MM-DD HH:mm:ss') : +Infinity;
   return `${key}>="${dateFrom}" AND ${key}<="${dateTo}"`;
@@ -14,7 +14,7 @@ function makeCriterion(key, value) {
     case 'notification_date':
     case 'job_start':
     case 'time':
-      return buidDateFilter(key, value);
+      return buildDateFilter(key, value);
 
     case 'english_level':
     case 'role':
@@ -34,7 +34,11 @@ function makeCriterion(key, value) {
       return `cs.name in ("${value.join('","')}")`;
 
     case 'primary_skill':
-      return `s.name in ("${value.join('","')}")`;
+      return `ps.name in ("${value.join('","')}")`;
+
+    case 'secondary_skills':
+      return `ss.name in ("${value.join('", "')}") and ss.type='secondary'`;
+
     default:
       return '';
   }
