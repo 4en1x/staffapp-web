@@ -1,10 +1,12 @@
-import vacanyService from '../../service/vacancy-service';
+import vacancyService from '../../service/vacancy-service';
+
 const ADD_VACANCY_LIST = 'ADD_VACANCY_LIST';
 const ADD_CURRENT_VACANCY = 'ADD_CURRENT_VACANCY';
 const FORM_LOADED = 'FORM_LOADED';
 const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
 const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
 const ADD_FILTER = 'ADD_FILTER';
+const FILTER_VALUES = 'FILTER_VALUES';
 
 function addVacancyList(list) {
   return {
@@ -22,7 +24,7 @@ function addCurrentVacancy(vacancy) {
 
 export function getVacancyList(filter) {
   return dispatch => {
-    vacanyService.getVacancyList(filter).then(res => {
+    vacancyService.getVacancyList(filter).then(res => {
       dispatch(addVacancyList(res.data));
     });
   };
@@ -47,9 +49,23 @@ function editFormSubmit() {
   };
 }
 
+function addFilterValues(values) {
+  return {
+    type: FILTER_VALUES,
+    values
+  };
+}
+
+export function getFilterValues() {
+  return dispatch =>
+    vacancyService.getVacancyFillList().then(res => {
+      dispatch(addFilterValues(res.data));
+    });
+}
+
 export function getVacancyFillList() {
   return dispatch => {
-    vacanyService.getVacancyFillList().then(res => {
+    vacancyService.getVacancyFillList().then(res => {
       dispatch(formLoad(res.data));
     });
   };
@@ -57,7 +73,7 @@ export function getVacancyFillList() {
 
 export function postVacancy(vacancy) {
   return dispatch => {
-    vacanyService.postVacancy(vacancy).then(res => {
+    vacancyService.postVacancy(vacancy).then(res => {
       dispatch(addFormSubmit());
     });
   };
@@ -65,7 +81,7 @@ export function postVacancy(vacancy) {
 
 export function patchVacancy(id, vacancy) {
   return dispatch => {
-    vacanyService.patchVacancy(id, vacancy).then(res => {
+    vacancyService.patchVacancy(id, vacancy).then(res => {
       dispatch(editFormSubmit());
     });
   };
@@ -80,7 +96,7 @@ export function addFilter(filter) {
 
 export function getVacancyById(id) {
   return dispatch => {
-    vacanyService.getVacancyById(id).then(res => {
+    vacancyService.getVacancyById(id).then(res => {
       dispatch(addCurrentVacancy(res.data));
     });
   };

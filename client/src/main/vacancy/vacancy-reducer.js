@@ -18,6 +18,9 @@ const vacancyReducer = (state = {}, action) => {
         isAddFormSubmitted: false
       };
 
+    case 'FILTER_VALUES':
+      return { ...state, filterValues: action.values};
+
     case 'ADD_FILTER':
       return { ...state, filter: action.filter };
 
