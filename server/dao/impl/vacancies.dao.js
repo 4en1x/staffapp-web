@@ -48,12 +48,12 @@ class VacanciesDAO extends BasicDAO {
       const id = await superCreate(vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
 
@@ -101,15 +101,19 @@ class VacanciesDAO extends BasicDAO {
     const skillsIdField = SkillsDAO.instance.idField;
 
     return super.find({
-      fields: `v.${this.idField}, v.name, vs.name AS status, job_start, s.name AS primarySkill, ct.name AS city`,
+      fields: `v.${this.idField}, v.name, vs.name AS status, job_start, ps.name AS primarySkill, ct.name AS city`,
       basis: `${this.tableName} v
               LEFT JOIN ${citiesTableName} ct
               ON v.city_id = ct.${citiesIdField}
               LEFT JOIN ${vacancyStatusesTableName} vs
               ON v.status_id = vs.${vacancyStatusesIdField}
-              LEFT JOIN ${skillsTableName} s
-              ON v.primary_skill = s.${skillsIdField}`,
-      condition: makeFilterQuery(query),
+              LEFT JOIN ${skillsTableName} ps
+              ON v.primary_skill = ps.${skillsIdField}
+              LEFT JOIN vacancy_has_skills vhs
+              ON vhs.vacancy_id = v.${this.idField}
+              LEFT JOIN ${skillsTableName} ss
+              ON ss.${skillsIdField} = vhs.skill_id`,
+      condition: `${makeFilterQuery(query)} GROUP BY v.${this.idField}`,
       amount: this.itemsPerPage,
       page,
     });
@@ -153,12 +157,12 @@ class VacanciesDAO extends BasicDAO {
       await superUpdate(id, vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
     });

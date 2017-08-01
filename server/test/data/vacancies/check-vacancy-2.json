@@ -1,6 +1,11 @@
 {
-  "name": "name for vacancy",
-  "status": "Closed",
-  "description": "some decription",
-  "city": "Minsk"
+  "id": 3,
+  "name": "job in exadel 3",
+  "jobStart": "03/06/2009",
+  "createdDate": "03/06/2009",
+  "salary": 5000,
+  "primarySkill": "Android",
+  "description": "description 3",
+  "city": "Minsk",
+  "status": "CV provided"
 }

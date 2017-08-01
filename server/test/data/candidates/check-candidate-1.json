@@ -1,12 +1,35 @@
 {
-  "name":"Kostya",
-  "surname":"Stsefanovich",
-  "email":"freeplayercot@gmail.com",
-  "primarySkill":"js",
-  "phone":"+375293552746",
-  "englishLevel":"0",
-  "status":"Pool",
-  "city":"Minsk",
-  "links":["i dont no","i dont no but i","i dont no but i?"],
-  "salary":"5000$"
+  "name": "Kostya",
+  "surname": "Stsefanovich",
+  "status": "Pool",
+  "contacts": {
+    "email": "freeplayercot@gmail.com",
+    "phone": "+375293552746",
+    "skype": null,
+    "city": "Minsk",
+    "linkedin": null,
+    "links": [
+      "i dont no",
+      "i dont no but i",
+      "i dont no but i?"
+    ]
+  },
+  "skills": {
+    "primarySkill": ".NET",
+    "englishLevel": "0",
+    "secondarySkills": []
+  },
+  "communication": {
+    "resume": null,
+    "lastChangeDate": "04/06/2009",
+    "salary": 5000
+  },
+  "hirings": [
+    {
+      "id": 1,
+      "userId": 1,
+      "vacancyId": null,
+      "dateClose": null
+    }
+  ]
 }

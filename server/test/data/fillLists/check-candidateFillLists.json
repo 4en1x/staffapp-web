@@ -1,0 +1,64 @@
+{
+  "primarySkills": [
+    ".NET",
+    "Android",
+    "BA",
+    "BI",
+    "C++",
+    "Data Science",
+    "DBE",
+    "DevOps",
+    "DWH",
+    "ETL",
+    "HRM",
+    "iOS",
+    "Java",
+    "JavaScript",
+    "PHP",
+    "Python",
+    "QA",
+    "Ruby on Rails",
+    "SysAdmin"
+  ],
+  "secondarySkills": [
+    "Angular",
+    "Bootstrap",
+    "Django",
+    "Hadoop",
+    "Linux",
+    "MongoDB",
+    "NodeJS",
+    "PosgreSQL",
+    "ReactJS",
+    "Scrum",
+    "Spring"
+  ],
+  "cities": [
+    "Brest",
+    "Minsk",
+    "Mogilev",
+    "New-York",
+    "Pinsk",
+    "Vitebsk"
+  ],
+  "englishLevels": [
+    "0",
+    "A1",
+    "A2",
+    "B1",
+    "B2",
+    "C1",
+    "C2"
+  ],
+  "statuses": [
+    "Hired",
+    "In progress",
+    "Interview",
+    "Job offer",
+    "Job offer accepted",
+    "Job offer rejected",
+    "On hold",
+    "Pool",
+    "Rejected"
+  ]
+}

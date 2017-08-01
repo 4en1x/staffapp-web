@@ -1,0 +1,8 @@
+{
+  "event": "delete",
+  "foreignId": 1,
+  "id": 32,
+  "logs": "Some changes in table interviews: delete some data.",
+  "role": "interviews",
+  "userId": 1
+}
