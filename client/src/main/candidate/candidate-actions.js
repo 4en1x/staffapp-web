@@ -6,6 +6,8 @@ const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
 const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
 const ADD_FILTER = 'ADD_FILTER';
 const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
+const RESET_CANDIDATE_LIST = 'RESET_CANDIDATE_LIST';
+const RESET_CURRENT_CANDIDATE = 'RESET_CURRENT_CANDIDATE';
 
 function addCandidateList(list) {
   return {
@@ -86,3 +88,16 @@ export function postCandidate(interview) {
     });
   };
 }
+
+export function resetCandidateList() {
+  return {
+    type: RESET_CANDIDATE_LIST
+  };
+}
+
+export function resetCurrentCandidate() {
+  return {
+    type: RESET_CURRENT_CANDIDATE
+  };
+}
+

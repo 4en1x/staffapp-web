@@ -30,6 +30,12 @@ const candidateHandle = (state = {}, action) => {
     case 'ADD_FORM_SUBMITTED':
       return { ...state, isAddFormSubmitted: true };
 
+    case 'RESET_CANDIDATE_LIST':
+      return { ...state, candidateList: null };
+
+    case 'RESET_CURRENT_CANDIDATE':
+      return { ...state, currentCandidate: null };
+
     default:
       return state;
   }

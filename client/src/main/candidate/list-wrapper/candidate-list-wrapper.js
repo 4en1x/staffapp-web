@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCandidateList } from '../candidate-actions';
+import { getCandidateList, resetCandidateList } from '../candidate-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import CandidateListItem from '../../../components/list/list-items/candidate-list-item';
@@ -13,15 +13,18 @@ class CandidateListWrapper extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.filter !== nextProps.filter) {
-      console.log('here');
-      console.log(nextProps.filter);
-      console.log('here');
       this.props.getCandidateList(nextProps.filter);
     }
   }
 
+  componentWillUnmount() {
+    this.props.resetCandidateList();
+  }
+
   render() {
     if (!this.props.candidates) return <SemanticLoader />;
+
+    console.log(this.props.candidates);
 
     return (
       <ListComponent
@@ -38,6 +41,6 @@ const mapStateToProps = state => ({
   filter: state.candidate.filter
 });
 
-export default connect(mapStateToProps, { getCandidateList })(
+export default connect(mapStateToProps, { getCandidateList, resetCandidateList })(
   CandidateListWrapper
 );

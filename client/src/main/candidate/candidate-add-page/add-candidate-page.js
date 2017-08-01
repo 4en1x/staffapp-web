@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getFormValues, postCandidate } from '../candidate-actions';
+import {
+  getFormValues,
+  postCandidate,
+  resetCandidateList
+} from '../candidate-actions';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
@@ -13,6 +17,10 @@ class AddCandidatePage extends React.Component {
     console.log(values);
     this.props.postCandidate(values);
   };
+
+  componentWillUnmount() {
+    this.props.resetCandidateList();
+  }
 
   render() {
     if (this.props.isAddFormSubmitted) return <Redirect to={`/candidates`} />;
@@ -40,6 +48,8 @@ const mapStateToProps = state => ({
   isAddFormSubmitted: state.candidate.isAddFormSubmitted
 });
 
-export default connect(mapStateToProps, { getFormValues, postCandidate })(
-  AddCandidatePage
-);
+export default connect(mapStateToProps, {
+  getFormValues,
+  postCandidate,
+  resetCandidateList
+})(AddCandidatePage);

@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getFormValues, patchCandidate } from '../candidate-actions';
+import {
+  getFormValues,
+  patchCandidate,
+  resetCurrentCandidate
+} from '../candidate-actions';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
@@ -15,11 +19,13 @@ class CandidateEditPage extends React.Component {
     this.props.patchCandidate(id, values);
   };
 
+  componentWillUnmount() {
+    this.props.resetCurrentCandidate();
+  }
+
   render() {
-
-    console.log(this.props.candidate);
-
-    if (this.props.isEditFormSubmitted) return <Redirect to={`/candidates/${this.props.match.params.id}`} />;
+    if (this.props.isEditFormSubmitted)
+      return <Redirect to={`/candidates/${this.props.match.params.id}`} />;
     if (!this.props.formValues) return <SemanticLoader />;
 
     const lists = this.props.formValues;
@@ -46,6 +52,8 @@ const mapStateToProps = state => ({
   isEditFormSubmitted: state.candidate.isEditFormSubmitted
 });
 
-export default connect(mapStateToProps, { getFormValues, patchCandidate })(
-  CandidateEditPage
-);
+export default connect(mapStateToProps, {
+  getFormValues,
+  patchCandidate,
+  resetCurrentCandidate
+})(CandidateEditPage);
