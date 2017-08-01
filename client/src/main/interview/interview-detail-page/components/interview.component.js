@@ -14,6 +14,7 @@ import './interview-page.css';
 export default class InterviewComponent extends React.Component {
   render() {
     const data = this.props.interview;
+
     return (
       <div className="main-component">
         <Header dividing as="h2" className="custom-header">
@@ -65,15 +66,20 @@ export default class InterviewComponent extends React.Component {
                 Feedback
               </Button>
             </Link>
-            <Link className="button-container" to={`${this.props.url}/edit`}>
-              <Button
-                content="Edit"
-                icon="edit"
-                labelPosition="left"
-                color="twitter"
-                floated="right"
-              />
-            </Link>
+            {this.props.role === 'hr'
+              ? <Link
+                  className="button-container"
+                  to={`${this.props.url}/edit`}
+                >
+                  <Button
+                    content="Edit"
+                    icon="edit"
+                    labelPosition="left"
+                    color="twitter"
+                    floated="right"
+                  />
+                </Link>
+              : null}
           </div>
         </Card>
       </div>
