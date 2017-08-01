@@ -1,37 +1,45 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { getFormValues, postCandidate } from '../candidate-actions';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
-import candidateService from '../../../service/candidate-service';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
-export default class AddCandidatePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isLoaded: false };
-  }
-
+class AddCandidatePage extends React.Component {
   componentDidMount() {
-    candidateService.getCandidatesFillList().then(res => {
-      this.lists = res.data;
-      this.setState({ isLoaded: true });
-    });
+    this.props.getFormValues();
   }
   showResults = values => {
-    window.alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
+    console.log(values);
+    this.props.postCandidate(values);
   };
 
   render() {
+    if (this.props.isAddFormSubmitted) return <Redirect to={`/candidates`} />;
+    if (!this.props.formValues) return <SemanticLoader />;
+
+    const lists = this.props.formValues;
+
     return (
       <div className="candidate-page">
-        {this.state.isLoaded
-          ? <Candidate
-              majorSkills={this.lists.primarySkills}
-              minorSkills={this.lists.secondarySkills}
-              statuses={this.lists.statuses}
-              cities={this.lists.cities}
-              onSubmit={this.showResults}
-            />
-          : <SemanticLoader />}
+        <Candidate
+          majorSkills={lists.primarySkills}
+          minorSkills={lists.secondarySkills}
+          statuses={lists.statuses}
+          cities={lists.cities}
+          onSubmit={this.showResults}
+        />
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isFormLoaded: state.candidate.isFormLoaded,
+  formValues: state.candidate.formValues,
+  isAddFormSubmitted: state.candidate.isAddFormSubmitted
+});
+
+export default connect(mapStateToProps, { getFormValues, postCandidate })(
+  AddCandidatePage
+);

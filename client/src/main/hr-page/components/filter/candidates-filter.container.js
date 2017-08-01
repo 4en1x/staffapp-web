@@ -1,76 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addFilter } from '../../../candidate/candidate-actions';
-
+import { addFilter, getFormValues } from '../../../candidate/candidate-actions';
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
-
+import SemanticLoader from '../../../../components/loaders/semantic-loader';
 import './filter.css';
 
-function check(values) {
-  window.alert(JSON.stringify(values));
-}
-
-const Statuses = ['Pool ', 'In progress', 'Hired'].map(item => ({
-  key: item,
-  name: item
-}));
-
-const PrimarySkills = [
-  '.NET',
-  'C++',
-  'DBE',
-  'Java',
-  'HTML/CSS',
-  'JavaScript',
-  'PHP',
-  'Ruby on Rails',
-  'Python'
-].map(item => ({
-  key: item,
-  value: item,
-  text: item
-}));
-
-const SecondarySkills = ['Angular', 'ReactJS', 'NodeJS'].map(item => ({
-  key: item,
-  value: item,
-  text: item
-}));
-
-const Cities = ['Minsk', 'Moscow', 'London'].map(item => ({
-  key: item,
-  value: item,
-  text: item
-}));
-
-const EnglishLevels = ['option_1', 'option_2', 'option_3'].map(item => ({
-  key: item,
-  value: item,
-  text: item
-}));
-
-const data = {
-  statuses: Statuses,
-  primarySkills: PrimarySkills,
-  secondarySkills: SecondarySkills,
-  cities: Cities,
-  englishLevels: EnglishLevels
-};
-
 class FilterComponent extends React.Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getFormValues();
+  }
 
-  onSumbitClicked = filter => {};
+  onSubmitClicked = filter => {
+    this.props.addFilter(filter);
+  };
 
   render() {
-    console.log(this.props.filter);
+    console.log(this.props.formValues);
 
-    //if (!filter.props.filterValues) return <p />;
+    if (!this.props.formValues) return <SemanticLoader />;
 
     return (
       <div className="filter-container">
-        <CandidatesFilterForm onSubmit={check} data={this.props.filterValues} />
+        <CandidatesFilterForm
+          onSubmit={this.onSubmitClicked}
+          data={this.props.formValues}
+        />
       </div>
     );
   }
@@ -82,8 +37,10 @@ FilterComponent.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filterValues: state.vacancy.filterValues
+    formValues: state.candidate.formValues
   };
 };
 
-export default connect(mapStateToProps)(FilterComponent);
+export default connect(mapStateToProps, { addFilter, getFormValues })(
+  FilterComponent
+);

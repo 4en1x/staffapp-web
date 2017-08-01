@@ -10,18 +10,24 @@ function getCandidateList(filter = {}, page = 1) {
   });
 }
 
-function getCandidatesFillList() {
+function getCandidateById(id) {
+  return axios.get(`${id}`);
+}
+
+function getFillList() {
   return axios.get(`/candidates/fillLists`);
 }
 
-function getCandidateById(id) {
-  return axios.get(`${id}`);
+function postCandidate(interview) {
+  console.log('lallala');
+  return axios.post(`/candidates`, interview);
 }
 
 const candidateService = {
   getCandidateList,
   getCandidateById,
-  getCandidatesFillList
+  getFillList,
+  postCandidate
 };
 
 export default candidateService;
