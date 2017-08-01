@@ -1,5 +1,4 @@
 const BasicDAO = require('../basic.dao');
-const fecha = require('fecha');
 const { makeFilterQuery } = require('../utils/filter');
 const utils = require('../../utils');
 

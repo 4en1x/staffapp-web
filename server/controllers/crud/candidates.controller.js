@@ -2,8 +2,8 @@ const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
-const fecha = require('fecha');
 const utils = require('../../utils');
+const json2xls = require('json2xls');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -46,19 +46,19 @@ class CandidatesController extends CRUDController {
       let candidates = await this.dao.report(filter);
 
       candidates = candidates.map((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'YYYY-MM-DD HH:mm:ss');
-        candidate.createdDate = fecha.format(candidate.createdDate, 'YYYY-MM-DD HH:mm:ss');
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        candidate.createdDate = utils.date.getDate(candidate.createdDate);
         return candidate;
       });
 
-      const fileName = `${req.user.id}_${new Date().getTime()}.csv`;
-      const ws = fs.createWriteStream(fileName);
-      const stream = csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
-      stream.on('finish', () => {
-        res.download(fileName, () => {
-          fs.unlink(fileName);
-        });
-      });
+
+      const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
+
+      const xls = json2xls(candidates);
+
+      res.setHeader('Content-Type', 'application/vnd.openxmlformates');
+      res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
+      res.end(xls, 'binary');
     } catch (err) {
       console.log(err);
       res.status(500).end();

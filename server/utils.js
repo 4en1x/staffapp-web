@@ -71,9 +71,9 @@ function formatDateToSQLString(date) {
  * @returns {String} - "DD-MM-YYYY"
  */
 function formatDateToDateString(date) {
-  const year = getDateComponent(date, {year: 'numeric'})
-  const month = getDateComponent(date, {month: '2-digit'});
-  const day = getDateComponent(date, {day: '2-digit'});
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
   return `${day}-${month}-${year}`;
 }
 
