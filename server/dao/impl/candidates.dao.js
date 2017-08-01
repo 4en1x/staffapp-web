@@ -6,6 +6,7 @@ const SkillsDAO = require('./skills.dao');
 const EnglishLevelsDAO = require('./englishLevels.dao');
 const CandidateStatusesDAO = require('./candidateStatuses.dao');
 const UsersDAO = require('./users.dao');
+const HistoryDAO = require('./history.dao');
 
 const getHiringsDAO = require.bind(null, './hirings.dao');
 
@@ -110,6 +111,8 @@ class CandidatesDAO extends BasicDAO {
     candidate.skills = await SkillsDAO.instance.findByCandidate(id);
     candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
     candidate.hrName = await UsersDAO.instance.nameById(candidate.userId);
+    candidate.history = await HistoryDAO.instance.findByCandidateId(candidate.id);
+
     return candidate;
   }
 
@@ -176,10 +179,12 @@ class CandidatesDAO extends BasicDAO {
               LEFT JOIN ${skillsTableName} ss
               ON ss.${skillsIdField} = shc.skill_id`,
       page,
+      order: 'ORDER BY -last_change_date',
       condition: `${makeFilterQuery(query)} GROUP BY cnd.${this.idField}`,
       amount: this.itemsPerPage,
     });
   }
+
 
   async report(query) {
     return super.find({
@@ -208,6 +213,7 @@ class CandidatesDAO extends BasicDAO {
       order: 'GROUP BY cnd.id',
     });
   }
+
 
   /**
    *

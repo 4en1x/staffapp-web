@@ -3,6 +3,7 @@ const CitiesDAO = require('./cities.dao');
 const SkillsDAO = require('./skills.dao');
 const VacancyStatusesDAO = require('./vacancyStatuses.dao');
 const CandidatesDAO = require('./candidates.dao');
+const HistoryDAO = require('./history.dao');
 const { makeFilterQuery } = require('../utils/filter');
 
 class VacanciesDAO extends BasicDAO {
@@ -85,9 +86,8 @@ class VacanciesDAO extends BasicDAO {
     }
 
     vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
-
     vacancy.candidatesHistory = await CandidatesDAO.instance.findByVacancyId(id);
-
+    vacancy.history = await HistoryDAO.instance.findByVacancyId(vacancy.id);
     return vacancy;
   }
 

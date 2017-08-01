@@ -2,7 +2,7 @@ const snakeCase = require('lodash.snakecase');
 const camelCase = require('lodash.camelcase');
 
 /**
- *  Applying callback function for each key in object (deep).
+ *  Applies callback function for each key in object (deep).
  * @param {Object} obj
  * @param {Function} cb - callback
  * @returns {Object}
@@ -47,12 +47,53 @@ function clearFields(object) {
 }
 
 /**
+ *
+ * @param {Date} date
+ * @param {Intl.DateTimeFormatOptions} options
+ * @returns {String}
+ */
+function getDateComponent(date, options) {
+  return date.toLocaleString('ru-RU', options);
+}
+
+/**
+ *
+ * @param {Date} date
+ * @returns {String} - "YYYY-MM-DD HH:mm:ss"
+ */
+function formatDateToSQLString(date) {
+  return date.toLocaleString('ru-RU');
+}
+
+/**
+ *
+ * @param {Date} date
+ * @returns {String} - "DD-MM-YYYY"
+ */
+function formatDateToDateString(date) {
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
+  return `${day}-${month}-${year}`;
+}
+
+/**
+ *
+ * @param {Date} date
+ * @returns {String} - "HH:mm"
+ */
+function formatDateToTimeString(date) {
+  const hour = getDateComponent(date, { hour: '2-digit' });
+  const minute = getDateComponent(date, { minute: '2-digit' });
+  return `${hour}:${minute}`;
+}
+
+/**
  * Removes all keys with invalid filter values from filter object.
  * Filter value is invalid if it is not an Object or Array, or it is empty.
  * @param {Object} filter - filter object
  * @returns {Object} - clear copy of filter object
  **/
-
 function clearFilter(filter) {
   const result = Object.assign({}, filter);
 
@@ -72,5 +113,10 @@ module.exports = {
   clearFields,
   toCamel,
   toSnake,
+  date: {
+    getSQL: formatDateToSQLString,
+    getDate: formatDateToDateString,
+    getTime: formatDateToTimeString,
+  },
   clearFilter,
 };

@@ -2,7 +2,7 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const service = require('../../services/vacancies.service');
-const fecha = require('fecha');
+const utils = require('../../utils');
 
 class VacanicesController extends CRUDController {
   constructor() {
@@ -13,7 +13,7 @@ class VacanicesController extends CRUDController {
     const onload = async (vacancies) => {
       vacancies.forEach((vacancy) => {
         if (vacancy.jobStart) {
-          vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD-MM-YYYY');
+          vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
         }
         return vacancy;
       });
@@ -24,10 +24,10 @@ class VacanicesController extends CRUDController {
   async readOne(req, res) {
     const onload = async (vacancy) => {
       if (vacancy.jobStart) {
-        vacancy.jobStart = fecha.format(vacancy.jobStart, 'DD-MM-YYYY');
+        vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
       }
 
-      vacancy.createdDate = fecha.format(vacancy.createdDate, 'DD-MM-YYYY');
+      vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
     };
 
     await super.readOne(req, res, onload);
