@@ -1,10 +1,10 @@
 {
   "db": {
-    "host": "mysql5.gear.host",
+    "host": "localhost",
     "port": 3306,
-    "user": "exadelteamdb2",
-    "password": "Gq4i?Fvb!kM8",
-    "database": "exadelteamdb2"
+    "user": "test_root",
+    "password": "12345",
+    "database": "exadelteamdb3"
   },
   "web": {
     "port": 3300,

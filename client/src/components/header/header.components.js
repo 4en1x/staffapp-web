@@ -45,7 +45,7 @@ const messages =  [
 const removeMessage = item => {
     messages.splice(messages.indexOf(item),1);
     // NotificationService.deleteMessageById(item.id);
-}
+};
 ///////////////////////////////
 
 const trigger = name =>

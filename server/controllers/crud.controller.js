@@ -65,6 +65,7 @@ class CRUDController {
       await onload(resource);
       res.json({});
     } catch (err) {
+      console.log(err);
       if (err.message === '404') {
         res.status(404).end();
         return;

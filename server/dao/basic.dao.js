@@ -111,7 +111,7 @@ class BasicDAO {
    */
   async update(id, resource, userId) {
     if (defaultConfig.update.includes(this.tableName)) {
-      await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
+     // await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
     }
 
     return this.connection.queryAsync({
