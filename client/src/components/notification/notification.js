@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, Menu, Divider } from "semantic-ui-react";
+import { Label, Menu, Divider, Header, Icon } from "semantic-ui-react";
 import "./notification.css";
 
 export default class Notification extends React.Component {
@@ -18,6 +18,7 @@ export default class Notification extends React.Component {
   };
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
+    this.props.removeMessage(name);
   };
 
   render() {
@@ -31,14 +32,18 @@ export default class Notification extends React.Component {
           <Divider />
             {this.props.messages.map(message =>
                 <Menu.Item
-                    as="span"
+                    content={message.text}
                     name={message}
                     active={activeItem ===message}
                     onClick={this.handleItemClick}
                     size="huge"
                 />
-
             )}
+            {this.props.messages.length===0 &&
+            <Header as='h3' icon disabled textAlign='center'>
+              <Icon name='inbox' />
+              No messages
+            </Header>}
         </Menu>
       </Label>
     );
