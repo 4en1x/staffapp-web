@@ -14,11 +14,6 @@ class CandidatesController extends CRUDController {
     try {
       let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
-      candidate.hirings = await Promise.all(candidate.hirings.map(async (hiring) => {
-        hiring = await hiringsService.rebuildHiring(hiring);
-        hiring = await hiringsService.updateHiringInterviews(hiring);
-        return hiring;
-      }));
       res.json(candidate);
     } catch (err) {
       if (err.message === '404') {
@@ -26,6 +21,29 @@ class CandidatesController extends CRUDController {
         return;
       }
 
+      res.status(500).end();
+    }
+  }
+
+  async readHistoryById(req, res) {
+    try {
+      const history = await db.history.findByCandidateId(req.params.id);
+      res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async readHiringsById(req, res) {
+    try {
+      let hirings = await db.hirings.findByCandidate(req.params.id);
+      hirings = await Promise.all(hirings.map(async (hiring) => {
+        hiring = await hiringsService.rebuildHiring(hiring);
+        hiring = await hiringsService.updateHiringInterviews(hiring);
+        return hiring;
+      }));
+      res.json(hirings);
+    } catch (err) {
       res.status(500).end();
     }
   }
@@ -55,7 +73,6 @@ class CandidatesController extends CRUDController {
       const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
 
       const xls = json2xls(candidates);
-
       res.setHeader('Content-Type', 'application/vnd.openxmlformates');
       res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
       res.end(xls, 'binary');
