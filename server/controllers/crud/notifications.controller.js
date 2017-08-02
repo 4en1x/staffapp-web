@@ -1,4 +1,4 @@
-const fecha = require('fecha');
+const { date } = require('../../utils');
 
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
@@ -15,8 +15,8 @@ class NotificationsController extends CRUDController {
   async read(req, res) {
     const page = req.query.page;
     const id = req.user.id;
-    const dateTo = fecha.format(Date.now() + 3600000 * 4, 'YYYY-MM-DD HH:mm:ss');
-    const dateFrom = fecha.format(Date.now() + 3600000 * 3, 'YYYY-MM-DD HH:mm:ss');
+    const dateTo = date.getSQL(new Date(Date.now() + 3600000));
+    const dateFrom = date.getSQL(new Date());
 
     try {
       const notifications = await this.dao.findByUser(id, page, dateFrom, dateTo);

@@ -1,9 +1,9 @@
-const fecha = require('fecha');
+const { date } = require('../utils');
 
 function createMessages(userId, interview, interviewId) {
-  const interviewTime = fecha.format(new Date(interview.date), 'HH:mm');
-  const interviewDate = fecha.format(new Date(interview.date), 'DD.MM.YYYY');
-  const interviewDateTime = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
+  const interviewTime = date.getTime(new Date(interview.date));
+  const interviewDate = date.getDate(new Date(interview.date));
+  const interviewDateTime = date.getSQL(new Date(interview.date));
 
 
   const secondMessage = {

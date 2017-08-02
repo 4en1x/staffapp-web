@@ -20,8 +20,6 @@ class NotificationsDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findByUser(id, page, dateFrom, dateTo) {
-    console.log(dateTo);
-    console.log(dateFrom);
     const resources = await super.find({
       fields: `${this.idField}, text, interview_id`,
       page,
