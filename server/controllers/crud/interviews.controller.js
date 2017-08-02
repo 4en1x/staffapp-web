@@ -77,6 +77,7 @@ class InterviewsController extends CRUDController {
         secondary: await db.skills.find('secondary'),
         other: await db.skills.find('other'),
         hr: await db.skills.find('hr'),
+        users: await db.users.find(),
       });
     } catch (err) {
       res.status(500).end();

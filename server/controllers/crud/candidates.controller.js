@@ -60,7 +60,6 @@ class CandidatesController extends CRUDController {
       res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
       res.end(xls, 'binary');
     } catch (err) {
-      console.log(err);
       res.status(500).end();
     }
   }
