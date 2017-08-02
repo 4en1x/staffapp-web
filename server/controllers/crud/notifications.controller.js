@@ -9,17 +9,17 @@ class NotificationsController extends CRUDController {
   }
 
   async update(req, res) {
-    await super.update(req, res, { status: 1 });
+    await super.update(req, res, { status: 2 });
   }
 
   async read(req, res) {
     const page = req.query.page;
     const id = req.user.id;
-    const dateFrom = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
-    const dateTo = fecha.format(new Date(Date.now() + 3600000), 'YYYY-MM-DD HH:mm:ss');
+    const dateTo = fecha.format(Date.now() + 3600000 * 4, 'YYYY-MM-DD HH:mm:ss');
+    const dateFrom = fecha.format(Date.now() + 3600000 * 3, 'YYYY-MM-DD HH:mm:ss');
 
     try {
-      const notifications = await this.dao.read(page, id, dateFrom, dateTo);
+      const notifications = await this.dao.findByUser(id, page, dateFrom, dateTo);
 
       if (!notifications) {
         res.json([]);

@@ -1,17 +1,28 @@
 const fecha = require('fecha');
 
-function createMessage(userId, interview) {
-  const time = fecha.format(new Date(interview.date), 'HH:mm');
-  const date = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
-  const text = `You have assigned interview today at ${time}, location: ${interview.place}`;
+function createMessages(userId, interview, interviewId) {
+  const interviewTime = fecha.format(new Date(interview.date), 'HH:mm');
+  const interviewDate = fecha.format(new Date(interview.date), 'DD.MM.YYYY');
+  const interviewDateTime = fecha.format(new Date(interview.date), 'YYYY-MM-DD HH:mm:ss');
 
-  return {
-    date,
-    text,
+
+  const secondMessage = {
+    date: interviewDateTime,
+    text: `You have one assigned interview today at ${interviewTime}`,
     userId,
-    interviewId: interview.id,
+    interviewId,
   };
+
+  const firstMessage = {
+    date: interviewDateTime,
+    text: `You have one new assigned interview ${interviewDate} at ${interviewTime}`,
+    userId,
+    interviewId,
+    status: 1,
+  };
+
+  return [firstMessage, secondMessage];
 }
 
-module.exports = { createMessage };
+module.exports = { createMessages };
 
