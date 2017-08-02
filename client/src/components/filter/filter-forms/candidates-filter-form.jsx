@@ -31,35 +31,29 @@ const CandidatesFilterForm = props => {
       <Field
         name="primarySkill"
         label="Primary Skill"
-        items={clone.primarySkills || []}
+        items={data.primarySkills}
         component={DropdownComponent}
       />
       <Field
-        name="secondarySkills"
-        label="Secondary skills"
-        items={clone.secondarySkills || []}
+        name="secondarySkill"
+        label="Secondary skill"
+        items={data.secondarySkills}
         component={DropdownComponent}
       />
-      <Field
-        name="englishLevel"
-        label="English level"
-        items={clone.englishLevels || []}
-        component={DropdownComponent}
-      />
-      <div className="filter-item right">
-        <Button
-          color="twitter"
-          icon="file text"
-          content="Report"
-          onClick={props.onReportClicked}
+        <Field
+            name="englishLevel"
+            label="English level"
+            items={data.englishLevels}
+            component={DropdownComponent}
         />
+      <div className="filter-item right">
         <Button color="twitter" icon="filter" content="Apply" type="submit" />
       </div>
     </form>
   );
 };
 
-export default reduxForm({ form: 'CandidatesFilterForm' })(
+export default reduxForm({ form: "CandidatesFilterForm" })(
   CandidatesFilterForm
 );
 

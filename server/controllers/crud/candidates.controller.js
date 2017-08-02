@@ -2,8 +2,11 @@ const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
-const utils = require('../../utils');
-const json2xls = require('json2xls');
+const fecha = require('fecha');
+const fs = require('fs');
+const csv = require('fast-csv');
+const Bluebird = require('bluebird');
+const writeAsync = Bluebird.promisify(require('fast-csv').write);
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -33,7 +36,7 @@ class CandidatesController extends CRUDController {
   async read(req, res) {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY');
         return candidate;
       });
     };
@@ -46,19 +49,19 @@ class CandidatesController extends CRUDController {
       let candidates = await this.dao.report(filter);
 
       candidates = candidates.map((candidate) => {
-        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
-        candidate.createdDate = utils.date.getDate(candidate.createdDate);
+        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'YYYY-MM-DD HH:mm:ss');
+        candidate.createdDate = fecha.format(candidate.createdDate, 'YYYY-MM-DD HH:mm:ss');
         return candidate;
       });
 
-
-      const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
-
-      const xls = json2xls(candidates);
-
-      res.setHeader('Content-Type', 'application/vnd.openxmlformates');
-      res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
-      res.end(xls, 'binary');
+      const fileName = `${req.user.id}_${new Date().getTime()}.csv`;
+      const ws = fs.createWriteStream(fileName);
+      const stream = csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
+      stream.on('finish', () => {
+        res.download(fileName, () => {
+          fs.unlink(fileName);
+        });
+      });
     } catch (err) {
       console.log(err);
       res.status(500).end();

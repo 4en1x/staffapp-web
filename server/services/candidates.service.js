@@ -1,9 +1,9 @@
-const utils = require('../utils');
+const fecha = require('fecha');
 
 function createCandidate(reqBody) {
   const candidate = reqBody;
 
-  const date = utils.date.getSQL(new Date());
+  const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.createdDate = date;
   candidate.lastChangeDate = date;
 
@@ -29,7 +29,7 @@ function rebuildCandidate(candidate) {
 
   const communication = {
     resume: candidate.resume,
-    lastChangeDate: utils.date.getDate(candidate.lastChangeDate),
+    lastChangeDate: fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY'),
     salary: candidate.salary,
     hrName: candidate.hrName,
   };
@@ -42,14 +42,13 @@ function rebuildCandidate(candidate) {
     skills,
     communication,
     hirings: candidate.hirings,
-    history: candidate.history,
   };
 }
 
 function updateCandidate(id, reqBody) {
   const candidate = reqBody;
 
-  const date = utils.date.getSQL(new Date());
+  const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   candidate.lastChangeDate = date;
 
   return candidate;

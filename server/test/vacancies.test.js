@@ -182,10 +182,12 @@ describe('#Vacancies-Api', () => {
           .send(JSON.parse(adminAuthData));
         expect(response.statusCode).to.equal(200);
 
+        const data = await readFileAsync('./test/data/vacancies/check-vacancy-3.json', 'utf8');
         response = await req
           .get(`${defaultUrl}/vacancies`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
         expect(response.body).to.be.an('array');
         expect(response.body).to.have.lengthOf(8);
       });
@@ -312,7 +314,7 @@ describe('#Vacancies-Api', () => {
 
         response = await req
           .delete(`${defaultUrl}/vacancies/1000`)
-          .set('Accept', 'application/json');
+          .set('Accept', 'application/json')
         expect(response.statusCode).to.equal(200);
       });
   });

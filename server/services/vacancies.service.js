@@ -1,7 +1,7 @@
-const utils = require('../utils');
+const fecha = require('fecha');
 
 function createVacancy(vacancy) {
-  const date = utils.date.getSQL(new Date());
+  const date = fecha.format(new Date(), 'YYYY-MM-DD HH:mm:ss');
   vacancy.createdDate = date;
 
   return vacancy;
