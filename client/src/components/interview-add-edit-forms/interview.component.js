@@ -8,7 +8,8 @@ import {
   Divider,
   Header,
   Input,
-  Icon
+  Icon,
+  Label
 } from "semantic-ui-react";
 import CustonSearch from "./search";
 
@@ -35,16 +36,22 @@ const secondarySkillList = [];
 const otherSkillList = [];
 let users = [];
 
+const validate = values => {
+  const errors = {};
+  if (!values.type) errors.name = "Required";
+  return errors;
+};
+
 class InterviewComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       typeInterview: ""
     };
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     if (this.props.data) {
       let initData = {
         place: this.props.data.place,
@@ -192,28 +199,37 @@ class InterviewComponent extends React.Component {
       />
     );
   };
-  typeSkillInput = ({ input }) => {
+  typeSkillInput = ({ input, meta: { touched, error } }) => {
     return (
-      <Dropdown
-        placeholder="type of meeting"
-        value={input.value}
-        onChange={(param, data) => {
-          this.setState({ typeInterview: data.value }, () => {
-            this.buildArrays();
-          });
-          input.onChange(data.value);
-        }}
-        search
-        selection
-        options={typeList}
-      />
+      <div className="field-with-warning">
+        <Dropdown
+          placeholder="type of meeting"
+          value={input.value}
+          onChange={(param, data) => {
+            this.setState({ typeInterview: data.value }, () => {
+              this.buildArrays();
+            });
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          options={typeList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter meeting type
+              </Label>
+            </div>)}
+      </div>
     );
   };
   prepareData = value => {
     let data = {};
     data.place = value.place;
     data.users = value.users;
-    if(value.time) data.date = value.date + " " + value.time + ":00";
+    if (value.time) data.date = value.date + " " + value.time + ":00";
     else data.date = value.date;
     data.userNames = users;
     if (!this.props.data) {
@@ -299,7 +315,7 @@ class InterviewComponent extends React.Component {
               <div>
                 <Divider />
                 <div className="item-with-label">
-                  <Header as="h3">Type</Header>
+                  <Header as="h3">Type *</Header>
                   <Field name={"type"} component={this.typeSkillInput} />
                 </div>
                 {this.state.typeInterview === "tech" &&
@@ -344,4 +360,6 @@ class InterviewComponent extends React.Component {
   }
 }
 
-export default reduxForm({ form: "addInterview" })(InterviewComponent);
+export default reduxForm({ form: "addInterview", validate })(
+  InterviewComponent
+);

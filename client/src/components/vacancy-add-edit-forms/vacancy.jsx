@@ -6,7 +6,8 @@ import {
   Button,
   Header,
   Divider,
-  Segment
+  Segment,
+  Label
 } from "semantic-ui-react";
 import "./vacancy.css";
 
@@ -15,15 +16,34 @@ let secondarySkillList = [];
 const citiesList = [];
 const statusList = [];
 
+const validate = values => {
+  const errors = {};
+  if (!values.name) errors.name = "Required";
+  if (!values.status) errors.status = "Required";
+  if (!values.primarySkill) errors.primarySkill = "Required";
+  return errors;
+};
+
 class Vacancy extends React.Component {
   constructor(props) {
     super(props);
-
-    this.fillLists();
+    this.initialData();
   }
 
-  nameInput = ({ input }) =>
-    <Input {...input} placeholder="name" className="text-area" />;
+  nameInput = ({ input, meta: { touched, error } }) => {
+    return (
+      <div className="field-with-warning">
+        <Input {...input} placeholder="name" className="text-area" />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter name
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
   salaryInput = ({ input }) =>
     <Input
       {...input}
@@ -33,17 +53,29 @@ class Vacancy extends React.Component {
     />;
   dateInput = ({ input }) =>
     <Input {...input} type="date" placeholder="date" className="text-area" />;
-  primarySkillInput = ({ input }) =>
-    <Dropdown
-      placeholder="major skill"
-      value={input.value}
-      onChange={(param, data) => {
-        input.onChange(data.value);
-      }}
-      search
-      selection
-      options={primarySkillList}
-    />;
+  primarySkillInput = ({ input, meta: { touched, error } }) => {
+    return (
+      <div className="field-with-warning">
+        <Dropdown
+          placeholder="major skill"
+          value={input.value}
+          onChange={(param, data) => {
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          options={primarySkillList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter primary skill
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
   secondarySkillsInput = ({ input }) =>
     <Dropdown
       selection
@@ -59,19 +91,28 @@ class Vacancy extends React.Component {
     />;
   descriptionInput = ({ input }) =>
     <Input {...input} placeholder="description" className="text-area" />;
-  statusInput = ({ input }) => {
+  statusInput = ({ input, meta: { touched, error } }) => {
     return (
-      <Dropdown
-        placeholder="status"
-        {...input}
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        search
-        selection
-        options={statusList}
-      />
+      <div className="field-with-warning">
+        <Dropdown
+          placeholder="status"
+          {...input}
+          value={input.value}
+          onChange={(param, data) => {
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          options={statusList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter status
+              </Label>
+            </div>)}
+      </div>
     );
   };
   cityInput = ({ input }) => {
@@ -89,7 +130,7 @@ class Vacancy extends React.Component {
       />
     );
   };
-  fillLists = () => {
+  initialData = () => {
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,
@@ -128,21 +169,21 @@ class Vacancy extends React.Component {
     });
 
     /////////////////////////
-      let initData = {};
-      if (this.props.data) {
-          initData = {
-              status: this.props.data.status,
-              jobStart: this.props.data.jobStart,
-              salary: this.props.data.salary,
-              name: this.props.data.name,
-              primarySkill: this.props.data.primarySkill,
-              skills: this.props.data.skills,
-              description: this.props.data.description,
-              city: this.props.data.city
-          };
-          // props.data.skills.map(value => initData.secondarySkills.push(value.name));
-          this.props.initialize(initData);
-      }
+    let initData = {};
+    if (this.props.data) {
+      initData = {
+        status: this.props.data.status,
+        jobStart: this.props.data.jobStart,
+        salary: this.props.data.salary,
+        name: this.props.data.name,
+        primarySkill: this.props.data.primarySkill,
+        skills: this.props.data.skills,
+        description: this.props.data.description,
+        city: this.props.data.city
+      };
+      // props.data.skills.map(value => initData.secondarySkills.push(value.name));
+      this.props.initialize(initData);
+    }
   };
 
   render() {
@@ -164,7 +205,7 @@ class Vacancy extends React.Component {
             <div className="first-form-line">
               <div className="left-form-block">
                 <div className="item-with-label">
-                  <Header as="h3">project name</Header>
+                  <Header as="h3">project name *</Header>
                   <Field name={"name"} component={this.nameInput} />
                 </div>
 
@@ -174,7 +215,7 @@ class Vacancy extends React.Component {
                 </div>
 
                 <div className="item-with-label">
-                  <Header as="h3">status</Header>
+                  <Header as="h3">status *</Header>
                   <Field name={"status"} component={this.statusInput} />
                 </div>
 
@@ -186,7 +227,7 @@ class Vacancy extends React.Component {
 
               <div className="right-form-block">
                 <div className="item-with-label">
-                  <Header as="h3">primary skill</Header>
+                  <Header as="h3">primary skill *</Header>
                   <Field
                     name={"primarySkill"}
                     component={this.primarySkillInput}
@@ -226,4 +267,4 @@ class Vacancy extends React.Component {
   }
 }
 
-export default reduxForm({ form: "addVacancy" })(Vacancy);
+export default reduxForm({ form: "addVacancy", validate })(Vacancy);

@@ -1,19 +1,28 @@
 import React from "react";
 import { Field } from "redux-form";
-import { List, Input, Dropdown, Icon } from "semantic-ui-react";
+import { List, Input, Dropdown, Icon, Label } from "semantic-ui-react";
 import "./contacts-list.css";
 import "./candidate.css";
 
 let citiesList = [];
 
-const emailInput = ({ input }) => {
+const emailInput = ({ input, meta: { touched, error } }) => {
   return (
-    <Input
-      {...input}
-      placeholder="email address"
-      label={{ basic: true, content: <Icon name="at" /> }}
-      labelPosition="left"
-    />
+    <div className="field-with-warning">
+      <Input
+        {...input}
+        placeholder="email address"
+        label={{ basic: true, content: <Icon name="at" /> }}
+        labelPosition="left"
+      />
+      {touched &&
+        (error &&
+          <div className="warning-block">
+            <Label basic color="red" pointing>
+              Please enter email address
+            </Label>
+          </div>)}
+    </div>
   );
 };
 const phoneInput = ({ input }) => {
@@ -68,10 +77,10 @@ const cityInput = ({ input }) => {
 export default class ContactsList extends React.Component {
   constructor(props) {
     super(props);
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.cities.map(step => {
       const temp = {
         key: step,
@@ -94,8 +103,9 @@ export default class ContactsList extends React.Component {
         </List.Item>
         <List.Item>
           <div className="item-with-label">
-            email adress<br />
-            {!this.props.data && <Field name={"email"} component={emailInput} />}
+            email adress *<br />
+            {!this.props.data &&
+              <Field name={"email"} component={emailInput} />}
             {this.props.data &&
               <div className="email-font-size">
                 {this.props.data.contacts.email}
