@@ -19,8 +19,8 @@ class FilterComponent extends React.Component {
 
   onReportClicked = () => {
     candidateService.getCandidatesReport(this.props.filter).then(res => {
-      console.log(res);
-      FileDownload(res.data, 'report.csv');
+      console.log(JSON.stringify(res));
+      FileDownload(res.data, 'report.xlsx');
     });
   };
 

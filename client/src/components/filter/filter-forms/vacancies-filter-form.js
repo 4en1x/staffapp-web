@@ -41,7 +41,7 @@ const VacanciesFilterForm = props => {
         items={clone.cities}
         component={DropdownComponent}
       />
-      <div className="filter-item right">
+      <div className="filter-item container-right">
         <Button color="twitter" icon="filter" content="Apply" type="submit" />
       </div>
     </form>
