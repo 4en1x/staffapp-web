@@ -57,10 +57,10 @@ const englishLevel = ({ input }) => {
 export default class SkillsListextends extends React.Component {
   constructor(props) {
     super(props);
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.minorSkills.map(step => {
       const temp = {
         key: step,

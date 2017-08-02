@@ -26,10 +26,10 @@ class Candidate extends React.Component {
     this.state = {
       links: []
     };
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,

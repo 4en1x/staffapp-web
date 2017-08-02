@@ -41,10 +41,10 @@ class InterviewComponent extends React.Component {
     this.state = {
       typeInterview: ""
     };
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     if (this.props.data) {
       let initData = {
         place: this.props.data.place,

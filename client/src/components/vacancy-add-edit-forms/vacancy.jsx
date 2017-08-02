@@ -19,7 +19,7 @@ class Vacancy extends React.Component {
   constructor(props) {
     super(props);
 
-    this.fillLists();
+    this.initialData();
   }
 
   nameInput = ({ input }) =>
@@ -89,7 +89,7 @@ class Vacancy extends React.Component {
       />
     );
   };
-  fillLists = () => {
+  initialData = () => {
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,

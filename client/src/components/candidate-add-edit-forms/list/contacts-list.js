@@ -68,10 +68,10 @@ const cityInput = ({ input }) => {
 export default class ContactsList extends React.Component {
   constructor(props) {
     super(props);
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.cities.map(step => {
       const temp = {
         key: step,
