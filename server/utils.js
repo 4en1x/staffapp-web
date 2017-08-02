@@ -2,7 +2,7 @@ const snakeCase = require('lodash.snakecase');
 const camelCase = require('lodash.camelcase');
 
 /**
- *  Applying callback function for each key in object (deep).
+ *  Applies callback function for each key in object (deep).
  * @param {Object} obj
  * @param {Function} cb - callback
  * @returns {Object}
@@ -47,12 +47,61 @@ function clearFields(object) {
 }
 
 /**
+ *
+ * @param {Date} date
+ * @param {Intl.DateTimeFormatOptions} options
+ * @returns {String}
+ */
+function getDateComponent(date, options) {
+  options.hour12 = false;
+  options.timeZone = 'UTC';
+  return date.toLocaleString([], options);
+}
+
+/**
+ * Formates Date object to a "YYYY-MM-DD HH:mm:ss" string
+ * @param {Date} date
+ * @returns {String}
+ */
+function formatDateToSQLString(date) {
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
+  const hour = getDateComponent(date, { hour: '2-digit' });
+  const minute = getDateComponent(date, { minute: '2-digit' });
+  const second = getDateComponent(date, { second: '2-digit' });
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+}
+
+/**
+ * Formates Date object to a "DD-MM-YYYY" string
+ * @param {Date} date
+ * @returns {String}
+ */
+function formatDateToDateString(date) {
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
+  return `${day}-${month}-${year}`;
+}
+
+/**
+ * Formates Date object to a "HH:mm" string
+ * @param {Date} date
+ * @returns {String}
+ */
+function formatDateToTimeString(date) {
+  const hour = getDateComponent(date, { hour: '2-digit' });
+  const minute = getDateComponent(date, { minute: '2-digit' });
+  return `${hour}:${minute}`;
+}
+
+/**
  * Removes all keys with invalid filter values from filter object.
  * Filter value is invalid if it is not an Object or Array, or it is empty.
  * @param {Object} filter - filter object
  * @returns {Object} - clear copy of filter object
  **/
-
 function clearFilter(filter) {
   const result = Object.assign({}, filter);
 
@@ -72,5 +121,10 @@ module.exports = {
   clearFields,
   toCamel,
   toSnake,
+  date: {
+    getSQL: formatDateToSQLString,
+    getDate: formatDateToDateString,
+    getTime: formatDateToTimeString,
+  },
   clearFilter,
 };

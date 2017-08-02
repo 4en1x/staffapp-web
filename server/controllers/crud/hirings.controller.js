@@ -2,7 +2,7 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const service = require('../../services/hirings.service');
-const fecha = require('fecha');
+const utils = require('../../utils');
 
 class HiringsController extends CRUDController {
   constructor() {
@@ -47,8 +47,8 @@ class HiringsController extends CRUDController {
       let interviews = await db.interviews.findByHiring(req.params.id);
       hiring = service.rebuildHiring(hiring);
       interviews = interviews.map((interview) => {
-        interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+        interview.time = utils.date.getTime(interview.date);
+        interview.date = utils.date.getDate(interview.date);
         return interview;
       });
       hiring.interviews = interviews;
