@@ -21,17 +21,15 @@ class FeedbacksDAO extends BasicDAO {
   async create(feedback) {
     const superCreate = super.create.bind(this);
 
-    return this.wrapTransaction(async () => {
-      const fields = feedback.fields || [];
-      delete feedback.fields;
+    const fields = feedback.fields || [];
+    delete feedback.fields;
 
-      const id = await superCreate(feedback);
+    const id = await superCreate(feedback);
 
-      await Promise.all(fields.map(async (field) => {
-        field.feedbackId = id;
-        await FeedbackFieldsDAO.instance.create(field);
-      }));
-    });
+    await Promise.all(fields.map(async (field) => {
+      field.feedbackId = id;
+      await FeedbackFieldsDAO.instance.create(field);
+    }));
   }
 
   /**
