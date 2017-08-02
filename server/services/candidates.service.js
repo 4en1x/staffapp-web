@@ -15,7 +15,6 @@ function rebuildCandidate(candidate) {
     email: candidate.email,
     phone: candidate.phone,
     skype: candidate.skype,
-    city: candidate.city,
     linkedin: candidate.linkedin,
     links: candidate.links,
   };
@@ -38,9 +37,12 @@ function rebuildCandidate(candidate) {
     name: candidate.name,
     surname: candidate.surname,
     status: candidate.status,
-    contacts,
-    skills,
-    communication,
+    city: candidate.city,
+    info: {
+      contacts,
+      skills,
+      communication,
+    },
     hirings: candidate.hirings,
     history: candidate.history,
   };
