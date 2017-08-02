@@ -53,34 +53,42 @@ function clearFields(object) {
  * @returns {String}
  */
 function getDateComponent(date, options) {
-  return date.toLocaleString('ru-RU', options);
+  options.hour12 = false;
+  options.timeZone = 'UTC';
+  return date.toLocaleString([], options);
 }
 
 /**
- *
+ * Formates Date object to a "YYYY-MM-DD HH:mm:ss" string
  * @param {Date} date
- * @returns {String} - "YYYY-MM-DD HH:mm:ss"
+ * @returns {String}
  */
 function formatDateToSQLString(date) {
-  return date.toLocaleString('ru-RU');
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
+  const hour = getDateComponent(date, { hour: '2-digit' });
+  const minute = getDateComponent(date, { minute: '2-digit' });
+  const second = getDateComponent(date, { second: '2-digit' });
+  return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
 }
 
 /**
- *
+ * Formates Date object to a "DD-MM-YYYY" string
  * @param {Date} date
- * @returns {String} - "DD-MM-YYYY"
+ * @returns {String}
  */
 function formatDateToDateString(date) {
-  const year = getDateComponent(date, {year: 'numeric'})
-  const month = getDateComponent(date, {month: '2-digit'});
-  const day = getDateComponent(date, {day: '2-digit'});
+  const year = getDateComponent(date, { year: 'numeric' });
+  const month = getDateComponent(date, { month: '2-digit' });
+  const day = getDateComponent(date, { day: '2-digit' });
   return `${day}-${month}-${year}`;
 }
 
 /**
- *
+ * Formates Date object to a "HH:mm" string
  * @param {Date} date
- * @returns {String} - "HH:mm"
+ * @returns {String}
  */
 function formatDateToTimeString(date) {
   const hour = getDateComponent(date, { hour: '2-digit' });
