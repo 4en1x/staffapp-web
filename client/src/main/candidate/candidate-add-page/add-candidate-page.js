@@ -8,6 +8,7 @@ import {
 } from '../candidate-actions';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
+import './candidate-page.css';
 
 class AddCandidatePage extends React.Component {
   componentDidMount() {

@@ -44,16 +44,3 @@ class CandidateEditPage extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  candidate: state.candidate.currentCandidate,
-  isFormLoaded: state.candidate.isFormLoaded,
-  formValues: state.candidate.formValues,
-  isEditFormSubmitted: state.candidate.isEditFormSubmitted
-});
-
-export default connect(mapStateToProps, {
-  getFormValues,
-  patchCandidate,
-  resetCurrentCandidate
-})(CandidateEditPage);
