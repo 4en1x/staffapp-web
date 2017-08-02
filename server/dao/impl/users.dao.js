@@ -60,6 +60,13 @@ class UsersDAO extends BasicDAO {
     });
   }
 
+  async find() {
+    return super.find({
+      fields: `${this.idField}, name,role,email`,
+      order: 'ORDER BY name',
+    });
+  }
+
   async nameById(id) {
     const [user] = await super.find({
       condition: 'WHERE id = ?',
