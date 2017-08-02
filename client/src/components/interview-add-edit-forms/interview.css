@@ -71,3 +71,14 @@
     margin: 5px;
 }
 
+.field-with-warning{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+
+}
+
+.warning-block{
+    width: 30%;
+}

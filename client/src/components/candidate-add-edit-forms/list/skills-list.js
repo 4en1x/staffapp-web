@@ -1,7 +1,7 @@
 import React from "react";
 import { Field } from "redux-form";
-import { List, Dropdown } from "semantic-ui-react";
-import "./skills.css";
+import { List, Dropdown, Label } from "semantic-ui-react";
+import "./skills-list.css";
 import "./candidate.css";
 
 const skillsList = [];
@@ -35,8 +35,9 @@ const secondarySkills = ({ input }) => {
     />
   );
 };
-const englishLevel = ({ input }) => {
-  return (
+const englishLevel = ({ input, meta: { touched, error } }) => {
+    return (
+        <div className="field-with-warning">
     <Dropdown
       placeholder="english level"
       value={input.value}
@@ -51,16 +52,24 @@ const englishLevel = ({ input }) => {
       className="icon"
       icon="graduation"
     />
-  );
+            {touched &&
+            (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter english level
+              </Label>
+            </div>)}
+        </div>
+    );
 };
 
 export default class SkillsListextends extends React.Component {
   constructor(props) {
     super(props);
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.minorSkills.map(step => {
       const temp = {
         key: step,
@@ -84,7 +93,7 @@ export default class SkillsListextends extends React.Component {
 
         <List.Item>
           <div className="item-with-label">
-            english label
+            english level *
             <Field name={"englishLevel"} component={englishLevel} />
           </div>
         </List.Item>

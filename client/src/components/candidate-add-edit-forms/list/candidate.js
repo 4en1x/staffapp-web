@@ -1,5 +1,5 @@
-import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React from "react";
+import { Field, reduxForm } from "redux-form";
 import {
   Segment,
   Divider,
@@ -8,17 +8,29 @@ import {
   Input,
   Button,
   Icon,
-  List
-} from 'semantic-ui-react';
-import CommunicationsList from './communications-list';
-import Contacts from './contacts-list';
-import SkillsList from './skills-list';
-import './candidate.css';
+  List,
+  Label
+} from "semantic-ui-react";
+import CommunicationsList from "./communications-list";
+import Contacts from "./contacts-list";
+import SkillsList from "./skills-list";
+import "./candidate.css";
 
 let statusList = [];
 let skillList = [];
 
 let counter = 0;
+
+const validate = values => {
+  const errors = {};
+  if (!values.name) errors.name = "Required";
+  if (!values.englishLevel) errors.englishLevel = "Required";
+  if (!values.surname) errors.surname = "Required";
+  if (!values.email) errors.email = "Required";
+  if (!values.primarySkill) errors.primarySkill = "Required";
+  if (!values.status) errors.status = "Required";
+  return errors;
+};
 
 class Candidate extends React.Component {
   constructor(props) {
@@ -26,10 +38,10 @@ class Candidate extends React.Component {
     this.state = {
       links: []
     };
-    this.fillLists();
+    this.initialData();
   }
 
-  fillLists = () => {
+  initialData = () => {
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,
@@ -41,7 +53,7 @@ class Candidate extends React.Component {
     });
     this.props.statuses.map(step => {
       const temp = {
-        key: 'key' + step,
+        key: "key" + step,
         text: step,
         value: step
       };
@@ -76,7 +88,7 @@ class Candidate extends React.Component {
       };
 
       this.props.data.contacts.links.map(link => {
-        const temp = 'link' + counter;
+        const temp = "link" + counter;
         initData.links[temp] = link;
         counter++;
       });
@@ -84,8 +96,19 @@ class Candidate extends React.Component {
       this.props.initialize(initData);
     }
   };
-  nameInput = ({ input }) => {
-    return <Input {...input} placeholder="name" className="text-area" />;
+  nameInput = ({ input, meta: { touched, error } }) => {
+    return (
+      <div className="field-with-warning">
+        <Input {...input} placeholder="name" />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter name
+              </Label>
+            </div>)}
+      </div>
+    );
   };
   linkInput = ({ input }) => {
     return (
@@ -101,37 +124,66 @@ class Candidate extends React.Component {
       <Input {...input} placeholder="from" className="text-area" label="from" />
     );
   };
-  surnameInput = ({ input }) => {
-    return <Input {...input} placeholder="surname" className="text-area" />;
-  };
-  primarySkillInput = ({ input }) => {
+  surnameInput = ({ input, meta: { touched, error } }) => {
     return (
-      <Dropdown
-        placeholder="major skill"
-        {...input}
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        search
-        selection
-        options={skillList}
-      />
+      <div className="field-with-warning">
+        <Input {...input} placeholder="surname" />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter surname
+              </Label>
+            </div>)}
+      </div>
     );
   };
-  statusInput = ({ input }) => {
+  primarySkillInput = ({ input, meta: { touched, error } }) => {
     return (
-      <Dropdown
-        placeholder="status"
-        {...input}
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        search
-        selection
-        options={statusList}
-      />
+      <div className="field-with-warning">
+        <Dropdown
+          placeholder="primary skill"
+          {...input}
+          value={input.value}
+          onChange={(param, data) => {
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          options={skillList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter primary skill
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
+  statusInput = ({ input, meta: { touched, error } }) => {
+    return (
+      <div className="field-with-warning">
+        <Dropdown
+          placeholder="status"
+          {...input}
+          value={input.value}
+          onChange={(param, data) => {
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          options={statusList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                Please enter status
+              </Label>
+            </div>)}
+      </div>
     );
   };
   prepareData = values => {
@@ -160,7 +212,7 @@ class Candidate extends React.Component {
   };
   addNewLink = () => {
     const links = this.state.links.slice();
-    links.push('link' + counter);
+    links.push("link" + counter);
     this.setState({ links });
     counter++;
   };
@@ -176,8 +228,8 @@ class Candidate extends React.Component {
           <div className="content-top">
             <div className="data-top">
               <Header as="h2" className="name-label">
-                {!this.props.data && 'creating candidate form'}
-                {this.props.data && 'editing candidate form'}
+                {!this.props.data && "creating candidate form"}
+                {this.props.data && "editing candidate form"}
               </Header>
             </div>
             <Divider />
@@ -189,22 +241,23 @@ class Candidate extends React.Component {
                 <List>
                   <List.Item>
                     <div className="item-with-label">
-                      name
-                      <Field name={'name'} component={this.nameInput} />
+                      name *
+                      <Field name={"name"} component={this.nameInput} />
                     </div>
                   </List.Item>
                   <List.Item>
                     <div className="item-with-label">
-                      surname
-                      <Field name={'surname'} component={this.surnameInput} />
+                      surname *
+                      <Field name={"surname"} component={this.surnameInput} />
                     </div>
                   </List.Item>
                   <List.Item>
                     <div className="item-with-label">
-                      primary skill
+                      primary skill *
                       <Field
-                        name={'primarySkill'}
+                        name={"primarySkill"}
                         component={this.primarySkillInput}
+                        requered
                       />
                     </div>
                   </List.Item>
@@ -212,15 +265,15 @@ class Candidate extends React.Component {
                     <div className="item-with-label">
                       Year started with primary skill
                       <Field
-                        name={'primarySkillYearStart'}
+                        name={"primarySkillYearStart"}
                         component={this.primarySkillDataInput}
                       />
                     </div>
                   </List.Item>
                   <List.Item>
                     <div className="item-with-label">
-                      status
-                      <Field name={'status'} component={this.statusInput} />
+                      status *
+                      <Field name={"status"} component={this.statusInput} />
                     </div>
                   </List.Item>
                 </List>
@@ -249,9 +302,9 @@ class Candidate extends React.Component {
               <div className="theard-form-line">
                 {this.state.links.map((step, move) =>
                   <Field
-                    name={'links.link' + move}
+                    name={"links.link" + move}
                     component={this.linkInput}
-                    key={'links.link' + move}
+                    key={"links.link" + move}
                   />
                 )}
                 <Button
@@ -276,4 +329,4 @@ class Candidate extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'addCandidate' })(Candidate);
+export default reduxForm({ form: "addCandidate", validate })(Candidate);
