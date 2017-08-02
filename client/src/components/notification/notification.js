@@ -1,6 +1,7 @@
 import React from "react";
 import { Label, Menu, Divider, Header, Icon } from "semantic-ui-react";
 import "./notification.css";
+import { NavLink } from "react-router-dom";
 
 export default class Notification extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export default class Notification extends React.Component {
           </Menu.Item>
           <Divider />
             {this.props.messages.map(message =>
+                 <NavLink to={`/interviews/${message.interviewId}`}>
                 <Menu.Item
                     content={message.text}
                     name={message}
@@ -38,6 +40,7 @@ export default class Notification extends React.Component {
                     onClick={this.handleItemClick}
                     size="huge"
                 />
+                </NavLink>
             )}
             {this.props.messages.length===0 &&
             <Header as='h3' icon disabled textAlign='center'>
