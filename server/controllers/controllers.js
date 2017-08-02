@@ -6,6 +6,7 @@ const InterviewsController = require('./crud/interviews.controller');
 const VacanciesController = require('./crud/vacancies.controller');
 const HistoryController = require('./crud/history.controller');
 const CitiesController = require('./crud/cities.controller');
+const UsersController = require('./crud/users.controller');
 const SkillsController = require('./crud/skills.controller');
 const EnglishLevelsController = require('./crud/englishLevels.controller');
 const CandidateStatusesController = require('./crud/candidateStatuses.controller');
@@ -24,6 +25,7 @@ const controllers = {
   englishLevels: new EnglishLevelsController(),
   candidateStatuses: new CandidateStatusesController(),
   vacancyStatuses: new VacancyStatusesController(),
+  users: new UsersController(),
 };
 
 module.exports = controllers;
