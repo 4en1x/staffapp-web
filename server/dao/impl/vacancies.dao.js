@@ -68,8 +68,18 @@ class VacanciesDAO extends BasicDAO {
    */
   async findById(id) {
     const vacancy = await super.findById(id, '*', 'vacancies_view');
-    vacancy.secondarySkills = vacancy.secondarySkills.split(',');
+    if (vacancy.secondarySkills) {
+      vacancy.secondarySkills = vacancy.secondarySkills.split(',');
+    }
     return vacancy;
+  }
+
+  async pickCandidates(id) {
+    const candidates = await this.connection.queryAsync({
+      sql: 'CALL `smart search candidates`(?)',
+      values: [id],
+    });
+    return candidates[0];
   }
 
   /**
