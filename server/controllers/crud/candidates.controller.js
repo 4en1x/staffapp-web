@@ -3,6 +3,7 @@ const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
 const utils = require('../../utils');
+const json2xls = require('json2xls');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -13,11 +14,6 @@ class CandidatesController extends CRUDController {
     try {
       let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
-      candidate.hirings = await Promise.all(candidate.hirings.map(async (hiring) => {
-        hiring = await hiringsService.rebuildHiring(hiring);
-        hiring = await hiringsService.updateHiringInterviews(hiring);
-        return hiring;
-      }));
       res.json(candidate);
     } catch (err) {
       if (err.message === '404') {
@@ -25,6 +21,38 @@ class CandidatesController extends CRUDController {
         return;
       }
 
+      res.status(500).end();
+    }
+  }
+
+  async readHistoryById(req, res) {
+    try {
+      const history = await db.history.findByCandidateId(req.params.id);
+      res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async pickVacancies(req, res) {
+    try {
+      const vacancies = await db.candidates.pickVacancies(req.params.id);
+      res.json(vacancies);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async readHiringsById(req, res) {
+    try {
+      let hirings = await db.hirings.findByCandidate(req.params.id);
+      hirings = await Promise.all(hirings.map(async (hiring) => {
+        hiring = await hiringsService.rebuildHiring(hiring);
+        hiring = await hiringsService.updateHiringInterviews(hiring);
+        return hiring;
+      }));
+      res.json(hirings);
+    } catch (err) {
       res.status(500).end();
     }
   }
@@ -37,6 +65,29 @@ class CandidatesController extends CRUDController {
       });
     };
     await super.read(req, res, onload);
+  }
+
+  async report(req, res) {
+    try {
+      const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
+      let candidates = await this.dao.report(filter);
+
+      candidates = candidates.map((candidate) => {
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        candidate.createdDate = utils.date.getDate(candidate.createdDate);
+        return candidate;
+      });
+
+
+      const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
+
+      const xls = json2xls(candidates);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformates');
+      res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
+      res.end(xls, 'binary');
+    } catch (err) {
+      res.status(500).end();
+    }
   }
 
   async fillLists(req, res) {

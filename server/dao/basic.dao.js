@@ -62,9 +62,9 @@ class BasicDAO {
    * @param {String} [fields] - default '*'
    * @returns {Promise <Object>}
    */
-  async findById(id, fields = '*') {
+  async findById(id, fields = '*', tableName = this.tableName) {
     const [resource] = await this.connection.queryAsync({
-      sql: `SELECT ${fields} FROM ${this.tableName} WHERE ${this.idField} = ?`,
+      sql: `SELECT ${fields} FROM ${tableName} WHERE ${this.idField} = ?`,
       values: [id],
     });
 

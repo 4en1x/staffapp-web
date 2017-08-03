@@ -20,25 +20,17 @@ function makeCriterion(key, value) {
     case 'english_level':
     case 'role':
     case 'event':
+    case 'city':
+    case 'status':
+    case 'primary_skill':
       return `${key} in ("${value.join('","')}")`;
 
     case 'salary':
       return `${key}>=${value.from} AND ${key}<=${value.to}`;
 
-    case 'city':
-      return `ct.name in ("${value.join('","')}")`;
-
-    case 'vacancy_status':
-      return `vs.name in ("${value.join('","')}")`;
-
-    case 'candidate_status':
-      return `cs.name in ("${value.join('","')}")`;
-
-    case 'primary_skill':
-      return `ps.name in ("${value.join('","')}")`;
-
     case 'secondary_skills':
-      return `ss.name in ("${value.join('", "')}") and ss.type='secondary'`;
+      value = value.map(val => `(${key} LIKE '%${val}%')`);
+      return `(${value.join('AND')})`;
 
     default:
       return '';
