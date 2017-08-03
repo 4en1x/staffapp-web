@@ -359,6 +359,8 @@ CREATE TABLE `messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` longtext NOT NULL,
   `user_id` int(11) NOT NULL,
+  `interview_id` int(11) NOT NULL,
+    `status` int(11) NOT NULL DEFAULT 0,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_messages_users1_idx` (`user_id`),

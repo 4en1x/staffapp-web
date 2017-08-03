@@ -49,7 +49,7 @@ class CandidatesController extends CRUDController {
         }
 
         if (vacancy.secondarySkills) {
-          vacancy.secondarySkills = vacancy.secondarySkills.split(',');
+          vacancy.secondarySkills = vacancy.secondarySkills.split(', ');
         }
 
         vacancy.createdDate = utils.date.getDate(vacancy.createdDate);

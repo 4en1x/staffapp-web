@@ -87,10 +87,10 @@ class CandidatesDAO extends BasicDAO {
   async findById(id) {
     const candidate = await super.findById(id, '*', 'candidates_view');
     if (candidate.secondarySkills) {
-      candidate.secondarySkills = candidate.secondarySkills.split(',');
+      candidate.secondarySkills = candidate.secondarySkills.split(', ');
     }
     if (candidate.links) {
-      candidate.links = candidate.links.split(',');
+      candidate.links = candidate.links.split(', ');
     }
     return candidate;
   }
