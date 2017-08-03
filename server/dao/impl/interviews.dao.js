@@ -2,6 +2,8 @@ const BasicDAO = require('../basic.dao');
 const FeedbacksDAO = require('./feedbacks.dao');
 const CandidatesDAO = require('./candidates.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
+const NotificationsDAO = require('./notifications.dao');
+const { createMessages } = require('../../services/notifications.service');
 const UsersDAO = require('./users.dao');
 
 const getHiringsDAO = require.bind(null, './hirings.dao');
@@ -46,6 +48,11 @@ class InterviewsDAO extends BasicDAO {
       await Promise.all(users.map(async (userId) => {
         feedback.userId = userId;
         await FeedbacksDAO.instance.create(feedback);
+
+        const messages = createMessages(userId, interview, interviewId);
+        await Promise.all(messages.map(async (message) => {
+          await NotificationsDAO.instance.create(message);
+        }));
       }));
 
       return interviewId;
