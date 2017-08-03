@@ -12,6 +12,7 @@ const users = require('./routes/users.route');
 const englishLevels = require('./routes/englishLevels.route');
 const vacancyStatuses = require('./routes/vacancyStatuses.route');
 const candidateStatuses = require('./routes/candidateStatuses.route');
+const notifications = require('./routes/notifications.route');
 
 function init(app) {
   auth.init(app);
@@ -28,6 +29,7 @@ function init(app) {
   app.use('/englishLevels', englishLevels);
   app.use('/vacancyStatuses', vacancyStatuses);
   app.use('/candidateStatuses', candidateStatuses);
+  app.use('/notifications', notifications);
 
   app.use((req, res) => {
     res.status(404).end();
