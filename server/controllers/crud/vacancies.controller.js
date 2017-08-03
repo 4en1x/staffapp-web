@@ -21,6 +21,7 @@ class VacanicesController extends CRUDController {
 
     await super.read(req, res, onload);
   }
+
   async readOne(req, res) {
     const onload = async (vacancy) => {
       if (vacancy.jobStart) {
@@ -31,6 +32,24 @@ class VacanicesController extends CRUDController {
     };
 
     await super.readOne(req, res, onload);
+  }
+
+  async readHistoryById(req, res) {
+    try {
+      const history = await db.history.findByVacancyId(req.params.id);
+      res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async readCandidatesHistoryById(req, res) {
+    try {
+      const history = await db.candidates.findByVacancyId(req.params.id);
+      res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
   }
 
   async fillLists(req, res) {
