@@ -19,9 +19,7 @@ class CandidatesDAO extends BasicDAO {
    * @returns {CandidatesDAO}
    */
   static get instance() {
-    return (
-      CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO())
-    );
+    return CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO());
   }
 
   /**
@@ -34,28 +32,23 @@ class CandidatesDAO extends BasicDAO {
 
     return this.wrapTransaction(async () => {
       if (candidate.city) {
-        ({ id: candidate.cityId } = await CitiesDAO.instance.findByName(
-          candidate.city
-        ));
+        ({ id: candidate.cityId } = await CitiesDAO.instance.findByName(candidate.city));
         delete candidate.city;
       }
       if (candidate.primarySkill) {
-        ({ id: candidate.primarySkill } = await SkillsDAO.instance.findByName(
-          candidate.primarySkill
-        ));
+        ({ id: candidate.primarySkill } =
+          await SkillsDAO.instance.findByName(candidate.primarySkill));
       }
 
       if (candidate.englishLevel) {
-        ({
-          id: candidate.englishLevelId
-        } = await EnglishLevelsDAO.instance.findByName(candidate.englishLevel));
+        ({ id: candidate.englishLevelId } =
+          await EnglishLevelsDAO.instance.findByName(candidate.englishLevel));
         delete candidate.englishLevel;
       }
 
       if (candidate.status) {
-        ({
-          id: candidate.statusId
-        } = await CandidateStatusesDAO.instance.findByName(candidate.status));
+        ({ id: candidate.statusId } =
+          await CandidateStatusesDAO.instance.findByName(candidate.status));
         delete candidate.status;
       }
 
@@ -67,20 +60,16 @@ class CandidatesDAO extends BasicDAO {
 
       const id = await superCreate(candidate, userId);
 
-      await Promise.all(
-        links.map(async link => LinksDAO.instance.create(link, id))
-      );
+      await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
 
-      await Promise.all(
-        skills.map(async skill => {
-          const { id: skillId } = await SkillsDAO.instance.findByName(skill);
-          await this.connection.queryAsync({
-            sql: `INSERT INTO skills_has_candidates
+      await Promise.all(skills.map(async (skill) => {
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
                 (skill_id, candidate_id) VALUES (?, ?)`,
-            values: [skillId, id]
-          });
-        })
-      );
+          values: [skillId, id],
+        });
+      }));
 
       return id;
     });
@@ -93,12 +82,8 @@ class CandidatesDAO extends BasicDAO {
    */
   async findById(id) {
     const candidate = await super.findById(id, '*', 'candidates_view');
-    if (candidate.secondarySkills) {
-      candidate.secondarySkills = candidate.secondarySkills.split(',');
-    }
-    if (candidate.links) {
-      candidate.links = candidate.links.split(',');
-    }
+    candidate.secondarySkills = candidate.secondarySkills.split(',');
+    candidate.links = candidate.links.split(',');
     return candidate;
   }
 
@@ -114,14 +99,14 @@ class CandidatesDAO extends BasicDAO {
     const [candidate] = await super.find({
       fields: 'name, surname',
       basis: `${this.tableName} INNER JOIN ${feedbacksTableName}
-              ON ${feedbacksTableName}.candidate_id = ${this.tableName}.${this
-        .idField}`,
+              ON ${feedbacksTableName}.candidate_id = ${this.tableName}.${this.idField}`,
       condition: `WHERE ${feedbacksTableName}.${feedbacksIdField} = ?`,
-      values: [id]
+      values: [id],
     });
 
     return candidate;
   }
+
 
   async findByVacancyId(id) {
     const hiringsTableName = getHiringsDAO().instance.tableName;
@@ -131,7 +116,7 @@ class CandidatesDAO extends BasicDAO {
       basis: `${this.tableName} c INNER JOIN ${hiringsTableName}
               ON ${hiringsTableName}.candidate_id = c.id`,
       condition: `WHERE ${hiringsTableName}.vacancy_id = ?`,
-      values: [id]
+      values: [id],
     });
 
     return candidates;
@@ -150,21 +135,22 @@ class CandidatesDAO extends BasicDAO {
       page,
       order: 'ORDER BY -last_change_date',
       condition: makeFilterQuery(query),
-      amount: this.itemsPerPage
+      amount: this.itemsPerPage,
     });
   }
+
 
   async report(query) {
     return super.find({
       basis: `${this.tableName}_view`,
-      condition: makeFilterQuery(query)
+      condition: makeFilterQuery(query),
     });
   }
 
   async pickVacancies(id) {
     const vacancies = await this.connection.queryAsync({
       sql: 'CALL `smart search vacancies`(?)',
-      values: [id]
+      values: [id],
     });
     return vacancies[0];
   }
@@ -180,29 +166,24 @@ class CandidatesDAO extends BasicDAO {
 
     return this.wrapTransaction(async () => {
       if (candidate.city) {
-        ({ id: candidate.cityId } = await CitiesDAO.instance.findByName(
-          candidate.city
-        ));
+        ({ id: candidate.cityId } = await CitiesDAO.instance.findByName(candidate.city));
         delete candidate.city;
       }
 
       if (candidate.primarySkill) {
-        ({ id: candidate.primarySkill } = await SkillsDAO.instance.findByName(
-          candidate.primarySkill
-        ));
+        ({ id: candidate.primarySkill } =
+          await SkillsDAO.instance.findByName(candidate.primarySkill));
       }
 
       if (candidate.englishLevel) {
-        ({
-          id: candidate.englishLevelId
-        } = await EnglishLevelsDAO.instance.findByName(candidate.englishLevel));
+        ({ id: candidate.englishLevelId } =
+          await EnglishLevelsDAO.instance.findByName(candidate.englishLevel));
         delete candidate.englishLevel;
       }
 
       if (candidate.status) {
-        ({
-          id: candidate.statusId
-        } = await CandidateStatusesDAO.instance.findByName(candidate.status));
+        ({ id: candidate.statusId } =
+          await CandidateStatusesDAO.instance.findByName(candidate.status));
         delete candidate.status;
       }
 
@@ -213,7 +194,7 @@ class CandidatesDAO extends BasicDAO {
       await this.connection.queryAsync({
         sql: `DELETE FROM skills_has_candidates
               WHERE candidate_id = ?`,
-        values: [id]
+        values: [id],
       });
 
       const skills = candidate.skills || [];
@@ -221,21 +202,17 @@ class CandidatesDAO extends BasicDAO {
 
       await superUpdate(id, candidate, userId);
 
-      await Promise.all(
-        links.map(async link => LinksDAO.instance.create(link, id))
-      );
+      await Promise.all(links.map(async link => LinksDAO.instance.create(link, id)));
 
-      await Promise.all(
-        skills.map(async skill => {
-          const { id: skillId } = await SkillsDAO.instance.findByName(skill);
+      await Promise.all(skills.map(async (skill) => {
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
-          await this.connection.queryAsync({
-            sql: `INSERT INTO skills_has_candidates
+        await this.connection.queryAsync({
+          sql: `INSERT INTO skills_has_candidates
                 (skill_id, candidate_id) VALUES (?, ?)`,
-            values: [skillId, id]
-          });
-        })
-      );
+          values: [skillId, id],
+        });
+      }));
 
       return null;
     });

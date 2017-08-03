@@ -1,10 +1,11 @@
-const fecha = require('fecha');
+const utils = require('../../utils');
 const snakeCase = require('lodash.snakecase');
 
 function buildDateFilter(key, value) {
-  const dateFrom = value.from ? fecha.format( new Date(value.from), 'YYYY-MM-DD HH:mm:ss') : -Infinity;
-  const dateTo = value.to ? fecha.format(new Date(value.to), 'YYYY-MM-DD HH:mm:ss') : +Infinity;
-  return `${key}>="${dateFrom}" AND ${key}<="${dateTo}"`;
+  const dateFrom = value.from ? utils.date.getSQL(new Date(value.from)) : -Infinity;
+  const dateTo = value.to ? utils.date.getSQL(new Date(value.to)) : +Infinity;
+
+  return `${key}>=${dateFrom} AND ${key}<=${dateTo}`;
 }
 
 function makeCriterion(key, value) {
