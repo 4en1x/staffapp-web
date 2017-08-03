@@ -22,7 +22,7 @@ function rebuildCandidate(candidate) {
   const skills = {
     primarySkill: candidate.primarySkill,
     englishLevel: candidate.englishLevel,
-    secondarySkills: candidate.skills,
+    secondarySkills: candidate.secondarySkills,
     primarySkillYearStart: candidate.primarySkillYearStart,
   };
 
@@ -43,8 +43,6 @@ function rebuildCandidate(candidate) {
       skills,
       communication,
     },
-    hirings: candidate.hirings,
-    history: candidate.history,
   };
 }
 
