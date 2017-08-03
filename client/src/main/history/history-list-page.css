@@ -1,3 +1,10 @@
-.history-list-page {
-  width: 100%;
+.history-table-page {
+  padding: 0 2em;
+  background: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+
+}
+
+.date-output{
+  white-space: pre
 }
