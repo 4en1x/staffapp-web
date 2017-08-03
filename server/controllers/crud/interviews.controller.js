@@ -2,7 +2,7 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
-const fecha = require('fecha');
+const utils = require('../../utils');
 
 class InterviewsController extends CRUDController {
   constructor() {
@@ -14,10 +14,8 @@ class InterviewsController extends CRUDController {
   }
 
   async readOne(req, res) {
-    const onload = async interview => {
-      const assignedToUser = interview.users.some(
-        user => user.id === req.user.id
-      );
+    const onload = async (interview) => {
+      const assignedToUser = interview.users.some(user => user.id === req.user.id);
 
       if (!assignedToUser && req.user.role === 'user') {
         throw new Error('403');
@@ -25,15 +23,12 @@ class InterviewsController extends CRUDController {
 
       ({
         allFeedbacks: interview.feedbacks,
-        userFeedback: interview.userFeedback
-      } = await feedbacksService.readFeedbacks(
-        interview.feedbacks,
-        req.user.id
-      ));
+        userFeedback: interview.userFeedback,
+      } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
 
       if (interview.date) {
-        interview.time = fecha.format(interview.date, 'HH:mm');
-        interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+        interview.time = utils.date.getTime(interview.date);
+        interview.date = utils.date.getDate(interview.date);
       }
     };
 
@@ -44,7 +39,7 @@ class InterviewsController extends CRUDController {
     const actions = {
       my: this.dao.findAssignedToUser,
       assigned: this.dao.findCreatedByUser,
-      all: this.dao.findAllByUser
+      all: this.dao.findAllByUser,
     };
 
     const page = req.query.page;
@@ -55,21 +50,17 @@ class InterviewsController extends CRUDController {
     }
 
     try {
-      const interviews = await actions[req.query.type || 'my'].call(
-        this.dao,
-        id,
-        page
-      );
+      const interviews = await actions[req.query.type || 'my'].call(this.dao, id, page);
 
       if (!interviews) {
         res.json([]);
         return;
       }
 
-      interviews.forEach(interview => {
+      interviews.forEach((interview) => {
         if (interview.date) {
-          interview.time = fecha.format(interview.date, 'HH:mm');
-          interview.date = fecha.format(interview.date, 'DD-MM-YYYY');
+          interview.time = utils.date.getTime(interview.date);
+          interview.date = utils.date.getDate(interview.date);
         }
       });
 
@@ -85,7 +76,8 @@ class InterviewsController extends CRUDController {
         primary: await db.skills.find('primary'),
         secondary: await db.skills.find('secondary'),
         other: await db.skills.find('other'),
-        hr: await db.skills.find('hr')
+        hr: await db.skills.find('hr'),
+        users: await db.users.find(),
       });
     } catch (err) {
       res.status(500).end();

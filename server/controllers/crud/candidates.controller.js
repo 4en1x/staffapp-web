@@ -2,11 +2,8 @@ const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
-const fecha = require('fecha');
-const fs = require('fs');
-const csv = require('fast-csv');
-const Bluebird = require('bluebird');
-const writeAsync = Bluebird.promisify(require('fast-csv').write);
+const utils = require('../../utils');
+const json2xls = require('json2xls');
 
 class CandidatesController extends CRUDController {
   constructor() {
@@ -17,11 +14,6 @@ class CandidatesController extends CRUDController {
     try {
       let candidate = await this.dao.findById(req.params.id);
       candidate = service.rebuildCandidate(candidate);
-      candidate.hirings = await Promise.all(candidate.hirings.map(async (hiring) => {
-        hiring = await hiringsService.rebuildHiring(hiring);
-        hiring = await hiringsService.updateHiringInterviews(hiring);
-        return hiring;
-      }));
       res.json(candidate);
     } catch (err) {
       if (err.message === '404') {
@@ -33,10 +25,42 @@ class CandidatesController extends CRUDController {
     }
   }
 
+  async readHistoryById(req, res) {
+    try {
+      const history = await db.history.findByCandidateId(req.params.id);
+      res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async pickVacancies(req, res) {
+    try {
+      const vacancies = await db.candidates.pickVacancies(req.params.id);
+      res.json(vacancies);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async readHiringsById(req, res) {
+    try {
+      let hirings = await db.hirings.findByCandidate(req.params.id);
+      hirings = await Promise.all(hirings.map(async (hiring) => {
+        hiring = await hiringsService.rebuildHiring(hiring);
+        hiring = await hiringsService.updateHiringInterviews(hiring);
+        return hiring;
+      }));
+      res.json(hirings);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async read(req, res) {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'DD-MM-YYYY');
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
         return candidate;
       });
     };
@@ -49,21 +73,19 @@ class CandidatesController extends CRUDController {
       let candidates = await this.dao.report(filter);
 
       candidates = candidates.map((candidate) => {
-        candidate.lastChangeDate = fecha.format(candidate.lastChangeDate, 'YYYY-MM-DD HH:mm:ss');
-        candidate.createdDate = fecha.format(candidate.createdDate, 'YYYY-MM-DD HH:mm:ss');
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        candidate.createdDate = utils.date.getDate(candidate.createdDate);
         return candidate;
       });
 
-      const fileName = `${req.user.id}_${new Date().getTime()}.csv`;
-      const ws = fs.createWriteStream(fileName);
-      const stream = csv.write(candidates, { headers: true, delimiter: ';' }).pipe(ws);
-      stream.on('finish', () => {
-        res.download(fileName, () => {
-          fs.unlink(fileName);
-        });
-      });
+
+      const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
+
+      const xls = json2xls(candidates);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformates');
+      res.setHeader('Content-Disposition', `attachment;filename=${fileName}`);
+      res.end(xls, 'binary');
     } catch (err) {
-      console.log(err);
       res.status(500).end();
     }
   }

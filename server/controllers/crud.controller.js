@@ -53,6 +53,7 @@ class CRUDController {
       await onload(resources);
       res.json(resources);
     } catch (err) {
+      console.log(err)
       if (onerror(err)) {
         res.status(500).end();
       }

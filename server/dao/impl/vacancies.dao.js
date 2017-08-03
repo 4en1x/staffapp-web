@@ -2,7 +2,6 @@ const BasicDAO = require('../basic.dao');
 const CitiesDAO = require('./cities.dao');
 const SkillsDAO = require('./skills.dao');
 const VacancyStatusesDAO = require('./vacancyStatuses.dao');
-const CandidatesDAO = require('./candidates.dao');
 const { makeFilterQuery } = require('../utils/filter');
 
 class VacanciesDAO extends BasicDAO {
@@ -68,26 +67,8 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findById(id) {
-    const vacancy = await super.findById(id);
-
-    ({ name: vacancy.city } = await CitiesDAO.instance.findById(vacancy.cityId));
-    delete vacancy.cityId;
-
-    if (vacancy.statusId) {
-      ({ name: vacancy.status } =
-        await VacancyStatusesDAO.instance.findById(vacancy.statusId));
-      delete vacancy.statusId;
-    }
-
-    if (vacancy.primarySkill) {
-      ({ name: vacancy.primarySkill } =
-        await SkillsDAO.instance.findById(vacancy.primarySkill));
-    }
-
-    vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
-
-    vacancy.candidatesHistory = await CandidatesDAO.instance.findByVacancyId(id);
-
+    const vacancy = await super.findById(id, '*', 'vacancies_view');
+    vacancy.secondarySkills = vacancy.secondarySkills.split(',');
     return vacancy;
   }
 
@@ -97,28 +78,11 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async find(page, query) {
-    const citiesTableName = CitiesDAO.instance.tableName;
-    const citiesIdField = CitiesDAO.instance.idField;
-    const vacancyStatusesTableName = VacancyStatusesDAO.instance.tableName;
-    const vacancyStatusesIdField = VacancyStatusesDAO.instance.idField;
-    const skillsTableName = SkillsDAO.instance.tableName;
-    const skillsIdField = SkillsDAO.instance.idField;
-
     return super.find({
-      fields: `v.${this.idField}, v.name, vs.name AS status, job_start, ps.name AS primarySkill, ct.name AS city`,
-      basis: `${this.tableName} v
-              LEFT JOIN ${citiesTableName} ct
-              ON v.city_id = ct.${citiesIdField}
-              LEFT JOIN ${vacancyStatusesTableName} vs
-              ON v.status_id = vs.${vacancyStatusesIdField}
-              LEFT JOIN ${skillsTableName} ps
-              ON v.primary_skill = ps.${skillsIdField}
-              LEFT JOIN vacancy_has_skills vhs
-              ON vhs.vacancy_id = v.${this.idField}
-              LEFT JOIN ${skillsTableName} ss
-              ON ss.${skillsIdField} = vhs.skill_id`,
-      condition: `${makeFilterQuery(query)} GROUP BY v.${this.idField}`,
-      order: 'ORDER BY -v.created_date',
+      fields: `${this.idField}, name, status, job_start, primary_skill, city`,
+      basis: `${this.tableName}_view`,
+      condition: `${makeFilterQuery(query)} GROUP BY ${this.idField}`,
+      order: 'ORDER BY -created_date',
       amount: this.itemsPerPage,
       page,
     });
