@@ -8,6 +8,12 @@ const ADD_FILTER = 'ADD_FILTER';
 const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
 const RESET_CANDIDATE_LIST = 'RESET_CANDIDATE_LIST';
 const RESET_CURRENT_CANDIDATE = 'RESET_CURRENT_CANDIDATE';
+const ADD_CANDIDATE_HISTORY = 'ADD_CANDIDATE_HISTORY';
+const ADD_CANDIDATE_HIRING = 'ADD_CANDIDATE_HIRING';
+const RESET_CANDIDATE_HISTORY = 'RESET_CANDIDATE_HISTORY';
+const RESET_CANDIDATE_HIRING = 'RESET_CANDIDATE_HIRING';
+const ADD_CANDIDATE_VACANCIES = 'ADD_CANDIDATE_VACANCIES';
+const RESET_CANDIDATE_VACANCIES = 'RESET_CANDIDATE_VACANCIES';
 
 function addCandidateList(list) {
   return {
@@ -102,3 +108,65 @@ export function resetCurrentCandidate() {
   };
 }
 
+function addCandidateHisroty(history) {
+  return {
+    type: ADD_CANDIDATE_HISTORY,
+    history
+  };
+}
+
+export function resetCandidateHistory() {
+  return {
+    type: RESET_CANDIDATE_HISTORY
+  };
+}
+
+export function getCandidateHistory(url) {
+  return dispatch => {
+    candidateService.getCandidateHistory(url).then(res => {
+      dispatch(addCandidateHisroty(res.data));
+    });
+  }
+}
+
+function addCandidateHiring(hiring) {
+  return {
+    type: ADD_CANDIDATE_HIRING,
+    hiring
+  };
+}
+
+export function resetCandidateHiring() {
+  return {
+    type: RESET_CANDIDATE_HIRING
+  };
+}
+
+export function getCandidateHiring(url) {
+  return dispatch => {
+    candidateService.getCandidateHiring(url).then(res => {
+      dispatch(addCandidateHiring(res.data));
+    });
+  }
+}
+
+function addCandidateVacancies(vacancies) {
+  return {
+    type: ADD_CANDIDATE_VACANCIES,
+    vacancies
+  };
+}
+
+export function resetCandidateVacancies() {
+  return {
+    type: RESET_CANDIDATE_VACANCIES
+  };
+}
+
+export function getCandidateVacancies(url) {
+  return dispatch => {
+    candidateService.getCandidateVacancies(url).then(res => {
+      dispatch(addCandidateVacancies(res.data));
+    });
+  }
+}
