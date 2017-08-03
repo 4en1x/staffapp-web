@@ -49,7 +49,7 @@ const Vacancy = props => {
           className="collapse vacancy-detail-page_skills-list"
           trigger="skills"
         >
-          {vacancy.skills.map(skill => {
+          {vacancy.secondarySkills.map(skill => {
             return (
               <List.Item key={skill}>
                 {skill}

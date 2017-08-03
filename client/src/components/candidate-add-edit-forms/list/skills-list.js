@@ -56,7 +56,7 @@ const englishLevel = ({ input, meta: { touched, error } }) => {
             (error &&
             <div className="warning-block">
               <Label basic color="red" pointing>
-                Please enter english level
+                  {error}
               </Label>
             </div>)}
         </div>

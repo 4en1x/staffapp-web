@@ -53,10 +53,11 @@ class InterviewComponent extends React.Component {
 
   initialData = () => {
     if (this.props.data) {
+      let date = new Date(this.props.data.date);
       let initData = {
         place: this.props.data.place,
-        date: this.props.data.date.slice(0, 10),
-        time: this.props.data.date.slice(11, 16)
+        date: date.toISOString().split('T')[0],
+        time: this.props.data.time
       };
       this.props.initialize(initData);
     }

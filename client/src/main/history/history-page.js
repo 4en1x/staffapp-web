@@ -56,7 +56,7 @@ class HistoryPage extends React.Component {
                             </Table.Cell>
                             <Table.Cell>
                               <Label tag>
-                                  {item.role}{" "}
+                                  {item.role}
                               </Label>
                             </Table.Cell>
                             <Table.Cell>
