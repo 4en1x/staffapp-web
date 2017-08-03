@@ -15,6 +15,7 @@ class CandidateEditPage extends React.Component {
   }
 
   showResults = values => {
+    console.log(values);
     const id = this.props.match.params.id;
     this.props.patchCandidate(id, values);
   };

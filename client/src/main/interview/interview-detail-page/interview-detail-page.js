@@ -10,7 +10,6 @@ class InterviewPage extends React.Component {
     const id = this.props.match.params.id;
     console.log(id);
     this.props.getInterviewById(id);
-    console.log(this.props.interview);
   }
 
   componentWillUnmount() {

@@ -57,15 +57,17 @@ export default class InterviewComponent extends React.Component {
                 />
               </List.Item>
             </List>
-            <Link
-              className="button-container"
-              to={`${this.props.url}/feedbacks/${this.props.interview
-                .userFeedback.id}`}
-            >
-              <Button color="twitter" floated="right">
-                Feedback
-              </Button>
-            </Link>
+            {data.userFeedback
+              ? <Link
+                  className="button-container"
+                  to={`${this.props.url}/feedbacks/${this.props.interview
+                    .userFeedback.id}`}
+                >
+                  <Button color="twitter" floated="right">
+                    Feedback
+                  </Button>
+                </Link>
+              : null}
             {this.props.role !== 'worker'
               ? <Link
                   className="button-container"

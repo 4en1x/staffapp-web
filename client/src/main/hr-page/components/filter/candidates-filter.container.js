@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import FileDownload from 'react-file-download';
 import { addFilter, getFormValues } from '../../../candidate/candidate-actions';
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
@@ -25,6 +24,8 @@ class FilterComponent extends React.Component {
   };
 
   render() {
+    console.log(this.props.formValues);
+
     return (
       <div className="filter-container">
         <CandidatesFilterForm
@@ -36,10 +37,6 @@ class FilterComponent extends React.Component {
     );
   }
 }
-
-FilterComponent.propTypes = {
-  form: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => {
   return {
