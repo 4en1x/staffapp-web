@@ -91,8 +91,8 @@ function formatDateToDateString(date) {
  * @returns {String}
  */
 function formatDateToTimeString(date) {
-  const hour = getDateComponent(date, { hour: '2-digit' });
-  const minute = getDateComponent(date, { minute: '2-digit' });
+  const hour = `0${getDateComponent(date, { hour: '2-digit' })}`.slice(-2);
+  const minute = `0${getDateComponent(date, { minute: '2-digit' })}`.slice(-2);
   return `${hour}:${minute}`;
 }
 

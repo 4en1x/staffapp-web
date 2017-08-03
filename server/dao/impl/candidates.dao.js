@@ -22,6 +22,10 @@ class CandidatesDAO extends BasicDAO {
     return CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO());
   }
 
+  static get ATTENTION_STATUS() {
+    return 10;
+  }
+
   /**
    *
    * @param {Object} candidate
@@ -131,7 +135,7 @@ class CandidatesDAO extends BasicDAO {
     return super.find({
       fields: `${this.idField}, name, surname, primary_skill,
                status, last_change_date, city`,
-      basis: `${this.tableName}_view`,
+      basis: `candidates_view`,
       page,
       order: 'ORDER BY -last_change_date',
       condition: makeFilterQuery(query),
@@ -215,6 +219,15 @@ class CandidatesDAO extends BasicDAO {
       }));
 
       return null;
+    });
+  }
+
+  async attention(id) {
+    await this.connection.queryAsync({
+      sql: `UPDATE ${this.tableName}
+            SET status_id=${CandidatesDAO.ATTENTION_STATUS}
+            WHERE ${this.idField} = ?`,
+      values: [id],
     });
   }
 }
