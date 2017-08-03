@@ -20,10 +20,14 @@ class NotificationsDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findByUser(id, page, dateFrom, dateTo) {
+    const IMPORTANT_MESSAGE_STATUS = 1;
+    const REGULAR_MESSAGE_STATUS = 0;
+
     const resources = await super.find({
       fields: `${this.idField}, text, interview_id`,
       page,
-      condition: `WHERE user_id=${id} AND (status=1 OR (date>="${dateFrom}" AND date<="${dateTo}" AND status=0))`,
+      condition: `WHERE user_id=${id} AND (status=${IMPORTANT_MESSAGE_STATUS} OR
+                  (date>="${dateFrom}" AND date<="${dateTo}" AND status=${REGULAR_MESSAGE_STATUS}))`,
     });
 
     return resources;

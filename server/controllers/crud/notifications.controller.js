@@ -9,7 +9,8 @@ class NotificationsController extends CRUDController {
   }
 
   async update(req, res) {
-    await super.update(req, res, { status: 2 });
+    const READ_MESSAGE_STATUS = 2;
+    await super.update(req, res, { status: READ_MESSAGE_STATUS });
   }
 
   async read(req, res) {
