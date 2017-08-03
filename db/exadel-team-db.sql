@@ -694,6 +694,31 @@ select c_v.id, c_v.name, c_v.surname, c_v.primary_skill,
                c_v.status, c_v.last_change_date, c_v.city from(select name,value,AVG(avg) AS avg, candidate_id,id from exadelteamdb2.weights group by name,candidate_id )as newT  INNER JOIN candidates_view c_v ON c_v.id = newT.candidate_id  group by newT.candidate_id order by SUM(newT.avg) DESC LIMIT 10;
 END//
 DELIMITER ;
+
+
+
+ DROP PROCEDURE IF EXISTS `all interviews`;
+DELIMITER //
+CREATE PROCEDURE `all interviews` (IN myId INT,IN skip INT,IN top INT)
+BEGIN
+  SELECT i.id, i.type, i.date, i.place, c.name, c.surname FROM interviews i
+            INNER JOIN hirings h ON i.hiring_id = h.id
+            INNER JOIN candidates c ON h.candidate_id = c.id
+            WHERE h.user_id = myId AND h.date_close IS NULL
+
+            UNION
+
+            SELECT i.id, i.type, i.date, i.place, c.name, c.surname FROM interviews i
+            INNER JOIN feedbacks f ON f.interview_id = i.id
+            INNER JOIN candidates c ON f.candidate_id = c.id
+            WHERE f.user_id = myId AND f.status = 0
+
+            ORDER BY date
+            LIMIT skip, top;
+  
+END//
+DELIMITER ;
+
 --
 -- Dumping data for table `vacancy_statuses`
 --
