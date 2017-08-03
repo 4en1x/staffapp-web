@@ -71,6 +71,17 @@ class VacanicesController extends CRUDController {
   }
 
   async update(req, res) {
+    const onload = async (vacancy) => {
+      if (vacancy.status !== 'Closed' && vacancy.status !== 'Cancelled') {
+        return;
+      }
+
+      const candidates = await db.candidates.findByVacancyId(req.params.id);
+      await Promise.all(candidates.map(async (candidate) => {
+        await db.candidates.attention(candidate.id);
+      }));
+    };
+
     await super.update(req, res, req.body);
   }
 }
