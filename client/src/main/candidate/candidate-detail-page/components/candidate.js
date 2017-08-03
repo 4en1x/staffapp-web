@@ -14,9 +14,10 @@ import {
 import InfoTab from './tabs/info-tab';
 import HiringsTab from './tabs/hirings-tab';
 import HistoryTab from './tabs/history-tab';
+import VacanciesTab from './tabs/vacancies-tab';
 import './candidate.css';
 
-const ItemsList = ['Info', 'Hirings', 'History'].map(item => ({
+const ItemsList = ['Info', 'Hirings', 'History', 'Vacancies'].map(item => ({
   key: item,
   name: item
 }));
@@ -42,6 +43,9 @@ export default class Candidate extends React.Component {
       case 'History':
         currentTab = <HistoryTab history={this.props.candidate.history} />;
         break;
+      case 'Vacancies':
+        currentTab = <VacanciesTab history={this.props.candidate} />;
+        break;
       default:
         currentTab = '';
     }
@@ -64,7 +68,11 @@ export default class Candidate extends React.Component {
             <Header as="h1">
               {this.props.candidate.name} {this.props.candidate.surname}
             </Header>
-            <Header.Subheader as="h3" content={this.props.candidate.city} disabled />
+            <Header.Subheader
+              as="h3"
+              content={this.props.candidate.city}
+              disabled
+            />
           </div>
           <Divider />
           <Grid relaxed padded>
