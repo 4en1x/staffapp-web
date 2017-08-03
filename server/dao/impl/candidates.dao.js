@@ -5,7 +5,6 @@ const FeedbacksDAO = require('./feedbacks.dao');
 const SkillsDAO = require('./skills.dao');
 const EnglishLevelsDAO = require('./englishLevels.dao');
 const CandidateStatusesDAO = require('./candidateStatuses.dao');
-const UsersDAO = require('./users.dao');
 
 const getHiringsDAO = require.bind(null, './hirings.dao');
 
@@ -82,34 +81,9 @@ class CandidatesDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findById(id) {
-    const candidate = await super.findById(id);
-
-    const links = await LinksDAO.instance.findByCandidate(id);
-    candidate.links = links.map(linkObject => linkObject.link);
-
-    if (candidate.cityId) {
-      ({ name: candidate.city } = await CitiesDAO.instance.findById(candidate.cityId, 'name'));
-      delete candidate.cityId;
-    }
-
-    if (candidate.primarySkill) {
-      ({ name: candidate.primarySkill } =
-        await SkillsDAO.instance.findById(candidate.primarySkill));
-    }
-
-    if (candidate.englishLevelId) {
-      ({ name: candidate.englishLevel } =
-        await EnglishLevelsDAO.instance.findById(candidate.englishLevelId));
-    }
-
-    if (candidate.statusId) {
-      ({ name: candidate.status } =
-        await CandidateStatusesDAO.instance.findById(candidate.statusId));
-    }
-
-    candidate.skills = await SkillsDAO.instance.findByCandidate(id);
-    candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
-    candidate.hrName = await UsersDAO.instance.nameById(candidate.userId);
+    const candidate = await super.findById(id, '*', 'candidates_view');
+    candidate.secondarySkills = candidate.secondarySkills.split(',');
+    candidate.links = candidate.links.split(',');
     return candidate;
   }
 
@@ -133,40 +107,52 @@ class CandidatesDAO extends BasicDAO {
     return candidate;
   }
 
+
+  async findByVacancyId(id) {
+    const hiringsTableName = getHiringsDAO().instance.tableName;
+
+    const candidates = await super.find({
+      fields: 'c.id, c.name, c.surname',
+      basis: `${this.tableName} c INNER JOIN ${hiringsTableName}
+              ON ${hiringsTableName}.candidate_id = c.id`,
+      condition: `WHERE ${hiringsTableName}.vacancy_id = ?`,
+      values: [id],
+    });
+
+    return candidates;
+  }
+
   /**
    *
    * @param {Number} [page] - default=1
    * @returns {Promise <[Object]>}
    */
-  async find(page, query, report) {
-    const citiesTableName = CitiesDAO.instance.tableName;
-    const citiesIdField = CitiesDAO.instance.idField;
-    const candidateStatusesTableName = CandidateStatusesDAO.instance.tableName;
-    const candidateStatusesIdField = CandidateStatusesDAO.instance.idField;
-    const skillsTableName = SkillsDAO.instance.tableName;
-    const skillsIdField = SkillsDAO.instance.idField;
-
-    const amount = report ? Infinity : this.itemsPerPage;
-
+  async find(page, query) {
     return super.find({
-      fields: `cnd.${this.idField}, cnd.name, surname, ps.name AS primary_skill,
-               cs.name AS status, last_change_date, ct.name AS city`,
-      basis: `${this.tableName} cnd
-              LEFT JOIN ${citiesTableName} ct
-              ON cnd.city_id = ct.${citiesIdField}
-              LEFT JOIN ${candidateStatusesTableName} cs
-              ON cnd.status_id = cs.${candidateStatusesIdField}
-              LEFT JOIN ${skillsTableName} ps
-              ON cnd.primary_skill = ps.${skillsIdField}
-              LEFT JOIN skills_has_candidates shc
-              ON shc.candidate_id = cnd.${this.idField}
-              LEFT JOIN ${skillsTableName} ss
-              ON ss.${skillsIdField} = shc.skill_id`,
+      fields: `${this.idField}, name, surname, primary_skill,
+               status, last_change_date, city`,
+      basis: `${this.tableName}_view`,
       page,
       order: 'ORDER BY -last_change_date',
-      condition: `${makeFilterQuery(query)} GROUP BY cnd.${this.idField}`,
-      amount,
+      condition: makeFilterQuery(query),
+      amount: this.itemsPerPage,
     });
+  }
+
+
+  async report(query) {
+    return super.find({
+      basis: `${this.tableName}_view`,
+      condition: makeFilterQuery(query),
+    });
+  }
+
+  async pickVacancies(id) {
+    const vacancies = await this.connection.queryAsync({
+      sql: 'CALL `smart search vacancies`(?)',
+      values: [id],
+    });
+    return vacancies[0];
   }
 
   /**

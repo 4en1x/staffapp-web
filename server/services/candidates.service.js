@@ -15,7 +15,6 @@ function rebuildCandidate(candidate) {
     email: candidate.email,
     phone: candidate.phone,
     skype: candidate.skype,
-    city: candidate.city,
     linkedin: candidate.linkedin,
     links: candidate.links,
   };
@@ -23,7 +22,7 @@ function rebuildCandidate(candidate) {
   const skills = {
     primarySkill: candidate.primarySkill,
     englishLevel: candidate.englishLevel,
-    secondarySkills: candidate.skills,
+    secondarySkills: candidate.secondarySkills,
     primarySkillYearStart: candidate.primarySkillYearStart,
   };
 
@@ -38,10 +37,12 @@ function rebuildCandidate(candidate) {
     name: candidate.name,
     surname: candidate.surname,
     status: candidate.status,
-    contacts,
-    skills,
-    communication,
-    hirings: candidate.hirings,
+    city: candidate.city,
+    info: {
+      contacts,
+      skills,
+      communication,
+    },
   };
 }
 
