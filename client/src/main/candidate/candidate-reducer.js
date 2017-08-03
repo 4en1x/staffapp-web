@@ -48,6 +48,12 @@ const candidateHandle = (state = {}, action) => {
     case 'RESET_CANDIDATE_HIRING':
       return { ...state, hiring: null };
 
+    case 'ADD_CANDIDATE_VACANCIES':
+      return { ...state, vacancies: action.vacancies };
+
+    case 'RESET_CANDIDATE_VACANCIES':
+      return { ...state, vacancies: null };
+
     default:
       return state;
   }

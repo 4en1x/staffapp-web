@@ -42,6 +42,10 @@ function getCandidateHiring(url) {
   return axios.get(`${url}/hirings`);
 }
 
+function getCandidateVacancies(url) {
+  return axios.get(`${url}/pickVacancies`);
+}
+
 const candidateService = {
   getCandidateList,
   getCandidateById,
@@ -50,7 +54,8 @@ const candidateService = {
   patchCandidate,
   getCandidatesReport,
   getCandidateHistory,
-  getCandidateHiring
+  getCandidateHiring,
+  getCandidateVacancies
 };
 
 export default candidateService;
