@@ -34,13 +34,23 @@ function getCandidatesReport(filter = {}) {
   });
 }
 
+function getCandidateHistory(url) {
+  return axios.get(`${url}/history`);
+}
+
+function getCandidateHiring(url) {
+  return axios.get(`${url}/hirings`);
+}
+
 const candidateService = {
   getCandidateList,
   getCandidateById,
   getFillList,
   postCandidate,
   patchCandidate,
-  getCandidatesReport
+  getCandidatesReport,
+  getCandidateHistory,
+  getCandidateHiring
 };
 
 export default candidateService;

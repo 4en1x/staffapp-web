@@ -12,9 +12,9 @@ import {
   Grid
 } from 'semantic-ui-react';
 import InfoTab from './tabs/info-tab';
-import HiringsTab from './tabs/hirings-tab';
-import HistoryTab from './tabs/history-tab';
 import VacanciesTab from './tabs/vacancies-tab';
+import HistoryWrapper from './history-wrapper/history-wrapper';
+import HiringWrapper from './hiring-wrapper/hiring-wrapper';
 import './candidate.css';
 
 const ItemsList = ['Info', 'Hirings', 'History', 'Vacancies'].map(item => ({
@@ -38,10 +38,10 @@ export default class Candidate extends React.Component {
         currentTab = <InfoTab info={this.props.candidate.info} />;
         break;
       case 'Hirings':
-        currentTab = <HiringsTab hirings={this.props.candidate.hirings} />;
+        currentTab = <HiringWrapper url={this.props.url} />;
         break;
       case 'History':
-        currentTab = <HistoryTab history={this.props.candidate.history} />;
+        currentTab = <HistoryWrapper url={this.props.url}/>;
         break;
       case 'Vacancies':
         currentTab = <VacanciesTab history={this.props.candidate} />;

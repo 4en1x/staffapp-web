@@ -36,6 +36,18 @@ const candidateHandle = (state = {}, action) => {
     case 'RESET_CURRENT_CANDIDATE':
       return { ...state, currentCandidate: null };
 
+    case 'ADD_CANDIDATE_HISTORY':
+      return { ...state, history: action.history };
+
+    case 'RESET_CANDIDATE_HISTORY':
+      return { ...state, history: null };
+
+    case 'ADD_CANDIDATE_HIRING':
+      return { ...state, hiring: action.hiring };
+
+    case 'RESET_CANDIDATE_HIRING':
+      return { ...state, hiring: null };
+
     default:
       return state;
   }
