@@ -79,7 +79,7 @@ class VacanciesDAO extends BasicDAO {
       sql: 'CALL `smart search candidates`(?)',
       values: [id],
     });
-    return candidates[0];
+    return this.fromDAOEntity(candidates[0]);
   }
 
   /**
@@ -90,7 +90,7 @@ class VacanciesDAO extends BasicDAO {
   async find(page, query) {
     return super.find({
       fields: `${this.idField}, name, status, job_start, primary_skill, city`,
-      basis: `vacancies_view`,
+      basis: 'vacancies_view',
       condition: `${makeFilterQuery(query)} GROUP BY ${this.idField}`,
       order: 'ORDER BY -created_date',
       amount: this.itemsPerPage,

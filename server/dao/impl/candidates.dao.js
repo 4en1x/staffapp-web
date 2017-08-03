@@ -139,7 +139,7 @@ class CandidatesDAO extends BasicDAO {
     return super.find({
       fields: `${this.idField}, name, surname, primary_skill,
                status, last_change_date, city`,
-      basis: `candidates_view`,
+      basis: 'candidates_view',
       page,
       order: 'ORDER BY -last_change_date',
       condition: makeFilterQuery(query),
@@ -160,7 +160,7 @@ class CandidatesDAO extends BasicDAO {
       sql: 'CALL `smart search vacancies`(?)',
       values: [id],
     });
-    return vacancies[0];
+    return this.fromDAOEntity(vacancies[0]);
   }
 
   /**

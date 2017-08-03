@@ -37,6 +37,12 @@ class VacanicesController extends CRUDController {
   async readHistoryById(req, res) {
     try {
       const history = await db.history.findByVacancyId(req.params.id);
+
+      history.forEach((element) => {
+        element.date = utils.date.getDate(element.time);
+        element.time = utils.date.getTime(element.time);
+      });
+
       res.json(history);
     } catch (err) {
       res.status(500).end();
@@ -55,6 +61,11 @@ class VacanicesController extends CRUDController {
   async pickCandidates(req, res) {
     try {
       const candidates = await db.vacancies.pickCandidates(req.params.id);
+
+      candidates.forEach((candidate) => {
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+      });
+
       res.json(candidates);
     } catch (err) {
       res.status(500).end();
