@@ -71,8 +71,10 @@ class VacanicesController extends CRUDController {
   }
 
   async update(req, res) {
-    const onload = async (vacancy) => {
-      if (vacancy.status !== 'Closed' && vacancy.status !== 'Cancelled') {
+    const vacancyStatus = req.body.status;
+
+    const onload = async () => {
+      if (vacancyStatus !== 'Closed' && vacancyStatus !== 'Cancelled') {
         return;
       }
 
@@ -82,7 +84,7 @@ class VacanicesController extends CRUDController {
       }));
     };
 
-    await super.update(req, res, req.body);
+    await super.update(req, res, req.body, onload);
   }
 }
 

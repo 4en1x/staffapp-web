@@ -220,7 +220,7 @@ class CandidatesDAO extends BasicDAO {
 
   async attention(id) {
     await this.connection.queryAsync({
-      sql: `UPDATE ${this.tableName} SET status="Attention" WHERE ${this.idField} = ?`,
+      sql: `UPDATE ${this.tableName} SET status_id=10 WHERE ${this.idField} = ?`,
       values: [id],
     });
   }
