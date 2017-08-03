@@ -22,6 +22,9 @@ class VacancyListWrapper extends React.Component {
   }
 
   render() {
+
+    console.log(this.props.vacancies);
+
     if (!this.props.vacancies) return <SemanticLoader />;
 
     return (

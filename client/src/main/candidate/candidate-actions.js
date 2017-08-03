@@ -68,6 +68,7 @@ function editFormSubmit() {
 export function getFormValues() {
   return dispatch => {
     candidateService.getFillList().then(res => {
+      console.log(res);
       dispatch(addFormValues(res.data));
     });
   };
