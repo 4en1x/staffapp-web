@@ -22,6 +22,10 @@ class CandidatesDAO extends BasicDAO {
     return CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO());
   }
 
+  static get ATTENTION_STATUS() {
+    return 10;
+  }
+
   /**
    *
    * @param {Object} candidate
@@ -220,7 +224,9 @@ class CandidatesDAO extends BasicDAO {
 
   async attention(id) {
     await this.connection.queryAsync({
-      sql: `UPDATE ${this.tableName} SET status_id=10 WHERE ${this.idField} = ?`,
+      sql: `UPDATE ${this.tableName}
+            SET status_id=${CandidatesDAO.ATTENTION_STATUS}
+            WHERE ${this.idField} = ?`,
       values: [id],
     });
   }
