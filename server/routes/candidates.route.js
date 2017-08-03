@@ -10,6 +10,7 @@ router.get('/report', (req, res) => controllers.candidates.report(req, res));
 router.get('/:id', (req, res) => controllers.candidates.readOne(req, res));
 router.get('/:id/history', (req, res) => controllers.candidates.readHistoryById(req, res));
 router.get('/:id/hirings', (req, res) => controllers.candidates.readHiringsById(req, res));
+router.get('/:id/pickVacancies', (req, res) => controllers.candidates.pickVacancies(req, res));
 router.post('/', (req, res) => controllers.candidates.create(req, res));
 router.patch('/:id', (req, res) => controllers.candidates.update(req, res));
 

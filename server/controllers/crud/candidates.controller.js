@@ -34,6 +34,15 @@ class CandidatesController extends CRUDController {
     }
   }
 
+  async pickVacancies(req, res) {
+    try {
+      const vacancies = await db.candidates.pickVacancies(req.params.id);
+      res.json(vacancies);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
   async readHiringsById(req, res) {
     try {
       let hirings = await db.hirings.findByCandidate(req.params.id);

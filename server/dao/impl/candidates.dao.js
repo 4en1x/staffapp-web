@@ -147,6 +147,13 @@ class CandidatesDAO extends BasicDAO {
     });
   }
 
+  async pickVacancies(id) {
+    const vacancies = await this.connection.queryAsync({
+      sql: 'CALL `smart search vacancies`(?)',
+      values: [id],
+    });
+    return vacancies[0];
+  }
 
   /**
    *
