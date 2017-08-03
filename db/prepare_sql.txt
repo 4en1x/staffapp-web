@@ -588,6 +588,46 @@ CREATE TABLE   `exadelteamdbtest`.`vacancy_statuses` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+drop view if exists candidates_view;
+create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
+               cnd.skype,cnd.phone,cnd.resume, e_l.name AS english_level, 
+               cnd.created_date, cnd.last_change_date, u.name AS hrName, 
+               cnd.linkedin, cnd.salary, cnd.notification_date, 
+               cnd.primary_skill_year_start, s.name AS primary_skill,
+               cs.name AS status,ct.name AS city,
+               GROUP_CONCAT(DISTINCT sk.name SEPARATOR ', ') AS secondary_skills,
+               GROUP_CONCAT(DISTINCT l.link SEPARATOR ', ') AS links FROM candidates cnd
+              LEFT JOIN cities ct
+              ON cnd.city_id = ct.id
+              LEFT JOIN candidate_statuses cs
+              ON cnd.status_id = cs.id
+              LEFT JOIN skills s
+              ON cnd.primary_skill = s.id
+              LEFT JOIN users u
+              ON u.id = cnd.user_id
+              LEFT JOIN english_levels e_l
+              ON e_l.id = cnd.english_level_id
+              LEFT JOIN skills_has_candidates s_h_c
+              ON s_h_c.candidate_id = cnd.id
+              LEFT JOIN skills sk
+              ON sk.id = s_h_c.skill_id 
+              LEFT JOIN links l
+              ON cnd.id = l.candidate_id GROUP BY cnd.id;
+              
+drop view if exists vacancies_view;
+create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
+      from vacancies v
+              LEFT JOIN cities ct
+              ON v.city_id = ct.id
+              LEFT JOIN vacancy_statuses vs
+              ON v.status_id = vs.id
+              LEFT JOIN skills ps
+              ON v.primary_skill = ps.id
+              LEFT JOIN vacancy_has_skills vhs
+              ON vhs.vacancy_id = v.id
+              LEFT JOIN skills ss
+              ON ss.id = vhs.skill_id GROUP BY v.id;
 --
 -- Dumping data for table `vacancy_statuses`
 --

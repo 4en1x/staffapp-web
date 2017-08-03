@@ -588,6 +588,76 @@ CREATE TABLE `vacancy_statuses` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+drop view if exists candidates_view;
+create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
+               cnd.skype,cnd.phone,cnd.resume, e_l.name AS english_level, 
+               cnd.created_date, cnd.last_change_date, u.name AS hrName, 
+               cnd.linkedin, cnd.salary, cnd.notification_date, 
+               cnd.primary_skill_year_start, s.name AS primary_skill,
+               cs.name AS status,ct.name AS city,
+               GROUP_CONCAT(DISTINCT sk.name SEPARATOR ', ') AS secondary_skills,
+               GROUP_CONCAT(DISTINCT l.link SEPARATOR ', ') AS links FROM candidates cnd
+              LEFT JOIN cities ct
+              ON cnd.city_id = ct.id
+              LEFT JOIN candidate_statuses cs
+              ON cnd.status_id = cs.id
+              LEFT JOIN skills s
+              ON cnd.primary_skill = s.id
+              LEFT JOIN users u
+              ON u.id = cnd.user_id
+              LEFT JOIN english_levels e_l
+              ON e_l.id = cnd.english_level_id
+              LEFT JOIN skills_has_candidates s_h_c
+              ON s_h_c.candidate_id = cnd.id
+              LEFT JOIN skills sk
+              ON sk.id = s_h_c.skill_id 
+              LEFT JOIN links l
+              ON cnd.id = l.candidate_id GROUP BY cnd.id;
+ drop view if exists vacancies_view;
+create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
+      from vacancies v
+              LEFT JOIN cities ct
+              ON v.city_id = ct.id
+              LEFT JOIN vacancy_statuses vs
+              ON v.status_id = vs.id
+              LEFT JOIN skills ps
+              ON v.primary_skill = ps.id
+              LEFT JOIN vacancy_has_skills vhs
+              ON vhs.vacancy_id = v.id
+              LEFT JOIN skills ss
+              ON ss.id = vhs.skill_id GROUP BY v.id;
+ 	DROP PROCEDURE IF EXISTS `smart search vacancies`;
+DELIMITER // 
+
+
+CREATE PROCEDURE `smart search vacancies` (IN var1 INT) 
+BEGIN 
+    DROP TABLE IF EXISTS weights;
+CREATE TEMPORARY TABLE IF NOT EXISTS weights AS SELECT T.*,v.id from (SELECT f_f.name AS name, f_f.value AS value, value AS avg ,f.candidate_id AS candidate_id
+FROM exadelteamdb2.feedbacks f 
+INNER JOIN exadelteamdb2.feedback_fields f_f 
+ON f_f.feedback_id=f.id 
+WHERE f_f.type='tech' 
+AND f.candidate_id = var1
+AND f_f.value IS NOT NULL 
+
+union select sk.name,5 AS value ,5 as avg, var1 as candidate_id
+from candidates cnd 
+INNER JOIN skills_has_candidates  s_h_c ON s_h_c.candidate_id=cnd.id 
+INNER JOIN skills sk ON sk.id=s_h_c.skill_id WHERE cnd.id = 5 
+UNION select sk.name,5 AS value ,5 as avg, var1 as candidate_id
+from candidates cnd 
+INNER JOIN skills sk ON sk.id=cnd.primary_skill WHERE cnd.id = var1
+
+
+GROUP BY value)  AS T INNER JOIN candidates c ON c.id = T.candidate_id  JOIN vacancies v ON v.primary_skill=c.primary_skill 
+INNER JOIN vacancy_has_skills v_h_s ON v_h_s.vacancy_id=v.id INNER JOIN skills sk ON sk.id = v_h_s.skill_id INNER JOIN skills skil ON c.primary_skill = skil.id WHERE (T.name = sk.name) OR (T.name = skil.name) ;
+
+
+select v_v.id, v_v.name, v_v.status, v_v.job_start, v_v.primary_skill, v_v.city from(select name,value,AVG(avg) AS avg, candidate_id,id from exadelteamdb2.weights group by name,id )as newT  INNER JOIN vacancies_view v_v ON v_v.id = newT.id group by newT.id order by SUM(newT.avg) DESC LIMIT 10;
+END// 
+DELIMITER ; 
 --
 -- Dumping data for table `vacancy_statuses`
 --
