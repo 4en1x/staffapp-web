@@ -12,6 +12,19 @@ class NotificationsDAO extends BasicDAO {
     return NotificationsDAO._instance || (NotificationsDAO._instance = new NotificationsDAO());
   }
 
+
+  /** Constants **/
+
+  static get READ_MESSAGE_STATUS() {
+    return 2;
+  }
+  static get IMPORTANT_MESSAGE_STATUS() {
+    return 1;
+  }
+  static get REGULAR_MESSAGE_STATUS() {
+    return 0;
+  }
+
   /**
    * @param {Number} page,
    * @param {Number | String} id,
@@ -20,14 +33,11 @@ class NotificationsDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findByUser(id, page, dateFrom, dateTo) {
-    const IMPORTANT_MESSAGE_STATUS = 1;
-    const REGULAR_MESSAGE_STATUS = 0;
-
     const resources = await super.find({
       fields: `${this.idField}, text, interview_id`,
       page,
-      condition: `WHERE user_id=${id} AND (status=${IMPORTANT_MESSAGE_STATUS} OR
-                  (date>="${dateFrom}" AND date<="${dateTo}" AND status=${REGULAR_MESSAGE_STATUS}))`,
+      condition: `WHERE user_id=${id} AND (status=${NotificationsDAO.IMPORTANT_MESSAGE_STATUS} OR
+                  (date>="${dateFrom}" AND date<="${dateTo}" AND status=${NotificationsDAO.REGULAR_MESSAGE_STATUS}))`,
     });
 
     return resources;

@@ -1,4 +1,5 @@
 const { date } = require('../../utils');
+const NotificationsDAO = require('../../dao/impl/notifications.dao');
 
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
@@ -9,8 +10,7 @@ class NotificationsController extends CRUDController {
   }
 
   async update(req, res) {
-    const READ_MESSAGE_STATUS = 2;
-    await super.update(req, res, { status: READ_MESSAGE_STATUS });
+    await super.update(req, res, { status: NotificationsDAO.READ_MESSAGE_STATUS });
   }
 
   async read(req, res) {
