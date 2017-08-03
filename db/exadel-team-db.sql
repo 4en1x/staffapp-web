@@ -631,35 +631,39 @@ create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_star
 DELIMITER // 
 
 
-CREATE PROCEDURE `smart search vacancies` (IN var1 INT) 
-BEGIN 
+    DROP PROCEDURE IF EXISTS `smart search vacancies`;
+DELIMITER //
+ 
+ 
+CREATE PROCEDURE `smart search vacancies` (IN var1 INT)
+BEGIN
     DROP TABLE IF EXISTS weights;
 CREATE TEMPORARY TABLE IF NOT EXISTS weights AS SELECT T.*,v.id from (SELECT f_f.name AS name, f_f.value AS value, value AS avg ,f.candidate_id AS candidate_id
-FROM exadelteamdb2.feedbacks f 
-INNER JOIN exadelteamdb2.feedback_fields f_f 
-ON f_f.feedback_id=f.id 
-WHERE f_f.type='tech' 
+FROM exadelteamdb2.feedbacks f
+INNER JOIN exadelteamdb2.feedback_fields f_f
+ON f_f.feedback_id=f.id
+WHERE f_f.type='tech'
 AND f.candidate_id = var1
-AND f_f.value IS NOT NULL 
-
+AND f_f.value IS NOT NULL
+ 
 union select sk.name,5 AS value ,5 as avg, var1 as candidate_id
-from candidates cnd 
-INNER JOIN skills_has_candidates  s_h_c ON s_h_c.candidate_id=cnd.id 
-INNER JOIN skills sk ON sk.id=s_h_c.skill_id WHERE cnd.id = 5 
+from candidates cnd
+INNER JOIN skills_has_candidates  s_h_c ON s_h_c.candidate_id=cnd.id
+INNER JOIN skills sk ON sk.id=s_h_c.skill_id WHERE cnd.id = 5
 UNION select sk.name,5 AS value ,5 as avg, var1 as candidate_id
-from candidates cnd 
+from candidates cnd
 INNER JOIN skills sk ON sk.id=cnd.primary_skill WHERE cnd.id = var1
-
-
-GROUP BY value)  AS T INNER JOIN candidates c ON c.id = T.candidate_id  JOIN vacancies v ON v.primary_skill=c.primary_skill 
-INNER JOIN vacancy_has_skills v_h_s ON v_h_s.vacancy_id=v.id INNER JOIN skills sk ON sk.id = v_h_s.skill_id INNER JOIN skills skil ON c.primary_skill = skil.id WHERE (T.name = sk.name) OR (T.name = skil.name) ;
-
-
+ 
+ 
+GROUP BY value)  AS T INNER JOIN candidates c ON c.id = T.candidate_id  JOIN vacancies v ON v.primary_skill=c.primary_skill
+LEFT JOIN vacancy_has_skills v_h_s ON v_h_s.vacancy_id=v.id LEFT JOIN skills sk ON sk.id = v_h_s.skill_id INNER JOIN skills skil ON c.primary_skill = skil.id WHERE (T.name = sk.name) OR (T.name = skil.name) ;
+ 
+ 
 select v_v.id, v_v.name, v_v.status, v_v.job_start, v_v.primary_skill, v_v.city from(select name,value,AVG(avg) AS avg, candidate_id,id from exadelteamdb2.weights group by name,id )as newT  INNER JOIN vacancies_view v_v ON v_v.id = newT.id group by newT.id order by SUM(newT.avg) DESC LIMIT 10;
-END// 
-DELIMITER ; 
+END//
+DELIMITER ;
 
-   DROP PROCEDURE IF EXISTS `smart search candidates`;
+      DROP PROCEDURE IF EXISTS `smart search candidates`;
 DELIMITER //
  
  
@@ -682,15 +686,14 @@ from candidates cnd
 INNER JOIN skills sk ON sk.id=cnd.primary_skill
  
  
-GROUP BY value)  AS T INNER JOIN candidates c ON c.id = T.candidate_id  JOIN vacancies v ON v.primary_skill=c.primary_skill
-INNER JOIN vacancy_has_skills v_h_s ON v_h_s.vacancy_id=v.id INNER JOIN skills sk ON sk.id = v_h_s.skill_id INNER JOIN skills skil ON c.primary_skill = skil.id WHERE ((T.name = sk.name) OR (T.name = skil.name)) AND v.id=var1;
+GROUP BY name,candidate_id)  AS T INNER JOIN candidates c ON c.id = T.candidate_id  INNER JOIN vacancies v ON v.primary_skill=c.primary_skill
+LEFT JOIN vacancy_has_skills v_h_s ON v_h_s.vacancy_id=v.id LEFT JOIN skills sk ON sk.id = v_h_s.skill_id INNER JOIN skills skil ON c.primary_skill = skil.id WHERE ((T.name = sk.name) OR (T.name = skil.name)) AND v.id=var1;
  
  
 select c_v.id, c_v.name, c_v.surname, c_v.primary_skill,
-               c_v.status, c_v.last_change_date, c_v.city from(select name,value,AVG(avg) AS avg, candidate_id,id from exadelteamdb2.weights group by name,id )as newT  INNER JOIN candidates_view c_v ON c_v.id = newT.candidate_id  group by newT.candidate_id order by SUM(newT.avg) DESC LIMIT 10;
+               c_v.status, c_v.last_change_date, c_v.city from(select name,value,AVG(avg) AS avg, candidate_id,id from exadelteamdb2.weights group by name,candidate_id )as newT  INNER JOIN candidates_view c_v ON c_v.id = newT.candidate_id  group by newT.candidate_id order by SUM(newT.avg) DESC LIMIT 10;
 END//
 DELIMITER ;
-
 --
 -- Dumping data for table `vacancy_statuses`
 --
