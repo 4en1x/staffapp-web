@@ -5,7 +5,7 @@ const CommunicationsList = props => {
   const communication = props.communication;
 
   return (
-    <div className="candidate-list">
+    <div className="candidate-info-list">
       <Header disabled as="h3">
         Communications
       </Header>

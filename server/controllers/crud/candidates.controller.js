@@ -28,6 +28,12 @@ class CandidatesController extends CRUDController {
   async readHistoryById(req, res) {
     try {
       const history = await db.history.findByCandidateId(req.params.id);
+
+      history.forEach((element) => {
+        element.date = utils.date.getDate(element.time);
+        element.time = utils.date.getTime(element.time);
+      });
+
       res.json(history);
     } catch (err) {
       res.status(500).end();
@@ -37,6 +43,19 @@ class CandidatesController extends CRUDController {
   async pickVacancies(req, res) {
     try {
       const vacancies = await db.candidates.pickVacancies(req.params.id);
+      vacancies.forEach((vacancy) => {
+        if (vacancy.jobStart) {
+          vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
+        }
+
+        if (vacancy.secondarySkills) {
+          vacancy.secondarySkills = vacancy.secondarySkills.split(', ');
+        }
+
+        if (vacancy.createdDate) {
+          vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
+        }
+      });
       res.json(vacancies);
     } catch (err) {
       res.status(500).end();
@@ -61,7 +80,6 @@ class CandidatesController extends CRUDController {
     const onload = async (candidates) => {
       candidates.forEach((candidate) => {
         candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
-        return candidate;
       });
     };
     await super.read(req, res, onload);

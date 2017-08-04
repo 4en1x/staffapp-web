@@ -21,8 +21,6 @@ class FilterComponent extends React.Component {
   };
 
   render() {
-    console.log(this.props.formValues);
-
     return (
       <div className="filter-container">
         <CandidatesFilterForm

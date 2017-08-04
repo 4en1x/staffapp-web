@@ -9,6 +9,7 @@
     margin-top: 1em;
 }
 
-.right{
+.container-right{
+    width: 100%;
     text-align: right;
 }
