@@ -35,23 +35,28 @@ export default class App extends React.Component {
 
     return (
       <div className="root-class">
-        <Header user={{ name: user.name }} itemSelected={this.itemSelected} />
-        <Switch>
-          <Route path="/interviews/add" component={AddInterviewPage} />
-          <Route exact path="/interviews/:id" component={InterviewPage} />
-          <Route path="/interviews/:id/edit" component={EditInterviewPage} />
-          <Route
-            path="/interviews/:id/feedbacks/:id"
-            component={FeedBackPage}
-          />
-          <Route path="/candidates/add" component={AddCandidate} />
-          <Route path="/candidates/:id/edit" component={CandidateEditPage} />
-          <Route path="/candidates/:id" component={CandidatePage} />
-          <Route path="/vacancies/add" component={AddVacancyPage} />
-          <Route path="/vacancies/:id/edit" component={EditVacancyPage} />
-          <Route path="/vacancies/:id" component={VacancyPage} />
-          <Route path="/" component={config[user.role]} />
-        </Switch>
+        <Header
+          user={{ name: user.name, role: user.role }}
+          itemSelected={this.itemSelected}
+        />
+        <div className="page-container">
+          <Switch>
+            <Route path="/interviews/add" component={AddInterviewPage} />
+            <Route exact path="/interviews/:id" component={InterviewPage} />
+            <Route path="/interviews/:id/edit" component={EditInterviewPage} />
+            <Route
+              path="/interviews/:id/feedbacks/:id"
+              component={FeedBackPage}
+            />
+            <Route path="/candidates/add" component={AddCandidate} />
+            <Route path="/candidates/:id/edit" component={CandidateEditPage} />
+            <Route path="/candidates/:id" component={CandidatePage} />
+            <Route path="/vacancies/add" component={AddVacancyPage} />
+            <Route path="/vacancies/:id/edit" component={EditVacancyPage} />
+            <Route path="/vacancies/:id" component={VacancyPage} />
+            <Route path="/" component={config[user.role]} />
+          </Switch>
+        </div>
       </div>
     );
   }

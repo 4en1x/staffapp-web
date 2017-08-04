@@ -7,7 +7,7 @@ export default class HRNavigationBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: props.activeItem
+      activeItem: 'Interviews'
     };
   }
 
@@ -41,7 +41,7 @@ export default class HRNavigationBar extends React.Component {
 
   render() {
     const { activeItem } = this.state;
-    const config = this.navigationConfig(this.props.url);
+    const config = this.navigationConfig('/');
     const keys = Object.keys(config);
 
     return (
