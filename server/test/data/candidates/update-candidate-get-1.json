@@ -2,33 +2,24 @@
   "name":"Usual Candidate",
   "surname": "Stsefanovich",
   "status": "Pool",
-  "contacts": {
-    "email": "freeplayercot@gmail.com",
-    "phone": "+375293552746",
-    "skype": null,
-    "city": "Minsk",
-    "linkedin": null,
-    "links":[
-      "12345",
-      "myLink",
-      "something"
-    ]
-  },
-  "skills": {
-    "primarySkill": ".NET",
-    "englishLevel": "0",
-    "secondarySkills": []
-  },
-  "communication": {
-    "resume": null,
-    "salary": 5000
-  },
-  "hirings": [
-    {
-      "id": 1,
-      "userId": 1,
-      "vacancyId": null,
-      "dateClose": null
+  "city": "Minsk",
+  "info": {
+    "contacts": {
+      "email": "freeplayercot@gmail.com",
+      "phone": "+375293552746",
+      "skype": null,
+      "links": [
+        "12345",
+        "myLink",
+        "something"
+      ]
+    },
+    "skills": {
+      "primarySkill": ".NET",
+      "englishLevel": "0"
+    },
+    "communication": {
+      "salary": 5000
     }
-  ]
+  }
 }

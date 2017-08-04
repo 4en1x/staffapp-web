@@ -63,8 +63,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try add vacancy with skill which don\'t exist',
@@ -143,8 +143,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
     it('This test should fail with 404 error : admin or hr try get vacancy that doen\'t exist',
       async () => {
@@ -239,8 +239,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try update vacancy with skill which don\'t exist',
