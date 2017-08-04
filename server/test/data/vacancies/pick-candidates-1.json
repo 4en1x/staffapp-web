@@ -1,0 +1,38 @@
+[
+  {
+    "id": 17,
+    "name": "myfavorite",
+    "surname": "unic",
+    "primarySkill": ".NET",
+    "status": "Pool",
+    "lastChangeDate": "28-07-2017",
+    "city": "Minsk"
+  },
+  {
+    "id": 16,
+    "name": "myfavorite",
+    "surname": "unic",
+    "primarySkill": ".NET",
+    "status": "Pool",
+    "lastChangeDate": "28-07-2017",
+    "city": "Minsk"
+  },
+  {
+    "id": 2,
+    "name": "Nina",
+    "surname": "Balerina",
+    "primarySkill": ".NET",
+    "status": "In progress",
+    "lastChangeDate": "03-06-2009",
+    "city": "Mogilev"
+  },
+  {
+    "id": 1,
+    "name": "Kostya",
+    "surname": "Stsefanovich",
+    "primarySkill": ".NET",
+    "status": "Pool",
+    "lastChangeDate": "04-06-2009",
+    "city": "Minsk"
+  }
+]

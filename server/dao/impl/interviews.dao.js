@@ -85,12 +85,14 @@ class InterviewsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findAllByUser(id, page = 1) {
-    const interviews = await this.connection.queryAsync({
-      sql: 'Call `all interviews`(?,?,?)',
-      values: [id, (page - 1) * this.itemsPerPage, this.itemsPerPage],
+    return super.find({
+      fields: 'id, type, date, place, name, surname',
+      basis: '(SELECT * FROM all_interviews_view) AS T',
+      condition: `WHERE T.user_id = ${id}`,
+      order: 'ORDER BY date',
+      page,
+      amount: this.itemsPerPage,
     });
-
-    return this.toDAOEntity(interviews[0]);
   }
 
   /**

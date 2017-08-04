@@ -13,13 +13,6 @@ class HiringsController extends CRUDController {
     const hiring = service.createHiringObject(req);
     let id = null;
 
-    const hirings = await this.dao.findByCandidate(hiring.candidateId);
-
-    if (hirings.some(item => !item.dateClose)) {
-      res.status(422).end();
-      return;
-    }
-
     const onload = async (insertId) => {
       id = insertId;
       await service.createInterviews(req.body.interviews, id, req.user.id);
