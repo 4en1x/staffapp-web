@@ -14,6 +14,7 @@ import AddInterviewPage from '../interview/interview-add-page/interview-add-page
 import AddVacancyPage from '../vacancy/vacancy-add-page/vacancy-add-page';
 import AddCandidate from '../candidate/candidate-add-page/add-candidate-page';
 import CandidateEditPage from '../candidate/candidate-edit-page/candidate-edit-page';
+import HiringPage from '../hiring-page/hiring-page.component';
 import { logout } from '../auth/auth-actions';
 import { store } from '../../index';
 import '../../index.css';
@@ -54,6 +55,7 @@ export default class App extends React.Component {
             <Route path="/vacancies/add" component={AddVacancyPage} />
             <Route path="/vacancies/:id/edit" component={EditVacancyPage} />
             <Route path="/vacancies/:id" component={VacancyPage} />
+            <Route path="/hiring/:id" component={HiringPage}/>
             <Route path="/" component={config[user.role]} />
           </Switch>
         </div>

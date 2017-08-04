@@ -8,7 +8,7 @@ const AdvancedVacancyListItem = props => {
 
   return (
     <List.Item className="flex-list-item">
-      <a>
+      <NavLink to={`/hiring/${vacancy.id}`}>
         <div className="list-item-top">
           <Header as="h2" className="top-left">
             {vacancy.name}
@@ -28,7 +28,7 @@ const AdvancedVacancyListItem = props => {
           />
           <Header as="h3" content={vacancy.jobStart} disabled />
         </div>
-      </a>
+      </NavLink>
     </List.Item>
   );
 };

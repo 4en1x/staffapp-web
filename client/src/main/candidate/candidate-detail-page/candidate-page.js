@@ -29,7 +29,8 @@ class CandidatePage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    candidate: state.candidate.currentCandidate
+    candidate: state.candidate.currentCandidate,
+    role: state.auth.role
   };
 };
 

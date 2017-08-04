@@ -51,6 +51,7 @@ class InterviewComponent extends React.Component {
   }
 
   initialData = () => {
+
       this.props.users.map(step => {
           const temp = {
               key: step.id,

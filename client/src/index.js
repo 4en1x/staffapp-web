@@ -15,6 +15,7 @@ import vacancyReducer from './main/vacancy/vacancy-reducer';
 import candidateReducer from './main/candidate/candidate-reducer';
 import navigationBarReducer from './components/hr-navigation-bar/navigation-reducer';
 import historyReducer from './main/history/history-reducer';
+import hiringReducer from './main/hiring-page/hiring-reducer';
 import './index.css';
 
 const reducer = combineReducers({
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   candidate: candidateReducer,
   navigationBar: navigationBarReducer,
   history: historyReducer,
+  hiring: hiringReducer,
   form: reduxFormReducer
 });
 
