@@ -721,6 +721,33 @@ BEGIN
 END//
 DELIMITER ;
 
+CREATE VIEW all_interviews_view AS 
+	(SELECT 
+		'Hirings' AS source,
+		i.id AS id, 
+		i.type AS type, 
+		i.date AS date, 
+		i.place AS place, 
+		c.name AS name, 
+		c.surname AS surname,
+		h.user_id AS user_id
+	FROM interviews i
+		INNER JOIN hirings h ON ((i.hiring_id = h.id) AND (h.date_close IS NULL))
+		INNER JOIN candidates c ON (h.candidate_id = c.id)) 
+UNION 
+(SELECT 
+	'Feedback' AS source,
+    i.id AS id, 
+    i.type AS type, 
+    i.date AS date, 
+    i.place AS place, 
+    c.name AS name, 
+    c.surname AS surname,
+    f.user_id AS user_id
+FROM interviews i
+	INNER JOIN feedbacks f ON ((f.interview_id = i.id) AND (f.status = 0))
+	INNER JOIN candidates c ON (f.candidate_id = c.id));
+
 --
 -- Dumping data for table `vacancy_statuses`
 --
