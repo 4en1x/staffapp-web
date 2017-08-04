@@ -1,10 +1,29 @@
 .history-table-page {
   padding: 0 2em;
+  margin: 0 1em 0 0;
   background: #ffffff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-
+  flex-grow:2
 }
 
 .date-output{
   white-space: pre
+}
+
+
+.history-page_content{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.content-right{
+  width:28%;
+}
+
+.main-component {
+  margin: 0.5% auto;
+  max-width: 1200px;
+  width: 90%;
 }

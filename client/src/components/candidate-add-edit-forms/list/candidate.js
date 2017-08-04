@@ -23,12 +23,14 @@ let counter = 0;
 
 const validate = values => {
   const errors = {};
-  if (!values.name) errors.name = "Required";
-  if (!values.englishLevel) errors.englishLevel = "Required";
-  if (!values.surname) errors.surname = "Required";
-  if (!values.email) errors.email = "Required";
-  if (!values.primarySkill) errors.primarySkill = "Required";
-  if (!values.status) errors.status = "Required";
+  if (!values.name) errors.name = "Please enter name";
+  if (!values.englishLevel) errors.englishLevel = "Please enter english level";
+  if (!values.surname) errors.surname = "Please enter surname";
+  if (!values.email) errors.email = "Please enter email";
+   else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) errors.email = 'Please check email';
+  if (values.phone && !/^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\d\d$/i.test(values.phone)) errors.phone = 'Please check phone number';
+  if (!values.primarySkill) errors.primarySkill = "Please enter primary skill";
+  if (!values.status) errors.status = "Please enter status";
   return errors;
 };
 
@@ -104,7 +106,7 @@ class Candidate extends React.Component {
           (error &&
             <div className="warning-block">
               <Label basic color="red" pointing>
-                Please enter name
+                  {error}
               </Label>
             </div>)}
       </div>
@@ -121,7 +123,7 @@ class Candidate extends React.Component {
   };
   primarySkillDataInput = ({ input }) => {
     return (
-      <Input {...input} placeholder="from" className="text-area" label="from" />
+      <Input {...input} placeholder="from" type="number" className="text-area" label="from" />
     );
   };
   surnameInput = ({ input, meta: { touched, error } }) => {
@@ -132,7 +134,7 @@ class Candidate extends React.Component {
           (error &&
             <div className="warning-block">
               <Label basic color="red" pointing>
-                Please enter surname
+                  {error}
               </Label>
             </div>)}
       </div>
@@ -156,7 +158,7 @@ class Candidate extends React.Component {
           (error &&
             <div className="warning-block">
               <Label basic color="red" pointing>
-                Please enter primary skill
+                  {error}
               </Label>
             </div>)}
       </div>
@@ -180,7 +182,7 @@ class Candidate extends React.Component {
           (error &&
             <div className="warning-block">
               <Label basic color="red" pointing>
-                Please enter status
+                  {error}
               </Label>
             </div>)}
       </div>
