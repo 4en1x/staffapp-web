@@ -19,21 +19,30 @@ const emailInput = ({ input, meta: { touched, error } }) => {
         (error &&
           <div className="warning-block">
             <Label basic color="red" pointing>
-              Please enter email address
+                {error}
             </Label>
           </div>)}
     </div>
   );
 };
-const phoneInput = ({ input }) => {
-  return (
+const phoneInput = ({ input, meta: { touched, error } }) => {
+    return (
+        <div className="field-with-warning">
     <Input
       {...input}
       placeholder="phone number"
       label={{ basic: true, content: <Icon name="phone" /> }}
       labelPosition="left"
     />
-  );
+            {touched &&
+            (error &&
+            <div className="warning-block">
+                <Label basic color="red" pointing>
+                    {error}
+                </Label>
+            </div>)}
+        </div>
+    );
 };
 const skypeInput = ({ input }) => {
   return (

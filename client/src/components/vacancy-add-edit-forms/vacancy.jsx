@@ -171,13 +171,14 @@ class Vacancy extends React.Component {
     /////////////////////////
     let initData = {};
     if (this.props.data) {
+        let date = new Date(this.props.data.jobStart);
       initData = {
         status: this.props.data.status,
-        jobStart: this.props.data.jobStart,
+        jobStart: date.toISOString().split('T')[0],
         salary: this.props.data.salary,
         name: this.props.data.name,
         primarySkill: this.props.data.primarySkill,
-        skills: this.props.data.skills,
+        secondarySkills: this.props.data.secondarySkills,
         description: this.props.data.description,
         city: this.props.data.city
       };
@@ -242,7 +243,7 @@ class Vacancy extends React.Component {
                 <div className="item-with-label">
                   <Header as="h3">secondary skills</Header>
                   <Field
-                    name={"skills"}
+                    name={"secondarySkills"}
                     component={this.secondarySkillsInput}
                   />
                 </div>
