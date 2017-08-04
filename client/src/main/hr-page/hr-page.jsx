@@ -1,13 +1,12 @@
 import React from 'react';
-import { Route, Redirect, Link } from 'react-router-dom';
-// import HRNavigationBar from '../../components/hr-navigation-bar/navigation-bar';
+import { Route, Redirect } from 'react-router-dom';
 import InterviewListWrapper from '../interview/list-wrapper/interview-list-wrapper';
 import CandidateListWrapper from '../candidate/list-wrapper/candidate-list-wrapper';
 import VacancyListWrapper from '../vacancy/list-wrapper/vacancy-list-wrapper';
 import InterviewsMenu from './components/menu/interviews-menu';
 import VacanciesFilterForm from './components/filter/vacancies-filter.container';
 import CandidateFilter from './components/filter/candidates-filter.container';
-import AddButton from '../../components/add-button/add-button';
+import CustomButton from '../../components/custom-button/custom-button';
 import HistoryPage from '../history/history-page';
 import './hr-page.css';
 
@@ -40,7 +39,12 @@ export default class HRPage extends React.Component {
                 <VacancyListWrapper />
               </div>
               <div className="content-right">
-                <AddButton to="/vacancies/add" content="Add vacancy" />
+                <CustomButton
+                  to="/vacancies/add"
+                  content="Add vacancy"
+                  color="twitter"
+                  icon="add"
+                />
                 <VacanciesFilterForm />
               </div>
             </div>}
@@ -53,21 +57,17 @@ export default class HRPage extends React.Component {
                 <CandidateListWrapper />
               </div>
               <div className="content-right">
-                <AddButton to="/candidates/add" content="Add candidate" />
+                <CustomButton
+                  to="/candidates/add"
+                  content="Add candidate"
+                  color="twitter"
+                  icon="add"
+                />
                 <CandidateFilter />
               </div>
             </div>}
         />
-        <Route
-          path={`/history`}
-          component={() =>
-            <div className="page-content">
-              <div className="content-left">
-                <HistoryPage />
-              </div>
-              <div className="content-right" />
-            </div>}
-        />
+        <Route path={`/history`} component={() => <HistoryPage />} />
       </div>
     );
   }

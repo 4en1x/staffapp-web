@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
-import './add-button.css';
-const AddButton = props =>
+import './custom-button.css';
+
+const CustomButton = props =>
   <Link to={props.to} className="add-button-container">
     <Button
       className="add-button"
       fluid
       content={props.content}
-      icon="add"
+      icon={props.icon}
       labelPosition="left"
-      color="twitter"
+      color={props.color}
     />
   </Link>;
 
-export default AddButton;
+export default CustomButton;

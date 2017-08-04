@@ -1,8 +1,8 @@
 .header-component {
   height: 60px;
-  position: relative;
   display: flex;
   justify-content: center;
+  position: relative;
   background-color: #fafafa;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
 }
@@ -14,28 +14,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .header-content-left {
-  height: inherit;
   width: 70%;
-  display: flex;
-  align-items: center;
-}
-.navbar-container{
-  width: calc(100% - 110px);
+  height: inherit;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .header-component .logo-container {
-  margin-right: 2em;
+  position: absolute;
+  left: 0;
 }
 
 .header-component .logo-container .logo {
   width: 90px;
-}
-
-.header-component #header-label {
-  margin: 0;
 }

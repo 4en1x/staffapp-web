@@ -1,21 +1,21 @@
 .candidate-info-list {
   width: 30%;
 }
-.info-tab {
+.content-tab {
   width: 100%;
-  padding: 2em;
+  padding: 1em;
   background: #ffffff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   margin-bottom: 1em;
 }
 
-.info-tab.row {
+.content-tab.row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.info-tab.column {
+.content-tab.column {
   display: flex;
   flex-direction: column;
 }

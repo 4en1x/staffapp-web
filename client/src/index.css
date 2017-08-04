@@ -20,8 +20,8 @@ body {
 }
 
 .router-container {
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
 }
 
 .page-container {
@@ -34,7 +34,8 @@ body {
 }
 
 .hr-page,
-.candidate-page {
+.candidate-page,
+.hiring-page {
   width: 95%;
   max-width: 1200px;
   padding: 1% 0;
@@ -48,12 +49,16 @@ body {
   flex-wrap: wrap;
 }
 
-.content-header {
+.content-top {
   width: 100%;
-  background: #ffffff;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  padding: 2em;
-  margin-bottom: 1em;
+}
+
+.content-left {
+  width: 70%;
+}
+
+.content-right {
+  width: 28%;
 }
 
 /* clear */

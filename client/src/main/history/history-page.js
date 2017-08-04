@@ -16,22 +16,17 @@ class HistoryPage extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    console.log(this.props);
     if (this.props.filter !== nextProps.filter) {
-      console.log('lallalal');
       this.props.getHistoryList(nextProps.filter);
     }
   }
 
   render() {
-    console.log(this.props.history);
-
     if (!this.props.history) return <SemanticLoader />;
 
     return (
-      <div className="history-page_content">
-        <div className="history-table-page">
+      <div className="page-content">
+        <div className="content-left">
           <Table basic="very">
             <Table.Body>
               {this.props.history.map(item => {

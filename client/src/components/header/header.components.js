@@ -94,9 +94,7 @@ export default class HeaderComponent extends React.Component {
             <Link to="/" className="logo-container">
               <Image className="logo" src={images.logo1} />
             </Link>
-            <div className="navbar-container">
-              {config[user.role]}
-            </div>
+            {config[user.role]}
           </div>
           <DropDownTrigger user={user} itemSelected={this.props.itemSelected} />
           <Notification messages={messages} removeMessage={removeMessage} />

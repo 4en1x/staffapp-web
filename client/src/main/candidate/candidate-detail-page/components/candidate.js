@@ -5,6 +5,7 @@ import HistoryWrapper from './history-wrapper/history-wrapper';
 import HiringWrapper from './hiring-wrapper/hiring-wrapper';
 import VacancyWrapper from './vacancies-wrapper/vacancies-wrapper';
 import SecondaryMenuComponent from '../../../../components/secondary-menu/secondary-menu.component';
+import CustomButton from '../../../../components/custom-button/custom-button';
 
 import './candidate.css';
 
@@ -38,20 +39,19 @@ export default class Candidate extends React.Component {
     }
     return (
       <div className="page-content">
-        <div className="info-tab ">
-          <Header as="h1">
-            {this.props.candidate.name} {this.props.candidate.surname}
-          </Header>
+        <div className="content-tab ">
           <Header
-            as="h3"
-            content={this.props.candidate.info.skills.primarySkill}
-            disabled
+            as="h2"
+            content={`${this.props.candidate.name} ${this.props.candidate
+              .surname}`}
+            subheader={this.props.candidate.info.skills.primarySkill}
           />
         </div>
         <div className="content-left">
           {currentTab}
         </div>
         <div className="content-right">
+          <CustomButton to="/" content="Edit" color="twitter" icon="edit" />
           <SecondaryMenuComponent
             onItemClick={this.handleItemClick}
             items={Items}
