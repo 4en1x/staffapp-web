@@ -58,6 +58,37 @@ describe('#Fill-Lists Api', () => {
       });
   });
 
+  describe('#Get Users', () => {
+    it('This test should pass, because hr and admin have access to get users',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/users`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(10);
+      });
+
+    it('This test should fail with 403 error: user don\'t have access to get users',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/users`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+  });
+
   describe('#Get Primary Skills', () => {
     it('This test should pass, because hr and admin have access to get primary skills',
       async () => {

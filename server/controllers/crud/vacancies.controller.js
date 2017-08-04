@@ -63,7 +63,9 @@ class VacanicesController extends CRUDController {
       const candidates = await db.vacancies.pickCandidates(req.params.id);
 
       candidates.forEach((candidate) => {
-        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        if (candidate.lastChangeDate) {
+          candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        }
       });
 
       res.json(candidates);
