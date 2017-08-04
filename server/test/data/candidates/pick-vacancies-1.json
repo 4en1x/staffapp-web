@@ -1,0 +1,42 @@
+[
+  {
+    "id": 6,
+    "name": "job in exadel 6",
+    "status": "Candidate declined",
+    "jobStart": "02-06-2009",
+    "primarySkill": ".NET",
+    "city": "Minsk"
+  },
+  {
+    "id": 7,
+    "name": "Justify",
+    "status": "Candidate approved",
+    "jobStart": null,
+    "primarySkill": ".NET",
+    "city": "Minsk"
+  },
+  {
+    "id": 10,
+    "name": "job in exadel",
+    "status": "On hold",
+    "jobStart": null,
+    "primarySkill": ".NET",
+    "city": "Minsk"
+  },
+  {
+    "id": 11,
+    "name": "job in exadel",
+    "status": "On hold",
+    "jobStart": null,
+    "primarySkill": ".NET",
+    "city": "Pinsk"
+  },
+  {
+    "id": 1,
+    "name": "job in exadel",
+    "status": "On hold",
+    "jobStart": "02-06-2009",
+    "primarySkill": ".NET",
+    "city": "Minsk"
+  }
+]

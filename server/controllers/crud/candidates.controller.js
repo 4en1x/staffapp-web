@@ -52,7 +52,9 @@ class CandidatesController extends CRUDController {
           vacancy.secondarySkills = vacancy.secondarySkills.split(', ');
         }
 
-        vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
+        if (vacancy.createdDate) {
+          vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
+        }
       });
       res.json(vacancies);
     } catch (err) {
