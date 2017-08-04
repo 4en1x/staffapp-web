@@ -54,6 +54,9 @@ const candidateHandle = (state = {}, action) => {
     case 'RESET_CANDIDATE_VACANCIES':
       return { ...state, vacancies: null };
 
+    case 'DOWNLOAD_REPORT':
+      return { ...state, reportLink: action.reportLink };
+
     default:
       return state;
   }

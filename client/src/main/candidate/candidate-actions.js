@@ -15,6 +15,15 @@ const RESET_CANDIDATE_HIRING = 'RESET_CANDIDATE_HIRING';
 const ADD_CANDIDATE_VACANCIES = 'ADD_CANDIDATE_VACANCIES';
 const RESET_CANDIDATE_VACANCIES = 'RESET_CANDIDATE_VACANCIES';
 
+const DOWNLOAD_REPORT = 'DOWNLOAD_REPORT';
+
+export function downloadReport(reportLink) {
+  return {
+    type: DOWNLOAD_REPORT,
+    reportLink
+  };
+}
+
 function addCandidateList(list) {
   return {
     type: ADD_CANDIDATE_LIST,
