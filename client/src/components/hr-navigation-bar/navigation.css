@@ -1,7 +1,10 @@
 .ui.pointing.secondary.menu-component.menu {
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 1.4em;
+  border:none;
 }
 .ui.secondary.pointing.menu .active.item,
-.ui.secondary.pointing.menu .active.item:hover{
+.ui.secondary.pointing.menu .active.item:hover {
   border-color: #008dd8;
+  font-weight: 400;
 }

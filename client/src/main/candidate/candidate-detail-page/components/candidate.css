@@ -1,36 +1,21 @@
-.candidate-header{
-    padding: 0 2em;
+.candidate-info-list {
+  width: 30%;
 }
-.candidate-content {
+.info-tab {
   width: 100%;
+  padding: 2em;
+  background: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1em;
+}
+
+.info-tab.row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 5em;
 }
 
-.candidate-list{
-    width:30%;
-}
-
-a.ui.blue.big.right.ribbon.label.custom-label {
-  left: calc(100% + 1rem + 2em);
-  margin: -1em 0;
-  width: 10%;
-}
-
-.tab-content{
-    width:100%;
-    padding: 1em;
-}
-
-.tab-content.row{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.tab-content.column{
-    display: flex;
-    flex-direction: column;
+.info-tab.column {
+  display: flex;
+  flex-direction: column;
 }

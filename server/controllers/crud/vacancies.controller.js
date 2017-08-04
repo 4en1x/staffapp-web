@@ -37,6 +37,12 @@ class VacanicesController extends CRUDController {
   async readHistoryById(req, res) {
     try {
       const history = await db.history.findByVacancyId(req.params.id);
+
+      history.forEach((element) => {
+        element.date = utils.date.getDate(element.time);
+        element.time = utils.date.getTime(element.time);
+      });
+
       res.json(history);
     } catch (err) {
       res.status(500).end();
@@ -47,6 +53,20 @@ class VacanicesController extends CRUDController {
     try {
       const history = await db.candidates.findByVacancyId(req.params.id);
       res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async pickCandidates(req, res) {
+    try {
+      const candidates = await db.vacancies.pickCandidates(req.params.id);
+
+      candidates.forEach((candidate) => {
+        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+      });
+
+      res.json(candidates);
     } catch (err) {
       res.status(500).end();
     }
@@ -71,7 +91,20 @@ class VacanicesController extends CRUDController {
   }
 
   async update(req, res) {
-    await super.update(req, res, req.body);
+    const vacancyStatus = req.body.status;
+
+    const onload = async () => {
+      if (vacancyStatus !== 'Closed' && vacancyStatus !== 'Cancelled') {
+        return;
+      }
+
+      const candidates = await db.candidates.findByVacancyId(req.params.id);
+      await Promise.all(candidates.map(async (candidate) => {
+        await db.candidates.attention(candidate.id);
+      }));
+    };
+
+    await super.update(req, res, req.body, onload);
   }
 }
 

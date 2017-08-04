@@ -18,14 +18,11 @@ class FilterComponent extends React.Component {
 
   onReportClicked = () => {
     candidateService.getCandidatesReport(this.props.filter).then(res => {
-      console.log(JSON.stringify(res));
       FileDownload(res.data, 'report.xlsx');
     });
   };
 
   render() {
-    console.log(this.props.formValues);
-
     return (
       <div className="filter-container">
         <CandidatesFilterForm

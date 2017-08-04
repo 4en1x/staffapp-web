@@ -34,7 +34,7 @@ describe('#Filter Api', () => {
         expect(response.statusCode).to.equal(200);
 
         response = await req
-          .get(`${defaultUrl}/candidates?filter={"candidateStatus":["Pool"]}`)
+          .get(`${defaultUrl}/candidates?filter={"status":["Pool"]}`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.be.an('array');

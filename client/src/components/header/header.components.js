@@ -1,12 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Image, Dropdown, Icon } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
-import Notification from '../notification/notification';
-import images from '../../assets/images';
-import notificationService from '../../service/notification-service';
-import './header.css';
+import HRNavigationBar from '../../components/hr-navigation-bar/navigation-bar';
 
+import Notification from '../notification/notification';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import images from '../../assets/images';
+import './header.css';
+import NotificationService from '../../service/notification-service';
+
+///////////////// messages ////
+// const messages = NotificationService.getMessageList();
 const messages = [
   {
     id: 50,
@@ -43,6 +47,7 @@ const removeMessage = item => {
   messages.splice(messages.indexOf(item), 1);
   // NotificationService.deleteMessageById(item.id);
 };
+///////////////////////////////
 
 const trigger = name =>
   <span>
@@ -73,32 +78,29 @@ class DropDownTrigger extends React.Component {
 }
 
 export default class HeaderComponent extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      messages: []
-    }
-  }
-
-  componentDidMount() {
-    notificationService.getMessageList().then(res => {
-      this.setState({messages: res.data});
-    })
-  }
-
+  config = () => ({
+    // admin: AdminPage,
+    hr: <HRNavigationBar />
+    //user: WorkerPage
+  });
   render() {
+    const config = this.config();
     const user = this.props.user;
+    console.log(config[user.role]);
     return (
-      <div>
-        <div className="header-component">
-          <Link to="/">
-            <Image className="image" src={images.logo1} />
-          </Link>
+      <div className="header-component">
+        <div className="header-content">
+          <div className="header-content-left">
+            <Link to="/" className="logo-container">
+              <Image className="logo" src={images.logo1} />
+            </Link>
+            <div className="navbar-container">
+              {config[user.role]}
+            </div>
+          </div>
           <DropDownTrigger user={user} itemSelected={this.props.itemSelected} />
+          <Notification messages={messages} removeMessage={removeMessage} />
         </div>
-        <Notification messages={this.state.messages} removeMessage={removeMessage} />
       </div>
     );
   }
