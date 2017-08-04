@@ -4,6 +4,7 @@ import {Field, reduxForm} from 'redux-form';
 import {Button} from 'semantic-ui-react';
 import AccordionComponent from '../components/accordion.component';
 import DropdownComponent from '../components/dropdown.component';
+import ReportDownloadComponent from '../components/report-download.component';
 
 const CandidatesFilterForm = props => {
   const {handleSubmit, onSubmit, data} = props;
@@ -55,6 +56,7 @@ const CandidatesFilterForm = props => {
           content="Report"
           onClick={props.onReportClicked}
         />
+        <ReportDownloadComponent />
 
         <Button color="twitter" icon="filter" content="Apply" type="submit"/>
       </div>

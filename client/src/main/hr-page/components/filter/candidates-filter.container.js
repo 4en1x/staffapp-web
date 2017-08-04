@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FileDownload from 'react-file-download';
-import { addFilter, getFormValues } from '../../../candidate/candidate-actions';
+import { addFilter, getFormValues, downloadReport } from '../../../candidate/candidate-actions';
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
 import candidateService from '../../../../service/candidate-service';
 import './filter.css';
@@ -17,10 +16,8 @@ class FilterComponent extends React.Component {
   };
 
   onReportClicked = () => {
-    candidateService.getCandidatesReport(this.props.filter).then(res => {
-      console.log(JSON.stringify(res));
-      FileDownload(res.data, 'report.xlsx');
-    });
+    const filter = JSON.stringify(this.props.filter || {});
+    this.props.downloadReport(`http://localhost:3300/candidates/report?filter=${filter}`);
   };
 
   render() {
@@ -40,10 +37,11 @@ class FilterComponent extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    formValues: state.candidate.formValues || {}
+    formValues: state.candidate.formValues || {},
+    filter: state.candidate.filter
   };
 };
 
-export default connect(mapStateToProps, { addFilter, getFormValues })(
+export default connect(mapStateToProps, { addFilter, getFormValues, downloadReport })(
   FilterComponent
 );
