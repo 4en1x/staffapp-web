@@ -68,7 +68,7 @@ class HistoryDAO extends BasicDAO {
       role: tableName,
       event,
       user_id: userId,
-      time: utils.date.getSQL(new Date()),
+      date: utils.date.getSQL(new Date()),
       logs,
     });
   }
