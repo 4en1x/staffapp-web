@@ -1,26 +1,9 @@
-.hr-page {
-  height: calc(100% - 80px);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 0.5% 8%;
-  overflow: auto;
-}
-.hr-page_container {
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+.content-left {
+  width: 70%;
 }
 
-.hr-page_content{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.content-right{
-  width:28%;
+.content-right {
+  width: 28%;
 }
 
 .main-component {

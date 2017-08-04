@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ListComponent from '../../../../../components/list/list.component';
+import AdvancedVacancyListItem from '../../../../../components/list/list-items/advanced-vacancy-list-item';
+
 import {
   getCandidateVacancies,
   resetCandidateVacancies
 } from '../../../candidate-actions';
 import SemanticLoader from '../../../../../components/loaders/semantic-loader';
-import VacanciesTab from '../tabs/vacancies-tab';
 
 class VacanciesWrapper extends React.Component {
   componentDidMount() {
@@ -17,12 +19,15 @@ class VacanciesWrapper extends React.Component {
   }
 
   render() {
-
-    console.log(this.props.vacancies);
-
     if (!this.props.vacancies) return <SemanticLoader />;
 
-    return <VacanciesTab vacancies={this.props.vacancies} />;
+    return (
+      <ListComponent
+        listItem={AdvancedVacancyListItem}
+        elements={this.props.vacancies}
+        url={`/vacancies`}
+      />
+    );
   }
 }
 

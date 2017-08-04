@@ -5,7 +5,7 @@ const SkillsList = props => {
   const skills = props.skills;
 
   return (
-    <div className="candidate-list">
+    <div className="candidate-info-list">
       <Header disabled as="h3">
         Skills
       </Header>

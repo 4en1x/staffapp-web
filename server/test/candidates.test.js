@@ -168,6 +168,136 @@ describe('#Candidates-Api', () => {
       });
   });
 
+  describe('#Get candidate History', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/1/history`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin have access for all history of candidates and can read it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/candidates/update-candidate-set-1.json', 'utf8');
+        response = await req
+          .patch(`${defaultUrl}/candidates/1`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/1/history`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(1);
+      });
+  });
+
+  describe('#Get candidate Hirings', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/1/hirings`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin have access for all hirings of candidates and can read it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/1/hirings`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(1);
+      });
+  });
+
+  describe('#Pick Vacancies to candidate', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/1/pickVacancies`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin can pick vacancies to candidates',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/candidates/pick-vacancies-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/candidates/1/pickVacancies`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
+  });
+
+  describe('#Get report', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/report`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin can get reports from candidates',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/candidates/report`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+      });
+  });
+
   describe('#Get all candidates', () => {
     it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {

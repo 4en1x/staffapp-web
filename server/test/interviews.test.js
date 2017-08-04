@@ -238,8 +238,8 @@ describe('#Interviews-Api', () => {
           .get(`${defaultUrl}/interviews?type=all`)
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
-        expect(response.body).to.be.an('array');
-        expect(response.body).to.have.lengthOf(10);
+        expect(response.body[0]).to.be.an('array');
+        expect(response.body[0]).to.have.lengthOf(10);
       });
   });
 

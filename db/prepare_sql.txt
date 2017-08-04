@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: mysql5.gear.host    Database: exadelteamdb2
+-- Host: mysql5.gear.host    Database: `exadelteamdbtest`
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -359,6 +359,8 @@ CREATE TABLE   `exadelteamdbtest`.`messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` longtext NOT NULL,
   `user_id` int(11) NOT NULL,
+    `interview_id` int(11) NOT NULL,
+    `status` int(11) NOT NULL DEFAULT 0,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_messages_users1_idx` (`user_id`),
@@ -589,8 +591,8 @@ CREATE TABLE   `exadelteamdbtest`.`vacancy_statuses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
-drop view if exists candidates_view;
-create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
+drop view if exists `exadelteamdbtest`.candidates_view;
+create view `exadelteamdbtest`.candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
                cnd.skype,cnd.phone,cnd.resume, e_l.name AS english_level, 
                cnd.created_date, cnd.last_change_date, u.name AS hrName, 
                cnd.linkedin, cnd.salary, cnd.notification_date, 
@@ -615,8 +617,8 @@ create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname,
               LEFT JOIN links l
               ON cnd.id = l.candidate_id GROUP BY cnd.id;
               
-drop view if exists vacancies_view;
-create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
+drop view if exists `exadelteamdbtest`.vacancies_view;
+create view `exadelteamdbtest`.vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
       from vacancies v
               LEFT JOIN cities ct
               ON v.city_id = ct.id
@@ -628,6 +630,12 @@ create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_star
               ON vhs.vacancy_id = v.id
               LEFT JOIN skills ss
               ON ss.id = vhs.skill_id GROUP BY v.id;
+
+
+
+
+     
+
 --
 -- Dumping data for table `vacancy_statuses`
 --

@@ -5,7 +5,7 @@ const ContactsList = props => {
   const contacts = props.contacts;
 
   return (
-    <div className="candidate-list">
+    <div className="candidate-info-list">
       <Header disabled as="h3">
         Contacts
       </Header>

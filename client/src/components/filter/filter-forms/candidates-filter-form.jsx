@@ -48,7 +48,7 @@ const CandidatesFilterForm = props => {
         component={DropdownComponent}
       />
 
-      <div className="filter-item right">
+      <div className="filter-item container-right">
         <Button
           color="twitter"
           icon="file text"
