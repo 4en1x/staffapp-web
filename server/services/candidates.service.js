@@ -34,6 +34,7 @@ function rebuildCandidate(candidate) {
   };
 
   return {
+    id: candidate.id,
     name: candidate.name,
     surname: candidate.surname,
     status: candidate.status,

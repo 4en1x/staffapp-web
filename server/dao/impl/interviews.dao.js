@@ -2,6 +2,8 @@ const BasicDAO = require('../basic.dao');
 const FeedbacksDAO = require('./feedbacks.dao');
 const CandidatesDAO = require('./candidates.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
+const NotificationsDAO = require('./notifications.dao');
+const { createMessages } = require('../../services/notifications.service');
 const UsersDAO = require('./users.dao');
 
 const getHiringsDAO = require.bind(null, './hirings.dao');
@@ -46,6 +48,11 @@ class InterviewsDAO extends BasicDAO {
       await Promise.all(users.map(async (userId) => {
         feedback.userId = userId;
         await FeedbacksDAO.instance.create(feedback);
+
+        const messages = createMessages(userId, interview, interviewId);
+        await Promise.all(messages.map(async (message) => {
+          await NotificationsDAO.instance.create(message);
+        }));
       }));
 
       return interviewId;
@@ -78,27 +85,14 @@ class InterviewsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findAllByUser(id, page = 1) {
-    const fields = `${this.tableName}.${this.idField}, type, date, place, c.name, c.surname`;
-
-    const interviews = await this.connection.queryAsync({
-      sql: `SELECT ${fields} FROM ${this.tableName}
-            INNER JOIN hirings h ON ${this.tableName}.hiring_id = h.id
-            INNER JOIN candidates c ON h.candidate_id = c.id
-            WHERE h.user_id = ${id} AND h.date_close IS NULL
-
-            UNION
-
-            SELECT ${fields} FROM ${this.tableName}
-            INNER JOIN feedbacks f ON f.interview_id = ${this.tableName}.id
-            INNER JOIN candidates c ON f.candidate_id = c.id
-            WHERE f.user_id = ${id} AND f.status = 0
-
-            ORDER BY date
-            LIMIT ?, ?`,
-      values: [(page - 1) * this.itemsPerPage, this.itemsPerPage],
+    return super.find({
+      fields: 'id, type, date, place, name, surname',
+      basis: '(SELECT * FROM all_interviews_view) AS T',
+      condition: `WHERE T.user_id = ${id}`,
+      order: 'ORDER BY date',
+      page,
+      amount: this.itemsPerPage,
     });
-
-    return this.toDAOEntity(interviews);
   }
 
   /**

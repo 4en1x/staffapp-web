@@ -26,7 +26,7 @@ class HistoryDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
       condition: makeFilterQuery(query),
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -36,7 +36,7 @@ class HistoryDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
       condition: `WHERE user_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -44,7 +44,7 @@ class HistoryDAO extends BasicDAO {
   async findByCandidateId(id) {
     const history = await super.find({
       condition: `WHERE role = "candidates" AND foreign_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -52,7 +52,7 @@ class HistoryDAO extends BasicDAO {
   async findByVacancyId(id) {
     const history = await super.find({
       condition: `WHERE role = "vacancies" AND foreign_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
