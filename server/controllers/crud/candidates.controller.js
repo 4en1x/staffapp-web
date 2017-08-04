@@ -30,8 +30,8 @@ class CandidatesController extends CRUDController {
       const history = await db.history.findByCandidateId(req.params.id);
 
       history.forEach((element) => {
-        element.date = utils.date.getDate(element.time);
-        element.time = utils.date.getTime(element.time);
+        element.time = utils.date.getTime(element.date);
+        element.date = utils.date.getDate(element.date);
       });
 
       res.json(history);

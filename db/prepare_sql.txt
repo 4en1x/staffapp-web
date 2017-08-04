@@ -1,4 +1,4 @@
-﻿-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: mysql5.gear.host    Database: `exadelteamdbtest`
 -- ------------------------------------------------------
@@ -632,8 +632,8 @@ create view `exadelteamdbtest`.vacancies_view AS SELECT v.id, v.name, vs.name AS
               LEFT JOIN skills ss
               ON ss.id = vhs.skill_id GROUP BY v.id;
 
-
-CREATE VIEW all_interviews_view AS 
+drop view if exists `exadelteamdbtest`.all_interviews_view;
+CREATE VIEW `exadelteamdbtest`.all_interviews_view AS
 	(SELECT 
 		'Hirings' AS source,
 		i.id AS id, 
