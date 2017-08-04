@@ -11,7 +11,6 @@ import {
   Icon,
   Label
 } from "semantic-ui-react";
-import CustonSearch from "./search";
 
 const typeList = [
   {
@@ -31,10 +30,10 @@ const typeList = [
   }
 ];
 const hrSkillList = [];
+const usersList = [];
 const primarySkillList = [];
 const secondarySkillList = [];
 const otherSkillList = [];
-let users = [];
 
 const validate = values => {
   const errors = {};
@@ -52,6 +51,21 @@ class InterviewComponent extends React.Component {
   }
 
   initialData = () => {
+      this.props.users.map(step => {
+          const temp = {
+              key: step.id,
+              text: step.id,
+              value: step.id,
+              content: " ",
+              label:  <Label color='blue'>
+                  {step.name}
+                <Label.Detail>{step.role} {step.email}</Label.Detail>
+              </Label>
+          };
+          usersList.push(temp);
+          return null;
+      });
+
     if (this.props.data) {
       let date = new Date(this.props.data.date);
       let initData = {
@@ -105,13 +119,18 @@ class InterviewComponent extends React.Component {
   };
   nameInput = ({ input }) => {
     return (
-      <CustonSearch
-        input={{ icon: "search", iconPosition: "left" }}
-        onDataChange={(param, data) => {
-          input.onChange(data);
-        }}
-        tempData={users}
-      />
+      <Dropdown
+      selection
+      value={input.value}
+      onChange={(param, data) => {
+          input.onChange(data.value);
+      }}
+      placeholder="users"
+      multiple
+      search
+      options={usersList}
+          />
+
     );
   };
   primarySkillsInput = ({ input }) => {
@@ -232,7 +251,7 @@ class InterviewComponent extends React.Component {
     data.users = value.users;
     if (value.time) data.date = value.date + " " + value.time + ":00";
     else data.date = value.date;
-    data.userNames = users;
+    data.userNames = [];
     if (!this.props.data) {
       data.type = value.type;
       data.fields = [];
@@ -274,28 +293,26 @@ class InterviewComponent extends React.Component {
           });
       }
     }
+    if(value.users){
+        value.users.map(item => {
+            this.props.users.map(item2 => {
+              if(item ===item2.id) data.userNames.push(item2.name);
+            })
+        })
+    }
     this.props.onSubmit(data);
   };
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const {  reset, handleSubmit, submitting } = this.props;
 
     return (
       <form
         onSubmit={handleSubmit(this.prepareData)}
         className="interview-detail-page"
       >
-        <div className="interview-edit-add-content">
-          <div className="content-top">
-            <div className="data-top">
-              <Header as="h2" className="name-label">
-                {!this.props.data && "creating interview form"}
-                {this.props.data && "editing interview form"}
-              </Header>
-            </div>
-            <Divider />
-          </div>
-          <Segment className="content-description" raised>
+
+          <Segment raised>
             <div className="item-with-label">
               <Header as="h3">Users</Header>
               <Field name={"users"} component={this.nameInput} />
@@ -350,12 +367,14 @@ class InterviewComponent extends React.Component {
               </div>}
 
             <div className="add-interview">
+              <Button type="button" onClick={reset}>
+                reset data
+              </Button>
               <Button primary disabled={submitting}>
                 Send interview card
               </Button>
             </div>
           </Segment>
-        </div>
       </form>
     );
   }

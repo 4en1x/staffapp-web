@@ -1,71 +1,86 @@
 import React from "react";
 import "./hiring-page.component.css";
-import { Button, Segment, Divider, Header, Table } from "semantic-ui-react";
-import CustonSearch from "./search";
+import {
+  Button,
+  Segment,
+  Divider,
+  Header,
+  Table,
+  Icon
+} from "semantic-ui-react";
+import InterviewComponent from "../../components/interview-add-edit-forms/interview.component";
 
-let data = [
-  {
-    place: "Minsk",
-    userNames: ["Anatoliy", "Vselovod"],
-    date: "2014-03-03",
-    type: "tech",
-    fields: [
-      { name: "c++", type: "tech", typeSkill: "minor" },
-      { name: "java", type: "tech", typeSkill: "minor" },
-      { name: "JavaScript", type: "tech", typeSkill: "minor" },
-      { name: "angular", type: "tech", typeSkill: "minor" }
-    ]
-  },
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+import { createStore, combineReducers } from "redux";
+import { reducer as reduxFormReducer } from "redux-form";
+import { Provider } from "react-redux";
+
+const reducer = combineReducers({
+  form: reduxFormReducer // mounted under "form"
+});
+const store = (window.devToolsExtension
+  ? window.devToolsExtension()(createStore)
+  : createStore)(reducer);
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+let skillList = {
+  primary: ["one", "two", "three"],
+  secondary: ["one", "two", "three"],
+  other: ["one", "two", "three"],
+  hr: ["one", "two", "three"]
+};
+let users = [
     {
-        place: "Minsk",
-        userNames: ["Anatoliy", "Vselovod"],
-        date: "2014-03-03",
-        type: "tech",
-        fields: [
-            { name: "c++", type: "tech", typeSkill: "minor" },
-            { name: "JavaScript", type: "tech", typeSkill: "minor" },
-            { name: "angular", type: "tech", typeSkill: "minor" }
-        ]
+    name: "Nick",
+    role: "HRM",
+    email: "nzHRM@gmail.com",
+    id: "1"
+},
+    {
+        name: "James",
+        role: "Worker",
+        email: "nzWorker@gmail.com",
+        id: "2"
     },
     {
-        place: "Minsk",
-        userNames: ["Anatoliy", "Vselovod"],
-        date: "2014-03-03",
-        type: "tech",
-        fields: [
-            { name: "c++", type: "tech", typeSkill: "minor" },
-            { name: "java", type: "tech", typeSkill: "minor" },
-            { name: "angular", type: "tech", typeSkill: "minor" }
-        ]
+        name: "Jastin",
+        role: "Admin",
+        email: "nzWorker@gmail.com",
+        id: "3"
     },
     {
-        place: "Minsk",
-        userNames: ["Anatoliy", "Vselovod"],
-        date: "2014-03-03",
-        type: "tech",
-        fields: [
-            { name: "java", type: "tech", typeSkill: "minor" },
-            { name: "JavaScript", type: "tech", typeSkill: "minor" },
-            { name: "angular", type: "tech", typeSkill: "minor" }
-        ]
+        name: "Jacobs",
+        role: "Worker",
+        email: "nzWorker@gmail.com",
+        id: "4"
     },
     {
-        place: "Minsk",
-        userNames: ["Anatoliy", "Vselovod"],
-        date: "2014-03-03",
-        type: "tech",
-        fields: [
-            { name: "c++", type: "tech", typeSkill: "minor" },
-            { name: "java", type: "tech", typeSkill: "minor" },
-            { name: "JavaScript", type: "tech", typeSkill: "minor" },
-        ]
-    }
-
-];
-
-let tempCandidate = "Jack";
+        name: "Tomas",
+        role: "Admin",
+        email: "nzAdmin@gmail.com",
+        id: "5"
+    }];
 
 export default class HiringComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+  showResults = values => {
+    const data = this.state.data.slice();
+    data.push(values);
+    this.setState({ data });
+  };
+  sendData = () => {
+      const data = this.state.data.slice();
+      data.map(item => {
+          delete item.userNames;
+      })
+
+      console.log(data);
+  }
 
   render() {
     return (
@@ -79,67 +94,89 @@ export default class HiringComponent extends React.Component {
             </div>
             <Divider />
           </div>
-          <Segment className="content-description" raised>
-            <div className="item-with-label">
-              <Header as="h3">Vacancy</Header>
-              <CustonSearch
-                input={{ icon: "search", iconPosition: "left" }}
-                onDataChange={data => {
-                  tempCandidate = data;
-                }}
-                currentValue={tempCandidate}
-              />
-            </div>
-            <Divider />
 
-              {data.length !== 0 &&
-              <Table striped>
-                <Table.Body>
-                    {data.map(step => {
+          <div className="hr-page_content">
+            <div className="content-left">
+              <Provider store={store}>
+                <InterviewComponent
+                  onSubmit={this.showResults}
+                  skillsList={skillList}
+                  users = {users}
+                />
+              </Provider>
+            </div>
+
+            <div className="content-right">
+              <Segment className="segment-table-height">
+                {this.state.data.length !== 0 &&
+                  <Table basic="very">
+                    <Table.Body>
+                      {this.state.data.map(step => {
                         let nameUsers = "";
                         let technologies = "";
-
+                        if(step.userNames)
                         step.userNames.map(
-                            step =>
-                                (nameUsers = nameUsers + step + " / ")
+                          step => (nameUsers = nameUsers + step + " / ")
                         );
                         step.fields.map(
-                            step => (technologies = technologies + step.name + " / ")
+                          step =>
+                            (technologies = technologies + step.name + " / ")
                         );
 
                         if (nameUsers.length !== 0)
-                            nameUsers = nameUsers.slice(0, nameUsers.length - 3);
+                          nameUsers = nameUsers.slice(0, nameUsers.length - 3);
                         if (technologies.length !== 0)
-                            technologies = technologies.slice(0, technologies.length - 3);
+                          technologies = technologies.slice(
+                            0,
+                            technologies.length - 3
+                          );
                         return (
-                            <Table.Row key={nameUsers+technologies+step.date} >
-                              <Table.Cell>
-                                  {step.type}
-                              </Table.Cell>
+                          <Table.Row key={nameUsers + technologies + step.date}>
+                            <Table.Cell>
+                              {step.type}
+                            </Table.Cell>
 
-                              <Table.Cell>
-                                  {nameUsers}
-                              </Table.Cell>
-                              <Table.Cell>
-                                  {technologies}
-                              </Table.Cell>
+                            <Table.Cell>
+                              {nameUsers}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {technologies}
+                            </Table.Cell>
 
-                              <Table.Cell>
-                                  {step.date}
-                              </Table.Cell>
-                              <Table.Cell>
-                                  {step.place}
-                              </Table.Cell>
-                            </Table.Row>
+                            <Table.Cell>
+                              {step.date}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {step.place}
+                            </Table.Cell>
+                          </Table.Row>
                         );
-                    })}
-                </Table.Body>
-              </Table>
-              }
-            <div className="add-interview">
-              <Button primary>add interview</Button>
+                      })}
+                    </Table.Body>
+                  </Table>}
+                {this.state.data.length == 0 &&
+                  <div className="margin-top-icon">
+                    <Header as="h2" icon disabled textAlign="center">
+                      <Icon name="settings" />
+                      No interviews
+                      <Header.Subheader>
+                        Yoy can add interview, using add interview form
+                      </Header.Subheader>
+                    </Header>
+                  </div>}
+              </Segment>
+              <Button
+                className="add-button"
+                fluid
+                content="add interview"
+                icon="add"
+                labelPosition="left"
+                color="twitter"
+                type="button"
+                onclick={this.sendData()}
+              />
             </div>
-          </Segment>
+          </div>
         </div>
       </div>
     );
