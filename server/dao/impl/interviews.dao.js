@@ -90,7 +90,7 @@ class InterviewsDAO extends BasicDAO {
       values: [id, (page - 1) * this.itemsPerPage, this.itemsPerPage],
     });
 
-    return this.toDAOEntity(interviews);
+    return this.toDAOEntity(interviews[0]);
   }
 
   /**
