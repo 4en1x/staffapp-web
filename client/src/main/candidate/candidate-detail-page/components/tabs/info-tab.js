@@ -12,19 +12,9 @@ const InfoTab = props =>
       <ContactsList contacts={props.info.contacts} />
       <CommunicationsList communication={props.info.communication} />
     </div>
-    <div className="right">
+    <div className="right hidden">
       <Link to="/">
         <Button
-          className="add-button"
-          content="Edit"
-          icon="edit"
-          labelPosition="left"
-          color="twitter"
-        />
-      </Link>
-      <Link to="/">
-        <Button
-          className="add-button"
           content="Delete"
           icon="trash outline"
           labelPosition="left"

@@ -13,8 +13,6 @@ import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
 import { getFillList } from '../interview/interview-actions';
 import { postHiring, resetHiring } from './hiring-actions';
-// import './hiring-page.component.css';
-
 class HiringComponent extends React.Component {
   constructor(props) {
     super(props);
