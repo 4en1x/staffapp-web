@@ -1,22 +1,36 @@
-import React from "react";
+import React from 'react';
 
-import { connect } from "react-redux";
-import ListComponent from "../../components/list/list.component";
-import HistoryListItem from "../../components/list/list-items/history-list-item";
+import { connect } from 'react-redux';
+import ListComponent from '../../components/list/list.component';
+import HistoryListItem from '../../components/list/list-items/history-list-item';
 
-import HistoryFilter from "./components/filter/history-filter.container";
-import SemanticLoader from "../../components/loaders/semantic-loader";
-import { getHistoryList } from "./history-actions";
-import { Table, Label, Header } from "semantic-ui-react";
-import "./history-list-page.css";
+import HistoryFilter from './components/filter/history-filter.container';
+import SemanticLoader from '../../components/loaders/semantic-loader';
+import { getHistoryList } from './history-actions';
+import { Table, Label, Header } from 'semantic-ui-react';
+import './history-list-page.css';
 
 class HistoryPage extends React.Component {
   componentDidMount() {
-    this.props.getHistoryList();
+    this.props.getHistoryList(this.props.filter);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    console.log(this.props);
+    if(this.props.filter !== nextProps.filter) {
+      console.log('lallalal');
+      this.props.getHistoryList(nextProps.filter);
+    }
+
   }
 
   render() {
+
+    console.log(this.props.history);
+
     if (!this.props.history) return <SemanticLoader />;
+
 
     return (
       <div className="history-page_content">
@@ -24,17 +38,17 @@ class HistoryPage extends React.Component {
           <Table basic="very">
             <Table.Body>
               {this.props.history.map(item => {
-                let chooseColor = "",
+                let chooseColor = '',
                   structData,
                   preview;
-                if (item.event === "create") chooseColor = "green";
-                else if (item.event === "update") chooseColor = "purple";
-                else if (item.event === "delete") chooseColor = "red";
-                else chooseColor = "grey";
+                if (item.event === 'create') chooseColor = 'green';
+                else if (item.event === 'update') chooseColor = 'purple';
+                else if (item.event === 'delete') chooseColor = 'red';
+                else chooseColor = 'grey';
 
-                if (item.logs.indexOf("data: {") !== -1) {
+                if (item.logs.indexOf('data: {') !== -1) {
                   structData = item.logs.slice(65, item.logs.length - 2);
-                  structData = structData.replace(/\"/gi, " ");
+                  structData = structData.replace(/\"/gi, ' ');
                   preview = item.logs.slice(0, 64);
                 }
 
@@ -93,7 +107,8 @@ class HistoryPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    history: state.history.historyList
+    history: state.history.historyList,
+    filter: state.history.filter
   };
 };
 
