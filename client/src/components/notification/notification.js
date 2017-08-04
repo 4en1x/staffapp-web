@@ -23,6 +23,7 @@ export default class Notification extends React.Component {
   };
 
   render() {
+
     const { activeItem } = this.state;
     return (
       <Label basic pointing id="notification-label">

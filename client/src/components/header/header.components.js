@@ -1,52 +1,48 @@
-import React from "react";
-import { Image, Dropdown, Icon } from "semantic-ui-react";
-import Notification from "../notification/notification";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import images from "../../assets/images";
-import "./header.css";
-import NotificationService from '../../service/notification-service';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Image, Dropdown, Icon } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import Notification from '../notification/notification';
+import images from '../../assets/images';
+import notificationService from '../../service/notification-service';
+import './header.css';
 
-
-///////////////// messages ////
-// const messages = NotificationService.getMessageList();
-const messages =  [
+const messages = [
   {
     id: 50,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 1
   },
   {
     id: 51,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 2
   },
   {
     id: 52,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 6
   },
   {
     id: 53,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 7
   },
   {
     id: 54,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 8
   },
   {
     id: 55,
-    text: "You have one assigned interview today at 15:35",
+    text: 'You have one assigned interview today at 15:35',
     interviewId: 9
   }
 ];
 const removeMessage = item => {
-    messages.splice(messages.indexOf(item),1);
-    // NotificationService.deleteMessageById(item.id);
+  messages.splice(messages.indexOf(item), 1);
+  // NotificationService.deleteMessageById(item.id);
 };
-///////////////////////////////
 
 const trigger = name =>
   <span>
@@ -54,15 +50,15 @@ const trigger = name =>
   </span>;
 
 const options = [
-  { value: "notifications", text: "Notifications" },
-  { value: "sign-out", text: "Sign Out" }
+  { value: 'notifications', text: 'Notifications' },
+  { value: 'sign-out', text: 'Sign Out' }
 ];
 
 class DropDownTrigger extends React.Component {
   logoutAndNotification = (event, value) => {
-    if (value.value === "sign-out") this.props.itemSelected(event, value);
-    if (value.value === "notifications")
-      document.getElementById("notification-label").style.display = "block";
+    if (value.value === 'sign-out') this.props.itemSelected(event, value);
+    if (value.value === 'notifications')
+      document.getElementById('notification-label').style.display = 'block';
   };
 
   render() {
@@ -77,6 +73,21 @@ class DropDownTrigger extends React.Component {
 }
 
 export default class HeaderComponent extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      messages: []
+    }
+  }
+
+  componentDidMount() {
+    notificationService.getMessageList().then(res => {
+      this.setState({messages: res.data});
+    })
+  }
+
   render() {
     const user = this.props.user;
     return (
@@ -87,7 +98,7 @@ export default class HeaderComponent extends React.Component {
           </Link>
           <DropDownTrigger user={user} itemSelected={this.props.itemSelected} />
         </div>
-        <Notification messages={messages} removeMessage={removeMessage} />
+        <Notification messages={this.state.messages} removeMessage={removeMessage} />
       </div>
     );
   }
