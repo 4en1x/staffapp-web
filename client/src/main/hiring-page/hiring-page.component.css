@@ -74,3 +74,57 @@
 .content-description{
     width: 40%;
 }
+
+
+
+
+.hr-page {
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5% 8%;
+    overflow: auto;
+}
+.hr-page_container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.hr-page_content{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.content-right{
+    width:28%;
+    min-height: 30%;
+}
+
+.segment-table-height{
+    height: 25em;
+}
+
+.margin-top-icon{
+margin-top: 6em;
+}
+
+.content-left{
+    width:70%;
+}
+
+.main-component {
+    margin: 0.5% auto;
+    max-width: 1200px;
+    width: 90%;
+}
+
+.ui.twitter.fluid.add-button{
+    margin-bottom: 1em;
+    font-size:1.2em;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
