@@ -16,13 +16,13 @@ function rebuildCandidate(candidate) {
     phone: candidate.phone,
     skype: candidate.skype,
     linkedin: candidate.linkedin,
-    links: candidate.links,
+    links: candidate.links || [],
   };
 
   const skills = {
     primarySkill: candidate.primarySkill,
     englishLevel: candidate.englishLevel,
-    secondarySkills: candidate.secondarySkills,
+    secondarySkills: candidate.secondarySkills || [],
     primarySkillYearStart: candidate.primarySkillYearStart,
   };
 
