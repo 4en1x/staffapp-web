@@ -51,7 +51,7 @@ export default class Candidate extends React.Component {
           {currentTab}
         </div>
         <div className="content-right">
-          <CustomButton to="/" content="Edit" color="twitter" icon="edit" />
+          <CustomButton to={`${this.props.url}/edit`} content="Edit" color="twitter" icon="edit" />
           <SecondaryMenuComponent
             onItemClick={this.handleItemClick}
             items={Items}

@@ -2,10 +2,10 @@ import candidateService from '../../service/candidate-service';
 
 const ADD_CANDIDATE_LIST = 'ADD_CANDIDATE_LIST';
 const ADD_CURRENT_CANDIDATE = 'ADD_CURRENT_CANDIDATE';
-const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
-const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
-const ADD_FILTER = 'ADD_FILTER';
 const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
+const FORM_SUBMIT = 'FORM_SUBMIT';
+const RESET_FORM = 'RESET_FORM';
+const ADD_FILTER = 'ADD_FILTER';
 const RESET_CANDIDATE_LIST = 'RESET_CANDIDATE_LIST';
 const RESET_CURRENT_CANDIDATE = 'RESET_CURRENT_CANDIDATE';
 const ADD_CANDIDATE_HISTORY = 'ADD_CANDIDATE_HISTORY';
@@ -31,20 +31,6 @@ function addCandidateList(list) {
   };
 }
 
-function addCurrentCandidate(candidate) {
-  return {
-    type: ADD_CURRENT_CANDIDATE,
-    candidate
-  };
-}
-
-function addFormValues(values) {
-  return {
-    type: ADD_FORM_VALUES,
-    values
-  };
-}
-
 export function addFilter(filter) {
   return {
     type: ADD_FILTER,
@@ -60,6 +46,13 @@ export function getCandidateList(filter) {
   };
 }
 
+function addCurrentCandidate(candidate) {
+  return {
+    type: ADD_CURRENT_CANDIDATE,
+    candidate
+  };
+}
+
 export function getCandidateById(id) {
   return dispatch => {
     candidateService.getCandidateById(id).then(res => {
@@ -68,31 +61,31 @@ export function getCandidateById(id) {
   };
 }
 
-function addFormSubmit() {
+function addFormValues(formValues) {
   return {
-    type: ADD_FORM_SUBMITTED
-  };
-}
-
-function editFormSubmit() {
-  return {
-    type: EDIT_FORM_SUBMITTED
+    type: ADD_FORM_VALUES,
+    formValues
   };
 }
 
 export function getFormValues() {
   return dispatch => {
     candidateService.getFillList().then(res => {
-      console.log(res);
       dispatch(addFormValues(res.data));
     });
+  };
+}
+
+function formSubmit() {
+  return {
+    type: FORM_SUBMIT
   };
 }
 
 export function patchCandidate(id, interview) {
   return dispatch => {
     candidateService.patchCandidate(id, interview).then(res => {
-      dispatch(editFormSubmit());
+      dispatch(formSubmit());
     });
   };
 }
@@ -100,40 +93,22 @@ export function patchCandidate(id, interview) {
 export function postCandidate(interview) {
   return dispatch => {
     candidateService.postCandidate(interview).then(res => {
-      dispatch(addFormSubmit());
+      dispatch(formSubmit());
     });
   };
 }
 
-export function resetCandidateList() {
-  return {
-    type: RESET_CANDIDATE_LIST
-  };
-}
-
-export function resetCurrentCandidate() {
-  return {
-    type: RESET_CURRENT_CANDIDATE
-  };
-}
-
-function addCandidateHisroty(history) {
+function addCandidateHistory(history) {
   return {
     type: ADD_CANDIDATE_HISTORY,
     history
   };
 }
 
-export function resetCandidateHistory() {
-  return {
-    type: RESET_CANDIDATE_HISTORY
-  };
-}
-
 export function getCandidateHistory(url) {
   return dispatch => {
     candidateService.getCandidateHistory(url).then(res => {
-      dispatch(addCandidateHisroty(res.data));
+      dispatch(addCandidateHistory(res.data));
     });
   }
 }
@@ -142,12 +117,6 @@ function addCandidateHiring(hiring) {
   return {
     type: ADD_CANDIDATE_HIRING,
     hiring
-  };
-}
-
-export function resetCandidateHiring() {
-  return {
-    type: RESET_CANDIDATE_HIRING
   };
 }
 
@@ -166,16 +135,47 @@ function addCandidateVacancies(vacancies) {
   };
 }
 
-export function resetCandidateVacancies() {
-  return {
-    type: RESET_CANDIDATE_VACANCIES
-  };
-}
-
 export function getCandidateVacancies(url) {
   return dispatch => {
     candidateService.getCandidateVacancies(url).then(res => {
       dispatch(addCandidateVacancies(res.data));
     });
   }
+}
+
+
+export function resetCandidateVacancies() {
+  return {
+    type: RESET_CANDIDATE_VACANCIES
+  };
+}
+
+export function resetCandidateHiring() {
+  return {
+    type: RESET_CANDIDATE_HIRING
+  };
+}
+
+export function resetCandidateHistory() {
+  return {
+    type: RESET_CANDIDATE_HISTORY
+  };
+}
+
+export function resetCurrentCandidate() {
+  return {
+    type: RESET_CURRENT_CANDIDATE
+  };
+}
+
+export function resetCandidateList() {
+  return {
+    type: RESET_CANDIDATE_LIST
+  };
+}
+
+export function resetForm() {
+  return {
+    type: RESET_FORM
+  };
 }

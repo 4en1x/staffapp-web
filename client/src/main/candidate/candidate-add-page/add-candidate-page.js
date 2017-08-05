@@ -4,7 +4,8 @@ import { Redirect } from 'react-router-dom';
 import {
   getFormValues,
   postCandidate,
-  resetCandidateList
+  resetCandidateList,
+  resetForm
 } from '../candidate-actions';
 import Candidate from '../../../components/candidate-add-edit-forms/list/candidate';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
@@ -15,16 +16,17 @@ class AddCandidatePage extends React.Component {
     this.props.getFormValues();
   }
   showResults = values => {
-    console.log(values);
     this.props.postCandidate(values);
   };
 
   componentWillUnmount() {
     this.props.resetCandidateList();
+    this.props.resetForm();
   }
 
   render() {
-    if (this.props.isAddFormSubmitted) return <Redirect to={`/candidates`} />;
+
+    if (this.props.isFormSubmitted) return <Redirect to={`/candidates`} />;
     if (!this.props.formValues) return <SemanticLoader />;
 
     const lists = this.props.formValues;
@@ -44,13 +46,13 @@ class AddCandidatePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isFormLoaded: state.candidate.isFormLoaded,
   formValues: state.candidate.formValues,
-  isAddFormSubmitted: state.candidate.isAddFormSubmitted
+  isFormSubmitted: state.candidate.isFormSubmitted
 });
 
 export default connect(mapStateToProps, {
   getFormValues,
   postCandidate,
-  resetCandidateList
+  resetCandidateList,
+  resetForm
 })(AddCandidatePage);
