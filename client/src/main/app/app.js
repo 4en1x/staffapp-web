@@ -1,8 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import AdminPage from '../admin/admin-page';
-import WorkerPage from '../worker-page/worker-page';
-import HRPage from '../hr-page/hr-page';
+import MainComponent from '../main-component/main-component';
 import Header from '../../components/header/header.components';
 import InterviewPage from '../interview/interview-detail-page/interview-detail-page';
 import CandidatePage from '../candidate/candidate-detail-page/candidate-page';
@@ -20,18 +18,12 @@ import { store } from '../../index';
 import '../../index.css';
 
 export default class App extends React.Component {
-  config = () => ({
-    // admin: AdminPage,
-    hr: HRPage,
-    user: WorkerPage
-  });
 
   itemSelected = (event, data) => {
     store.dispatch(logout());
   };
 
   render() {
-    const config = this.config();
     const user = this.props.user;
 
     return (
@@ -56,7 +48,7 @@ export default class App extends React.Component {
             <Route path="/vacancies/:id/edit" component={EditVacancyPage} />
             <Route path="/vacancies/:id" component={VacancyPage} />
             <Route path="/hiring/:id" component={HiringPage}/>
-            <Route path="/" component={config[user.role]} />
+            <Route path="/" component={MainComponent} />
           </Switch>
         </div>
       </div>
