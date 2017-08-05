@@ -28,6 +28,7 @@ class VacanicesController extends CRUDController {
         vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
       }
 
+      vacancy.secondarySkills = vacancy.secondarySkills || [];
       vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
     };
 
