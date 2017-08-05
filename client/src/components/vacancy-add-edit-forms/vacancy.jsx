@@ -243,7 +243,7 @@ class Vacancy extends React.Component {
                 <div className="item-with-label">
                   <Header as="h3">skills</Header>
                   <Field
-                    name={"secondarySkills"}
+                    name={"skills"}
                     component={this.secondarySkillsInput}
                   />
                 </div>
