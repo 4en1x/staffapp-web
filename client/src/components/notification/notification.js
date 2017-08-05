@@ -23,6 +23,8 @@ export default class Notification extends React.Component {
 
   render() {
 
+    console.log(this.props.messages);
+
     const { activeItem } = this.state;
     return (
       <Label basic pointing id="notification-label">
