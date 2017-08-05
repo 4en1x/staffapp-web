@@ -178,7 +178,7 @@ class Vacancy extends React.Component {
         salary: this.props.data.salary,
         name: this.props.data.name,
         primarySkill: this.props.data.primarySkill,
-        secondarySkills: this.props.data.secondarySkills,
+        skills: this.props.data.secondarySkills,
         description: this.props.data.description,
         city: this.props.data.city
       };
@@ -241,7 +241,7 @@ class Vacancy extends React.Component {
                 </div>
 
                 <div className="item-with-label">
-                  <Header as="h3">secondary skills</Header>
+                  <Header as="h3">skills</Header>
                   <Field
                     name={"secondarySkills"}
                     component={this.secondarySkillsInput}

@@ -18,7 +18,7 @@ class CandidateListWrapper extends React.Component {
   }
 
   componentWillUnmount() {
-    //this.props.resetCandidateList();
+    this.props.resetCandidateList();
   }
 
   render() {

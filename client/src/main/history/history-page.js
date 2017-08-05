@@ -90,7 +90,7 @@ class HistoryPage extends React.Component {
           </Table>
         </div>
         <div className="content-right">
-          <HistoryFilter />
+          {this.props.role === 'admin' ? <HistoryFilter /> : null}
         </div>
       </div>
     );
@@ -100,7 +100,8 @@ class HistoryPage extends React.Component {
 const mapStateToProps = state => {
   return {
     history: state.history.historyList,
-    filter: state.history.filter
+    filter: state.history.filter,
+    role: state.auth.role
   };
 };
 
