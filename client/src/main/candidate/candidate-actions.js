@@ -12,8 +12,10 @@ const ADD_CANDIDATE_HISTORY = 'ADD_CANDIDATE_HISTORY';
 const ADD_CANDIDATE_HIRING = 'ADD_CANDIDATE_HIRING';
 const RESET_CANDIDATE_HISTORY = 'RESET_CANDIDATE_HISTORY';
 const RESET_CANDIDATE_HIRING = 'RESET_CANDIDATE_HIRING';
-const ADD_CANDIDATE_VACANCIES = 'ADD_CANDIDATE_VACANCIES';
-const RESET_CANDIDATE_VACANCIES = 'RESET_CANDIDATE_VACANCIES';
+const ADD_CANDIDATE_CANDIDATE = 'ADD_CANDIDATE_CANDIDATE';
+const DELETE_CURRENT_CANDIDATE = 'DELETE_CURRENT_CANDIDATE';
+const RESET_CANDIDATE_CANDIDATES = 'RESET_CANDIDATE_CANDIDATES';
+const RESET_DELETED_CANDIDATE = 'RESET_DELETED_CANDIDATE';
 
 const DOWNLOAD_REPORT = 'DOWNLOAD_REPORT';
 
@@ -110,7 +112,7 @@ export function getCandidateHistory(url) {
     candidateService.getCandidateHistory(url).then(res => {
       dispatch(addCandidateHistory(res.data));
     });
-  }
+  };
 }
 
 function addCandidateHiring(hiring) {
@@ -125,12 +127,12 @@ export function getCandidateHiring(url) {
     candidateService.getCandidateHiring(url).then(res => {
       dispatch(addCandidateHiring(res.data));
     });
-  }
+  };
 }
 
 function addCandidateVacancies(vacancies) {
   return {
-    type: ADD_CANDIDATE_VACANCIES,
+    type: ADD_CANDIDATE_CANDIDATE,
     vacancies
   };
 }
@@ -140,13 +142,26 @@ export function getCandidateVacancies(url) {
     candidateService.getCandidateVacancies(url).then(res => {
       dispatch(addCandidateVacancies(res.data));
     });
-  }
+  };
 }
 
+function deleteCandidate() {
+  return {
+    type: DELETE_CURRENT_CANDIDATE
+  };
+}
+
+export function deleteCurrentCandidate(id) {
+  return dispatch => {
+    candidateService.deleteCurrentCandidate(id).then(res => {
+      dispatch(deleteCandidate());
+    });
+  };
+}
 
 export function resetCandidateVacancies() {
   return {
-    type: RESET_CANDIDATE_VACANCIES
+    type: RESET_CANDIDATE_CANDIDATES
   };
 }
 
@@ -178,4 +193,10 @@ export function resetForm() {
   return {
     type: RESET_FORM
   };
+}
+
+export function resetDeleteCandidate() {
+  return {
+    type: RESET_DELETED_CANDIDATE
+  }
 }
