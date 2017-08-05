@@ -1,13 +1,12 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
+import { Table, Label, Header } from 'semantic-ui-react';
 import ListComponent from '../../components/list/list.component';
 import HistoryListItem from '../../components/list/list-items/history-list-item';
-
 import HistoryFilter from './components/filter/history-filter.container';
 import SemanticLoader from '../../components/loaders/semantic-loader';
+import roles from '../../config/config';
 import { getHistoryList } from './history-actions';
-import { Table, Label, Header } from 'semantic-ui-react';
 import './history-list-page.css';
 
 class HistoryPage extends React.Component {
@@ -90,7 +89,7 @@ class HistoryPage extends React.Component {
           </Table>
         </div>
         <div className="content-right">
-          {this.props.role === 'admin' ? <HistoryFilter /> : null}
+          {this.props.role === roles.ADMIN.ROLE ? <HistoryFilter /> : null}
         </div>
       </div>
     );
