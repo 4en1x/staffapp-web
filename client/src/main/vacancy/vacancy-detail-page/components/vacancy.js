@@ -14,6 +14,7 @@ import './vacancy.css';
 const Vacancy = props => {
   const vacancy = props.vacancy;
   const url = props.url;
+  vacancy.secondarySkills = vacancy.secondarySkills || [];
 
   return (
     <div className="vacancy-detail-page">

@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getVacancyFillList, patchVacancy , resetCurrentVacancy} from '../vacancy-actions';
+import {
+  getVacancyFormValues,
+  patchVacancy,
+  resetCurrentVacancy,
+  resetForm
+} from '../vacancy-actions';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
-
 class EditVacancyPage extends React.Component {
   componentDidMount() {
-    this.props.getVacancyFillList();
+    this.props.getVacancyFormValues();
   }
 
   showResults = values => {
@@ -18,10 +22,14 @@ class EditVacancyPage extends React.Component {
 
   componentWillUnmount() {
     this.props.resetCurrentVacancy();
+    this.props.resetForm();
   }
 
   render() {
-    if (this.props.isEditFormSubmitted) {
+
+    console.log(this.props.vacancy);
+
+    if (this.props.isFormSubmitted) {
       return <Redirect to={`/vacancies/${this.props.match.params.id}`} />;
     }
 
@@ -29,8 +37,8 @@ class EditVacancyPage extends React.Component {
 
     return (
       <div className="edit-vacancy-page">
-        {!this.props.isFormLoaded
-          ? <SemanticLoader/>
+        {!this.props.formValues
+          ? <SemanticLoader />
           : <VacancyComponent
               onSubmit={this.showResults}
               minorSkills={lists.secondarySkills}
@@ -47,14 +55,14 @@ class EditVacancyPage extends React.Component {
 const mapStateToProps = state => {
   return {
     vacancy: state.vacancy.currentVacancy,
-    isFormLoaded: state.vacancy.isFormLoaded,
     formValues: state.vacancy.formValues,
-    isEditFormSubmitted: state.vacancy.isEditFormSubmitted
+    isFormSubmitted: state.vacancy.isFormSubmitted
   };
 };
 
 export default connect(mapStateToProps, {
-  getVacancyFillList,
+  getVacancyFormValues,
   patchVacancy,
-  resetCurrentVacancy
+  resetCurrentVacancy,
+  resetForm
 })(EditVacancyPage);

@@ -18,23 +18,17 @@ function getVacancyFillList() {
   return axios.get(`/vacancies/fillLists`);
 }
 
-function getAddFormValues() {
-  return axios.get(`/vacancies/fillLists`);
-}
-
 function postVacancy(vacancy) {
   return axios.post(`/vacancies`, vacancy);
 }
 
 function patchVacancy(id, vacancy) {
-  console.log('service');
   return axios.patch(`/vacancies/${id}`, vacancy);
 }
 
 const vacancyService = {
   getVacancyById,
   getVacancyList,
-  getAddFormValues,
   postVacancy,
   patchVacancy,
   getVacancyFillList

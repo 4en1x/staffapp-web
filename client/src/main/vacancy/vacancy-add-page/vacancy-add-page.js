@@ -1,31 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { getVacancyFillList, postVacancy, resetVacancyList} from '../vacancy-actions';
+import {
+  getVacancyFormValues,
+  postVacancy,
+  resetVacancyList,
+  resetForm
+} from '../vacancy-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import VacancyComponent from '../../../components/vacancy-add-edit-forms/vacancy';
 
 class AddVacancyPage extends React.Component {
   componentDidMount() {
-    this.props.getVacancyFillList();
+    this.props.getVacancyFormValues();
   }
 
   showResults = values => {
+    console.log(values);
     this.props.postVacancy(values);
   };
 
   componentWillUnmount() {
     this.props.resetVacancyList();
+    this.props.resetForm();
   }
 
   render() {
     const lists = this.props.formValues;
 
-    if (this.props.isAddFormSubmitted) return <Redirect to="/vacancies" />;
+    if (this.props.isFormSubmitted) return <Redirect to="/vacancies" />;
 
     return (
       <div className="vacancy-page">
-        {!this.props.isFormLoaded
+        {!this.props.formValues
           ? <SemanticLoader />
           : <VacancyComponent
               onSubmit={this.showResults}
@@ -41,12 +48,14 @@ class AddVacancyPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isFormLoaded: state.interview.isFormLoaded,
-    formValues: state.interview.formValues,
-    isAddFormSubmitted: state.interview.isAddFormSubmitted
+    formValues: state.vacancy.formValues,
+    isFormSubmitted: state.vacancy.isFormSubmitted
   };
 };
 
-export default connect(mapStateToProps, { getVacancyFillList, postVacancy, resetVacancyList })(
-  AddVacancyPage
-);
+export default connect(mapStateToProps, {
+  getVacancyFormValues,
+  postVacancy,
+  resetVacancyList,
+  resetForm
+})(AddVacancyPage);
