@@ -9,6 +9,7 @@ const FILTER_VALUES = 'FILTER_VALUES';
 const RESET_VACANCY_LIST = 'RESET_VACANCY_LIST';
 const RESET_CURRENT_VACANCY = 'RESET_CURRENT_VACANCY';
 const RESET_FORM = 'RESET_FORM';
+const RESET_DELETED_VACANCY = 'RESET_DELETED_VACANCY';
 
 function addVacancyList(list) {
   return {
@@ -99,6 +100,14 @@ export function addFilter(filter) {
   };
 }
 
+export function deleteCurrentVacancy(id) {
+  return dispatch => {
+    vacancyService.deleteCurrentVacancy(id).then(res => {
+      dispatch(resetCurrentVacancy());
+    });
+  };
+}
+
 export function resetVacancyList() {
   return {
     type: RESET_VACANCY_LIST
@@ -116,3 +125,10 @@ export function resetForm() {
     type: RESET_FORM
   };
 }
+
+export function resetDeletedVacancy() {
+  return {
+    type: RESET_DELETED_VACANCY
+  }
+}
+

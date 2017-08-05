@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import './interview-page.css';
+import roles from '../../../../config/config';
 
 export default class InterviewComponent extends React.Component {
   render() {
@@ -81,6 +82,16 @@ export default class InterviewComponent extends React.Component {
                     floated="right"
                   />
                 </Link>
+              : null}
+            {this.props.role === roles.ADMIN.ROLE
+              ? <Button
+                content="Delete"
+                icon="edit"
+                labelPosition="left"
+                color="twitter"
+                floated="right"
+                onClick={this.props.onDeleteClicked}
+              />
               : null}
           </div>
         </Card>

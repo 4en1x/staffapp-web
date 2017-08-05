@@ -22,12 +22,17 @@ function patchInterview(id, interview) {
   return axios.patch(`/interviews/${id}`, interview);
 }
 
+function deleteCurrentInterview(id) {
+  return axios.delete(`/interviews/${id}`);
+}
+
 const interviewService = {
   getInterviewList,
   getInterviewById,
   getInterviewFillList,
   postInterview,
-  patchInterview
+  patchInterview,
+  deleteCurrentInterview
 };
 
 export default interviewService;

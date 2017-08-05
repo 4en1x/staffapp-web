@@ -24,6 +24,12 @@ const interviewReducer = (state = {}, action) => {
     case 'RESET_INTERVIEW_LIST':
       return { ...state, interviewList: null };
 
+    case 'DELETE_CURRENT_INTERVIEW':
+      return { ...state, currentInterview: null, isInterviewDeleted: true };
+
+    case 'RESET_DELETED_INTERVIEW':
+      return { ...state, isInterviewDeleted: false };
+
     default:
       return state;
   }

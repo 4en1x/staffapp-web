@@ -8,6 +8,8 @@ const ADD_FILTER = 'ADD_FILTER';
 const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
 const FORM_SUBMIT = 'FORM_SUBMIT';
 const RESET_FORM = 'RESET_FORM';
+const DELETE_CURRENT_INTERVIEW = 'DELETE_CURRENT_INTERVIEW';
+const RESET_DELETED_INTERVIEW = 'RESET_DELETED_INTERVIEW';
 
 
 function addInterviewsList(list) {
@@ -85,6 +87,20 @@ export function postInterview(interview) {
   };
 }
 
+function deleteInterview() {
+  return {
+    type: DELETE_CURRENT_INTERVIEW
+  };
+}
+
+export function deleteCurrentInterview(id) {
+  return dispatch => {
+    interviewService.deleteCurrentInterview(id).then(res => {
+      dispatch(deleteInterview());
+    });
+  };
+}
+
 export function resetInterviewList() {
   return {
     type: RESET_INTERVIEW_LIST
@@ -103,3 +119,8 @@ export function resetForm() {
   };
 }
 
+export function resetDeletedInterview() {
+  return {
+    type: RESET_DELETED_INTERVIEW
+  }
+}
