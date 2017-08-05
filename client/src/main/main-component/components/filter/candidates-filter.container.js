@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addFilter, getFormValues, downloadReport } from '../../../candidate/candidate-actions';
 import CandidatesFilterForm from '../../../../components/filter/filter-forms/candidates-filter-form';
-import candidateService from '../../../../service/candidate-service';
 import './filter.css';
 
 class FilterComponent extends React.Component {
@@ -17,7 +16,7 @@ class FilterComponent extends React.Component {
 
   onReportClicked = () => {
     const filter = JSON.stringify(this.props.filter || {});
-    this.props.downloadReport(`http://localhost:3300/candidates/report?filter=${filter}`);
+    this.props.downloadReport(`/candidates/report?filter=${filter}`);
   };
 
   render() {

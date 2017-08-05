@@ -2,23 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { Button } from 'semantic-ui-react';
-import AccordionComponent from '../components/accordion.component';
 import DropdownComponent from '../components/dropdown.component';
 
 const VacanciesFilterForm = props => {
-
   const { handleSubmit, onSubmitClicked, data } = props;
 
   const clone = Object.assign({}, data);
   Object.keys(clone).forEach(prop => {
-    if (prop !== 'statuses') {
-      const items = clone[prop];
-      clone[prop] = items.map(item => ({
-        key: item,
-        value: item,
-        text: item
-      }));
-    }
+    const items = clone[prop];
+    clone[prop] = items.map(item => ({
+      key: item,
+      value: item,
+      text: item
+    }));
   });
 
   return (
@@ -27,7 +23,7 @@ const VacanciesFilterForm = props => {
         name="status"
         label="Status"
         items={clone.statuses || []}
-        component={AccordionComponent}
+        component={DropdownComponent}
       />
       <Field
         name="primarySkill"
@@ -36,9 +32,15 @@ const VacanciesFilterForm = props => {
         component={DropdownComponent}
       />
       <Field
+        name="secondarySkills"
+        label="Secondary skill"
+        items={clone.secondarySkills || []}
+        component={DropdownComponent}
+      />
+      <Field
         name="city"
         label="City"
-        items={clone.cities}
+        items={clone.cities || []}
         component={DropdownComponent}
       />
       <div className="filter-item container-right">

@@ -1,25 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Field, reduxForm} from 'redux-form';
-import {Button} from 'semantic-ui-react';
-import AccordionComponent from '../components/accordion.component';
+import { Field, reduxForm } from 'redux-form';
+import { Button } from 'semantic-ui-react';
 import DropdownComponent from '../components/dropdown.component';
 import ReportDownloadComponent from '../components/report-download.component';
 
 const CandidatesFilterForm = props => {
-  const {handleSubmit, onSubmit, data} = props;
-  console.log(props);
+  const { handleSubmit, onSubmit, data } = props;
 
   const clone = Object.assign({}, data);
   Object.keys(clone).forEach(prop => {
-    if (prop !== 'statuses') {
-      const items = clone[prop];
-      clone[prop] = items.map(item => ({
-        key: item,
-        value: item,
-        text: item
-      }));
-    }
+    const items = clone[prop];
+    clone[prop] = items.map(item => ({
+      key: item,
+      value: item,
+      text: item
+    }));
   });
 
   return (
@@ -28,24 +24,24 @@ const CandidatesFilterForm = props => {
         name="status"
         label="Status"
         items={clone.statuses || []}
-        component={AccordionComponent}
+        component={DropdownComponent}
       />
       <Field
         name="primarySkill"
         label="Primary Skill"
-        items={clone.primarySkills}
+        items={clone.primarySkills || []}
         component={DropdownComponent}
       />
       <Field
-        name="secondarySkill"
+        name="secondarySkills"
         label="Secondary skill"
-        items={clone.secondarySkills}
+        items={clone.secondarySkills || []}
         component={DropdownComponent}
       />
       <Field
         name="englishLevel"
         label="English level"
-        items={clone.englishLevels}
+        items={clone.englishLevels || []}
         component={DropdownComponent}
       />
 
@@ -58,13 +54,13 @@ const CandidatesFilterForm = props => {
         />
         <ReportDownloadComponent />
 
-        <Button color="twitter" icon="filter" content="Apply" type="submit"/>
+        <Button color="twitter" icon="filter" content="Apply" type="submit" />
       </div>
     </form>
   );
 };
 
-export default reduxForm({form: "CandidatesFilterForm"})(
+export default reduxForm({ form: 'CandidatesFilterForm' })(
   CandidatesFilterForm
 );
 
