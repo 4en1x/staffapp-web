@@ -45,7 +45,7 @@ class HiringComponent extends React.Component {
   }
 
   render() {
-    if (this.props.isUploaded) return <Redirect to={`/candidates/`} />;
+    if (this.props.isUploaded) return <Redirect to={`/candidates/${this.props.id}`} />;
 
     return (
       <div className="hiring-page">
@@ -136,7 +136,8 @@ class HiringComponent extends React.Component {
 const mapStateToProps = state => {
   return {
     isUploaded: state.hiring.isUploaded,
-    formValues: state.interview.formValues
+    formValues: state.interview.formValues,
+    id: state.candidate.currentCandidate.id
   };
 };
 
