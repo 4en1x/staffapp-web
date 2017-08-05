@@ -46,6 +46,10 @@ function getCandidateVacancies(url) {
   return axios.get(`${url}/pickVacancies`);
 }
 
+function deleteCurrentCandidate(id) {
+  return axios.delete(`/candidates/${id}`);
+}
+
 const candidateService = {
   getCandidateList,
   getCandidateById,
@@ -55,7 +59,8 @@ const candidateService = {
   getCandidatesReport,
   getCandidateHistory,
   getCandidateHiring,
-  getCandidateVacancies
+  getCandidateVacancies,
+  deleteCurrentCandidate
 };
 
 export default candidateService;

@@ -42,6 +42,12 @@ const candidateHandle = (state = {}, action) => {
     case 'RESET_CANDIDATE_VACANCIES':
       return { ...state, vacancies: null };
 
+    case 'DELETE_CURRENT_CANDIDATE':
+      return { ...state, currentCandidate: null, isCandidateDeleted: true };
+
+    case 'RESET_DELETED_CANDIDATE':
+      return { ...state, isCandidateDeleted: false };
+
     case 'DOWNLOAD_REPORT':
       return { ...state, reportLink: action.reportLink };
 

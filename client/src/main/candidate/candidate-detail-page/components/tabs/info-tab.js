@@ -12,16 +12,6 @@ const InfoTab = props =>
       <ContactsList contacts={props.info.contacts} />
       <CommunicationsList communication={props.info.communication} />
     </div>
-    <div className="right hidden">
-      <Link to="/">
-        <Button
-          content="Delete"
-          icon="trash outline"
-          labelPosition="left"
-          color="twitter"
-        />
-      </Link>
-    </div>
   </div>;
 
 export default InfoTab;

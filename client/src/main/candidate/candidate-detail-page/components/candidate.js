@@ -1,11 +1,12 @@
 import React from 'react';
-import { Header } from 'semantic-ui-react';
+import { Header, Button } from 'semantic-ui-react';
 import InfoTab from './tabs/info-tab';
 import HistoryWrapper from './history-wrapper/history-wrapper';
 import HiringWrapper from './hiring-wrapper/hiring-wrapper';
 import VacancyWrapper from './vacancies-wrapper/vacancies-wrapper';
 import SecondaryMenuComponent from '../../../../components/secondary-menu/secondary-menu.component';
 import CustomButton from '../../../../components/custom-button/custom-button';
+import roles from '../../../../config/config';
 
 import './candidate.css';
 
@@ -51,7 +52,21 @@ export default class Candidate extends React.Component {
           {currentTab}
         </div>
         <div className="content-right">
-          <CustomButton to={`${this.props.url}/edit`} content="Edit" color="twitter" icon="edit" />
+          {this.props.role === roles.ADMIN.ROLE
+            ? <Button
+                content="Delete"
+                icon="trash outline"
+                labelPosition="left"
+                color="twitter"
+                onClick={this.props.onDeleteClicked}
+              />
+            : null}
+          <CustomButton
+            to={`${this.props.url}/edit`}
+            content="Edit"
+            color="twitter"
+            icon="edit"
+          />
           <SecondaryMenuComponent
             onItemClick={this.handleItemClick}
             items={Items}

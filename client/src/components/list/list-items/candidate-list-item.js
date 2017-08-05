@@ -5,11 +5,10 @@ import { List, Header } from 'semantic-ui-react';
 
 const CandidateListItem = props => {
   const data = props.element;
-  const url = props.url;
 
   return (
     <List.Item className="flex-list-item">
-      <NavLink to={`${url}/${data.id}`}>
+      <NavLink to={`candidates/${data.id}`}>
         <div className="list-item-top">
           <Header as="h2" className="top-left">
             {data.name} {data.surname}
