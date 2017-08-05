@@ -26,12 +26,17 @@ function patchVacancy(id, vacancy) {
   return axios.patch(`/vacancies/${id}`, vacancy);
 }
 
+function deleteCurrentVacancy(id) {
+  return axios.delete(`/vacancies/${id}`);
+}
+
 const vacancyService = {
   getVacancyById,
   getVacancyList,
   postVacancy,
   patchVacancy,
-  getVacancyFillList
+  getVacancyFillList,
+  deleteCurrentVacancy
 };
 
 export default vacancyService;

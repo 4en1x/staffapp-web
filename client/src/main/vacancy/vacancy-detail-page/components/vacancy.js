@@ -75,10 +75,13 @@ const Vacancy = props => {
         <div className="vacancy-detail-page_content-bottom">
           <div className="vacancy-detail-page_edit-btn-change-date">
             <Link to={`${url}/edit`}>
-            <Button primary className="vacancy-detail-page_edit-button">
-              Edit
-            </Button>
+              <Button primary className="vacancy-detail-page_edit-button">
+                Edit
+              </Button>
             </Link>
+            <Button primary className="vacancy-detail-page_edit-button" onClick={props.onDeletedVacancy}>
+              Delete
+            </Button>
           </div>
           <div className="vacancy-detail-page_create-date">
             Creating: {vacancy.createdDate}
