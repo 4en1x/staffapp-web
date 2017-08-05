@@ -2,31 +2,18 @@ import interviewService from '../../service/interview-service';
 
 const ADD_INTERVIEW_LIST = 'ADD_INTERVIEW_LIST';
 const ADD_CURRENT_INTERVIEW = 'ADD_CURRENT_INTERVIEW';
-const FORM_LOADED = 'FORM_LOADED';
-const EDIT_FORM_SUBMITTED = 'EDIT_FORM_SUBMITTED';
-const ADD_FORM_SUBMITTED = 'ADD_FORM_SUBMITTED';
 const RESET_INTERVIEW_LIST = 'RESET_INTERVIEW_LIST';
 const RESET_CURRENT_INTERVIEW = 'RESET_CURRENT_INTERVIEW';
 const ADD_FILTER = 'ADD_FILTER';
+const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
+const FORM_SUBMIT = 'FORM_SUBMIT';
+const RESET_FORM = 'RESET_FORM';
+
 
 function addInterviewsList(list) {
   return {
     type: ADD_INTERVIEW_LIST,
     list
-  };
-}
-
-function addCurrentInterview(interview) {
-  return {
-    type: ADD_CURRENT_INTERVIEW,
-    interview
-  };
-}
-
-export function addFilter(filter) {
-  return {
-    type: ADD_FILTER,
-    filter
   };
 }
 
@@ -38,37 +25,54 @@ export function getInterviewList(filter = { type: 'my' }) {
   };
 }
 
-function formLoad(data) {
+function addCurrentInterview(interview) {
   return {
-    type: FORM_LOADED,
-    data
+    type: ADD_CURRENT_INTERVIEW,
+    interview
   };
 }
 
-function addFormSubmit() {
-  return {
-    type: ADD_FORM_SUBMITTED
+export function getInterviewById(id) {
+  return dispatch => {
+    interviewService.getInterviewById(id).then(response => {
+      dispatch(addCurrentInterview(response.data));
+    });
   };
 }
 
-function editFormSubmit() {
+
+export function addFilter(filter) {
   return {
-    type: EDIT_FORM_SUBMITTED
+    type: ADD_FILTER,
+    filter
+  };
+}
+
+function addFormValues(formValues) {
+  return {
+    type: ADD_FORM_VALUES,
+    formValues
   };
 }
 
 export function getFillList() {
   return dispatch => {
     interviewService.getInterviewFillList().then(res => {
-      dispatch(formLoad(res.data));
+      dispatch(addFormValues(res.data));
     });
+  };
+}
+
+function formSubmit() {
+  return {
+    type: FORM_SUBMIT
   };
 }
 
 export function patchInterview(id ,interview) {
   return dispatch => {
     interviewService.patchInterview(id, interview).then(res => {
-      dispatch(editFormSubmit());
+      dispatch(formSubmit());
     })
   };
 }
@@ -76,7 +80,7 @@ export function patchInterview(id ,interview) {
 export function postInterview(interview) {
   return dispatch => {
     interviewService.postInterview(interview).then(res => {
-      dispatch(addFormSubmit());
+      dispatch(formSubmit());
     });
   };
 }
@@ -93,11 +97,9 @@ export function resetCurrentInterview() {
  }
 }
 
-export function getInterviewById(id) {
-  return dispatch => {
-    interviewService.getInterviewById(id).then(response => {
-      console.log(response.data);
-      dispatch(addCurrentInterview(response.data));
-    });
+export function resetForm() {
+  return {
+    type: RESET_FORM
   };
 }
+

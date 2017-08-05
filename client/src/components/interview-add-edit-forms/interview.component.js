@@ -1,6 +1,6 @@
-import React from "react";
-import "./interview.css";
-import { Field, reduxForm } from "redux-form";
+import React from 'react';
+import './interview.css';
+import { Field, reduxForm } from 'redux-form';
 import {
   Button,
   Dropdown,
@@ -10,23 +10,23 @@ import {
   Input,
   Icon,
   Label
-} from "semantic-ui-react";
+} from 'semantic-ui-react';
 
 const typeList = [
   {
-    key: "tech",
-    text: "meeting with workers",
-    value: "tech"
+    key: 'tech',
+    text: 'meeting with workers',
+    value: 'tech'
   },
   {
-    key: "hr",
-    text: "meeting with HRMs",
-    value: "HR"
+    key: 'hr',
+    text: 'meeting with HRMs',
+    value: 'HR'
   },
   {
-    key: "owner",
-    text: "meeting with owner",
-    value: "owner"
+    key: 'owner',
+    text: 'meeting with owner',
+    value: 'owner'
   }
 ];
 const hrSkillList = [];
@@ -37,7 +37,7 @@ const otherSkillList = [];
 
 const validate = values => {
   const errors = {};
-  if (!values.type) errors.name = "Required";
+  if (!values.type) errors.name = 'Required';
   return errors;
 };
 
@@ -45,27 +45,30 @@ class InterviewComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      typeInterview: ""
+      typeInterview: ''
     };
     this.initialData();
   }
 
   initialData = () => {
-
-      this.props.users.map(step => {
-          const temp = {
-              key: step.id,
-              text: step.id,
-              value: step.id,
-              content: " ",
-              label:  <Label color='blue'>
-                  {step.name}
-                <Label.Detail>{step.role} {step.email}</Label.Detail>
-              </Label>
-          };
-          usersList.push(temp);
-          return null;
-      });
+    this.props.skillsList.users.map(step => {
+      const temp = {
+        key: step.id,
+        text: step.id,
+        value: step.id,
+        content: ' ',
+        label: (
+          <Label color="blue">
+            {step.name}
+            <Label.Detail>
+              {step.role} {step.email}
+            </Label.Detail>
+          </Label>
+        )
+      };
+      usersList.push(temp);
+      return null;
+    });
 
     if (this.props.data) {
       let date = new Date(this.props.data.date);
@@ -78,7 +81,7 @@ class InterviewComponent extends React.Component {
     }
   };
   buildArrays = () => {
-    if (this.state.typeInterview === "tech") {
+    if (this.state.typeInterview === 'tech') {
       this.props.skillsList.primary.map(step => {
         const temp = {
           key: step,
@@ -106,7 +109,7 @@ class InterviewComponent extends React.Component {
         otherSkillList.push(temp);
         return null;
       });
-    } else if (this.state.typeInterview === "HR") {
+    } else if (this.state.typeInterview === 'HR') {
       this.props.skillsList.hr.map(step => {
         const temp = {
           key: step,
@@ -121,17 +124,16 @@ class InterviewComponent extends React.Component {
   nameInput = ({ input }) => {
     return (
       <Dropdown
-      selection
-      value={input.value}
-      onChange={(param, data) => {
+        selection
+        value={input.value}
+        onChange={(param, data) => {
           input.onChange(data.value);
-      }}
-      placeholder="users"
-      multiple
-      search
-      options={usersList}
-          />
-
+        }}
+        placeholder="users"
+        multiple
+        search
+        options={usersList}
+      />
     );
   };
   primarySkillsInput = ({ input }) => {
@@ -250,19 +252,19 @@ class InterviewComponent extends React.Component {
     let data = {};
     data.place = value.place;
     data.users = value.users;
-    if (value.time) data.date = value.date + " " + value.time + ":00";
+    if (value.time) data.date = value.date + ' ' + value.time + ':00';
     else data.date = value.date;
     data.userNames = [];
     if (!this.props.data) {
       data.type = value.type;
       data.fields = [];
-      if (value.type === "tech") {
+      if (value.type === 'tech') {
         if (value.primary)
           value.primary.map(item => {
             const temp = {
               name: item,
-              type: "tech",
-              typeSkill: "primary"
+              type: 'tech',
+              typeSkill: 'primary'
             };
             data.fields.push(temp);
           });
@@ -270,8 +272,8 @@ class InterviewComponent extends React.Component {
           value.secondary.map(item => {
             const temp = {
               name: item,
-              type: "tech",
-              typeSkill: "secondary"
+              type: 'tech',
+              typeSkill: 'secondary'
             };
             data.fields.push(temp);
           });
@@ -279,12 +281,12 @@ class InterviewComponent extends React.Component {
           value.other.map(item => {
             const temp = {
               name: item,
-              type: "tech",
-              typeSkill: "other"
+              type: 'tech',
+              typeSkill: 'other'
             };
             data.fields.push(temp);
           });
-      } else if (value.type === "HR") {
+      } else if (value.type === 'HR') {
         if (value.hr)
           value.hr.map(item => {
             const temp = {
@@ -294,93 +296,89 @@ class InterviewComponent extends React.Component {
           });
       }
     }
-    if(value.users){
-        value.users.map(item => {
-            this.props.users.map(item2 => {
-              if(item ===item2.id) data.userNames.push(item2.name);
-            })
-        })
+    if (value.users) {
+      value.users.map(item => {
+        this.props.skillsList.users.map(item2 => {
+          if (item === item2.id) data.userNames.push(item2.name);
+        });
+      });
     }
     this.props.onSubmit(data);
   };
 
   render() {
-    const {  reset, handleSubmit, submitting } = this.props;
+    const { reset, handleSubmit, submitting } = this.props;
 
     return (
       <form
         onSubmit={handleSubmit(this.prepareData)}
         className="interview-detail-page"
       >
+        <Segment raised>
+          <div className="item-with-label">
+            <Header as="h3">Users</Header>
+            <Field name={'users'} component={this.nameInput} />
+          </div>
+          <Divider />
+          <div className="item-with-label">
+            <Header as="h3">Place</Header>
+            <Field name={'place'} component={this.cityInput} />
+          </div>
+          <Divider />
+          <div className="item-with-label">
+            <Header as="h3">Date</Header>
+            <Field name={'date'} component={this.dateInput} />
+            <Field name={'time'} component={this.timeInput} />
+          </div>
 
-          <Segment raised>
-            <div className="item-with-label">
-              <Header as="h3">Users</Header>
-              <Field name={"users"} component={this.nameInput} />
-            </div>
-            <Divider />
-            <div className="item-with-label">
-              <Header as="h3">Place</Header>
-              <Field name={"place"} component={this.cityInput} />
-            </div>
-            <Divider />
-            <div className="item-with-label">
-              <Header as="h3">Date</Header>
-              <Field name={"date"} component={this.dateInput} />
-              <Field name={"time"} component={this.timeInput} />
-            </div>
-
-            {!this.props.data &&
-              <div>
-                <Divider />
+          {!this.props.data &&
+            <div>
+              <Divider />
+              <div className="item-with-label">
+                <Header as="h3">Type *</Header>
+                <Field name={'type'} component={this.typeSkillInput} />
+              </div>
+              {this.state.typeInterview === 'tech' &&
                 <div className="item-with-label">
-                  <Header as="h3">Type *</Header>
-                  <Field name={"type"} component={this.typeSkillInput} />
-                </div>
-                {this.state.typeInterview === "tech" &&
-                  <div className="item-with-label">
-                    <Divider />
-                    <Header as="h3">Primary skills</Header>
-                    <Field
-                      name={"primary"}
-                      component={this.primarySkillsInput}
-                    />
-                  </div>}
-                {this.state.typeInterview === "tech" &&
-                  <div className="item-with-label">
-                    <Header as="h3">Secondary Skills</Header>
-                    <Field
-                      name={"secondary"}
-                      component={this.secondarySkillsInput}
-                    />
-                  </div>}
-                {this.state.typeInterview === "tech" &&
-                  <div className="item-with-label">
-                    <Header as="h3">Other skills</Header>
-                    <Field name={"other"} component={this.otherSkillsInput} />
-                  </div>}
-                {this.state.typeInterview === "HR" &&
-                  <div className="item-with-label">
-                    <Divider />
-                    <Header as="h3">Communication Skills</Header>
-                    <Field name={"hr"} component={this.hrSkillsInput} />
-                  </div>}
-              </div>}
+                  <Divider />
+                  <Header as="h3">Primary skills</Header>
+                  <Field name={'primary'} component={this.primarySkillsInput} />
+                </div>}
+              {this.state.typeInterview === 'tech' &&
+                <div className="item-with-label">
+                  <Header as="h3">Secondary Skills</Header>
+                  <Field
+                    name={'secondary'}
+                    component={this.secondarySkillsInput}
+                  />
+                </div>}
+              {this.state.typeInterview === 'tech' &&
+                <div className="item-with-label">
+                  <Header as="h3">Other skills</Header>
+                  <Field name={'other'} component={this.otherSkillsInput} />
+                </div>}
+              {this.state.typeInterview === 'HR' &&
+                <div className="item-with-label">
+                  <Divider />
+                  <Header as="h3">Communication Skills</Header>
+                  <Field name={'hr'} component={this.hrSkillsInput} />
+                </div>}
+            </div>}
 
-            <div className="add-interview">
-              <Button type="button" onClick={reset}>
-                reset data
-              </Button>
-              <Button primary disabled={submitting}>
-                Send interview card
-              </Button>
-            </div>
-          </Segment>
+          <div className="add-interview">
+            <Button type="button" onClick={reset}>
+              reset data
+            </Button>
+            <Button primary disabled={submitting}>
+              Send interview card
+            </Button>
+          </div>
+        </Segment>
       </form>
     );
   }
 }
 
-export default reduxForm({ form: "addInterview", validate })(
+export default reduxForm({ form: 'addInterview', validate })(
   InterviewComponent
 );

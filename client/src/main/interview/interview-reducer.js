@@ -1,46 +1,28 @@
 const interviewReducer = (state = {}, action) => {
   switch (action.type) {
     case 'ADD_INTERVIEW_LIST':
-      return {
-        ...state,
-        interviewList: action.list,
-        isFormLoaded: false,
-        isEditFormSubmitted: false,
-        isAddFormSubmitted: false
-      };
+      return { ...state, interviewList: action.list };
 
     case 'ADD_CURRENT_INTERVIEW':
-      return {
-        ...state,
-        currentInterview: action.interview,
-        isFormLoaded: false,
-        isEditFormSubmitted: false,
-        isAddFormSubmitted: false
-      };
+      return { ...state, currentInterview: action.interview };
 
     case 'ADD_FILTER':
       return { ...state, filter: action.filter };
 
-    case 'EDIT_FORM_SUBMITTED':
-      return { ...state, isEditFormSubmitted: true };
+    case 'ADD_FORM_VALUES':
+      return { ...state, formValues: action.formValues };
 
-    case 'ADD_FORM_SUBMITTED':
-      return { ...state, isAddFormSubmitted: true };
+    case 'FORM_SUBMIT':
+      return { ...state, isFormSubmitted: true };
 
-    case 'FORM_LOADED':
-      return Object.assign({}, state, {
-        formValues: action.data,
-        isFormLoaded: true
-      });
-
-    case 'RESET_FORM_LOADED_DATA':
-      return { ...state, isFormLoaded: false };
+    case 'RESET_FORM':
+      return { ...state, formValues: null, isFormSubmitted: false };
 
     case 'RESET_CURRENT_INTERVIEW':
-      return Object.assign({}, state, { currentInterview: null });
+      return { ...state, currentInterview: null };
 
     case 'RESET_INTERVIEW_LIST':
-      return Object.assign({}, state, { interviewList: null });
+      return { ...state, interviewList: null };
 
     default:
       return state;

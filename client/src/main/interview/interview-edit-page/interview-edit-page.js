@@ -4,9 +4,9 @@ import { Redirect } from 'react-router-dom';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
 import {
   getFillList,
-  postInterview,
   patchInterview,
-  resetCurrentInterview
+  resetCurrentInterview,
+  resetForm
 } from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
@@ -18,20 +18,19 @@ class EditInterviewPage extends React.Component {
   }
 
   showResults = values => {
-    console.log(values);
     delete values.userNames;
     this.props.patchInterview(this.props.match.params.id, values);
   };
 
   componentWillUnmount() {
     this.props.resetCurrentInterview();
+    this.props.resetForm();
   }
 
   render() {
-    console.log(this.props.formValues);
 
-    if (!this.props.isFormLoaded) return <SemanticLoader />;
-    if (this.props.isEditFormSubmitted) return <Redirect to="/" />;
+    if (!this.props.formValues) return <SemanticLoader />;
+    if (this.props.isFormSubmitted) return <Redirect to="/" />;
 
     return (
       <div className="edit-interview-page">
@@ -48,15 +47,14 @@ class EditInterviewPage extends React.Component {
 const mapStateToProps = state => {
   return {
     interview: state.interview.currentInterview,
-    isFormLoaded: state.interview.isFormLoaded,
     formValues: state.interview.formValues,
-    isEditFormSubmitted: state.interview.isEditFormSubmitted
+    isFormSubmitted: state.interview.isFormSubmitted
   };
 };
 
 export default connect(mapStateToProps, {
   getFillList,
-  postInterview,
   patchInterview,
-  resetCurrentInterview
+  resetCurrentInterview,
+  resetForm
 })(EditInterviewPage);
