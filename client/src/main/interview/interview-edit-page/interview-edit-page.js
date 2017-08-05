@@ -29,6 +29,8 @@ class EditInterviewPage extends React.Component {
 
   render() {
 
+    console.log(this.props.interview);
+
     if (!this.props.formValues) return <SemanticLoader />;
     if (this.props.isFormSubmitted) return <Redirect to="/" />;
 
