@@ -16,11 +16,12 @@ class HistoryController extends CRUDController {
       } else {
         history = await this.dao.findById(req.query.page, req.user.id);
       }
-      history = history.map((element) => {
-        element.date = utils.date.getTime(element.time);
-        element.time = utils.date.getDate(element.time);
-        return element;
+
+      history.forEach((element) => {
+        element.time = utils.date.getTime(element.date);
+        element.date = utils.date.getDate(element.date);
       });
+
       res.json(history);
     } catch (err) {
       res.status(500).end();

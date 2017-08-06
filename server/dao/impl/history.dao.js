@@ -1,4 +1,5 @@
 const BasicDAO = require('../basic.dao');
+const UserDAO = require('./users.dao');
 const { makeFilterQuery } = require('../utils/filter');
 const utils = require('../../utils');
 
@@ -26,7 +27,7 @@ class HistoryDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
       condition: makeFilterQuery(query),
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -36,7 +37,7 @@ class HistoryDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
       condition: `WHERE user_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -44,7 +45,7 @@ class HistoryDAO extends BasicDAO {
   async findByCandidateId(id) {
     const history = await super.find({
       condition: `WHERE role = "candidates" AND foreign_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
@@ -52,16 +53,16 @@ class HistoryDAO extends BasicDAO {
   async findByVacancyId(id) {
     const history = await super.find({
       condition: `WHERE role = "vacancies" AND foreign_id = ${id}`,
-      order: 'ORDER BY time DESC',
+      order: 'ORDER BY date DESC',
     });
     return history;
   }
 
   async addEvent(id, tableName, event, userId, logs = '') {
+    const userName = await UserDAO.instance.nameById(userId);
+    let description = `${userName} make changes in table ${tableName}: ${event} some data.`;
     if (logs) {
-      logs = `${JSON.stringify(logs)}`;
-    } else {
-      logs = `Some changes in table ${tableName}: ${event}`;
+      description += ` Here logs: ${JSON.stringify(logs)}`;
     }
     await super.create({
       foreign_id: id,
@@ -69,7 +70,7 @@ class HistoryDAO extends BasicDAO {
       event,
       user_id: userId,
       date: utils.date.getSQL(new Date()),
-      logs,
+      logs: description,
     });
   }
 }
