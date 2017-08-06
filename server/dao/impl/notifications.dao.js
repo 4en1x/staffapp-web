@@ -13,7 +13,7 @@ class NotificationsDAO extends BasicDAO {
   }
 
 
-  /** Constants **/
+  /** Constants * */
 
   static get READ_MESSAGE_STATUS() {
     return 2;
@@ -50,6 +50,17 @@ class NotificationsDAO extends BasicDAO {
   async findById(id) {
     const notification = await super.findById(id, `${this.idField}, text, interview_id`);
     return notification;
+  }
+
+  async close(id, userId) {
+    await this.connection.queryAsync({
+      sql: `UPDATE ${this.tableName} AS m
+            INNER JOIN feedbacks f
+              USING (interview_id)
+            SET m.status = ?
+            WHERE f.id = ? AND m.user_id = ?`,
+      values: [NotificationsDAO.READ_MESSAGE_STATUS, id, userId],
+    });
   }
 }
 

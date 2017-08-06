@@ -1,4 +1,5 @@
 const BasicDAO = require('../basic.dao');
+const UserDAO = require('./users.dao');
 const { makeFilterQuery } = require('../utils/filter');
 const utils = require('../../utils');
 
@@ -58,10 +59,10 @@ class HistoryDAO extends BasicDAO {
   }
 
   async addEvent(id, tableName, event, userId, logs = '') {
+    const userName = await UserDAO.instance.nameById(userId);
+    let description = `${userName} make changes in table ${tableName}: ${event} some data.`;
     if (logs) {
-      logs = `${JSON.stringify(logs)}`;
-    } else {
-      logs = `Some changes in table ${tableName}: ${event}`;
+      description += ` Here logs: ${JSON.stringify(logs)}`;
     }
     await super.create({
       foreign_id: id,
@@ -69,7 +70,7 @@ class HistoryDAO extends BasicDAO {
       event,
       user_id: userId,
       date: utils.date.getSQL(new Date()),
-      logs,
+      logs: description,
     });
   }
 }
