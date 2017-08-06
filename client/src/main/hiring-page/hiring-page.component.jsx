@@ -37,7 +37,9 @@ class HiringComponent extends React.Component {
       delete item.userNames;
     });
 
-    this.props.postHiring({ candidateId: 257, interviews: data });
+    console.log(data);
+
+    this.props.postHiring({ candidateId: this.props.id, interviews: data });
   };
 
   componentWillUnmount() {
@@ -45,6 +47,7 @@ class HiringComponent extends React.Component {
   }
 
   render() {
+
     if (this.props.isUploaded) return <Redirect to={`/candidates/${this.props.id}`} />;
 
     return (

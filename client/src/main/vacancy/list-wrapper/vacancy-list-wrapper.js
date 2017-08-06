@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getVacancyList, resetVacancyList } from '../vacancy-actions';
+import { getVacancyList, resetVacancyList, resetCurrentVacancy } from '../vacancy-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import VacancyListItem from '../../../components/list/list-items/vacancy-list-item';
@@ -19,6 +19,7 @@ class VacancyListWrapper extends React.Component {
 
   componentWillUnmount() {
     this.props.resetVacancyList();
+    this.props.resetCurrentVacancy();
   }
 
   render() {
@@ -42,6 +43,6 @@ const mapStateToProps = state => ({
   filter: state.vacancy.filter
 });
 
-export default connect(mapStateToProps, { getVacancyList, resetVacancyList })(
+export default connect(mapStateToProps, { getVacancyList, resetVacancyList, resetCurrentVacancy })(
   VacancyListWrapper
 );
