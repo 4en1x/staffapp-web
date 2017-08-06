@@ -1,5 +1,8 @@
 const hiringReducer = (state = {}, action) => {
   switch (action.type) {
+    case 'ADD_FORM_VALUES':
+      return { ...state, formValues: action.values };
+
     case 'ADD_HIRING':
       return { ...state, isUploaded: true };
 
