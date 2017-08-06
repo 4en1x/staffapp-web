@@ -18,8 +18,8 @@ class VacancyListWrapper extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.resetVacancyList();
     this.props.resetCurrentVacancy();
+    this.props.resetVacancyList();
   }
 
   render() {
