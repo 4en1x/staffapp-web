@@ -25,7 +25,7 @@ const vacancyReducer = (state = {}, action) => {
       return { ...state, vacancyList: null };
 
     case 'RESET_CURRENT_VACANCY':
-      return { ...state, currentVacancy: null, isVacancyDeleted: true };
+      return { ...state, currentVacancy: null };
 
     case 'RESET_DELETED_VACANCY':
       return { ...state, isVacancyDeleted: false };

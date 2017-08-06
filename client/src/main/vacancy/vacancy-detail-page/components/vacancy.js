@@ -9,6 +9,7 @@ import {
 } from 'semantic-ui-react';
 import Collapsible from 'react-collapsible';
 import { Link } from 'react-router-dom';
+import roles from '../../../../config/config';
 import './vacancy.css';
 
 const Vacancy = props => {
@@ -79,9 +80,15 @@ const Vacancy = props => {
                 Edit
               </Button>
             </Link>
-            <Button primary className="vacancy-detail-page_edit-button" onClick={props.onDeletedVacancy}>
-              Delete
-            </Button>
+            {props.role === roles.ADMIN.ROLE
+              ? <Button
+                  primary
+                  className="vacancy-detail-page_edit-button"
+                  onClick={props.onDeletedVacancy}
+                >
+                  Delete
+                </Button>
+              : null}
           </div>
           <div className="vacancy-detail-page_create-date">
             Creating: {vacancy.createdDate}
