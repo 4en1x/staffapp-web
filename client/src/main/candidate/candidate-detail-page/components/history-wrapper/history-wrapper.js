@@ -17,9 +17,8 @@ class HistoryWrapper extends React.Component {
   }
 
   render() {
-
     if (!this.props.history) return <SemanticLoader />;
-
+    console.log(this.props.history);
     return <HistoryTab history={this.props.history} />;
   }
 }
