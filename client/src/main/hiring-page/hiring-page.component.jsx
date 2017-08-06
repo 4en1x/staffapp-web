@@ -1,18 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import {
-  Button,
-  Segment,
-  Divider,
-  Header,
-  Table,
-  Icon
-} from 'semantic-ui-react';
+import { Button, Header, Table, Icon } from 'semantic-ui-react';
 import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
-import { getFillList } from '../interview/interview-actions';
-import { postHiring, resetHiring } from './hiring-actions';
+import { postHiring, resetHiring, getFormValues } from './hiring-actions';
 class HiringComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +14,7 @@ class HiringComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getFillList();
+    this.props.getFormValues();
   }
 
   showResults = values => {
@@ -47,8 +39,9 @@ class HiringComponent extends React.Component {
   }
 
   render() {
-
-    if (this.props.isUploaded) return <Redirect to={`/candidates/${this.props.id}`} />;
+    console.log(this.props.formValues);
+    if (this.props.isUploaded)
+      return <Redirect to={`/candidates/${this.props.id}`} />;
 
     return (
       <div className="hiring-page">
@@ -139,7 +132,7 @@ class HiringComponent extends React.Component {
 const mapStateToProps = state => {
   return {
     isUploaded: state.hiring.isUploaded,
-    formValues: state.interview.formValues,
+    formValues: state.hiring.formValues,
     id: state.candidate.currentCandidate.id
   };
 };
@@ -147,5 +140,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   postHiring,
   resetHiring,
-  getFillList
+  getFormValues
 })(HiringComponent);

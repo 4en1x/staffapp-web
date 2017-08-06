@@ -1,16 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { List, Table } from 'semantic-ui-react';
+import { Accordion } from 'semantic-ui-react';
+import HiringItem from './components/hiring-item';
 
 const HiringsTab = props =>
-  <div className="info-tab">
-    <Link to="/hiring/add">
-      <Table>
-        <Table.Header>
-          <Table.HeaderCell>Add hiring</Table.HeaderCell>
-        </Table.Header>
-      </Table>
-    </Link>
+  <div className="content-tab">
+    <Accordion>
+      {props.hirings.map(item => <HiringItem hiring={item} />)}
+    </Accordion>
   </div>;
 
 export default HiringsTab;

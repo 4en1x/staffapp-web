@@ -6,12 +6,9 @@ import ContactsList from '../lists/contacts-list';
 import CommunicationsList from '../lists/communications-list';
 
 const InfoTab = props =>
-  <div>
-    <div className="content-tab row">
-      <SkillList skills={props.info.skills} />
-      <ContactsList contacts={props.info.contacts} />
-      <CommunicationsList communication={props.info.communication} />
-    </div>
+  <div className="content-tab row">
+    <SkillList skills={props.info.skills} />
+    <ContactsList contacts={props.info.contacts} />
+    <CommunicationsList communication={props.info.communication} />
   </div>;
-
 export default InfoTab;
