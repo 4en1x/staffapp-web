@@ -11,12 +11,14 @@
     "express": "4.15.3",
     "express-mysql-session": "1.2.1",
     "express-session": "1.15.3",
+    "googleapis": "^20.1.0",
     "json2xls": "^0.1.2",
     "lodash.camelcase": "4.3.0",
     "lodash.snakecase": "4.1.1",
     "mysql": "2.13.0",
     "passport": "0.3.2",
-    "passport-local": "1.0.0"
+    "passport-local": "1.0.0",
+    "google-auth-library": "latest"
   },
   "devDependencies": {
     "babel-register": "6.24.1",

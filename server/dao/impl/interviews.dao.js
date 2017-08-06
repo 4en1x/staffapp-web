@@ -4,6 +4,7 @@ const CandidatesDAO = require('./candidates.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
 const NotificationsDAO = require('./notifications.dao');
 const { createMessages } = require('../../services/notifications.service');
+const { addEvent, sendEmail } = require('../../services/google.service');
 const UsersDAO = require('./users.dao');
 
 const getHiringsDAO = require.bind(null, './hirings.dao');
@@ -53,6 +54,10 @@ class InterviewsDAO extends BasicDAO {
         await Promise.all(messages.map(async (message) => {
           await NotificationsDAO.instance.create(message);
         }));
+
+        const email = await UsersDAO.instance.emailById(userId);
+        await addEvent(email, interview);
+        await sendEmail(email, interview);
       }));
 
       return interviewId;
