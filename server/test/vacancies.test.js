@@ -27,6 +27,107 @@ describe('#Vacancies-Api', () => {
       .ok(res => res.status <= 500);
   });
 
+  describe('#Pick Candidates to vacancy', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/pickVacancies`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin can pick candidates to vacancy ',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/vacancies/pick-candidates-1.json', 'utf8');
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/pickCandidates`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.shallowDeepEqual(JSON.parse(data));
+      });
+  });
+
+  describe('#Get vacancies History', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/history`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin have access for all history of vacancies and can read it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        const data = await readFileAsync('./test/data/vacancies/update-vacancy-1.json', 'utf8');
+        response = await req
+          .patch(`${defaultUrl}/vacancies/1`)
+          .set('Accept', 'application/json')
+          .send(JSON.parse(data));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/history`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(3);
+      });
+  });
+
+  describe('#Get candidates History', () => {
+    it('This test should fail with 403 error because user don\'t have access to this functionality',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(userAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/candidatesHistory`)
+          .set('Accept', 'application/json')
+          .ok(res => res.status <= 500);
+        expect(response.statusCode).to.equal(403);
+      });
+
+    it('This test should pass, because hr and admin have access for  history of candidates and can read it',
+      async () => {
+        let response = await req
+          .post(`${defaultUrl}/login`)
+          .send(JSON.parse(adminAuthData));
+        expect(response.statusCode).to.equal(200);
+
+        response = await req
+          .get(`${defaultUrl}/vacancies/1/candidatesHistory`)
+          .set('Accept', 'application/json');
+        expect(response.statusCode).to.equal(200);
+        expect(response.body).to.be.an('array');
+        expect(response.body).to.have.lengthOf(0);
+      });
+  });
+
   describe('#Add Vacancy', () => {
     it('This test should fail with 403 error because user don\'t have access to this functionality',
       async () => {
@@ -63,8 +164,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try add vacancy with skill which don\'t exist',
@@ -143,8 +244,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
     it('This test should fail with 404 error : admin or hr try get vacancy that doen\'t exist',
       async () => {
@@ -239,8 +340,8 @@ describe('#Vacancies-Api', () => {
           .set('Accept', 'application/json');
         expect(response.statusCode).to.equal(200);
         expect(response.body).to.shallowDeepEqual(JSON.parse(data));
-        expect(response.body.skills).to.be.an('array');
-        expect(response.body.skills).to.have.lengthOf(3);
+        expect(response.body.secondarySkills).to.be.an('array');
+        expect(response.body.secondarySkills).to.have.lengthOf(3);
       });
 
     it('This test should fail with 500 error : admin try update vacancy with skill which don\'t exist',

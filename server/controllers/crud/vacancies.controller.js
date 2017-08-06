@@ -28,6 +28,7 @@ class VacanicesController extends CRUDController {
         vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
       }
 
+      vacancy.secondarySkills = vacancy.secondarySkills || [];
       vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
     };
 
@@ -37,6 +38,12 @@ class VacanicesController extends CRUDController {
   async readHistoryById(req, res) {
     try {
       const history = await db.history.findByVacancyId(req.params.id);
+
+      history.forEach((element) => {
+        element.time = utils.date.getTime(element.date);
+        element.date = utils.date.getDate(element.date);
+      });
+
       res.json(history);
     } catch (err) {
       res.status(500).end();
@@ -47,6 +54,22 @@ class VacanicesController extends CRUDController {
     try {
       const history = await db.candidates.findByVacancyId(req.params.id);
       res.json(history);
+    } catch (err) {
+      res.status(500).end();
+    }
+  }
+
+  async pickCandidates(req, res) {
+    try {
+      const candidates = await db.vacancies.pickCandidates(req.params.id);
+
+      candidates.forEach((candidate) => {
+        if (candidate.lastChangeDate) {
+          candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
+        }
+      });
+
+      res.json(candidates);
     } catch (err) {
       res.status(500).end();
     }

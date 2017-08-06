@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: mysql5.gear.host    Database: exadelteamdb2
+-- Host: mysql5.gear.host    Database: `exadelteamdbtest`
 -- ------------------------------------------------------
 -- Server version	5.7.18-log
 
@@ -290,7 +290,7 @@ CREATE TABLE   `exadelteamdbtest`.`interviews` (
 
 LOCK TABLES  `exadelteamdbtest`.`interviews` WRITE;
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`interviews` DISABLE KEYS */;
-INSERT INTO `exadelteamdbtest`.`interviews` VALUES (1,'HR','2009-06-03 11:13:56','exadel',1),(2,'TECH','2009-06-03 11:13:56','exadel 2',1),(3,'TECH','2009-06-03 11:13:56','exadel 3',2),(4,'TECH','2009-06-03 11:13:56','exadel 444444',2),(5,'TECH','2009-06-03 11:13:56','exadel 444444555555',2),(6,'TECH','2010-06-03 12:13:56','Exadel, ул.А. Купревича, 3',4),(7,'TECH','2011-06-03 12:13:56','Exadel, ул.А. Купревича, 3',5),(8,'TECH','2012-06-03 12:13:56','Exadel, ул.А. Купревича, 3',6),(9,'TECH','2013-06-03 12:13:56','Exadel, ул.А. Купревича, 3',7),(10,'TECH','2014-06-03 12:13:56','Exadel, ул.А. Купревича, 3',8),(11,'TECH','2015-06-03 12:13:56','Exadel, ул.А. Купревича, 3',9),(12,'TECH','2016-06-03 12:13:56','Exadel, ул.А. Купревича, 3',10),(13,'TECH','2017-06-03 12:13:56','Exadel, ул.А. Купревича, 3',11),(14,'TECH','2018-06-03 12:13:56','Exadel, ул.А. Купревича, 3',12),(16,'TECH','2019-06-03 12:13:56','Exadel, ул.А. Купревича, 3',4);
+INSERT INTO `exadelteamdbtest`.`interviews` VALUES (1,'HR','2009-06-03 11:13:56','exadel',1),(2,'TECH','2009-06-03 11:13:56','exadel 2',1),(3,'TECH','2009-06-03 11:13:56','exadel 3',2),(4,'TECH','2009-06-03 11:13:56','exadel 444444',2),(5,'TECH','2009-06-03 11:13:56','exadel 444444555555',2),(6,'TECH','2010-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',4),(7,'TECH','2011-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',5),(8,'TECH','2012-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',6),(9,'TECH','2013-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',7),(10,'TECH','2014-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',8),(11,'TECH','2015-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',9),(12,'TECH','2016-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',10),(13,'TECH','2017-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',11),(14,'TECH','2018-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',12),(16,'TECH','2019-06-03 12:13:56','Exadel, пїЅпїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, 3',4);
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`interviews` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,9 +357,11 @@ DROP TABLE IF EXISTS `exadelteamdbtest`.`messages`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE   `exadelteamdbtest`.`messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `text` longtext NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL,
+    `text` longtext NOT NULL,
+    `user_id` int(11) NOT NULL,
+    `date` datetime DEFAULT NULL,
+    `interview_id` int(11) NOT NULL,
+    `status` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_messages_users1_idx` (`user_id`),
   CONSTRAINT `fk_messages_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -370,9 +372,10 @@ CREATE TABLE   `exadelteamdbtest`.`messages` (
 -- Dumping data for table `messages`
 --
 
-LOCK TABLES  `exadelteamdbtest`.`messages` WRITE;
-/*!40000 ALTER TABLE  `exadelteamdbtest`.`messages` DISABLE KEYS */;
-/*!40000 ALTER TABLE  `exadelteamdbtest`.`messages` ENABLE KEYS */;
+LOCK TABLES `exadelteamdbtest`.`messages` WRITE;
+/*!40000 ALTER TABLE `exadelteamdbtest`.`messages` DISABLE KEYS */;
+INSERT INTO `exadelteamdbtest`.`messages` VALUES (86,'You have one new assigned interview 04.07.2017 at 14:55',1,'2017-08-03 11:55:00',89,1),(87,'You have one assigned interview today at 14:55',1,'2017-08-03 11:55:00',89,0),(88,'You have one new assigned interview 04.07.2017 at 14:59',1,'2017-08-03 11:59:00',90,2),(89,'You have one assigned interview today at 14:59',1,'2017-08-03 11:59:00',90,0),(90,'You have one new assigned interview 04.07.2017 at 14:59',1,'2017-08-03 11:59:00',91,1),(91,'You have one assigned interview today at 14:59',1,'2017-08-03 11:59:00',91,0),(92,'You have one new assigned interview 04.06.2017 at 15:00',2,'2017-07-27 12:00:00',92,1),(93,'You have one assigned interview today at 15:00',2,'2017-07-27 12:00:00',92,0),(94,'You have one new assigned interview 04.06.2017 at 15:00',3,'2017-07-27 12:00:00',92,1),(95,'You have one assigned interview today at 15:00',3,'2017-07-27 12:00:00',92,0),(96,'You have one new assigned interview 04.06.2017 at 15:00',5,'2017-07-27 12:00:00',92,1),(97,'You have one assigned interview today at 15:00',5,'2017-07-27 12:00:00',92,0),(98,'You have one new assigned interview 04.06.2017 at 15:00',1,'2017-07-27 12:00:00',92,1),(99,'You have one assigned interview today at 15:00',1,'2017-07-27 12:00:00',92,0);
+/*!40000 ALTER TABLE `exadelteamdbtest`.`messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -449,7 +452,7 @@ CREATE TABLE   `exadelteamdbtest`.`skills` (
 
 LOCK TABLES  `exadelteamdbtest`.`skills` WRITE;
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`skills` DISABLE KEYS */;
-INSERT INTO `exadelteamdbtest`.`skills` VALUES (1,'.NET','primary'),(2,'Android','primary'),(3,'BI','primary'),(4,'C++','primary'),(5,'DBE','primary'),(6,'Data Science','primary'),(7,'DWH','primary'),(8,'ETL','primary'),(9,'iOS','primary'),(10,'Java','primary'),(11,'JavaScript','primary'),(12,'PHP','primary'),(13,'Python','primary'),(14,'Ruby on Rails','primary'),(15,'QA','primary'),(16,'BA','primary'),(17,'DevOps','primary'),(18,'SysAdmin','primary'),(19,'HRM','primary'),(20,'Angular','secondary'),(21,'ReactJS','secondary'),(22,'NodeJS','secondary'),(23,'MongoDB','secondary'),(24,'Hadoop','secondary'),(25,'PosgreSQL','secondary'),(26,'Linux','secondary'),(27,'Spring','secondary'),(28,'Django','secondary'),(29,'Bootstrap','secondary'),(30,'Scrum','secondary'),(31,'Programming basics','other'),(32,'Networking','other'),(33,'Database','other'),(34,'Design Patterns','other'),(35,'Testing','other'),(36,'Design and Architecture','other'),(37,'Причина смены работы','hr'),(38,'Готовность приступить к работе','hr'),(39,'Готовность к командировкам','hr'),(40,'Мотивация (что интересно)','hr'),(41,'Уровень английского языка','hr'),(42,'Ожидания по заработной плате','hr'),(43,'Другое (поле для комментария)','hr');
+INSERT INTO `exadelteamdbtest`.`skills` VALUES (1,'.NET','primary'),(2,'Android','primary'),(3,'BI','primary'),(4,'C++','primary'),(5,'DBE','primary'),(6,'Data Science','primary'),(7,'DWH','primary'),(8,'ETL','primary'),(9,'iOS','primary'),(10,'Java','primary'),(11,'JavaScript','primary'),(12,'PHP','primary'),(13,'Python','primary'),(14,'Ruby on Rails','primary'),(15,'QA','primary'),(16,'BA','primary'),(17,'DevOps','primary'),(18,'SysAdmin','primary'),(19,'HRM','primary'),(20,'Angular','secondary'),(21,'ReactJS','secondary'),(22,'NodeJS','secondary'),(23,'MongoDB','secondary'),(24,'Hadoop','secondary'),(25,'PosgreSQL','secondary'),(26,'Linux','secondary'),(27,'Spring','secondary'),(28,'Django','secondary'),(29,'Bootstrap','secondary'),(30,'Scrum','secondary'),(31,'Programming basics','other'),(32,'Networking','other'),(33,'Database','other'),(34,'Design Patterns','other'),(35,'Testing','other'),(36,'Design and Architecture','other'),(37,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ','hr'),(38,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ','hr'),(39,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ','hr'),(40,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)','hr'),(41,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ','hr'),(42,'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ','hr'),(43,'пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)','hr');
 /*!40000 ALTER TABLE  `exadelteamdbtest`.`skills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -589,8 +592,8 @@ CREATE TABLE   `exadelteamdbtest`.`vacancy_statuses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
-drop view if exists candidates_view;
-create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
+drop view if exists `exadelteamdbtest`.candidates_view;
+create view `exadelteamdbtest`.candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname, 
                cnd.skype,cnd.phone,cnd.resume, e_l.name AS english_level, 
                cnd.created_date, cnd.last_change_date, u.name AS hrName, 
                cnd.linkedin, cnd.salary, cnd.notification_date, 
@@ -615,8 +618,8 @@ create view candidates_view AS SELECT cnd.id, cnd.name, cnd.email, cnd.surname,
               LEFT JOIN links l
               ON cnd.id = l.candidate_id GROUP BY cnd.id;
               
-drop view if exists vacancies_view;
-create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
+drop view if exists `exadelteamdbtest`.vacancies_view;
+create view `exadelteamdbtest`.vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_start, ps.name AS primary_skill, ct.name AS city, v.created_date, v.salary, v.description,  GROUP_CONCAT(DISTINCT ss.name SEPARATOR ', ') AS secondary_skills
       from vacancies v
               LEFT JOIN cities ct
               ON v.city_id = ct.id
@@ -628,6 +631,37 @@ create view vacancies_view AS SELECT v.id, v.name, vs.name AS status, v.job_star
               ON vhs.vacancy_id = v.id
               LEFT JOIN skills ss
               ON ss.id = vhs.skill_id GROUP BY v.id;
+
+drop view if exists `exadelteamdbtest`.all_interviews_view;
+CREATE VIEW `exadelteamdbtest`.all_interviews_view AS
+	(SELECT 
+		'Hirings' AS source,
+		i.id AS id, 
+		i.type AS type, 
+		i.date AS date, 
+		i.place AS place, 
+		c.name AS name, 
+		c.surname AS surname,
+		h.user_id AS user_id
+	FROM interviews i
+		INNER JOIN hirings h ON ((i.hiring_id = h.id) AND (h.date_close IS NULL))
+		INNER JOIN candidates c ON (h.candidate_id = c.id)) 
+UNION 
+(SELECT 
+	'Feedback' AS source,
+    i.id AS id, 
+    i.type AS type, 
+    i.date AS date, 
+    i.place AS place, 
+    c.name AS name, 
+    c.surname AS surname,
+    f.user_id AS user_id
+FROM interviews i
+	INNER JOIN feedbacks f ON ((f.interview_id = i.id) AND (f.status = 0))
+	INNER JOIN candidates c ON (f.candidate_id = c.id));
+
+     
+
 --
 -- Dumping data for table `vacancy_statuses`
 --

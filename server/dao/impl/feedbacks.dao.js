@@ -1,5 +1,6 @@
 const BasicDAO = require('../basic.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
+const NotificationDAO = require('./notifications.dao');
 
 class FeedbacksDAO extends BasicDAO {
   constructor(connection) {
@@ -89,6 +90,7 @@ class FeedbacksDAO extends BasicDAO {
     const superUpdate = super.update.bind(this);
 
     await this.wrapTransaction(async () => {
+      await NotificationDAO.instance.close(id, userId);
       const feedback = { comment, status: 1 };
       await superUpdate(id, feedback, userId);
       await Promise.all(fields.map(async (field) => {
