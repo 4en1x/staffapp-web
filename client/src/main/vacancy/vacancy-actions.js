@@ -18,9 +18,9 @@ function addVacancyList(list) {
   };
 }
 
-export function getVacancyList(filter) {
+export function getVacancyList(filter, page) {
   return dispatch => {
-    vacancyService.getVacancyList(filter).then(res => {
+    vacancyService.getVacancyList(filter, page).then(res => {
       dispatch(addVacancyList(res.data));
     });
   };

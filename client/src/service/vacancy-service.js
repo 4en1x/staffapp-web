@@ -2,8 +2,8 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-function getVacancyList(filter = {}) {
-  return axios.get(`/vacancies?page=1`, {
+function getVacancyList(filter = {}, page) {
+  return axios.get(`/vacancies?page=${page}`, {
     params: {
       filter: JSON.stringify(filter)
     }

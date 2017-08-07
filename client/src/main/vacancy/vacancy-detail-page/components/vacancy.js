@@ -11,7 +11,7 @@ import {
 import Collapsible from 'react-collapsible';
 import { Link } from 'react-router-dom';
 import roles from '../../../../config/config';
-import  VacancyMenu from '../../../../components/menu/vacancy-menu';
+// import  VacancyMenu from '../../../../components/menu/vacancy-menu';
 import SecondaryMenu from '../../../../components/secondary-menu/secondary-menu.component';
 import './vacancy.css';
 

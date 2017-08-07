@@ -47,9 +47,9 @@ export function addFilter(filter) {
   };
 }
 
-export function getCandidateList(filter) {
+export function getCandidateList(filter, page) {
   return dispatch => {
-    candidateService.getCandidateList(filter).then(res => {
+    candidateService.getCandidateList(filter, page).then(res => {
       dispatch(addCandidateList(res.data));
     });
   };

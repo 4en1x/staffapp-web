@@ -2,9 +2,10 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-const getHistoryList = (filter = {}) => axios.get('/history', {
+const getHistoryList = (filter = {}, page) => axios.get('/history', {
   params: {
-    filter: JSON.stringify(filter)
+    filter: JSON.stringify(filter),
+      page: page
   }
 });
 
