@@ -22,7 +22,6 @@ class VacancyPage extends React.Component {
   };
 
   render() {
-    console.log(this.props.vacancy);
 
     if (this.props.isVacancyDeleted) return <Redirect to="/vacancies" />;
     if (!this.props.vacancy) return <SemanticLoader />;

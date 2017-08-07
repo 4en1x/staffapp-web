@@ -43,7 +43,11 @@ class HiringComponent extends React.Component {
       delete item.time;
       return item;
     });
-    this.props.postHiring({ candidateId: this.props.id, interviews: data });
+    this.props.postHiring({
+      candidateId: this.props.id,
+      vacancyId: Number(this.props.match.params.id),
+      interviews: data
+    });
   };
 
   render() {

@@ -21,7 +21,6 @@ class CandidatePage extends React.Component {
 
   render() {
 
-    console.log(this.props.candidate);
     if (this.props.isCandidateDeleted) return <Redirect to="/candidates"/>;
 
     return (
