@@ -38,6 +38,7 @@ class NotificationsDAO extends BasicDAO {
       page,
       condition: `WHERE user_id=${id} AND (status=${NotificationsDAO.IMPORTANT_MESSAGE_STATUS} OR
                   (date>="${dateFrom}" AND date<="${dateTo}" AND status=${NotificationsDAO.REGULAR_MESSAGE_STATUS}))`,
+      order: 'ORDER BY date DESC'
     });
 
     return resources;

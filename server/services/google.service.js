@@ -76,11 +76,11 @@ function createEventObject(email, interview) {
     location: interview.place,
     start: {
       dateTime: new Date(interview.date).toISOString(),
-      timeZone: 'Europe/Minsk',
+      timeZone: 'Europe/London',
     },
     end: {
       dateTime: new Date(new Date(interview.date).getTime() + 3600000).toISOString(),
-      timeZone: 'Europe/Minsk',
+      timeZone: 'Europe/London',
     },
     attendees: [{ email }],
     reminders: {
