@@ -54,10 +54,17 @@ export default class HeaderComponent extends React.Component {
 
   componentDidMount() {
     notificationService.getMessageList().then(res => {
-      console.log(res.data);
       this.setState({ list: res.data });
     });
   }
+
+  deleteMessage = id => {
+      const list = this.state.list.slice();
+      list.forEach((item,move) => {
+          if(item.id === id) list.splice(move,1);
+      });
+      this.setState({ list });
+}
 
   render() {
     const config = this.config();
@@ -73,7 +80,7 @@ export default class HeaderComponent extends React.Component {
             {config[user.role]}
           </div>
           <DropDownTrigger user={user} itemSelected={this.props.itemSelected} />
-          <Notification messages={this.state.list} />
+          <Notification messages={this.state.list} deleteMessage={this.deleteMessage} />
         </div>
       </div>
     );

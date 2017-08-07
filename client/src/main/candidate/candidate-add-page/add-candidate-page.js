@@ -16,7 +16,6 @@ class AddCandidatePage extends React.Component {
     this.props.getFormValues();
   }
   showResults = values => {
-    console.log(values);
     this.props.postCandidate(values);
   };
 

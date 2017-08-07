@@ -26,8 +26,6 @@ class InterviewPage extends React.Component {
     const url = this.props.match.url;
     const role = this.props.role;
 
-    console.log(this.props.interview);
-
     if (this.props.isInterviewDeleted) return <Redirect to="/interviews"/>;
 
     return (

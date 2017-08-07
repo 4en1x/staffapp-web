@@ -18,12 +18,19 @@ const RESET_CANDIDATE_CANDIDATES = 'RESET_CANDIDATE_CANDIDATES';
 const RESET_DELETED_CANDIDATE = 'RESET_DELETED_CANDIDATE';
 
 const DOWNLOAD_REPORT = 'DOWNLOAD_REPORT';
+const RESET_LINK = 'RESET_LINK';
 
 export function downloadReport(reportLink) {
   return {
     type: DOWNLOAD_REPORT,
     reportLink
   };
+}
+
+export function resetLink() {
+  return {
+    type: RESET_LINK
+  }
 }
 
 function addCandidateList(list) {

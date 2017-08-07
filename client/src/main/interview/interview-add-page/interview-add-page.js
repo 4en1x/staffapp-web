@@ -22,7 +22,6 @@ class AddInterviewPage extends React.Component {
   }
 
   render() {
-    console.log(this.props.formValues);
 
     if (this.props.isAddFormLoaded) return <Redirect to="/" />;
     if (!this.props.isFormLoaded) return <SemanticLoader />;

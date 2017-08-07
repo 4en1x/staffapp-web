@@ -27,8 +27,6 @@ class EditVacancyPage extends React.Component {
 
   render() {
 
-    console.log(this.props.vacancy);
-
     if (this.props.isFormSubmitted) {
       return <Redirect to={`/vacancies/${this.props.match.params.id}`} />;
     }

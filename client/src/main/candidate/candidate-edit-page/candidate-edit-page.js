@@ -31,7 +31,6 @@ class CandidateEditPage extends React.Component {
     if (!this.props.formValues) return <SemanticLoader />;
 
     const lists = this.props.formValues;
-    console.log(this.props.candidate);
 
     return (
       <div className="candidate-page">
