@@ -2,7 +2,6 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const service = require('../../services/hirings.service');
-const utils = require('../../utils');
 
 class HiringsController extends CRUDController {
   constructor() {
@@ -11,7 +10,6 @@ class HiringsController extends CRUDController {
 
   async create(req, res) {
     const hiring = service.createHiringObject(req);
-    console.log(hiring)
     let id = null;
 
     const onload = async (insertId) => {
@@ -28,7 +26,6 @@ class HiringsController extends CRUDController {
         await this.dao.delete(id);
         return true;
       } catch (err) {
-        console.log(err)
         res.status(500).end();
         return false;
       }
@@ -39,13 +36,8 @@ class HiringsController extends CRUDController {
 
   async readOne(req, res) {
     const onload = async (hiring) => {
-      let interviews = await db.interviews.findByHiring(req.params.id);
+      const interviews = await db.interviews.findByHiring(req.params.id);
       hiring = service.rebuildHiring(hiring);
-      interviews = interviews.map((interview) => {
-        interview.time = utils.date.getTime(interview.date);
-        interview.date = utils.date.getDate(interview.date);
-        return interview;
-      });
       hiring.interviews = interviews;
     };
 
@@ -75,7 +67,6 @@ class HiringsController extends CRUDController {
 
       res.json(hirings);
     } catch (err) {
-      console.log(err);
       res.status(500).end();
     }
   }

@@ -2,34 +2,15 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const service = require('../../services/vacancies.service');
-const utils = require('../../utils');
 
 class VacanicesController extends CRUDController {
   constructor() {
     super(db.vacancies);
   }
 
-  async read(req, res) {
-    const onload = async (vacancies) => {
-      vacancies.forEach((vacancy) => {
-        if (vacancy.jobStart) {
-          vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
-        }
-        return vacancy;
-      });
-    };
-
-    await super.read(req, res, onload);
-  }
-
   async readOne(req, res) {
     const onload = async (vacancy) => {
-      if (vacancy.jobStart) {
-        vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
-      }
-
       vacancy.secondarySkills = vacancy.secondarySkills || [];
-      vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
     };
 
     await super.readOne(req, res, onload);
@@ -37,14 +18,7 @@ class VacanicesController extends CRUDController {
 
   async readHistoryById(req, res) {
     try {
-      const history = await db.history.findByVacancyId(req.params.id);
-
-      history.forEach((element) => {
-        element.time = utils.date.getTime(element.date);
-        element.date = utils.date.getDate(element.date);
-      });
-
-      res.json(history);
+      res.json(await db.history.findByVacancyId(req.params.id));
     } catch (err) {
       res.status(500).end();
     }
@@ -61,15 +35,7 @@ class VacanicesController extends CRUDController {
 
   async pickCandidates(req, res) {
     try {
-      const candidates = await db.vacancies.pickCandidates(req.params.id);
-
-      candidates.forEach((candidate) => {
-        if (candidate.lastChangeDate) {
-          candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
-        }
-      });
-
-      res.json(candidates);
+      res.json(await db.vacancies.pickCandidates(req.params.id));
     } catch (err) {
       res.status(500).end();
     }
