@@ -5,7 +5,7 @@ import { Button, Header, Icon, Label, Table } from 'semantic-ui-react';
 import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
 import { postHiring, resetHiring, getFormValues } from './hiring-actions';
-
+import "./hiring-page.component.css"
 const peoples = [];
 class HiringComponent extends React.Component {
   constructor(props) {
@@ -35,9 +35,12 @@ class HiringComponent extends React.Component {
   };
 
   sendData = () => {
-    const data = this.state.data.slice();
-    data.map(item => {
+    let data = this.state.data.slice();
+    data.forEach(item => {
       delete item.userNames;
+      item.date = item.date + " " + item.time + ":00";
+      delete item.time;
+      return item;
     });
     this.props.postHiring({ candidateId: this.props.id, interviews: data });
   };
@@ -84,7 +87,18 @@ class HiringComponent extends React.Component {
                         {peoples[move]}
                       </Table.Cell>
                       <Table.Cell>
-                        {interviewLine.date}
+                        <Header as="h2" textAlign="center">
+                          <Header.Content>
+                            <div className="date-output">
+                                {interviewLine.time}
+                            </div>
+                            <Header.Subheader>
+                              <div className="date-output">
+                                  {interviewLine.date}
+                              </div>
+                            </Header.Subheader>
+                          </Header.Content>
+                        </Header>
                       </Table.Cell>
                       <Table.Cell>
                         {interviewLine.place &&
