@@ -37,7 +37,10 @@ const otherSkillList = [];
 
 const validate = values => {
   const errors = {};
-  if (!values.type) errors.name = 'Required';
+  if (!values.type) errors.type = 'Required';
+  if (!values.users) errors.users = 'Required';
+  if (!values.date) errors.date = 'Required';
+  if (!values.time) errors.time = 'Required';
   return errors;
 };
 
@@ -50,25 +53,126 @@ class InterviewComponent extends React.Component {
     this.initialData();
   }
 
+  textareaWithIconField = ({
+    input,
+    placeholder,
+    typeInput,
+    icon,
+    meta: { touched, error }
+  }) => {
+    return (
+      <div className="field-with-warning">
+        <Input
+          {...input}
+          type={typeInput}
+          placeholder={placeholder}
+          label={{ basic: true, content: <Icon name={icon} /> }}
+          labelPosition="left"
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                {error}
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
+
+  DropdownField = ({
+    input,
+    dataList,
+    placeholder,
+    meta: { touched, error }
+  }) => {
+    return (
+      <div className="field-with-warning">
+        <Dropdown
+          value={input.value}
+          onChange={(param, data) => {
+            this.setState({ typeInterview: data.value }, () => {
+              this.buildArrays();
+            });
+            input.onChange(data.value);
+          }}
+          search
+          selection
+          placeholder={placeholder}
+          options={dataList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                {error}
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
+
+  MultipleDropdownField = ({
+    input,
+    dataList,
+    placeholder,
+    meta: { touched, error }
+  }) => {
+    return (
+      <div className="field-with-warning">
+        <Dropdown
+          selection
+          value={input.value}
+          onChange={(param, data) => {
+            input.onChange(data.value);
+          }}
+          placeholder={placeholder}
+          multiple
+          search
+          options={dataList}
+        />
+        {touched &&
+          (error &&
+            <div className="warning-block">
+              <Label basic color="red" pointing>
+                {error}
+              </Label>
+            </div>)}
+      </div>
+    );
+  };
+
   initialData = () => {
-    this.props.skillsList.users.map(step => {
-      const temp = {
-        key: step.id,
-        text: step.id,
-        value: step.id,
-        content: ' ',
-        label: (
-          <Label color="blue">
-            {step.name}
-            <Label.Detail>
-              {step.role} {step.email}
-            </Label.Detail>
-          </Label>
-        )
-      };
-      usersList.push(temp);
-      return null;
-    });
+    if (this.props.skillsList.users)
+      this.props.skillsList.users.map(item => {
+        let colorLabel = 'grey';
+        if (item.role === 'hr') colorLabel = 'orange';
+        else if (item.role === 'admin') colorLabel = 'blue';
+        else if (item.role === 'user') colorLabel = 'green';
+
+        const temp = {
+          key: item.id + ' ' + item.name + ' ' + item.email + ' ' + item.role,
+          text: item.id + ' ' + item.name + ' ' + item.email + ' ' + item.role,
+          value: item.id + ' ' + item.name + ' ' + item.email + ' ' + item.role,
+          content: (
+            <Header size="small">
+              <Label
+                size="big"
+                color={colorLabel}
+                vertical
+                content={item.role}
+              />
+              <Header.Content>
+                {item.name}
+                <Header.Subheader>
+                  {item.email}
+                </Header.Subheader>
+              </Header.Content>
+            </Header>
+          )
+        };
+        usersList.push(temp);
+      });
 
     if (this.props.data) {
       let date = new Date(this.props.data.date);
@@ -82,178 +186,50 @@ class InterviewComponent extends React.Component {
   };
   buildArrays = () => {
     if (this.state.typeInterview === 'tech') {
-      this.props.skillsList.primary.map(step => {
+      this.props.skillsList.primary.map(item => {
         const temp = {
-          key: step,
-          text: step,
-          value: step
+          key: item,
+          text: item,
+          value: item
         };
         primarySkillList.push(temp);
         return null;
       });
-      this.props.skillsList.secondary.map(step => {
+      this.props.skillsList.secondary.map(item => {
         const temp = {
-          key: step,
-          text: step,
-          value: step
+          key: item,
+          text: item,
+          value: item
         };
         secondarySkillList.push(temp);
         return null;
       });
-      this.props.skillsList.other.map(step => {
+      this.props.skillsList.other.map(item => {
         const temp = {
-          key: step,
-          text: step,
-          value: step
+          key: item,
+          text: item,
+          value: item
         };
         otherSkillList.push(temp);
         return null;
       });
     } else if (this.state.typeInterview === 'HR') {
-      this.props.skillsList.hr.map(step => {
+      this.props.skillsList.hr.map(item => {
         const temp = {
-          key: step,
-          text: step,
-          value: step
+          key: item,
+          text: item,
+          value: item
         };
         hrSkillList.push(temp);
         return null;
       });
     }
   };
-  nameInput = ({ input }) => {
-    return (
-      <Dropdown
-        selection
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        placeholder="users"
-        multiple
-        search
-        options={usersList}
-      />
-    );
-  };
-  primarySkillsInput = ({ input }) => {
-    return (
-      <Dropdown
-        selection
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        placeholder="skills"
-        multiple
-        search
-        options={primarySkillList}
-      />
-    );
-  };
-  secondarySkillsInput = ({ input }) => {
-    return (
-      <Dropdown
-        selection
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        placeholder="skills"
-        multiple
-        search
-        options={secondarySkillList}
-      />
-    );
-  };
-  otherSkillsInput = ({ input }) => {
-    return (
-      <Dropdown
-        selection
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        placeholder="skills"
-        multiple
-        search
-        options={otherSkillList}
-      />
-    );
-  };
-  hrSkillsInput = ({ input }) => {
-    return (
-      <Dropdown
-        selection
-        value={input.value}
-        onChange={(param, data) => {
-          input.onChange(data.value);
-        }}
-        placeholder="skills"
-        fluid
-        multiple
-        search
-        options={hrSkillList}
-      />
-    );
-  };
-  cityInput = ({ input }) => {
-    return <Input {...input} placeholder="city" className="text-area" />;
-  };
-  dateInput = ({ input }) => {
-    return (
-      <Input
-        {...input}
-        className="text-area"
-        type="date"
-        label={{ basic: true, content: <Icon name="calendar" /> }}
-        labelPosition="left"
-      />
-    );
-  };
-  timeInput = ({ input }) => {
-    return (
-      <Input
-        {...input}
-        className="text-area"
-        type="time"
-        label={{ basic: true, content: <Icon name="time" /> }}
-        labelPosition="left"
-      />
-    );
-  };
-  typeSkillInput = ({ input, meta: { touched, error } }) => {
-    return (
-      <div className="field-with-warning">
-        <Dropdown
-          placeholder="type of meeting"
-          value={input.value}
-          onChange={(param, data) => {
-            this.setState({ typeInterview: data.value }, () => {
-              this.buildArrays();
-            });
-            input.onChange(data.value);
-          }}
-          search
-          selection
-          options={typeList}
-        />
-        {touched &&
-          (error &&
-            <div className="warning-block">
-              <Label basic color="red" pointing>
-                Please enter meeting type
-              </Label>
-            </div>)}
-      </div>
-    );
-  };
   prepareData = value => {
     let data = {};
     data.place = value.place;
-    data.users = value.users;
-    if (value.time) data.date = value.date + ' ' + value.time + ':00';
-    else data.date = value.date;
+    data.users = [];
+    data.date = value.date + ' ' + value.time + ':00';
     data.userNames = [];
     if (!this.props.data) {
       data.type = value.type;
@@ -297,10 +273,10 @@ class InterviewComponent extends React.Component {
       }
     }
     if (value.users) {
-      value.users.map(item => {
-        this.props.skillsList.users.map(item2 => {
-          if (item === item2.id) data.userNames.push(item2.name);
-        });
+      value.users.forEach(item => {
+        const arr = item.split(' ');
+        data.users.push(arr[0]);
+        data.userNames.push(arr[1]);
       });
     }
     this.props.onSubmit(data);
@@ -316,19 +292,42 @@ class InterviewComponent extends React.Component {
       >
         <Segment raised>
           <div className="item-with-label">
-            <Header as="h3">Users</Header>
-            <Field name={'users'} component={this.nameInput} />
+            <Header as="h3">Users *</Header>
+            <Field
+              name={'users'}
+              placeholder="users"
+              dataList={usersList}
+              component={this.MultipleDropdownField}
+            />
           </div>
           <Divider />
           <div className="item-with-label">
             <Header as="h3">Place</Header>
-            <Field name={'place'} component={this.cityInput} />
+            <Field
+              name={'place'}
+              placeholder="place"
+              typeInput="text"
+              icon="university"
+              component={this.textareaWithIconField}
+            />
           </div>
           <Divider />
           <div className="item-with-label">
-            <Header as="h3">Date</Header>
-            <Field name={'date'} component={this.dateInput} />
-            <Field name={'time'} component={this.timeInput} />
+            <Header as="h3">Date *</Header>
+            <div className="text-area">
+              <Field
+                name={'date'}
+                typeInput="date"
+                icon="calendar"
+                component={this.textareaWithIconField}
+              />
+            </div>
+            <Field
+              name={'time'}
+              typeInput="time"
+              icon="clock"
+              component={this.textareaWithIconField}
+            />
           </div>
 
           {!this.props.data &&
@@ -336,32 +335,54 @@ class InterviewComponent extends React.Component {
               <Divider />
               <div className="item-with-label">
                 <Header as="h3">Type *</Header>
-                <Field name={'type'} component={this.typeSkillInput} />
+                <Field
+                  name={'type'}
+                  placeholder="interview type"
+                  dataList={typeList}
+                  component={this.DropdownField}
+                />
               </div>
               {this.state.typeInterview === 'tech' &&
                 <div className="item-with-label">
                   <Divider />
                   <Header as="h3">Primary skills</Header>
-                  <Field name={'primary'} component={this.primarySkillsInput} />
+                  <Field
+                    name={'primary'}
+                    dataList={primarySkillList}
+                    placeholder="primary skill"
+                    component={this.MultipleDropdownField}
+                  />
                 </div>}
               {this.state.typeInterview === 'tech' &&
                 <div className="item-with-label">
                   <Header as="h3">Secondary Skills</Header>
                   <Field
                     name={'secondary'}
-                    component={this.secondarySkillsInput}
+                    dataList={secondarySkillList}
+                    placeholder="secondary skill"
+                    component={this.MultipleDropdownField}
                   />
                 </div>}
               {this.state.typeInterview === 'tech' &&
                 <div className="item-with-label">
                   <Header as="h3">Other skills</Header>
-                  <Field name={'other'} component={this.otherSkillsInput} />
+                  <Field
+                    name={'other'}
+                    dataList={otherSkillList}
+                    placeholder="other skill"
+                    component={this.MultipleDropdownField}
+                  />
                 </div>}
               {this.state.typeInterview === 'HR' &&
                 <div className="item-with-label">
                   <Divider />
                   <Header as="h3">Communication Skills</Header>
-                  <Field name={'hr'} component={this.hrSkillsInput} />
+                  <Field
+                    name={'hr'}
+                    dataList={hrSkillList}
+                    placeholder="hr skill"
+                    component={this.MultipleDropdownField}
+                  />
                 </div>}
             </div>}
 

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Search } from "semantic-ui-react";
+import React, { Component } from 'react';
+import { Search } from 'semantic-ui-react';
 
 let data = [];
 
@@ -9,38 +9,38 @@ export default class SearchExampleStandard extends Component {
   }
   serverSearch = value => [
     {
-      name: "Nick",
-      role: "HRM",
-      email: "nzHRM@gmail.com",
-      id: "1"
+      name: 'Nick',
+      role: 'HRM',
+      email: 'nzHRM@gmail.com',
+      id: '1'
     },
     {
-      name: "James",
-      role: "Worker",
-      email: "nzWorker@gmail.com",
-      id: "2"
+      name: 'James',
+      role: 'Worker',
+      email: 'nzWorker@gmail.com',
+      id: '2'
     },
     {
-      name: "Jastin",
-      role: "Admin",
-      email: "nzWorker@gmail.com",
-      id: "3"
+      name: 'Jastin',
+      role: 'Admin',
+      email: 'nzWorker@gmail.com',
+      id: '3'
     },
     {
-      name: "Jacobs",
-      role: "Worker",
-      email: "nzWorker@gmail.com",
-      id: "4"
+      name: 'Jacobs',
+      role: 'Worker',
+      email: 'nzWorker@gmail.com',
+      id: '4'
     },
     {
-      name: "Tomas",
-      role: "Admin",
-      email: "nzAdmin@gmail.com",
-      id: "5"
+      name: 'Tomas',
+      role: 'Admin',
+      email: 'nzAdmin@gmail.com',
+      id: '5'
     }
   ];
   resetComponent() {
-    this.setState({ isLoading: false, results: [], value: "" });
+    this.setState({ isLoading: false, results: [], value: '' });
   }
   handleSearchChange = (e, { value }) => {
     this.setState({ isLoading: true, value });
