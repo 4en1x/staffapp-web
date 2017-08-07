@@ -54,7 +54,6 @@ export default class HeaderComponent extends React.Component {
 
   componentDidMount() {
     notificationService.getMessageList().then(res => {
-      console.log(res.data);
       this.setState({ list: res.data });
     });
   }
