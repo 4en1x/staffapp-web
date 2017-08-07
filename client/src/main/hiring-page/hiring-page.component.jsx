@@ -45,7 +45,7 @@ class HiringComponent extends React.Component {
     });
     this.props.postHiring({
       candidateId: this.props.id,
-      vacancyId: this.props.match.params.id,
+      vacancyId: Number(this.props.match.params.id),
       interviews: data
     });
   };
