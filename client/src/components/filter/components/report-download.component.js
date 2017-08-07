@@ -4,12 +4,11 @@ import { resetLink } from '../../../main/candidate/candidate-actions';
 
 class ReportDownloadComponent extends React.Component {
   componentWillUnmount() {
-    
+
     this.props.resetLink();
   }
 
   render() {
-    console.log(this.props.reportLink);
 
     if (!this.props.reportLink) return null;
 
