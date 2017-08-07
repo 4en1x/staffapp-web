@@ -1,11 +1,13 @@
 import React from 'react';
-import { Header, Button } from 'semantic-ui-react';
+import { Header, Label } from 'semantic-ui-react';
 import InfoTab from './tabs/info-tab';
 import HistoryWrapper from './history-wrapper/history-wrapper';
 import HiringWrapper from './hiring-wrapper/hiring-wrapper';
-import VacancyWrapper from './vacancies-wrapper/vacancies-wrapper';
+import VacanciesWrapper from './vacancies-wrapper/vacancies-wrapper';
 import SecondaryMenuComponent from '../../../../components/secondary-menu/secondary-menu.component';
-import CustomButton from '../../../../components/custom-button/custom-button';
+import LinkButton from '../../../../components/custom-button/link-button';
+import Button from '../../../../components/custom-button/button';
+
 import roles from '../../../../config/config';
 
 import './candidate.css';
@@ -30,7 +32,7 @@ export default class Candidate extends React.Component {
         currentTab = <HiringWrapper url={this.props.url} />;
         break;
       case Items[2]:
-        currentTab = <VacancyWrapper url={this.props.url} />;
+        currentTab = <VacanciesWrapper url={this.props.url} />;
         break;
       case Items[3]:
         currentTab = <HistoryWrapper url={this.props.url} />;
@@ -40,18 +42,33 @@ export default class Candidate extends React.Component {
     }
     return (
       <div className="page-content">
-        <div className="content-tab ">
+        <div className="relative content-tab background padded ">
           <Header
-            as="h2"
+            as="h1"
             content={`${this.props.candidate.name} ${this.props.candidate
               .surname}`}
             subheader={this.props.candidate.info.skills.primarySkill}
           />
+          <Label
+            className="custom"
+            as="a"
+            color="teal"
+            ribbon="right"
+            size="big"
+          >
+            {this.props.candidate.status}
+          </Label>
         </div>
         <div className="content-left">
           {currentTab}
         </div>
         <div className="content-right">
+          <LinkButton
+            to={`${this.props.url}/edit`}
+            content="Edit"
+            color="twitter"
+            icon="edit"
+          />
           {this.props.role === roles.ADMIN.ROLE
             ? <Button
                 content="Delete"
@@ -61,12 +78,6 @@ export default class Candidate extends React.Component {
                 onClick={this.props.onDeleteClicked}
               />
             : null}
-          <CustomButton
-            to={`${this.props.url}/edit`}
-            content="Edit"
-            color="twitter"
-            icon="edit"
-          />
           <SecondaryMenuComponent
             onItemClick={this.handleItemClick}
             items={Items}

@@ -3,6 +3,8 @@
   flex-direction: column;
   height: inherit;
   margin: 2%;
+  margin-left: 10%;
+  width: 68%;
 }
 
 .vacancy-detail-page_content-top {
@@ -21,11 +23,15 @@
   margin-top: auto;
 }
 
-.vacancy-detail-page_content {
+.vacancy-detail-page_content_content {
   display: flex;
-  flex-direction: column;
-  min-height: 600px;
+  flex-direction: row;
 }
+
+.ui.segment.vacancy-detail-page_content {
+  margin-right: 1%;
+}
+
 
 .vacancy-detail-page_english-level-value.ui.header {
   margin-top: auto;

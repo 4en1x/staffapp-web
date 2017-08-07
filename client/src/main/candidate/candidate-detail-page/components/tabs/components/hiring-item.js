@@ -1,20 +1,22 @@
 import React from 'react';
-import { Table, Accordion } from 'semantic-ui-react';
-
-import InterviewItem from './interview-item';
+import { Header, Accordion, Icon } from 'semantic-ui-react';
+import ListComponent from '../../../../../../components/list/list.component';
+import CandidateInterviewListItem from '../../../../../../components/list/list-items/candidate-interview-list-item';
 
 const HiringItem = props =>
-  <div>
+  <Accordion className="content-tab">
     <Accordion.Title>
-      {props.hiring.vacancyName}
+      <Header dividing as="h3" className="custom-header">
+        <Icon name="dropdown" />
+        {props.hiring.vacancyName}
+      </Header>
     </Accordion.Title>
     <Accordion.Content>
-      <Table basic="very">
-        <Table.Body>
-          {props.hiring.interviews.map(item => <InterviewItem item={item} />)}
-        </Table.Body>
-      </Table>
+      <ListComponent
+        listItem={CandidateInterviewListItem}
+        elements={props.hiring.interviews}
+        url={`/interviews`}
+      />
     </Accordion.Content>
-  </div>;
-
+  </Accordion>
 export default HiringItem;

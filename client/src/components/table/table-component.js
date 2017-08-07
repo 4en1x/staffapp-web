@@ -14,10 +14,3 @@ class HistoryComponent extends React.Component {
   }
 }
 export default HistoryComponent;
-
-/*let structData, preview;
- if (item.logs.indexOf('data: {') !== -1) {
- structData = item.logs.slice(65, item.logs.length - 2);
- structData = structData.replace(/\"/gi, ' ');
- preview = item.logs.slice(0, 64);
- }*/

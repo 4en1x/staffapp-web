@@ -22,7 +22,6 @@ class VacancyPage extends React.Component {
   };
 
   render() {
-
     console.log(this.props.vacancy);
 
     if (this.props.isVacancyDeleted) return <Redirect to="/vacancies" />;
@@ -30,12 +29,14 @@ class VacancyPage extends React.Component {
 
     return (
       <div className="vacancy-page">
-        <Vacancy
-          vacancy={this.props.vacancy}
-          url={this.props.match.url}
-          onDeletedVacancy={this.onDeletedVacancy}
-          role={this.props.role}
-        />
+        {!this.props.vacancy
+          ? <SemanticLoader />
+          : <Vacancy
+              vacancy={this.props.vacancy}
+              url={this.props.match.url}
+              onDeletedVacancy={this.onDeletedVacancy}
+              role={this.props.role}
+            />}
       </div>
     );
   }
@@ -49,4 +50,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, actionCreators )(VacancyPage);
+export default connect(mapStateToProps, actionCreators)(VacancyPage);
