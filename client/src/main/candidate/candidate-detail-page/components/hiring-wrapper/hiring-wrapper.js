@@ -17,11 +17,8 @@ class HiringWrapper extends React.Component {
   }
 
   render() {
-
-    console.log(this.props.hiring);
-
     if (!this.props.hiring) return <SemanticLoader />;
-
+    console.log(this.props.hiring);
     return <HiringsTab hirings={this.props.hiring} />;
   }
 }

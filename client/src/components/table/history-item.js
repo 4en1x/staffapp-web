@@ -33,7 +33,7 @@ class HistoryItem extends React.Component {
           <Label tag content={item.role} />
         </Table.Cell>
         <Table.Cell>
-          <Statistic value={item.time} label={item.date} />
+          <Statistic size="mini" value={item.time} label={item.date} />
         </Table.Cell>
       </Table.Row>
     );

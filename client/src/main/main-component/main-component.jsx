@@ -7,7 +7,7 @@ import VacancyListWrapper from '../vacancy/list-wrapper/vacancy-list-wrapper';
 import InterviewsMenu from './components/menu/interviews-menu';
 import VacanciesFilterForm from './components/filter/vacancies-filter.container';
 import CandidateFilter from './components/filter/candidates-filter.container';
-import CustomButton from '../../components/custom-button/custom-button';
+import LinkButton from '../../components/custom-button/link-button';
 import HistoryPage from '../history/history-page';
 import roles from '../../config/config';
 import './main-component.css';
@@ -46,7 +46,7 @@ class MainComponent extends React.Component {
                       <VacancyListWrapper />
                     </div>
                     <div className="content-right">
-                      <CustomButton
+                      <LinkButton
                         to="/vacancies/add"
                         content="Add vacancy"
                         color="twitter"
@@ -64,7 +64,7 @@ class MainComponent extends React.Component {
                       <CandidateListWrapper />
                     </div>
                     <div className="content-right">
-                      <CustomButton
+                      <LinkButton
                         to="/candidates/add"
                         content="Add candidate"
                         color="twitter"
