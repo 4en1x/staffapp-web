@@ -19,12 +19,11 @@ export default class Notification extends React.Component {
   };
   handleItemClick = (e, { name }) => {
     this.setState({ activeItem: name });
+    this.props.deleteMessage(name.id);
+
   };
 
   render() {
-
-    console.log(this.props.messages);
-
     const { activeItem } = this.state;
     return (
       <Label basic pointing id="notification-label">

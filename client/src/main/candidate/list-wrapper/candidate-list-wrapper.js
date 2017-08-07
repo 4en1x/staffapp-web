@@ -1,11 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCandidateList, resetCandidateList, resetCurrentCandidate } from '../candidate-actions';
+import {
+  getCandidateList,
+  resetCandidateList,
+  resetCurrentCandidate
+} from '../candidate-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import CandidateListItem from '../../../components/list/list-items/candidate-list-item';
 import './candidate-list-wrapper.css';
+import { Button } from 'semantic-ui-react';
 
+let counter = 1;
 class CandidateListWrapper extends React.Component {
   componentDidMount() {
     this.props.getCandidateList(this.props.filter);
@@ -16,6 +22,17 @@ class CandidateListWrapper extends React.Component {
       this.props.getCandidateList(nextProps.filter);
     }
   }
+  nextData = () => {
+    counter++;
+    this.props.getCandidateList(this.props.filter, counter);
+  };
+
+  prevData = () => {
+    if (counter > 1) {
+      counter--;
+      this.props.getCandidateList(this.props.filter, counter);
+    }
+  };
 
   componentWillUnmount() {
     this.props.resetCandidateList();
@@ -28,11 +45,18 @@ class CandidateListWrapper extends React.Component {
     console.log(this.props.candidates);
 
     return (
-      <ListComponent
-        listItem={CandidateListItem}
-        elements={this.props.candidates}
-        url={`/candidates`}
-      />
+      <div>
+        <ListComponent
+          listItem={CandidateListItem}
+          elements={this.props.candidates}
+          url={`/candidates`}
+        />
+        <Button.Group size='large' floated="right">
+          <Button onClick={this.prevData}> last page </Button>
+          <Button.Or text={counter} />
+          <Button primary onClick={this.nextData}> next page </Button>
+        </Button.Group>
+      </div>
     );
   }
 }
@@ -42,6 +66,8 @@ const mapStateToProps = state => ({
   filter: state.candidate.filter
 });
 
-export default connect(mapStateToProps, { getCandidateList, resetCandidateList, resetCurrentCandidate })(
-  CandidateListWrapper
-);
+export default connect(mapStateToProps, {
+  getCandidateList,
+  resetCandidateList,
+  resetCurrentCandidate
+})(CandidateListWrapper);

@@ -6,6 +6,5 @@
     z-index:10;
     margin: 10px 20px;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+    overflow: auto;
 }
-
-

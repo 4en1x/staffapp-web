@@ -38,11 +38,16 @@ class HiringComponent extends React.Component {
     let data = this.state.data.slice();
     data.forEach(item => {
       delete item.userNames;
-      item.date = item.date + " " + item.time + ":00";
+      const dateItem = new Date(item.date + ' ' + item.time);
+      item.date = dateItem.toISOString();
       delete item.time;
       return item;
     });
-    this.props.postHiring({ candidateId: this.props.id, interviews: data });
+    this.props.postHiring({
+      candidateId: this.props.id,
+      vacancyId: Number(this.props.match.params.id),
+      interviews: data
+    });
   };
 
   render() {
@@ -90,11 +95,11 @@ class HiringComponent extends React.Component {
                         <Header as="h2" textAlign="center">
                           <Header.Content>
                             <div className="date-output">
-                                {interviewLine.time}
+                              {interviewLine.time}
                             </div>
                             <Header.Subheader>
                               <div className="date-output">
-                                  {interviewLine.date}
+                                {interviewLine.date}
                               </div>
                             </Header.Subheader>
                           </Header.Content>

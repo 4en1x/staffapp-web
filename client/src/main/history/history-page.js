@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Label, Header } from 'semantic-ui-react';
+import { Table, Label, Header, Button } from 'semantic-ui-react';
 import ListComponent from '../../components/list/list.component';
 import HistoryListItem from '../../components/list/list-items/history-list-item';
 import HistoryFilter from './components/filter/history-filter.container';
@@ -9,16 +9,30 @@ import roles from '../../config/config';
 import { getHistoryList } from './history-actions';
 import './history-list-page.css';
 
+let counter = 1;
 class HistoryPage extends React.Component {
   componentDidMount() {
-    this.props.getHistoryList(this.props.filter);
+    this.props.getHistoryList(this.props.filter, 1);
   }
+
+    nextData = () => {
+        counter++;
+        this.props.getHistoryList(this.props.filter, counter);
+    };
+
+    prevData = () => {
+        if (counter > 1) {
+            counter--;
+            this.props.getHistoryList(this.props.filter, counter);
+        }
+    };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.filter !== nextProps.filter) {
-      this.props.getHistoryList(nextProps.filter);
+      this.props.getHistoryList(nextProps.filter, 2);
     }
   }
+
 
   render() {
     if (!this.props.history) return <SemanticLoader />;
@@ -87,6 +101,12 @@ class HistoryPage extends React.Component {
               })}
             </Table.Body>
           </Table>
+                  <Button.Group size='large' floated="right">
+                  <Button onClick={this.prevData}> last page </Button>
+                  <Button.Or text={counter} />
+                  <Button primary onClick={this.nextData}> next page</Button>
+                  </Button.Group>
+
         </div>
         <div className="content-right">
           {this.props.role === roles.ADMIN.ROLE ? <HistoryFilter /> : null}

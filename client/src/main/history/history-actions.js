@@ -19,9 +19,9 @@ export function addHistoryFilter(filter) {
 
 
 
-export function getHistoryList(filter) {
+export function getHistoryList(filter, page) {
   return dispatch =>
-    historyService.getHistoryList(filter).then(res => {
+    historyService.getHistoryList(filter, page).then(res => {
       dispatch(addHistoryList(res.data));
     });
 }

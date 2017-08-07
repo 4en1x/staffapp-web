@@ -2,8 +2,8 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-function getInterviewList(filter = { type: 'my' }) {
-  return axios.get(`/interviews?type=${filter.type}`);
+function getInterviewList(filter = { type: 'my' },page) {
+  return axios.get(`/interviews?type=${filter.type}&page=${page}`);
 }
 
 function getInterviewById(id) {

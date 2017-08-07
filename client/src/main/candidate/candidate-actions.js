@@ -18,12 +18,19 @@ const RESET_CANDIDATE_CANDIDATES = 'RESET_CANDIDATE_CANDIDATES';
 const RESET_DELETED_CANDIDATE = 'RESET_DELETED_CANDIDATE';
 
 const DOWNLOAD_REPORT = 'DOWNLOAD_REPORT';
+const RESET_LINK = 'RESET_LINK';
 
 export function downloadReport(reportLink) {
   return {
     type: DOWNLOAD_REPORT,
     reportLink
   };
+}
+
+export function resetLink() {
+  return {
+    type: RESET_LINK
+  }
 }
 
 function addCandidateList(list) {
@@ -40,9 +47,9 @@ export function addFilter(filter) {
   };
 }
 
-export function getCandidateList(filter) {
+export function getCandidateList(filter, page) {
   return dispatch => {
-    candidateService.getCandidateList(filter).then(res => {
+    candidateService.getCandidateList(filter, page).then(res => {
       dispatch(addCandidateList(res.data));
     });
   };

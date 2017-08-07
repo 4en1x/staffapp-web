@@ -1,10 +1,10 @@
 {
   "db": {
-    "host": "mysql5.gear.host",
+    "host": "us-cdbr-iron-east-03.cleardb.net",
     "port": 3306,
-    "user": "exadelteamdb2",
-    "password": "Gq4i?Fvb!kM8",
-    "database": "exadelteamdb2"
+    "user": "b9d7bbba7d2c64",
+    "password": "f42fc68b",
+    "database": "heroku_37f37373ed5b127"
   },
   "web": {
     "port": 3300,

@@ -19,9 +19,9 @@ function addInterviewsList(list) {
   };
 }
 
-export function getInterviewList(filter = { type: 'my' }) {
+export function getInterviewList(filter = { type: 'my' }, page) {
   return dispatch => {
-    interviewService.getInterviewList(filter).then(response => {
+    interviewService.getInterviewList(filter,page).then(response => {
       dispatch(addInterviewsList(response.data));
     });
   };
