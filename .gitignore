@@ -4,6 +4,9 @@
 /client/node_modules
 /server/node_modules
 /node_modules
+/client/package-lock.json
+/server/package-lock.json
+package-lock.json
 
 # semantic build
 /client/public/semantic-build

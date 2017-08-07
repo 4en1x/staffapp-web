@@ -1,19 +1,19 @@
 import axios from 'axios';
 
 function login(user) {
-  return axios.post(`/login`, user);
+  return axios.post(`/rest/login`, user);
 }
 
 function checkEmail(email) {
-  return axios.post('/email', email);
+  return axios.post('/rest/email', email);
 }
 
 function isAuthorized() {
-  return axios.get('/username');
+  return axios.get('/rest/username');
 }
 
 function logout() {
-  return axios.post(`/logout`);
+  return axios.post(`/rest/logout`);
 }
 
 const userService = {
