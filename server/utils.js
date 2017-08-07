@@ -113,8 +113,8 @@ function formatDateToLocalTimeString(date) {
  * @returns {String}
  */
 function formatDateToLocalDateString(date) {
-  const day = `0${date.getDay()}`.slice(-2);
-  const month = `0${date.getMonth()}`.slice(-2);
+  const day = `0${date.getDate()}`.slice(-2);
+  const month = `0${date.getMonth() + 1}`.slice(-2);
   return `${day}.${month}.${date.getFullYear()}`;
 }
 
