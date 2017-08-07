@@ -1,0 +1,69 @@
+.vacancy-detail-page {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  margin: 2%;
+  margin-left: 10%;
+  width: 68%;
+}
+
+.vacancy-detail-page_content-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.vacancy-detail-page_deadline-date-status-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.vacancy-detail-page_city {
+  margin-top: auto;
+}
+
+.vacancy-detail-page_content_content {
+  display: flex;
+  flex-direction: row;
+}
+
+.ui.segment.vacancy-detail-page_content {
+  margin-right: 1%;
+}
+
+
+.vacancy-detail-page_english-level-value.ui.header {
+  margin-top: auto;
+}
+
+.vacancy-detail-page_description-label.ui.header:first-child {
+  margin-top: 2%;
+}
+
+.vacancy-detail-page_primary-skill.ui.header,
+.vacancy-detail-page_english-level-value.ui.header {
+  margin: 0;
+}
+
+.vacancy-detail-page_content-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 2%;
+}
+
+.vacancy-detail-page_edit-button.ui.button {
+}
+
+.vacancy-detail-page_edit-btn-change-date {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.vacancy-detail-page_deadline-date,
+.vacancy-detail-page_create-date,
+.vacancy-detail-page_deadline-date {
+  font-style: italic;
+}

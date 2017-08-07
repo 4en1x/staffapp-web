@@ -1,5 +1,38 @@
-.list-component {
-  width: 73%;
+.ui.divided.list.list-component {
+  padding: 0 2em;
+  width: 100%;
   background: #ffffff;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ui.list > .item.flex-list-item,
+.ui.list > .item.flex-list-item:first-child {
+  height: 10rem;
+}
+.ui.list > .item.flex-list-item > a,
+.ui.list > .item.flex-list-item:first-child > a {
+  width: 100%;
+  height: 100%;
+  padding: 2em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  color: rgba(0, 0, 0, .87);
+}
+
+.list-item-top,
+.list-item-extra {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+h4.ui.header.top-left,
+h4.ui.header.top-right {
+  font-size: 1.2rem;
+}
+
+span.list-item-description {
+  font-size: 1.4rem;
 }

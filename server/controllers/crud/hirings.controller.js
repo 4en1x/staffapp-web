@@ -11,6 +11,7 @@ class HiringsController extends CRUDController {
 
   async create(req, res) {
     const hiring = service.createHiringObject(req);
+    console.log(hiring)
     let id = null;
 
     const onload = async (insertId) => {
@@ -27,6 +28,7 @@ class HiringsController extends CRUDController {
         await this.dao.delete(id);
         return true;
       } catch (err) {
+        console.log(err)
         res.status(500).end();
         return false;
       }

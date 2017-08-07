@@ -1,37 +1,27 @@
 import React from "react";
-import { List } from "semantic-ui-react";
-import { Divider } from "semantic-ui-react";
-import "./vacancy-list-item.css";
+import { NavLink } from "react-router-dom";
+import { List, Header } from "semantic-ui-react";
 
 const VacancyListItem = props => {
   const vacancy = props.element;
+  const url = props.url;
 
   return (
-    <List.Item className="flex-vacancy-list-item">
-      <div className="item">
-        <div className="vacancy-list-item-header">
-          <div className="name">
+    <List.Item className="flex-list-item">
+      <NavLink to={`${url}/${vacancy.id}`}>
+        <div className="list-item-top">
+          <Header as="h2" className="top-left">
             {vacancy.name}
-          </div>
-          <div className="time">
+          </Header>
+          <Header as="h2" className="top-right">
             {vacancy.status}
-          </div>
+          </Header>
         </div>
-        <div className="vacancy-list-item-description">
-          <div className="description">
-            {vacancy.primarySkill}
-          </div>
+        <div className="list-item-extra">
+          <Header as="h3" content={vacancy.city} disabled />
+          <Header as="h3" content={vacancy.jobStart} disabled />
         </div>
-        <div className="vacancy-list-item-extra">
-          <div className="location">
-            {vacancy.location}
-          </div>
-          <div className="date">
-            {vacancy.dateStart}
-          </div>
-        </div>
-        <Divider />
-      </div>
+      </NavLink>
     </List.Item>
   );
 };
