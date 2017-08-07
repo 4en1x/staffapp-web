@@ -1,14 +1,14 @@
 const ROLES = {
   ADMIN: {
-    ROLE: "Admin"
+    ROLE: 'admin'
   },
 
   HR: {
-    ROLE: "HR"
+    ROLE: 'hr'
   },
 
   WORKER: {
-    ROLE: "Worker"
+    ROLE: 'user'
   }
 };
 

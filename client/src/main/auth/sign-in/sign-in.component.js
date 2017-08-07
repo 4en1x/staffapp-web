@@ -17,14 +17,18 @@ class SignInComponent extends React.Component {
     super(props);
 
     this.state = {
-      currentState: EMAIL
+      currentState: EMAIL,
+      isLoading: false
     };
   }
 
   emailInputHandle = value => {
     this.email = value;
+    this.setState({
+      isLoading: true
+    });
     userService.checkEmail({email: value}).then(res => {
-        this.setState({ currentState: PASSWORD });
+        this.setState({ currentState: PASSWORD, isLoading: false });
       });
   };
 

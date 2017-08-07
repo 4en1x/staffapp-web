@@ -1,14 +1,20 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { isAuthorized } from './auth-actions';
+import SemanticLoader from '../../components/loaders/semantic-loader';
 
 export default function checkAuth(Component) {
   class Authorization extends React.Component {
+    componentDidMount() {
+      if (this.props.auth.isAuthError) this.props.isAuthorized();
+    }
+
     render() {
       const user = this.props.auth;
-      return user.isAuthError
-        ? <Redirect to="login" />
-        : <Component {...this.props} user={user} />;
+      if (user.tryLoginWithCookies) return <SemanticLoader/>;
+      if (user.isAuthError) return <Redirect to="/login" />;
+      return <Component {...this.props} user={user} />;
     }
   }
 
@@ -18,5 +24,5 @@ export default function checkAuth(Component) {
     };
   }
 
-  return connect(mapStateToProps)(Authorization);
+  return connect(mapStateToProps, { isAuthorized })(Authorization);
 }
