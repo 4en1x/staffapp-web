@@ -5,7 +5,7 @@ import { Button, Header, Icon, Label, Table } from 'semantic-ui-react';
 import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
 import { postHiring, resetHiring, getFormValues } from './hiring-actions';
-import './hiring-page.component.css';
+// import "./hiring-page.component.css"
 const peoples = [];
 class HiringComponent extends React.Component {
   constructor(props) {

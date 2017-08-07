@@ -34,7 +34,7 @@ export default class InterviewComponent extends React.Component {
           <div className="interview-content">
             <List size="massive" className=" grid-list">
               <List.Item>
-                <List.Header>Interviewee</List.Header>
+                <List.Header>Interview</List.Header>
                 {data.candidate.name} {data.candidate.surname}
               </List.Item>
               <List.Item>

@@ -37,6 +37,7 @@ body {
 .candidate-page,
 .hiring-page,
 .feedback-page,
+.vacancy-page,
 .edit-vacancy-page {
   width: 95%;
   max-width: 1200px;
@@ -61,6 +62,39 @@ body {
 
 .content-right {
   width: 28%;
+}
+
+.content-tab {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.content-tab.background {
+  background: #ffffff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+.content-tab.padded {
+  padding: 2em;
+}
+
+.content-tab.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content-tab.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.relative {
+  position: relative;
+}
+
+.hidden {
+  display: none;
 }
 
 /* clear */
