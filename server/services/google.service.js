@@ -2,8 +2,8 @@ const GoogleAuth = require('google-auth-library');
 const google = require('googleapis');
 const readline = require('readline');
 const utils = require('./../utils');
-const googleCredentials = require('./../../googleCredentials.json');
 const GoogleDAO = require('./../dao/impl/google.dao');
+const CredentialsDAO = require('./../dao/impl/credentials.dao');
 
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
@@ -48,9 +48,11 @@ async function getNewToken(oauth2Client) {
  * @returns {Object} google OAuth2 credentials
  */
 async function authorize() {
-  const clientSecret = googleCredentials.web.client_secret;
-  const clientId = googleCredentials.web.client_id;
-  const redirectUrl = googleCredentials.web.redirect_uris[0];
+  const credentialsString = await CredentialsDAO.instance.find();
+  const credentials = JSON.parse(credentialsString);
+  const clientSecret = credentials.web.client_secret;
+  const clientId = credentials.web.client_id;
+  const redirectUrl = credentials.web.redirect_uris[0];
   const auth = new GoogleAuth();
   let oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
@@ -122,12 +124,12 @@ async function addEvent(email, interview) {
 function createMessageBody(email, interview) {
   const date = new Date(interview.date);
   const emailRows = [];
-  emailRows.push(`To: ${email}`);
-  emailRows.push('Subject: Exadel notifications');
-  emailRows.push('Content-type: text/html;charset=iso-8859-1');
-  emailRows.push('MIME-Version: 1.0\n');
-  emailRows.push(`You have one new assigned interview ${utils.date.getLocalDate(date)} at ${utils.date.getLocalTime(date)}.`);
-  emailRows.push('For more information check your interview list in Exadel-Axel system.');
+  emailRows[0] = `To: ${email}`;
+  emailRows[1] = 'Subject: Exadel notifications';
+  emailRows[2] = 'Content-type: text/html;charset=iso-8859-1';
+  emailRows[3] = 'MIME-Version: 1.0\n';
+  emailRows[4] = `You have one new assigned interview ${utils.date.getLocalDate(date)} at ${utils.date.getLocalTime(date)}.`;
+  emailRows[5] = 'For more information check your interview list in Exadel-Axel system.';
   return Buffer.from(emailRows.join('\n')).toString('base64');
 }
 
