@@ -287,11 +287,11 @@ class InterviewComponent extends React.Component {
     const { reset, handleSubmit, submitting } = this.props;
 
     return (
+      <div className="content-left">
       <form
         onSubmit={handleSubmit(this.prepareData)}
-        className="interview-detail-page"
+        className="content-tab background padded"
       >
-        <Segment raised>
           <div className="item-with-label">
             <Header as="h3">Users *</Header>
             <Field
@@ -395,8 +395,8 @@ class InterviewComponent extends React.Component {
               Send interview card
             </Button>
           </div>
-        </Segment>
       </form>
+      </div>
     );
   }
 }
