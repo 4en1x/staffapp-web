@@ -2,7 +2,7 @@ import axios from 'axios';
 
 axios.defaults.withCredentials = true;
 
-function getInterviewList(filter = { type: 'my' },page) {
+function getInterviewList(filter = { type: 'my' },page=1) {
   return axios.get(`/interviews?type=${filter.type}&page=${page}`);
 }
 

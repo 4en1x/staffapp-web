@@ -52,9 +52,10 @@ class CandidateListWrapper extends React.Component {
           url={`/candidates`}
         />
         <Button.Group size='large' floated="right">
-          <Button onClick={this.prevData}> last page </Button>
+            {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
+            {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
           <Button.Or text={counter} />
-          <Button primary onClick={this.nextData}> next page </Button>
+          <Button primary onClick={this.nextData}> next page</Button>
         </Button.Group>
       </div>
     );
