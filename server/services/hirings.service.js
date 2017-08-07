@@ -41,6 +41,7 @@ function createHiringObject(req) {
     userId: req.user.id,
     dateOpen: utils.date.getSQL(new Date()),
     candidateId: req.body.candidateId,
+    vacancyId: req.body.vacancyId,
   };
 }
 
