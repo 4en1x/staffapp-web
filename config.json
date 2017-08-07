@@ -4,7 +4,8 @@
     "port": 3306,
     "user": "b9d7bbba7d2c64",
     "password": "f42fc68b",
-    "database": "heroku_37f37373ed5b127"
+    "database": "heroku_37f37373ed5b127",
+    "timezone": "utc"
   },
   "web": {
     "port": 3300,
