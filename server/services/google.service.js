@@ -2,7 +2,7 @@ const GoogleAuth = require('google-auth-library');
 const google = require('googleapis');
 const readline = require('readline');
 const utils = require('./../utils');
-const GoogleDAO = require('./../dao/impl/google.dao');
+const GoogleAuthDAO = require('../dao/impl/googleAuth.dao');
 
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar',
@@ -35,7 +35,7 @@ async function getNewToken(oauth2Client) {
       }
 
       oauth2Client.credentials = token;
-      await GoogleDAO.instance.create(token);
+      await GoogleAuthDAO.instance.create(token);
     });
   });
 
@@ -47,14 +47,14 @@ async function getNewToken(oauth2Client) {
  * @returns {Object} google OAuth2 credentials
  */
 async function authorize() {
-  const credentials = await GoogleDAO.instance.findCredentials();
+  const credentials = await GoogleAuthDAO.instance.findCredentials();
   const clientSecret = credentials.web.client_secret;
   const clientId = credentials.web.client_id;
   const redirectUrl = credentials.web.redirect_uris[0];
   const auth = new GoogleAuth();
   let oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
-  const token = await GoogleDAO.instance.findToken();
+  const token = await GoogleAuthDAO.instance.findToken();
   if (!token) {
     oauth2Client = await getNewToken(oauth2Client);
   } else {

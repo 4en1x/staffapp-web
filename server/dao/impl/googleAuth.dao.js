@@ -1,15 +1,15 @@
 const BasicDAO = require('../basic.dao');
 
-class GoogleDAO extends BasicDAO {
+class GoogleAuthDAO extends BasicDAO {
   constructor(connection) {
     super('google_credentials', connection);
   }
 
   /**
-   * @returns {GoogleDAO}
+   * @returns {GoogleAuthDAO}
    */
   static get instance() {
-    return GoogleDAO._instance || (GoogleDAO._instance = new GoogleDAO());
+    return GoogleAuthDAO._instance || (GoogleAuthDAO._instance = new GoogleAuthDAO());
   }
 
 
@@ -51,4 +51,4 @@ class GoogleDAO extends BasicDAO {
 }
 
 
-module.exports = GoogleDAO;
+module.exports = GoogleAuthDAO;
