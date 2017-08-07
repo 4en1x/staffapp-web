@@ -30,13 +30,18 @@ function deleteCurrentVacancy(id) {
   return axios.delete(`/vacancies/${id}`);
 }
 
+function getVacancyCandidates(url) {
+  return axios.get(`${url}/pickCandidates`);
+}
+
 const vacancyService = {
   getVacancyById,
   getVacancyList,
   postVacancy,
   patchVacancy,
   getVacancyFillList,
-  deleteCurrentVacancy
+  deleteCurrentVacancy,
+  getVacancyCandidates
 };
 
 export default vacancyService;

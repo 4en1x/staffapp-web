@@ -30,6 +30,9 @@ const vacancyReducer = (state = {}, action) => {
     case 'RESET_DELETED_VACANCY':
       return { ...state, isVacancyDeleted: false };
 
+    case 'ADD_VACANCY_CANDIDATES':
+      return { ...state, candidates: action.candidates };
+
     default:
       return state;
   }
