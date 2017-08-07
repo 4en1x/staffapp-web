@@ -2,7 +2,7 @@ const BasicDAO = require('../basic.dao');
 
 class GoogleDAO extends BasicDAO {
   constructor(connection) {
-    super('oauth_tokens', connection);
+    super('google_credentials', connection);
   }
 
   /**
@@ -18,18 +18,35 @@ class GoogleDAO extends BasicDAO {
    * @returns {Promise <void>}
    */
   async create(token) {
-    await super.create({ access_token: JSON.stringify(token) });
+    await super.create({
+      credentials: JSON.stringify(token),
+      type: 'access_token',
+    });
   }
 
   /**
-   * Finds google oAuth2token
+   * Finds google oAuth2 token
    * @returns {Promise <String>}
    */
-  async find() {
-    const [token] = await super.find({
-      fields: 'access_token',
+  async findToken() {
+    const [{ credentials }] = await super.find({
+      fields: 'credentials',
+      condition: 'WHERE type="access_token"',
     });
-    return token;
+    return JSON.parse(credentials);
+  }
+
+
+  /**
+   * Finds google oAuth2 credentials
+   * @returns {Promise <String>}
+   */
+  async findCredentials() {
+    const [{ credentials }] = await super.find({
+      fields: 'credentials',
+      condition: 'WHERE type="credentials"',
+    });
+    return JSON.parse(credentials);
   }
 }
 
