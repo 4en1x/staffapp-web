@@ -59,6 +59,7 @@ function addFormValues(formValues) {
 
 export function getFillList() {
   return dispatch => {
+    console.log('lalalala');
     interviewService.getInterviewFillList().then(res => {
       dispatch(addFormValues(res.data));
     });

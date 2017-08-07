@@ -10,7 +10,7 @@ const candidateHandle = (state = {}, action) => {
       return { ...state, filter: action.filter };
 
     case 'ADD_FORM_VALUES':
-      return { ...state, formValues: action.formValues };
+      return { ...state, formValues: action.formValues }; 
 
     case 'FORM_SUBMIT':
       return { ...state, isFormSubmitted: true };

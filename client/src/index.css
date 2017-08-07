@@ -37,7 +37,8 @@ body {
 .candidate-page,
 .hiring-page,
 .feedback-page,
-.edit-vacancy-page {
+.edit-vacancy-page,
+.vacancy-page {
   width: 95%;
   max-width: 1200px;
   padding: 1% 0;
