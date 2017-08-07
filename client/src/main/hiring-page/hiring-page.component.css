@@ -1,130 +1,131 @@
 .interview-detail-page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .interview-detail-page .interview-content {
-    display: flex;
-    flex-direction: inherit;
-    width: 80%;
-    margin-left: 2%;
-    margin-top: 2%;
+  display: flex;
+  flex-direction: inherit;
+  width: 80%;
+  margin-left: 2%;
+  margin-top: 2%;
 }
 
 /* content top styles*/
 
 .interview-content .content-top {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .content-top .name-label {
-    margin: 0;
+  margin: 0;
 }
 
 .content-top .position-label {
-    margin: 0;
+  margin: 0;
 }
 
 /* content description styles*/
 
-.interview-detail-page .content-description{
-    display: flex;
-    flex-direction: column;
+.interview-detail-page .content-description {
+  display: flex;
+  flex-direction: column;
 }
 
-.interview-detail-page .content-description .status-label{
-    margin-bottom: 5%;
-    width: 20%;
+.interview-detail-page .content-description .status-label {
+  margin-bottom: 5%;
+  width: 20%;
 }
 
 /* list container styles */
 
-.interview-detail-page .list-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    overflow: auto;
-    flex-wrap: wrap;
+.interview-detail-page .list-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: auto;
+  flex-wrap: wrap;
 }
 
-.interview-detail-page .contacts{
-    margin-bottom: 6%;
+.interview-detail-page .contacts {
+  margin-bottom: 6%;
 }
 
-.list-container{
-    margin: 3% 0 3% 0%;
+.list-container {
+  margin: 3% 0 3% 0%;
 }
 
 .add-interview {
-    display: flex;
-    flex-direction: row-reverse;
-    margin: 10px 30px 5px 30px;
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 10px 30px 5px 30px;
 }
 
-.item-with-label{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    font-style: italic;
-    margin: 5px;
+.item-with-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-style: italic;
+  margin: 5px;
 }
 
-.content-description{
-    width: 40%;
+.content-description {
+  width: 40%;
 }
-
-
-
 
 .hr-page {
-    height: calc(100% - 80px);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0.5% 8%;
-    overflow: auto;
+  height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0.5% 8%;
+  overflow: auto;
 }
 .hr-page_container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 
-.hr-page_content{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.hr-page_content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
-.content-right{
-    width:28%;
-    min-height: 30%;
+.content-right {
+  width: 35%;
+  min-height: 30%;
 }
 
-.segment-table-height{
-    height: 25em;
+.segment-table-height {
+  min-height: 25em;
 }
 
-.margin-top-icon{
-margin-top: 6em;
+.margin-top-icon {
+  margin-top: 6em;
 }
 
-.content-left{
-    width:70%;
+.content-left {
+  width: 60%;
 }
 
 .main-component {
-    margin: 0.5% auto;
-    max-width: 1200px;
-    width: 90%;
+  margin: 0.5% auto;
+  max-width: 1200px;
+  width: 90%;
 }
 
-.ui.twitter.fluid.add-button{
-    margin-bottom: 1em;
-    font-size:1.2em;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-    border-radius: 2px;
+.ui.twitter.fluid.add-button {
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.date-output{
+  white-space: pre
 }
