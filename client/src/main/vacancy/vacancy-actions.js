@@ -10,6 +10,8 @@ const RESET_VACANCY_LIST = 'RESET_VACANCY_LIST';
 const RESET_CURRENT_VACANCY = 'RESET_CURRENT_VACANCY';
 const RESET_FORM = 'RESET_FORM';
 const RESET_DELETED_VACANCY = 'RESET_DELETED_VACANCY';
+const ADD_VACANCY_CANDIDATES = 'ADD_VACANCY_CANDIDATES';
+const RESET_VACANSY_CANDIDATES = 'RESET_VACANSY_CANDIDATES';
 
 function addVacancyList(list) {
   return {
@@ -87,7 +89,6 @@ export function postVacancy(vacancy) {
 export function patchVacancy(id, vacancy) {
   return dispatch => {
     vacancyService.patchVacancy(id, vacancy).then(res => {
-      console.log('lalalalla');
       dispatch(formSubmit());
     });
   };
@@ -97,6 +98,12 @@ export function addFilter(filter) {
   return {
     type: ADD_FILTER,
     filter
+  };
+}
+
+export function resetCurrentVacancy() {
+  return {
+    type: RESET_CURRENT_VACANCY
   };
 }
 
@@ -114,12 +121,6 @@ export function resetVacancyList() {
   };
 }
 
-export function resetCurrentVacancy() {
-  return {
-    type: RESET_CURRENT_VACANCY
-  };
-}
-
 export function resetForm() {
   return {
     type: RESET_FORM
@@ -129,6 +130,25 @@ export function resetForm() {
 export function resetDeletedVacancy() {
   return {
     type: RESET_DELETED_VACANCY
-  }
+  };
 }
 
+function addVacancyCandidates(candidates) {
+  return {
+    type: ADD_VACANCY_CANDIDATES,
+    candidates
+  };
+}
+export function getVacancyCandidates(url) {
+  return dispatch => {
+    vacancyService.getVacancyCandidates(url).then(res => {
+      dispatch(addVacancyCandidates(res.data));
+    });
+  };
+}
+
+export function resetVacancyCandidates() {
+  return {
+    type: RESET_VACANSY_CANDIDATES
+  };
+}
