@@ -97,6 +97,28 @@ function formatDateToTimeString(date) {
 }
 
 /**
+ * Formates Date object to local "HH:mm" string
+ * @param {Date} date
+ * @returns {String}
+ */
+function formatDateToLocalTimeString(date) {
+  const hours = `0${date.getHours()}`.slice(-2);
+  const minutes = `0${date.getMinutes()}`.slice(-2);
+  return `${hours}:${minutes}`;
+}
+
+/**
+ * Formates Date object to local "DD-MM-YYYY" string
+ * @param {Date} date
+ * @returns {String}
+ */
+function formatDateToLocalDateString(date) {
+  const day = `0${date.getDate()}`.slice(-2);
+  const month = `0${date.getMonth() + 1}`.slice(-2);
+  return `${day}.${month}.${date.getFullYear()}`;
+}
+
+/**
  * Removes all keys with invalid filter values from filter object.
  * Filter value is invalid if it is not an Object or Array, or it is empty.
  * @param {Object} filter - filter object
@@ -125,6 +147,8 @@ module.exports = {
     getSQL: formatDateToSQLString,
     getDate: formatDateToDateString,
     getTime: formatDateToTimeString,
+    getLocalTime: formatDateToLocalTimeString,
+    getLocalDate: formatDateToLocalDateString,
   },
   clearFilter,
 };
