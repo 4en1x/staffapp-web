@@ -1,0 +1,16 @@
+{
+  "type": "TECH",
+  "users": [1, 2, 3,134324],
+  "fields": [
+    {
+      "name": "C++ skill",
+      "typeSkill": "primary",
+      "type": "tech"
+    },
+    {
+      "name": "Some skill",
+      "typeSkill": "secondary",
+      "type": "tech"
+    }
+  ]
+}

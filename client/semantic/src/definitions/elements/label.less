@@ -395,6 +395,15 @@ a.ui.label {
   padding-left: @horizontalPadding;
 }
 
+ /*-------------------
+         Custom
+ --------------------*/
+
+.ui.ribbon.label.custom{
+  position: absolute;
+  top: 1em;
+  left: ~"calc(100% + 1.2em)";
+}
 
 /*-------------------
       Attached
@@ -1135,7 +1144,7 @@ a.ui.basic.label:hover {
   border-width: @borderWidth 0px 0px @borderWidth;
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
   top: 0%;
-  left: 50%;
+  left: 80%;
 }
 /*--- Below ---*/
 .ui[class*="bottom pointing"].label,

@@ -1,0 +1,8 @@
+{
+  "event": "create",
+  "foreignId": 12,
+  "id": 32,
+  "logs": "Some changes in table vacancies: create",
+  "role": "vacancies",
+  "userId": 1
+}

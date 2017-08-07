@@ -62,9 +62,9 @@ class BasicDAO {
    * @param {String} [fields] - default '*'
    * @returns {Promise <Object>}
    */
-  async findById(id, fields = '*') {
+  async findById(id, fields = '*', tableName = this.tableName) {
     const [resource] = await this.connection.queryAsync({
-      sql: `SELECT ${fields} FROM ${this.tableName} WHERE ${this.idField} = ?`,
+      sql: `SELECT ${fields} FROM ${tableName} WHERE ${this.idField} = ?`,
       values: [id],
     });
 
@@ -110,7 +110,7 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async update(id, resource, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.update.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'update', userId, resource);
     }
 
@@ -126,7 +126,7 @@ class BasicDAO {
    * @returns {Promise <Object>}
    */
   async delete(id, userId) {
-    if (defaultConfig.create.includes(this.tableName)) {
+    if (defaultConfig.delete.includes(this.tableName)) {
       await getHistoryDAO().instance.addEvent(id, this.tableName, 'delete', userId);
     }
 

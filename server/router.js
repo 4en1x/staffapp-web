@@ -9,9 +9,11 @@ const search = require('./routes/search.route');
 const history = require('./routes/history.route');
 const skills = require('./routes/skills.route');
 const cities = require('./routes/cities.route');
+const users = require('./routes/users.route');
 const englishLevels = require('./routes/englishLevels.route');
 const vacancyStatuses = require('./routes/vacancyStatuses.route');
 const candidateStatuses = require('./routes/candidateStatuses.route');
+const notifications = require('./routes/notifications.route');
 
 function init(app) {
   const restRoute = new Router();
@@ -29,6 +31,8 @@ function init(app) {
   restRoute.use('/englishLevels', englishLevels);
   restRoute.use('/vacancyStatuses', vacancyStatuses);
   restRoute.use('/candidateStatuses', candidateStatuses);
+  restRoute.use('/notifications', notifications);
+  restRoute.use('/users', users);
 
   restRoute.use((req, res) => {
     res.status(404).end();

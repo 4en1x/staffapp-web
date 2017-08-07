@@ -59,6 +59,32 @@ class UsersDAO extends BasicDAO {
       values: [id],
     });
   }
+
+  async find() {
+    return super.find({
+      fields: `${this.idField}, name,role,email`,
+      order: 'ORDER BY name',
+    });
+  }
+
+  async nameById(id) {
+    const [user] = await super.find({
+      condition: 'WHERE id = ?',
+      values: [id],
+    });
+
+    return user.name;
+  }
+
+  async emailById(id) {
+    const [user] = await super.find({
+      fields: 'email',
+      condition: 'WHERE id = ?',
+      values: [id],
+    });
+
+    return user.email;
+  }
 }
 
 module.exports = UsersDAO;

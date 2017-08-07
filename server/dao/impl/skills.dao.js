@@ -32,13 +32,13 @@ class SkillsDAO extends BasicDAO {
    */
   async findByVacancy(id) {
     return super.find({
-      fields: 'name, weight',
+      fields: 'name',
       basis: `vacancy_has_skills vhs
               INNER JOIN ${this.tableName} s
               ON s.${this.idField} = vhs.skill_id`,
       condition: 'WHERE vacancy_id = ?',
       values: [id],
-    });
+    }).then(skills => skills.map(skill => skill.name));
   }
 
   /**

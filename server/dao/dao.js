@@ -10,6 +10,8 @@ const SkillsDAO = require('./impl/skills.dao');
 const EnglishLevelsDAO = require('./impl/englishLevels.dao');
 const CandidateStatusesDAO = require('./impl/candidateStatuses.dao');
 const VacancyStatusesDAO = require('./impl/vacancyStatuses.dao');
+const NotificationsDAO = require('./impl/notifications.dao');
+const GoogleAuthDAO = require('./impl/googleAuth.dao');
 
 module.exports = {
   users: UsersDAO.instance,
@@ -24,4 +26,6 @@ module.exports = {
   englishLevels: EnglishLevelsDAO.instance,
   candidateStatuses: CandidateStatusesDAO.instance,
   vacancyStatuses: VacancyStatusesDAO.instance,
+  notifications: NotificationsDAO.instance,
+  googleAuth: GoogleAuthDAO.instance,
 };

@@ -22,6 +22,10 @@ class CandidatesDAO extends BasicDAO {
     return CandidatesDAO._instance || (CandidatesDAO._instance = new CandidatesDAO());
   }
 
+  static get ATTENTION_STATUS() {
+    return 10;
+  }
+
   /**
    *
    * @param {Object} candidate
@@ -81,34 +85,13 @@ class CandidatesDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findById(id) {
-    const candidate = await super.findById(id);
-
-    const links = await LinksDAO.instance.findByCandidate(id);
-    candidate.links = links.map(linkObject => linkObject.link);
-
-    if (candidate.cityId) {
-      ({ name: candidate.city } = await CitiesDAO.instance.findById(candidate.cityId, 'name'));
-      delete candidate.cityId;
+    const candidate = await super.findById(id, '*', 'candidates_view');
+    if (candidate.secondarySkills) {
+      candidate.secondarySkills = candidate.secondarySkills.split(', ');
     }
-
-    if (candidate.primarySkill) {
-      ({ name: candidate.primarySkill } =
-        await SkillsDAO.instance.findById(candidate.primarySkill));
+    if (candidate.links) {
+      candidate.links = candidate.links.split(', ');
     }
-
-    if (candidate.englishLevelId) {
-      ({ name: candidate.englishLevel } =
-        await EnglishLevelsDAO.instance.findById(candidate.englishLevelId));
-    }
-
-    if (candidate.statusId) {
-      ({ name: candidate.status } =
-        await CandidateStatusesDAO.instance.findById(candidate.statusId));
-    }
-
-    candidate.skills = await SkillsDAO.instance.findByCandidate(id);
-    candidate.hirings = await getHiringsDAO().instance.findByCandidate(id);
-
     return candidate;
   }
 
@@ -132,33 +115,52 @@ class CandidatesDAO extends BasicDAO {
     return candidate;
   }
 
+
+  async findByVacancyId(id) {
+    const hiringsTableName = getHiringsDAO().instance.tableName;
+
+    const candidates = await super.find({
+      fields: 'c.id, c.name, c.surname',
+      basis: `${this.tableName} c INNER JOIN ${hiringsTableName}
+              ON ${hiringsTableName}.candidate_id = c.id`,
+      condition: `WHERE ${hiringsTableName}.vacancy_id = ?`,
+      values: [id],
+    });
+
+    return candidates;
+  }
+
   /**
    *
    * @param {Number} [page] - default=1
    * @returns {Promise <[Object]>}
    */
   async find(page, query) {
-    const citiesTableName = CitiesDAO.instance.tableName;
-    const citiesIdField = CitiesDAO.instance.idField;
-    const candidateStatusesTableName = CandidateStatusesDAO.instance.tableName;
-    const candidateStatusesIdField = CandidateStatusesDAO.instance.idField;
-    const skillsTableName = SkillsDAO.instance.tableName;
-    const skillsIdField = SkillsDAO.instance.idField;
-
     return super.find({
-      fields: `cnd.${this.idField}, cnd.name, surname, s.name AS primary_skill,
-               cs.name AS status, last_change_date, ct.name AS city`,
-      basis: `${this.tableName} cnd
-              LEFT JOIN ${citiesTableName} ct
-              ON cnd.city_id = ct.${citiesIdField}
-              LEFT JOIN ${candidateStatusesTableName} cs
-              ON cnd.status_id = cs.${candidateStatusesIdField}
-              LEFT JOIN ${skillsTableName} s
-              ON cnd.primary_skill = s.${skillsIdField}`,
+      fields: `${this.idField}, name, surname, primary_skill,
+               status, last_change_date, city`,
+      basis: 'candidates_view',
       page,
+      order: 'ORDER BY -last_change_date',
       condition: makeFilterQuery(query),
       amount: this.itemsPerPage,
     });
+  }
+
+
+  async report(query) {
+    return super.find({
+      basis: `${this.tableName}_view`,
+      condition: makeFilterQuery(query),
+    });
+  }
+
+  async pickVacancies(id) {
+    const vacancies = await this.connection.queryAsync({
+      sql: 'CALL `smart search vacancies`(?)',
+      values: [id],
+    });
+    return this.fromDAOEntity(vacancies[0]);
   }
 
   /**
@@ -221,6 +223,15 @@ class CandidatesDAO extends BasicDAO {
       }));
 
       return null;
+    });
+  }
+
+  async attention(id) {
+    await this.connection.queryAsync({
+      sql: `UPDATE ${this.tableName}
+            SET status_id=${CandidatesDAO.ATTENTION_STATUS}
+            WHERE ${this.idField} = ?`,
+      values: [id],
     });
   }
 }

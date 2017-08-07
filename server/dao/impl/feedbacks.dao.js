@@ -1,5 +1,6 @@
 const BasicDAO = require('../basic.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
+const NotificationDAO = require('./notifications.dao');
 
 class FeedbacksDAO extends BasicDAO {
   constructor(connection) {
@@ -21,17 +22,15 @@ class FeedbacksDAO extends BasicDAO {
   async create(feedback) {
     const superCreate = super.create.bind(this);
 
-    return this.wrapTransaction(async () => {
-      const fields = feedback.fields || [];
-      delete feedback.fields;
+    const fields = feedback.fields || [];
+    delete feedback.fields;
 
-      const id = await superCreate(feedback);
+    const id = await superCreate(feedback);
 
-      await Promise.all(fields.map(async (field) => {
-        field.feedbackId = id;
-        await FeedbackFieldsDAO.instance.create(field);
-      }));
-    });
+    await Promise.all(fields.map(async (field) => {
+      field.feedbackId = id;
+      await FeedbackFieldsDAO.instance.create(field);
+    }));
   }
 
   /**
@@ -87,13 +86,13 @@ class FeedbacksDAO extends BasicDAO {
    * @param {Object} feedback
    * @returns {Promise <void>}
    */
-  async update(id, { comment, fields }) {
+  async update(id, { comment, fields }, userId) {
     const superUpdate = super.update.bind(this);
 
-    return this.wrapTransaction(async () => {
+    await this.wrapTransaction(async () => {
+      await NotificationDAO.instance.close(id, userId);
       const feedback = { comment, status: 1 };
-      await superUpdate(id, feedback);
-
+      await superUpdate(id, feedback, userId);
       await Promise.all(fields.map(async (field) => {
         const fieldId = field.id;
         delete field.id;

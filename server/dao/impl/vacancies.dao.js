@@ -48,12 +48,12 @@ class VacanciesDAO extends BasicDAO {
       const id = await superCreate(vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
 
@@ -67,24 +67,19 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <Object>}
    */
   async findById(id) {
-    const vacancy = await super.findById(id);
-
-    ({ name: vacancy.city } = await CitiesDAO.instance.findById(vacancy.cityId));
-    delete vacancy.cityId;
-
-    if (vacancy.statusId) {
-      ({ name: vacancy.status } =
-        await VacancyStatusesDAO.instance.findById(vacancy.statusId));
-      delete vacancy.statusId;
+    const vacancy = await super.findById(id, '*', 'vacancies_view');
+    if (vacancy.secondarySkills) {
+      vacancy.secondarySkills = vacancy.secondarySkills.split(', ');
     }
-
-    if (vacancy.primarySkill) {
-      ({ name: vacancy.primarySkill } =
-        await SkillsDAO.instance.findById(vacancy.primarySkill));
-    }
-
-    vacancy.skills = await SkillsDAO.instance.findByVacancy(id);
     return vacancy;
+  }
+
+  async pickCandidates(id) {
+    const candidates = await this.connection.queryAsync({
+      sql: 'CALL `smart search candidates`(?)',
+      values: [id],
+    });
+    return this.fromDAOEntity(candidates[0]);
   }
 
   /**
@@ -93,23 +88,11 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async find(page, query) {
-    const citiesTableName = CitiesDAO.instance.tableName;
-    const citiesIdField = CitiesDAO.instance.idField;
-    const vacancyStatusesTableName = VacancyStatusesDAO.instance.tableName;
-    const vacancyStatusesIdField = VacancyStatusesDAO.instance.idField;
-    const skillsTableName = SkillsDAO.instance.tableName;
-    const skillsIdField = SkillsDAO.instance.idField;
-
     return super.find({
-      fields: `v.${this.idField}, v.name, vs.name AS status, job_start, s.name AS primarySkill, ct.name AS city`,
-      basis: `${this.tableName} v
-              LEFT JOIN ${citiesTableName} ct
-              ON v.city_id = ct.${citiesIdField}
-              LEFT JOIN ${vacancyStatusesTableName} vs
-              ON v.status_id = vs.${vacancyStatusesIdField}
-              LEFT JOIN ${skillsTableName} s
-              ON v.primary_skill = s.${skillsIdField}`,
-      condition: makeFilterQuery(query),
+      fields: `${this.idField}, name, status, job_start, primary_skill, city`,
+      basis: 'vacancies_view',
+      condition: `${makeFilterQuery(query)} GROUP BY ${this.idField}`,
+      order: 'ORDER BY -created_date',
       amount: this.itemsPerPage,
       page,
     });
@@ -153,12 +136,12 @@ class VacanciesDAO extends BasicDAO {
       await superUpdate(id, vacancy, userId);
 
       await Promise.all(skills.map(async (skill) => {
-        const { id: skillId } = await SkillsDAO.instance.findByName(skill.name);
+        const { id: skillId } = await SkillsDAO.instance.findByName(skill);
 
         await this.connection.queryAsync({
           sql: `INSERT INTO vacancy_has_skills
                 (skill_id, vacancy_id, weight) VALUES (?, ?, ?)`,
-          values: [skillId, id, skill.weight],
+          values: [skillId, id, 5],
         });
       }));
     });

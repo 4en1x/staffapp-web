@@ -12,6 +12,7 @@
 /coverage
 /server/coverage
 # production
+/build
 /client/build
 
 # misc

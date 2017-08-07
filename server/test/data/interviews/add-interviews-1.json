@@ -1,0 +1,18 @@
+{
+  "type": "TECH",
+  "date": "2010-07-03 08:13:56",
+  "hiringId": 2,
+  "users": [1, 2, 3],
+  "fields": [
+    {
+      "name": "C++ skill",
+      "typeSkill": "primary",
+      "type": "tech"
+    },
+    {
+      "name": "Some skill",
+      "typeSkill": "secondary",
+      "type": "tech"
+    }
+  ]
+}

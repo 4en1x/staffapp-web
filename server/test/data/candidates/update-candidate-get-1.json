@@ -1,9 +1,25 @@
 {
   "name":"Usual Candidate",
-  "surname":"Stsefanovich",
-  "email":"freeplayercot@gmail.com",
-  "primary_skill":"js",
-  "english_level":"0",
-  "city":"Minsk",
-  "links":["12345","myLink","something"]
+  "surname": "Stsefanovich",
+  "status": "Pool",
+  "city": "Minsk",
+  "info": {
+    "contacts": {
+      "email": "freeplayercot@gmail.com",
+      "phone": "+375293552746",
+      "skype": null,
+      "links": [
+        "12345",
+        "myLink",
+        "something"
+      ]
+    },
+    "skills": {
+      "primarySkill": ".NET",
+      "englishLevel": "0"
+    },
+    "communication": {
+      "salary": 5000
+    }
+  }
 }
