@@ -38,7 +38,8 @@ body {
 .hiring-page,
 .feedback-page,
 .vacancy-page,
-.edit-vacancy-page {
+.edit-vacancy-page,
+.edit-interview-page {
   width: 95%;
   max-width: 1200px;
   padding: 1% 0;
@@ -95,6 +96,13 @@ body {
 
 .hidden {
   display: none;
+}
+
+.extra{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* clear */
