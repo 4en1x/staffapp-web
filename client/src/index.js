@@ -35,7 +35,6 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, persistedState, applyMiddleware(thunk));
 store.subscribe(() => {
-  console.log('lalalla');
   saveState(store.getState());
 });
 
