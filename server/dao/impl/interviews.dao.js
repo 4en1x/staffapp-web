@@ -90,7 +90,7 @@ class InterviewsDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async findAllByUser(id, page = 1) {
-    return super.find({
+    const data = await super.find({
       fields: 'id, type, date, place, name, surname',
       basis: '(SELECT * FROM all_interviews_view) AS T',
       condition: `WHERE T.user_id = ${id}`,
@@ -98,6 +98,16 @@ class InterviewsDAO extends BasicDAO {
       page,
       amount: this.itemsPerPage,
     });
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      basis: '(SELECT * FROM all_interviews_view) AS T',
+      condition: `WHERE T.user_id = ${id}`,
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   /**
@@ -111,7 +121,7 @@ class InterviewsDAO extends BasicDAO {
     const candidatesTableName = CandidatesDAO.instance.tableName;
     const candidatesIdField = CandidatesDAO.instance.idField;
 
-    return super.find({
+    const data = await super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
       basis: `${feedbacksTableName} f
               INNER JOIN ${this.tableName} i
@@ -124,6 +134,21 @@ class InterviewsDAO extends BasicDAO {
       amount: this.itemsPerPage,
       values: [id],
     });
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      basis: `${feedbacksTableName} f
+              INNER JOIN ${this.tableName} i
+              ON f.interview_id = i.${this.idField}
+              INNER JOIN ${candidatesTableName} c
+              ON f.candidate_id = c.${candidatesIdField}`,
+      condition: 'WHERE f.user_id = ? AND f.status = 0',
+      values: [id],
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   /**
@@ -136,7 +161,7 @@ class InterviewsDAO extends BasicDAO {
     const candidatesTableName = CandidatesDAO.instance.tableName;
     const candidatesIdField = CandidatesDAO.instance.idField;
 
-    return super.find({
+    const data = await super.find({
       fields: `i.${this.idField}, type, date, place, c.name, c.surname`,
       basis: `${this.tableName} i
               INNER JOIN hirings h
@@ -149,6 +174,21 @@ class InterviewsDAO extends BasicDAO {
       amount: this.itemsPerPage,
       values: [id],
     });
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      basis: `${this.tableName} i
+              INNER JOIN hirings h
+              ON i.hiring_id = h.id
+              INNER JOIN ${candidatesTableName} c
+              ON h.candidate_id = c.${candidatesIdField}`,
+      condition: 'WHERE h.user_id = ? AND h.date_close IS NULL',
+      values: [id],
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   /**
