@@ -45,15 +45,17 @@ class InterviewListWrapper extends React.Component {
           elements={this.props.interviews.data}
           url={`/interviews`}
         />
-        <Button.Group size="large" floated="right">
-          {counter === 1 && <Button disabled content="previous page" />}
-          {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
-          <Button.Or text={counter} />
-          {counter === this.props.interviews.pagesAmount &&
-            <Button primary disabled content="next page" />}
-          {counter !== this.props.interviews.pagesAmount &&
-            <Button primary onClick={this.nextPage} content="next page" />}
-        </Button.Group>
+          {props.interviews.pagesAmount !== 0 &&
+          <Button.Group size="large" floated="right">
+              {counter === 1 && <Button disabled content="previous page"/>}
+              {counter !== 1 && <Button onClick={this.lastPage} content="previous page"/>}
+            <Button.Or text={counter}/>
+              {counter === this.props.interviews.pagesAmount &&
+              <Button primary disabled content="next page"/>}
+              {counter !== this.props.interviews.pagesAmount &&
+              <Button primary onClick={this.nextPage} content="next page"/>}
+          </Button.Group>
+          }
       </div>
     );
   }

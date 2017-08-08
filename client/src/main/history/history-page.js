@@ -96,15 +96,18 @@ class HistoryPage extends React.Component {
               })}
             </Table.Body>
           </Table>
-                  <Button.Group size="large" floated="right">
-                  {counter === 1 && <Button disabled content="previous page" />}
-                  {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
-                  <Button.Or text={counter} />
-                  {counter === this.props.history.pagesAmount &&
-                  <Button primary disabled content="next page" />}
-                  {counter !== this.props.history.pagesAmount &&
-                  <Button primary onClick={this.nextPage} content="next page" />}
-                  </Button.Group>
+                  {this.props.history.pagesAmount!== 0 &&
+                    <Button.Group size="large" floated="right">
+                        {counter === 1 && <Button disabled content="previous page" />}
+                        {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
+                      <Button.Or text={counter} />
+                        {counter === this.props.history.pagesAmount &&
+                        <Button primary disabled content="next page" />}
+                        {counter !== this.props.history.pagesAmount &&
+                        <Button primary onClick={this.nextPage} content="next page" />}
+                    </Button.Group>
+                  }
+
         </div>
         <div className="content-right">
           {this.props.role === roles.ADMIN.ROLE ? <HistoryFilter /> : null}
