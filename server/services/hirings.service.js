@@ -29,8 +29,6 @@ async function updateHiringInterviews(hiring) {
     hiring.interviews.map(async (interview) => {
       interview.feedbacks = await FeedbacksDAO.instance.findByInterview(interview.id);
       interview.candidate = await CandidatesDAO.instance.findByFeedback(interview.feedbacks[0]);
-      interview.time = utils.date.getTime(interview.date);
-      interview.date = utils.date.getDate(interview.date);
       return interview;
     }));
   return hiring;
@@ -57,14 +55,7 @@ function createHiringUpdateObject(reqBody) {
 
 function rebuildHiring(hiring) {
   hiring.vacancyName = hiring.vacancyName || 'Passed hiring process to the company';
-  hiring.timeOpen = utils.date.getTime(hiring.dateOpen);
-  hiring.dateOpen = utils.date.getDate(hiring.dateOpen);
-  hiring.timeClose = hiring.dateClose
-    ? utils.date.getTime(hiring.dateClose)
-    : null;
-  hiring.dateClose = hiring.dateClose
-    ? utils.date.getDate(hiring.dateClose)
-    : null;
+  hiring.dateClose = hiring.dateClose || null;
   return hiring;
 }
 

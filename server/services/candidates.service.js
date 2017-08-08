@@ -28,7 +28,7 @@ function rebuildCandidate(candidate) {
 
   const communication = {
     resume: candidate.resume,
-    lastChangeDate: utils.date.getDate(candidate.lastChangeDate),
+    lastChangeDate: candidate.lastChangeDate,
     salary: candidate.salary,
     hrName: candidate.hrName,
   };

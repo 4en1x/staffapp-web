@@ -2,7 +2,6 @@ const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
 const service = require('../../services/candidates.service');
 const hiringsService = require('../../services/hirings.service');
-const utils = require('../../utils');
 const json2xls = require('json2xls');
 
 class CandidatesController extends CRUDController {
@@ -27,14 +26,7 @@ class CandidatesController extends CRUDController {
 
   async readHistoryById(req, res) {
     try {
-      const history = await db.history.findByCandidateId(req.params.id);
-
-      history.forEach((element) => {
-        element.time = utils.date.getTime(element.date);
-        element.date = utils.date.getDate(element.date);
-      });
-
-      res.json(history);
+      res.json(await db.history.findByCandidateId(req.params.id));
     } catch (err) {
       res.status(500).end();
     }
@@ -44,16 +36,8 @@ class CandidatesController extends CRUDController {
     try {
       const vacancies = await db.candidates.pickVacancies(req.params.id);
       vacancies.forEach((vacancy) => {
-        if (vacancy.jobStart) {
-          vacancy.jobStart = utils.date.getDate(vacancy.jobStart);
-        }
-
         if (vacancy.secondarySkills) {
           vacancy.secondarySkills = vacancy.secondarySkills.split(', ');
-        }
-
-        if (vacancy.createdDate) {
-          vacancy.createdDate = utils.date.getDate(vacancy.createdDate);
         }
       });
       res.json(vacancies);
@@ -76,26 +60,10 @@ class CandidatesController extends CRUDController {
     }
   }
 
-  async read(req, res) {
-    const onload = async (candidates) => {
-      candidates.forEach((candidate) => {
-        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
-      });
-    };
-    await super.read(req, res, onload);
-  }
-
   async report(req, res) {
     try {
       const filter = req.query.filter ? JSON.parse(req.query.filter) : {};
-      let candidates = await this.dao.report(filter);
-
-      candidates = candidates.map((candidate) => {
-        candidate.lastChangeDate = utils.date.getDate(candidate.lastChangeDate);
-        candidate.createdDate = utils.date.getDate(candidate.createdDate);
-        return candidate;
-      });
-
+      const candidates = await this.dao.report(filter);
 
       const fileName = `${req.user.id}_${new Date().getTime()}.xlsx`;
 
