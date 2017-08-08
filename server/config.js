@@ -20,7 +20,7 @@ const config = {
   pageSettings: defaultConfig.pageSettings,
 };
 
-if (myDbConfig.mode === 'test') config.db = myDbConfig;
+// if (myDbConfig.mode === 'test') config.db = myDbConfig;
 
 console.log(config.db);
 console.log(process.env.JAWSDB_URL);
