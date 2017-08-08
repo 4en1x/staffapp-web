@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ListComponent from '../../../../../components/list/list.component';
 import CandidateListItem from '../../../../../components/list/list-items/candidate-list-item';
+import { addCurrentVacancyId } from '../../../../hiring-page/hiring-actions';
 
 import {
   getVacancyCandidates,
@@ -15,6 +16,7 @@ class CandidatesWrapper extends React.Component {
   }
 
   componentWillUnmount() {
+    this.props.addCurrentVacancyId(this.props.vacancy.id);
     this.props.resetVacancyCandidates();
   }
 
@@ -24,7 +26,7 @@ class CandidatesWrapper extends React.Component {
       <ListComponent
         listItem={CandidateListItem}
         elements={this.props.candidates}
-        url={`/vacancies`}
+        url={`hiring`}
       />
     );
   }
@@ -32,12 +34,14 @@ class CandidatesWrapper extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    candidates: state.vacancy.candidates
+    candidates: state.vacancy.candidates,
+    vacancy: state.vacancy.currentVacancy
   };
 };
 
 export default connect(mapStateToProps, {
   getVacancyCandidates,
-  resetVacancyCandidates
+  resetVacancyCandidates,
+  addCurrentVacancyId
 })(CandidatesWrapper);
 

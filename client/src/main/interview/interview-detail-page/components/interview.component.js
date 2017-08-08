@@ -44,13 +44,13 @@ export default class InterviewComponent extends React.Component {
                 <List.Header>Vacansy</List.Header>
                 {data.vacancy ? data.vacancy : 'No vacancy'}
               </List.Item>
-              {data.skills[0] !== null
+              {data.skills[0] !== null || data.skills.length !== 0
                 ? <List.Item>
                     <List.Header>Primary skill</List.Header>
                     {data.skills[0]}
                   </List.Item>
                 : null}
-              {data.skills[0] !== null
+              {data.skills[0] !== null || data.skills.length !== 0
                 ? <List.Item>
                     <List.Header>Secondary skills</List.Header>
                     <List

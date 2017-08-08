@@ -60,10 +60,6 @@ const CandidatesFilterForm = props => {
   );
 };
 
-export default reduxForm({ form: 'CandidatesFilterForm' })(
-  CandidatesFilterForm
-);
-
 CandidatesFilterForm.defaultProps = {
   data: {}
 };
@@ -77,3 +73,7 @@ CandidatesFilterForm.propTypes = {
     secondarySkills: PropTypes.arrayOf(PropTypes.string)
   })
 };
+
+export default reduxForm({ form: 'CandidatesFilterForm' })(
+  CandidatesFilterForm
+);

@@ -14,7 +14,7 @@ import { Button } from 'semantic-ui-react';
 let counter = 1;
 class VacancyListWrapper extends React.Component {
   componentDidMount() {
-    this.props.getVacancyList(this.props.filter, 1);
+    this.props.getVacancyList({}, 1);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -40,7 +40,6 @@ class VacancyListWrapper extends React.Component {
   }
 
   render() {
-
     if (!this.props.vacancies) return <SemanticLoader />;
 
     return (
@@ -63,11 +62,12 @@ class VacancyListWrapper extends React.Component {
 
 const mapStateToProps = state => ({
   vacancies: state.vacancy.vacancyList,
-  filter: state.vacancy.filter
+  filter: state.vacancy.filter,
+  state
 });
 
 export default connect(mapStateToProps, {
   getVacancyList,
   resetVacancyList,
-  resetCurrentVacancy
+  resetCurrentVacancy,
 })(VacancyListWrapper);

@@ -7,7 +7,18 @@ const hiringReducer = (state = {}, action) => {
       return { ...state, isUploaded: true };
 
     case 'RESET_HIRING':
-      return { ...state, isUploaded: false };
+      return {
+        ...state,
+        isUploaded: false,
+        candidateId: null,
+        vacancyId: null
+      };
+
+    case 'ADD_CURRENT_CANDIDATE_ID':
+      return { ...state, candidateId: action.id };
+
+    case 'ADD_CURRENT_VACANCY_ID':
+      return { ...state, vacancyId: action.id };
 
     default:
       return state;
