@@ -6,6 +6,9 @@ const vacancyReducer = (state = {}, action) => {
     case 'ADD_CURRENT_VACANCY':
       return { ...state, currentVacancy: action.vacancy };
 
+    case 'DELETE_CURRENT_VACANCY':
+      return { ...state, isVacancyDeleted: true };
+
     case 'FILTER_VALUES':
       return { ...state, filterValues: action.values };
 

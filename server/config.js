@@ -11,7 +11,7 @@ const myDbConfig = {
 };
 
 const config = {
-  db: process.env.DATABASE_URL || defaultConfig.db,
+  db: process.env.CLEARDB_DATABASE_URL || defaultConfig.db,
   web: {
     port: process.env.PORT || defaultConfig.web.port,
     frontendOrigin: defaultConfig.web.frontendOrigin,

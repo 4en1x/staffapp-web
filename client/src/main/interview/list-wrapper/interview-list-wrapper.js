@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getInterviewList, resetInterviewList } from '../interview-actions';
+import { getInterviewList, resetInterviewList, resetCurrentInterview } from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import InterviewListItem from '../../../components/list/list-items/interview-list-item';
@@ -33,6 +33,7 @@ class InterviewListWrapper extends React.Component {
 
   componentWillUnmount() {
     this.props.resetInterviewList();
+    this.props.resetCurrentInterview();
   }
 
   render() {
@@ -66,5 +67,6 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   getInterviewList,
-  resetInterviewList
+  resetInterviewList,
+  resetCurrentInterview
 })(InterviewListWrapper);

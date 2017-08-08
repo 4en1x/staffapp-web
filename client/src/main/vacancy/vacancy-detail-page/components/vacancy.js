@@ -27,7 +27,7 @@ export default class Vacancy extends React.Component {
 
     switch (activeItem) {
       case Items[0]:
-        currentTab = <InfoTab info={this.props} />;
+        currentTab = <InfoTab info={this.props} url={url}/>;
         break;
       case Items[1]:
         currentTab = <CandidatesWrapper url={url} />;

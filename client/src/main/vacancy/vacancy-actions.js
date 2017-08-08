@@ -1,6 +1,7 @@
 import vacancyService from '../../service/vacancy-service';
 
 const ADD_VACANCY_LIST = 'ADD_VACANCY_LIST';
+const DELETE_CURRENT_VACANCY = 'DELETE_CURRENT_VACANCY';
 const ADD_CURRENT_VACANCY = 'ADD_CURRENT_VACANCY';
 const ADD_FORM_VALUES = 'ADD_FORM_VALUES';
 const FORM_SUBMIT = 'FORM_SUBMIT';
@@ -11,7 +12,7 @@ const RESET_CURRENT_VACANCY = 'RESET_CURRENT_VACANCY';
 const RESET_FORM = 'RESET_FORM';
 const RESET_DELETED_VACANCY = 'RESET_DELETED_VACANCY';
 const ADD_VACANCY_CANDIDATES = 'ADD_VACANCY_CANDIDATES';
-const RESET_VACANSY_CANDIDATES = 'RESET_VACANSY_CANDIDATES';
+const RESET_VACANCY_CANDIDATES = 'RESET_VACANCY_CANDIDATES';
 
 function addVacancyList(list) {
   return {
@@ -107,10 +108,16 @@ export function resetCurrentVacancy() {
   };
 }
 
+function deleteVacancy() {
+  return {
+    type: DELETE_CURRENT_VACANCY
+  }
+}
+
 export function deleteCurrentVacancy(id) {
   return dispatch => {
     vacancyService.deleteCurrentVacancy(id).then(res => {
-      dispatch(resetCurrentVacancy());
+      dispatch(deleteVacancy());
     });
   };
 }
@@ -149,6 +156,6 @@ export function getVacancyCandidates(url) {
 
 export function resetVacancyCandidates() {
   return {
-    type: RESET_VACANSY_CANDIDATES
+    type: RESET_VACANCY_CANDIDATES
   };
 }

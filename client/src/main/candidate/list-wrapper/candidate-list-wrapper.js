@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
 import {
   getCandidateList,
   resetCandidateList,
@@ -9,7 +10,6 @@ import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import CandidateListItem from '../../../components/list/list-items/candidate-list-item';
 import './candidate-list-wrapper.css';
-import { Button } from 'semantic-ui-react';
 
 let counter = 1;
 class CandidateListWrapper extends React.Component {
