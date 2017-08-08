@@ -62,7 +62,7 @@ class HistoryDAO extends BasicDAO {
     const userName = await UserDAO.instance.nameById(userId);
     let description = `${userName} make changes in table ${tableName}: ${event} some data.`;
     if (logs) {
-      description += ` Here logs: ${JSON.stringify(logs)}`;
+      description += ` Here logs: ${JSON.stringify(logs, null, ' ')}`;
     }
     await super.create({
       foreign_id: id,
