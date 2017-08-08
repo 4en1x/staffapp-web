@@ -31,7 +31,7 @@ export default class Vacancy extends React.Component {
       default:
         currentTab = '';
     }
-
+    const date = new Date(vacancy.createdDate);
     return (
       <div className="page-content">
         <div className="relative content-tab background padded">
@@ -49,7 +49,7 @@ export default class Vacancy extends React.Component {
               {vacancy.city}
             </span>
             <span className="span-label">
-              Created: {vacancy.createdDate}
+              Created: {date.toLocaleDateString()}
             </span>
           </div>
         </div>

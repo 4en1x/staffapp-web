@@ -5,7 +5,7 @@ import { List, Header } from 'semantic-ui-react';
 
 const CandidateListItem = props => {
   const data = props.element;
-
+  const date = new Date(data.lastChangeDate);
   return (
     <List.Item className="flex-list-item">
       <NavLink to={`/${props.url}/${data.id}`}>
@@ -20,7 +20,7 @@ const CandidateListItem = props => {
         <Header as="h3" content={data.primarySkill}  />
         <div className="list-item-extra">
           <Header as="h3" content={data.city} disabled />
-          <Header as="h3" content={data.lastChangeDate} disabled />
+          <Header as="h3" content={date.toLocaleDateString()} disabled />
         </div>
       </NavLink>
     </List.Item>

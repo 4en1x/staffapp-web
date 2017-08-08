@@ -3,7 +3,7 @@ import { Header, List } from 'semantic-ui-react';
 
 const CommunicationsList = props => {
   const communication = props.communication;
-
+  const date = new Date(communication.lastChangeDate);
   return (
     <div className="candidate-info-list">
       <Header disabled as="h3">
@@ -31,7 +31,7 @@ const CommunicationsList = props => {
         <List.Item>
           <List.Header>change date</List.Header>
           <List.Description>
-            {communication.lastChangeDate}
+            {date.toLocaleDateString()}
           </List.Description>
         </List.Item>
       </List>

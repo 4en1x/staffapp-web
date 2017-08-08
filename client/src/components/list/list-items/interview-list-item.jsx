@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const InterviewListItem = props => {
   const interview = props.element;
   const url = props.url;
-
+  const date = new Date(interview.date);
   return (
     <List.Item className="flex-list-item">
       <NavLink to={`${url}/${interview.id}`}>
@@ -14,12 +14,12 @@ const InterviewListItem = props => {
             {`${interview.name} ${interview.surname}`}
           </Header>
           <Header as="h2" className="top-right">
-            {interview.time}
+            {date.toLocaleTimeString()}
           </Header>
         </div>
         <div className="list-item-extra">
           <Header as="h3" content={interview.place} disabled />
-          <Header as="h3" content={interview.date} disabled />
+          <Header as="h3" content={date.toLocaleDateString()} disabled />
         </div>
       </NavLink>
     </List.Item>
