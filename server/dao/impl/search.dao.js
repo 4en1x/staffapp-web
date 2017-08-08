@@ -15,7 +15,9 @@ class SearchDAO extends BasicDAO {
 
     queries.forEach((query, index) => {
       const q = arr.map(field => `${field} LIKE '%${query}%'`);
-      queries[index] = `(${q.join(' OR ')})`;
+      queries[index] = `(${q.join(' OR ')} 
+        OR metaphone(name) = metaphone('${query}') 
+        OR metaphone(surname) = metaphone('${query}') )`;
     });
 
     return {
@@ -27,7 +29,6 @@ class SearchDAO extends BasicDAO {
   async search({ table, searchString }) {
     try {
       const { input, output } = SearchDAO.makeQuery(table, searchString);
-
       const results = await this.connection.queryAsync(
         `SELECT ${output} FROM ${table} WHERE ${input} LIMIT ${this.itemsPerPage}`,
       );

@@ -42,12 +42,12 @@ const validate = values => {
   if (!values.time) errors.time = 'Required';
   return errors;
 };
-
 class InterviewComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      typeInterview: ''
+      typeInterview: '',
+      formIsClean: true,
     };
     this.initialData();
   }
@@ -142,6 +142,8 @@ class InterviewComponent extends React.Component {
   };
 
   initialData = () => {
+      console.log("fffffffffffffffffff");
+    console.log(this.props);
     if (this.props.skillsList.users)
       usersList =[];
       this.props.skillsList.users.map(item => {
@@ -173,13 +175,14 @@ class InterviewComponent extends React.Component {
         };
         usersList.push(temp);
       });
-
     if (this.props.data) {
       let date = new Date(this.props.data.date);
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
       let initData = {
         place: this.props.data.place,
-        date: date.toISOString().split('T')[0],
-        time: this.props.data.time
+        date:[date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-'),
+        time: date.toTimeString().split(' ')[0].slice(0,5)
       };
       this.props.initialize(initData);
     }
@@ -285,15 +288,15 @@ class InterviewComponent extends React.Component {
       });
     }
     this.props.onSubmit(data);
+    this.props.reset();
   };
 
   render() {
     const { reset, handleSubmit, submitting } = this.props;
-
     return (
       <div className="content-left">
       <form
-        onSubmit={handleSubmit(this.prepareData)}
+        onSubmit={handleSubmit(this.prepareData.bind(this))}
         className="content-tab background padded"
       >
           <div className="item-with-label">
@@ -392,9 +395,7 @@ class InterviewComponent extends React.Component {
             </div>}
 
           <div className="add-interview">
-            <Button type="button" onClick={reset}>
-              reset data
-            </Button>
+            <Button type="button" onClick={reset} content='reset data'/>
             <Button primary disabled={submitting}>
               Send interview card
             </Button>
@@ -405,6 +406,6 @@ class InterviewComponent extends React.Component {
   }
 }
 
-export default reduxForm({ form: 'addInterview', validate })(
+export default reduxForm({ form: 'addInterview', validate})(
   InterviewComponent
 );

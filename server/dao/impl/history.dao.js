@@ -23,23 +23,38 @@ class HistoryDAO extends BasicDAO {
    */
 
   async find(page, query) {
-    const history = await super.find({
+    const data = await super.find({
       page,
       amount: this.itemsPerPage,
       condition: makeFilterQuery(query),
       order: 'ORDER BY date DESC',
     });
-    return history;
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      condition: makeFilterQuery(query),
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   async findById(page, id) {
-    const history = await super.find({
+    const data = await super.find({
       page,
       amount: this.itemsPerPage,
       condition: `WHERE user_id = ${id}`,
       order: 'ORDER BY date DESC',
     });
-    return history;
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   async findByCandidateId(id) {
@@ -62,7 +77,7 @@ class HistoryDAO extends BasicDAO {
     const userName = await UserDAO.instance.nameById(userId);
     let description = `${userName} make changes in table ${tableName}: ${event} some data.`;
     if (logs) {
-      description += ` Here logs: ${JSON.stringify(logs)}`;
+      description += ` Here logs: ${JSON.stringify(logs, null, ' ')}`;
     }
     await super.create({
       foreign_id: id,

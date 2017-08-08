@@ -1,4 +1,19 @@
+const { URL } = require('url');
 const defaultConfig = require('./../config.json');
+
+function parseDatabaseURL(url) {
+  if (typeof url === 'object') {
+    return url;
+  }
+  const dbURL = new URL(url);
+  return {
+    port: dbURL.port,
+    host: dbURL.hostname,
+    user: dbURL.username,
+    password: dbURL.password,
+    database: dbURL.pathname.slice(1),
+  }
+}
 
 const myDbConfig = {
   host: process.env.npm_config_host,
@@ -11,7 +26,7 @@ const myDbConfig = {
 };
 
 const config = {
-  db: process.env.CLEARDB_DATABASE_URL || defaultConfig.db,
+  db: process.env.JAWSDB_URL ? parseDatabaseURL(process.env.JAWSDB_URL) : defaultConfig.db,
   web: {
     port: process.env.PORT || defaultConfig.web.port,
     frontendOrigin: defaultConfig.web.frontendOrigin,

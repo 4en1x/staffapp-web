@@ -14,7 +14,8 @@ import { Button } from 'semantic-ui-react';
 let counter = 1;
 class VacancyListWrapper extends React.Component {
   componentDidMount() {
-    this.props.getVacancyList({}, 1);
+    this.props.getVacancyList(this.props.filter, 1);
+      counter =1;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,17 +24,13 @@ class VacancyListWrapper extends React.Component {
     }
   }
 
-  nextData = () => {
-    counter++;
-    this.props.getVacancyList(this.props.filter, counter);
-  };
-
-  prevData = () => {
-    if (counter > 1) {
-      counter--;
-      this.props.getVacancyList(this.props.filter, counter);
+    nextPage = () => {
+        if(counter<this.props.vacancies.pagesAmount) this.props.getVacancyList( this.props.filter, ++counter )
     }
-  };
+    lastPage = () => {
+        if(counter>1) this.props.getVacancyList( this.props.filter, --counter )
+    }
+
   componentWillUnmount() {
     this.props.resetCurrentVacancy();
     this.props.resetVacancyList();
@@ -41,19 +38,21 @@ class VacancyListWrapper extends React.Component {
 
   render() {
     if (!this.props.vacancies) return <SemanticLoader />;
-
     return (
       <div>
         <ListComponent
           listItem={VacancyListItem}
-          elements={this.props.vacancies}
+          elements={this.props.vacancies.data}
           url={`/vacancies`}
         />
-        <Button.Group size='large' floated="right">
-            {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
-            {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
+        <Button.Group size="large" floated="right">
+            {counter === 1 && <Button disabled content="previous page" />}
+            {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
           <Button.Or text={counter} />
-          <Button primary onClick={this.nextData}> next page</Button>
+            {counter === this.props.vacancies.pagesAmount &&
+            <Button primary disabled content="next page" />}
+            {counter !== this.props.vacancies.pagesAmount &&
+            <Button primary onClick={this.nextPage} content="next page" />}
         </Button.Group>
       </div>
     );
