@@ -136,7 +136,7 @@ class CandidatesDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async find(page, query) {
-    return super.find({
+    const data = await super.find({
       fields: `${this.idField}, name, surname, primary_skill,
                status, last_change_date, city`,
       basis: 'candidates_view',
@@ -145,6 +145,17 @@ class CandidatesDAO extends BasicDAO {
       condition: makeFilterQuery(query),
       amount: this.itemsPerPage,
     });
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      basis: 'candidates_view',
+      condition: makeFilterQuery(query),
+      amount: this.itemsPerPage,
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
 

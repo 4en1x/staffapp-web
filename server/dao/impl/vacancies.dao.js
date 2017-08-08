@@ -88,7 +88,7 @@ class VacanciesDAO extends BasicDAO {
    * @returns {Promise <[Object]>}
    */
   async find(page, query) {
-    return super.find({
+    const data = await super.find({
       fields: `${this.idField}, name, status, job_start, primary_skill, city`,
       basis: 'vacancies_view',
       condition: `${makeFilterQuery(query)} GROUP BY ${this.idField}`,
@@ -96,6 +96,16 @@ class VacanciesDAO extends BasicDAO {
       amount: this.itemsPerPage,
       page,
     });
+
+    let [pagesAmount] = await super.find({
+      fields: 'COUNT(*)',
+      basis: 'vacancies_view',
+      condition: `${makeFilterQuery(query)}`,
+    });
+
+    pagesAmount = Math.ceil(pagesAmount.count / this.itemsPerPage);
+
+    return { data, pagesAmount };
   }
 
   /**

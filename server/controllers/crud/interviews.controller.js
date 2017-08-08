@@ -57,7 +57,7 @@ class InterviewsController extends CRUDController {
         return;
       }
 
-      interviews.forEach((interview) => {
+      interviews.data.forEach((interview) => {
         if (interview.date) {
           interview.time = utils.date.getTime(interview.date);
           interview.date = utils.date.getDate(interview.date);
@@ -66,6 +66,7 @@ class InterviewsController extends CRUDController {
 
       res.json(interviews);
     } catch (err) {
+      console.log(err)
       res.status(500).end();
     }
   }

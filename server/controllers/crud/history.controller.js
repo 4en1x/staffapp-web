@@ -17,7 +17,7 @@ class HistoryController extends CRUDController {
         history = await this.dao.findById(req.query.page, req.user.id);
       }
 
-      history.forEach((element) => {
+      history.data.forEach((element) => {
         element.time = utils.date.getTime(element.date);
         element.date = utils.date.getDate(element.date);
       });
