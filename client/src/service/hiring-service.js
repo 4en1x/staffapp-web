@@ -5,6 +5,7 @@ function getFormValues() {
 }
 
 function postHiring(hirings) {
+  console.log(hirings);
   return axios.post(`/rest/hirings`, hirings);
 }
 
