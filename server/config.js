@@ -26,7 +26,7 @@ const myDbConfig = {
 };
 
 const config = {
-  db: parseDatabaseURL(process.env.JAWSDB_URL) || defaultConfig.db,
+  db: process.env.JAWSDB_URL ? parseDatabaseURL(process.env.JAWSDB_URL) : defaultConfig.db,
   web: {
     port: process.env.PORT || defaultConfig.web.port,
     frontendOrigin: defaultConfig.web.frontendOrigin,
