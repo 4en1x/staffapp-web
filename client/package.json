@@ -38,7 +38,7 @@
     "build-semantic": "cd semantic && gulp build",
     "watch-semantic": "cd semantic && gulp watch"
   },
-    "proxy": {
+  "proxy": {
     "/rest": {
       "target": "http://localhost:3300"
     }

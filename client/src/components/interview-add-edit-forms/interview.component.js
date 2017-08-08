@@ -283,7 +283,7 @@ class InterviewComponent extends React.Component {
     if (value.users) {
       value.users.forEach(item => {
         const arr = item.split(' ');
-        data.users.push(arr[0]);
+        data.users.push(Number(arr[0]));
         data.userNames.push(arr[1]);
       });
     }

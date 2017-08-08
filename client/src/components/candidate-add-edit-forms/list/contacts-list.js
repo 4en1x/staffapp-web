@@ -137,7 +137,7 @@ export default class ContactsList extends React.Component {
         <List.Item>
           <div className="item-with-label">
             linkedIn
-            <Field name={"linkedIn"} component={linkedInInput} />
+            <Field name={"linkedin"} component={linkedInInput} />
           </div>
         </List.Item>
       </List>

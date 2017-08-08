@@ -5,7 +5,6 @@ import { Button, Header, Icon, Label, Table } from 'semantic-ui-react';
 import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
 import { postHiring, resetHiring, getFormValues } from './hiring-actions';
-// import "./hiring-page.component.css"
 const peoples = [];
 class HiringComponent extends React.Component {
   constructor(props) {
@@ -43,6 +42,8 @@ class HiringComponent extends React.Component {
       delete item.time;
       return item;
     });
+
+
     this.props.postHiring({
       candidateId: this.props.id,
       vacancyId: Number(this.props.match.params.id),
@@ -51,6 +52,10 @@ class HiringComponent extends React.Component {
   };
 
   render() {
+
+    console.log(this.props.formValues);
+    console.log(this.props);
+
     if (this.props.isUploaded)
       return <Redirect to={`/candidates/${this.props.id}`} />;
     return (

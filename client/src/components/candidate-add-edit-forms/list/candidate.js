@@ -72,6 +72,8 @@ class Candidate extends React.Component {
       this.props.data.info.contacts.links.map(link => links.push(link));
       this.setState({ links });
 
+      console.log(this.props.data);
+
       let initData = {
         name: this.props.data.name,
         surname: this.props.data.surname,
@@ -85,7 +87,7 @@ class Candidate extends React.Component {
         city: this.props.data.city,
         salary: this.props.data.info.communication.salary,
         resume: this.props.data.info.communication.resume,
-        linkedIn: this.props.data.info.contacts.linkedIn,
+        linkedin: this.props.data.info.contacts.linkedin,
         skype: this.props.data.info.contacts.skype,
         vacancy: this.props.data.info.communication.vacancy,
         links: {}
@@ -205,7 +207,7 @@ class Candidate extends React.Component {
       city: values.city,
       salary: values.salary,
       resume: values.resume,
-      linkedIn: values.linkedIn,
+      linkedin: values.linkedin,
       skype: values.skype,
       vacancy: values.vacancy,
       links: []

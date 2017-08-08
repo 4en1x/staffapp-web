@@ -49,7 +49,7 @@ class CRUDController {
         filter = clearFilter(JSON.parse(req.query.filter));
       }
       const resources = await this.dao.find(req.query.page, filter, report);
-      await onload(resources);
+      await onload(resources.data);
       res.json(resources);
     } catch (err) {
       if (onerror(err)) {
