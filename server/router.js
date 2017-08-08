@@ -1,3 +1,4 @@
+const Router = require('express').Router;
 const auth = require('./routes/auth.route');
 const candidates = require('./routes/candidates.route');
 const hirings = require('./routes/hirings.route');
@@ -15,25 +16,29 @@ const candidateStatuses = require('./routes/candidateStatuses.route');
 const notifications = require('./routes/notifications.route');
 
 function init(app) {
-  auth.init(app);
-  app.use('/candidates', candidates);
-  app.use('/interviews', interviews);
-  app.use('/hirings', hirings);
-  app.use('/feedbacks', feedbacks);
-  app.use('/vacancies', vacancies);
-  app.use('/search', search);
-  app.use('/history', history);
-  app.use('/skills', skills);
-  app.use('/cities', cities);
-  app.use('/users', users);
-  app.use('/englishLevels', englishLevels);
-  app.use('/vacancyStatuses', vacancyStatuses);
-  app.use('/candidateStatuses', candidateStatuses);
-  app.use('/notifications', notifications);
+  const restRoute = new Router();
 
-  app.use((req, res) => {
+  auth.init(restRoute);
+  restRoute.use('/candidates', candidates);
+  restRoute.use('/interviews', interviews);
+  restRoute.use('/hirings', hirings);
+  restRoute.use('/feedbacks', feedbacks);
+  restRoute.use('/vacancies', vacancies);
+  restRoute.use('/search', search);
+  restRoute.use('/history', history);
+  restRoute.use('/skills', skills);
+  restRoute.use('/cities', cities);
+  restRoute.use('/englishLevels', englishLevels);
+  restRoute.use('/vacancyStatuses', vacancyStatuses);
+  restRoute.use('/candidateStatuses', candidateStatuses);
+  restRoute.use('/notifications', notifications);
+  restRoute.use('/users', users);
+
+  restRoute.use((req, res) => {
     res.status(404).end();
   });
+
+  app.use('/rest', restRoute);
 }
 
 module.exports = {
