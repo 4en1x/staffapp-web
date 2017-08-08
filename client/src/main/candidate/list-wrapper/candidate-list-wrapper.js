@@ -11,10 +11,11 @@ import ListComponent from '../../../components/list/list.component';
 import CandidateListItem from '../../../components/list/list-items/candidate-list-item';
 import './candidate-list-wrapper.css';
 
-let counter = 1;
+let counter;
 class CandidateListWrapper extends React.Component {
   componentDidMount() {
     this.props.getCandidateList(this.props.filter);
+    counter =1;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,13 +24,20 @@ class CandidateListWrapper extends React.Component {
     }
   }
 
+    nextPage = () => {
+    if(counter<this.props.candidates.pagesAmount) this.props.getCandidateList( this.props.filter, ++counter )
+    }
+    lastPage = () => {
+    if(counter>1) this.props.getCandidateList( this.props.filter, --counter )
+    }
+
   componentWillUnmount() {
     this.props.resetCandidateList();
     this.props.resetCurrentCandidate();
   }
 
   render() {
-    if (!this.props.candidates.data) return <SemanticLoader />;
+    if (!this.props.candidates) return <SemanticLoader />;
     return (
       <div>
         <ListComponent
@@ -39,26 +47,12 @@ class CandidateListWrapper extends React.Component {
         />
         <Button.Group size="large" floated="right">
             {counter === 1 && <Button disabled content="previous page" />}
-            {counter !== 1 &&
-            <Button
-                onClick={this.props.getCandidateList(
-                    this.props.filter,
-                    --counter
-                )}
-                content="previous page"
-            />}
+            {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
           <Button.Or text={counter} />
-            {counter === this.props.candidates.pagesAmount / 10 &&
+            {counter === this.props.candidates.pagesAmount &&
             <Button primary disabled content="next page" />}
-            {counter !== 1 &&
-            <Button
-                primary
-                onClick={this.props.getCandidateList(
-                    this.props.filter,
-                    ++counter
-                )}
-                content="next page"
-            />}
+            {counter !== this.props.candidates.pagesAmount &&
+            <Button primary onClick={this.nextPage} content="next page" />}
         </Button.Group>
       </div>
     );

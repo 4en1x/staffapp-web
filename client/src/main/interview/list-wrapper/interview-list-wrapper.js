@@ -15,6 +15,7 @@ let counter = 1;
 class InterviewListWrapper extends React.Component {
   componentDidMount() {
     this.props.getInterviewList(this.props.filter, 1);
+      counter =1;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,13 +24,20 @@ class InterviewListWrapper extends React.Component {
     }
   }
 
+    nextPage = () => {
+        if(counter<this.props.interviews.pagesAmount) this.props.getInterviewList( this.props.filter, ++counter )
+    }
+    lastPage = () => {
+        if(counter>1) this.props.getInterviewList( this.props.filter, --counter )
+    }
+
   componentWillUnmount() {
     this.props.resetInterviewList();
     this.props.resetCurrentInterview();
   }
 
   render() {
-    if (!this.props.interviews.data) return <SemanticLoader />;
+    if (!this.props.interviews) return <SemanticLoader />;
     return (
       <div>
         <ListComponent
@@ -39,26 +47,12 @@ class InterviewListWrapper extends React.Component {
         />
         <Button.Group size="large" floated="right">
           {counter === 1 && <Button disabled content="previous page" />}
-          {counter !== 1 &&
-            <Button
-              onClick={this.props.getInterviewList(
-                this.props.filter,
-                --counter
-              )}
-              content="previous page"
-            />}
+          {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
           <Button.Or text={counter} />
-          {counter === this.props.interviews.pagesAmount / 10 &&
+          {counter === this.props.interviews.pagesAmount &&
             <Button primary disabled content="next page" />}
-          {counter !== 1 &&
-            <Button
-              primary
-              onClick={this.props.getInterviewList(
-                this.props.filter,
-                ++counter
-              )}
-              content="next page"
-            />}
+          {counter !== this.props.interviews.pagesAmount &&
+            <Button primary onClick={this.nextPage} content="next page" />}
         </Button.Group>
       </div>
     );
