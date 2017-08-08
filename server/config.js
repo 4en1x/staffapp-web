@@ -23,5 +23,6 @@ const config = {
 if (myDbConfig.mode === 'test') config.db = myDbConfig;
 
 console.log(config.db);
+console.log(process.env.JAWSDB_URL);
 
 module.exports = config;
