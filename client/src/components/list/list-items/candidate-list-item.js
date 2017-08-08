@@ -8,7 +8,7 @@ const CandidateListItem = props => {
 
   return (
     <List.Item className="flex-list-item">
-      <NavLink to={`candidates/${data.id}`}>
+      <NavLink to={`/${props.url}/${data.id}`}>
         <div className="list-item-top">
           <Header as="h2" className="top-left">
             {data.name} {data.surname}

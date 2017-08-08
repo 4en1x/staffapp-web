@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { reset } from 'redux-form';
 import { Button } from 'semantic-ui-react';
 import {
   getCandidateList,
@@ -49,7 +50,7 @@ class CandidateListWrapper extends React.Component {
         <ListComponent
           listItem={CandidateListItem}
           elements={this.props.candidates}
-          url={`/candidates`}
+          url={`candidates`}
         />
         <Button.Group size='large' floated="right">
             {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
@@ -70,5 +71,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getCandidateList,
   resetCandidateList,
-  resetCurrentCandidate
+  resetCurrentCandidate,
+  reset
 })(CandidateListWrapper);
