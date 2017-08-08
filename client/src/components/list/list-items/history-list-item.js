@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const HistoryListItem = props => {
   const history = props.element;
-
+  const date = new Date(history.date);
   return (
     <List.Item className="flex-list-item">
       <Link to="#">
@@ -18,8 +18,8 @@ const HistoryListItem = props => {
         </div>
           <Header as="h3" content={history.logs} />
         <div className="list-item-extra">
-          <Header as="h3" content={history.date} disabled />
-          <Header as="h3" content={history.time} disabled />
+          <Header as="h3" content={date.toLocaleDateString()} disabled />
+          <Header as="h3" content={date.toLocaleTimeString()} disabled />
         </div>
       </Link>
     </List.Item>

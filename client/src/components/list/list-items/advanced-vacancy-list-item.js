@@ -4,7 +4,7 @@ import { List, Header } from 'semantic-ui-react';
 
 const AdvancedVacancyListItem = props => {
   const vacancy = props.element;
-
+  const date = new Date(vacancy.jobStart);
   return (
     <List.Item className="flex-list-item">
       <NavLink to={`/hiring/${vacancy.id}`}>
@@ -25,7 +25,7 @@ const AdvancedVacancyListItem = props => {
               : ''}`}
             disabled
           />
-          <Header as="h3" content={vacancy.jobStart} disabled />
+          <Header as="h3" content={date.toLocaleDateString()} disabled />
         </div>
       </NavLink>
     </List.Item>

@@ -16,10 +16,8 @@ export default class InterviewComponent extends React.Component {
   render() {
     const data = this.props.interview;
       let date = new Date(data.date);
-      window.alert(date.toString());
       var mm = date.getMonth() + 1;
       var dd = date.getDate();
-      window.alert();
     return (
       <div className="main-component">
         <Header dividing as="h2" className="custom-header">
