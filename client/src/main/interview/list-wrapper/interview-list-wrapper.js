@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getInterviewList, resetInterviewList, resetCurrentInterview } from '../interview-actions';
+import {
+  getInterviewList,
+  resetInterviewList,
+  resetCurrentInterview
+} from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 import ListComponent from '../../../components/list/list.component';
 import InterviewListItem from '../../../components/list/list-items/interview-list-item';
@@ -19,43 +23,43 @@ class InterviewListWrapper extends React.Component {
     }
   }
 
-  nextData = () => {
-    counter++;
-    this.props.getInterviewList(this.props.filter, counter);
-  };
-
-  prevData = () => {
-    if (counter > 1) {
-      counter--;
-      this.props.getInterviewList(this.props.filter, counter);
-    }
-  };
-
   componentWillUnmount() {
     this.props.resetInterviewList();
     this.props.resetCurrentInterview();
   }
 
   render() {
-    if (!this.props.interviews) return <SemanticLoader />;
-    if (this.props.interviews.length === 0) {
-      counter--;
-      this.props.getInterviewList(this.props.filter, counter);
-    }
+    if (!this.props.interviews.data) return <SemanticLoader />;
     return (
       <div>
         <ListComponent
           listItem={InterviewListItem}
-          elements={this.props.interviews}
+          elements={this.props.interviews.data}
           url={`/interviews`}
         />
-          {this.props.interviews.length !== 0 &&
-          <Button.Group size='large' floated="right">
-          {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
-          {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
+        <Button.Group size="large" floated="right">
+          {counter === 1 && <Button disabled content="previous page" />}
+          {counter !== 1 &&
+            <Button
+              onClick={this.props.getInterviewList(
+                this.props.filter,
+                --counter
+              )}
+              content="previous page"
+            />}
           <Button.Or text={counter} />
-          <Button primary onClick={this.nextData}> next page</Button>
-        </Button.Group>}
+          {counter === this.props.interviews.pagesAmount / 10 &&
+            <Button primary disabled content="next page" />}
+          {counter !== 1 &&
+            <Button
+              primary
+              onClick={this.props.getInterviewList(
+                this.props.filter,
+                ++counter
+              )}
+              content="next page"
+            />}
+        </Button.Group>
       </div>
     );
   }

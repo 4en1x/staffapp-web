@@ -23,17 +23,6 @@ class VacancyListWrapper extends React.Component {
     }
   }
 
-  nextData = () => {
-    counter++;
-    this.props.getVacancyList(this.props.filter, counter);
-  };
-
-  prevData = () => {
-    if (counter > 1) {
-      counter--;
-      this.props.getVacancyList(this.props.filter, counter);
-    }
-  };
   componentWillUnmount() {
     this.props.resetCurrentVacancy();
     this.props.resetVacancyList();
@@ -41,23 +30,36 @@ class VacancyListWrapper extends React.Component {
 
   render() {
 
-    if (!this.props.vacancies) return <SemanticLoader />;
-      if (this.props.vacancies.length === 0) {
-          counter--;
-          this.props.getVacancyList(this.props.filter, counter);
-      }
+    if (!this.props.vacancies.data) return <SemanticLoader />;
     return (
       <div>
         <ListComponent
           listItem={VacancyListItem}
-          elements={this.props.vacancies}
+          elements={this.props.vacancies.data}
           url={`/vacancies`}
         />
-        <Button.Group size='large' floated="right">
-            {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
-            {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
+        <Button.Group size="large" floated="right">
+            {counter === 1 && <Button disabled content="previous page" />}
+            {counter !== 1 &&
+            <Button
+                onClick={this.props.getVacancyList(
+                    this.props.filter,
+                    --counter
+                )}
+                content="previous page"
+            />}
           <Button.Or text={counter} />
-          <Button primary onClick={this.nextData}> next page</Button>
+            {counter === this.props.vacancies.pagesAmount / 10 &&
+            <Button primary disabled content="next page" />}
+            {counter !== 1 &&
+            <Button
+                primary
+                onClick={this.props.getVacancyList(
+                    this.props.filter,
+                    ++counter
+                )}
+                content="next page"
+            />}
         </Button.Group>
       </div>
     );

@@ -15,38 +15,21 @@ class HistoryPage extends React.Component {
     this.props.getHistoryList(this.props.filter, 1);
   }
 
-    nextData = () => {
-        counter++;
-        this.props.getHistoryList(this.props.filter, counter);
-    };
-
-    prevData = () => {
-        if (counter > 1) {
-            counter--;
-            this.props.getHistoryList(this.props.filter, counter);
-        }
-    };
-
   componentWillReceiveProps(nextProps) {
     if (this.props.filter !== nextProps.filter) {
       this.props.getHistoryList(nextProps.filter, 2);
     }
   }
 
-
   render() {
-    if (!this.props.history) return <SemanticLoader />;
-      if (this.props.history.length === 0) {
-          counter--;
-          this.props.getHistoryList(this.props.filter, counter);
-      }
+    if (!this.props.history.data) return <SemanticLoader />;
 
     return (
       <div className="page-content">
         <div className="content-left">
           <Table basic="very">
             <Table.Body>
-              {this.props.history.map(item => {
+              {this.props.history.data.map(item => {
                 let chooseColor = '',
                   structData,
                   preview;
@@ -105,13 +88,29 @@ class HistoryPage extends React.Component {
               })}
             </Table.Body>
           </Table>
-                  <Button.Group size='large' floated="right">
-                  {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
-                  {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
-                  <Button.Or text={counter} />
-                  <Button primary onClick={this.nextData}> next page</Button>
-                  </Button.Group>
-
+          <Button.Group size="large" floated="right">
+            {counter === 1 && <Button disabled content="previous page" />}
+            {counter !== 1 &&
+              <Button
+                onClick={this.props.getHistoryList(
+                  this.props.filter,
+                  --counter
+                )}
+                content="previous page"
+              />}
+            <Button.Or text={counter} />
+            {counter === this.props.history.pagesAmount / 10 &&
+              <Button primary disabled content="next page" />}
+            {counter !== 1 &&
+              <Button
+                primary
+                onClick={this.props.getHistoryList(
+                  this.props.filter,
+                  ++counter
+                )}
+                content="next page"
+              />}
+          </Button.Group>
         </div>
         <div className="content-right">
           {this.props.role === roles.ADMIN.ROLE ? <HistoryFilter /> : null}
