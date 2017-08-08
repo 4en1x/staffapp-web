@@ -16,7 +16,10 @@ import candidateReducer from './main/candidate/candidate-reducer';
 import navigationBarReducer from './components/hr-navigation-bar/navigation-reducer';
 import historyReducer from './main/history/history-reducer';
 import hiringReducer from './main/hiring-page/hiring-reducer';
+import { loadState, saveState } from './localStorage';
 import './index.css';
+
+const persistedState = loadState();
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -30,7 +33,10 @@ const reducer = combineReducers({
   form: reduxFormReducer
 });
 
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, persistedState, applyMiddleware(thunk));
+store.subscribe(() => {
+  saveState(store.getState());
+});
 
 ReactDOM.render(
   <Provider store={store}>
@@ -45,5 +51,3 @@ ReactDOM.render(
 );
 
 export { store };
-
-//ReactDOM.render(<CandidateEditPage/>, document.getElementById('root'));
