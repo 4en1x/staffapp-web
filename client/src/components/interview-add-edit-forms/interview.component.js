@@ -174,13 +174,15 @@ class InterviewComponent extends React.Component {
         };
         usersList.push(temp);
       });
-
     if (this.props.data) {
       let date = new Date(this.props.data.date);
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+        window.alert([date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-'));
       let initData = {
         place: this.props.data.place,
-        date: date.toISOString().split('T')[0],
-        time: this.props.data.time
+        date:[date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-'),
+        time: date.toTimeString().split(' ')[0].slice(0,5)
       };
       this.props.initialize(initData);
     }
