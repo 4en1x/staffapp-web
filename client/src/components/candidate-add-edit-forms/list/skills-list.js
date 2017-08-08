@@ -3,8 +3,7 @@ import { Field } from "redux-form";
 import { List, Dropdown, Label } from "semantic-ui-react";
 import "./skills-list.css";
 import "./candidate.css";
-
-const skillsList = [];
+let skillsList = [];
 const englishLevelsList = [
   { key: "A0", text: "Beginner (A0)", value: "A0" },
   { key: "A1", text: "Elementary (A1)", value: "A1" },
@@ -70,6 +69,7 @@ export default class SkillsListextends extends React.Component {
   }
 
   initialData = () => {
+     skillsList=[];
     this.props.minorSkills.map(step => {
       const temp = {
         key: step,

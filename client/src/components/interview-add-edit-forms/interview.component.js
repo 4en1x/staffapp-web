@@ -29,11 +29,11 @@ const typeList = [
     value: 'owner'
   }
 ];
-const hrSkillList = [];
-const usersList = [];
-const primarySkillList = [];
-const secondarySkillList = [];
-const otherSkillList = [];
+let hrSkillList = [];
+let usersList = [];
+let primarySkillList = [];
+let secondarySkillList = [];
+let otherSkillList = [];
 
 const validate = values => {
   const errors = {};
@@ -144,6 +144,7 @@ class InterviewComponent extends React.Component {
 
   initialData = () => {
     if (this.props.skillsList.users)
+      usersList =[];
       this.props.skillsList.users.map(item => {
         let colorLabel = 'grey';
         if (item.role === 'hr') colorLabel = 'orange';
@@ -186,6 +187,7 @@ class InterviewComponent extends React.Component {
   };
   buildArrays = () => {
     if (this.state.typeInterview === 'tech') {
+        primarySkillList=[];
       this.props.skillsList.primary.map(item => {
         const temp = {
           key: item,
@@ -195,6 +197,7 @@ class InterviewComponent extends React.Component {
         primarySkillList.push(temp);
         return null;
       });
+       secondarySkillList=[];
       this.props.skillsList.secondary.map(item => {
         const temp = {
           key: item,
@@ -204,6 +207,7 @@ class InterviewComponent extends React.Component {
         secondarySkillList.push(temp);
         return null;
       });
+        otherSkillList=[];
       this.props.skillsList.other.map(item => {
         const temp = {
           key: item,
@@ -214,6 +218,7 @@ class InterviewComponent extends React.Component {
         return null;
       });
     } else if (this.state.typeInterview === 'HR') {
+        hrSkillList=[];
       this.props.skillsList.hr.map(item => {
         const temp = {
           key: item,

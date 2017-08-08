@@ -90,6 +90,7 @@ export default class ContactsList extends React.Component {
   }
 
   initialData = () => {
+     citiesList =[];
     this.props.cities.map(step => {
       const temp = {
         key: step,
@@ -117,7 +118,7 @@ export default class ContactsList extends React.Component {
               <Field name={"email"} component={emailInput} />}
             {this.props.data &&
               <div className="email-font-size">
-                {this.props.data.contacts.email}
+                {this.props.data.info.contacts.email}
               </div>}
           </div>
         </List.Item>
