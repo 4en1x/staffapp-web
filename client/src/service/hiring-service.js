@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 function getFormValues() {
-  return axios.get('/interviews/fillLists');
+  return axios.get('/rest/interviews/fillLists');
 }
 
 function postHiring(hirings) {
-  return axios.post(`/hirings`, hirings);
+  return axios.post(`/rest/hirings`, hirings);
 }
 
 const hiringService = {

@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 function getCandidateList(filter = {}, page = 1) {
-  return axios.get(`/candidates?page=${page}`, {
+  return axios.get(`/rest/candidates?page=${page}`, {
     params: {
       filter: JSON.stringify(filter)
     }
@@ -11,23 +11,23 @@ function getCandidateList(filter = {}, page = 1) {
 }
 
 function getCandidateById(id) {
-  return axios.get(`${id}`);
+  return axios.get(`/rest/candidates/${id}`);
 }
 
 function getFillList() {
-  return axios.get(`/candidates/fillLists`);
+  return axios.get(`/rest/candidates/fillLists`);
 }
 
 function postCandidate(interview) {
-  return axios.post(`/candidates`, interview);
+  return axios.post(`/rest/candidates`, interview);
 }
 
 function patchCandidate(id, candidate) {
-  return axios.patch(`/candidates/${id}`, candidate);
+  return axios.patch(`/rest/candidates/${id}`, candidate);
 }
 
 function getCandidatesReport(filter = {}) {
-  return axios.get(`/candidates/report`, {
+  return axios.get(`/rest/candidates/report`, {
     params: {
       filter: JSON.stringify(filter)
     }
@@ -35,19 +35,19 @@ function getCandidatesReport(filter = {}) {
 }
 
 function getCandidateHistory(url) {
-  return axios.get(`${url}/history`);
+  return axios.get(`/rest/${url}/history`);
 }
 
 function getCandidateHiring(url) {
-  return axios.get(`${url}/hirings`);
+  return axios.get(`/rest/${url}/hirings`);
 }
 
 function getCandidateVacancies(url) {
-  return axios.get(`${url}/pickVacancies`);
+  return axios.get(`/rest/${url}/pickVacancies`);
 }
 
 function deleteCurrentCandidate(id) {
-  return axios.delete(`/candidates/${id}`);
+  return axios.delete(`/rest/candidates/${id}`);
 }
 
 const candidateService = {
