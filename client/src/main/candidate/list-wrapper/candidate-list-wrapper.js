@@ -41,9 +41,10 @@ class CandidateListWrapper extends React.Component {
 
   render() {
     if (!this.props.candidates) return <SemanticLoader />;
-
-    console.log(this.props.candidates);
-
+      if (this.props.candidates.length === 0) {
+          counter--;
+          this.props.getCandidateList(this.props.filter, counter);
+      }
     return (
       <div>
         <ListComponent

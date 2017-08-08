@@ -42,7 +42,10 @@ class VacancyListWrapper extends React.Component {
   render() {
 
     if (!this.props.vacancies) return <SemanticLoader />;
-
+      if (this.props.vacancies.length === 0) {
+          counter--;
+          this.props.getVacancyList(this.props.filter, counter);
+      }
     return (
       <div>
         <ListComponent
