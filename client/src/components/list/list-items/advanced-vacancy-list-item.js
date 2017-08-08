@@ -4,7 +4,6 @@ import { List, Header } from 'semantic-ui-react';
 
 const AdvancedVacancyListItem = props => {
   const vacancy = props.element;
-  const url = props.url;
 
   return (
     <List.Item className="flex-list-item">

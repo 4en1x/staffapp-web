@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { reset } from 'redux-form';
 import { Button } from 'semantic-ui-react';
 import {
   getCandidateList,
@@ -11,10 +12,11 @@ import ListComponent from '../../../components/list/list.component';
 import CandidateListItem from '../../../components/list/list-items/candidate-list-item';
 import './candidate-list-wrapper.css';
 
-let counter = 1;
+let counter;
 class CandidateListWrapper extends React.Component {
   componentDidMount() {
     this.props.getCandidateList(this.props.filter);
+    counter =1;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,17 +24,13 @@ class CandidateListWrapper extends React.Component {
       this.props.getCandidateList(nextProps.filter);
     }
   }
-  nextData = () => {
-    counter++;
-    this.props.getCandidateList(this.props.filter, counter);
-  };
 
-  prevData = () => {
-    if (counter > 1) {
-      counter--;
-      this.props.getCandidateList(this.props.filter, counter);
+    nextPage = () => {
+    if(counter<this.props.candidates.pagesAmount) this.props.getCandidateList( this.props.filter, ++counter )
     }
-  };
+    lastPage = () => {
+    if(counter>1) this.props.getCandidateList( this.props.filter, --counter )
+    }
 
   componentWillUnmount() {
     this.props.resetCandidateList();
@@ -41,21 +39,21 @@ class CandidateListWrapper extends React.Component {
 
   render() {
     if (!this.props.candidates) return <SemanticLoader />;
-
-    console.log(this.props.candidates);
-
     return (
       <div>
         <ListComponent
           listItem={CandidateListItem}
-          elements={this.props.candidates}
-          url={`/candidates`}
+          elements={this.props.candidates.data}
+          url={`candidates`}
         />
-        <Button.Group size='large' floated="right">
-            {counter === 1 && <Button onClick={this.prevData} disabled> previous page </Button>}
-            {counter !== 1 && <Button onClick={this.prevData}> previous page </Button>}
+        <Button.Group size="large" floated="right">
+            {counter === 1 && <Button disabled content="previous page" />}
+            {counter !== 1 && <Button onClick={this.lastPage} content="previous page" />}
           <Button.Or text={counter} />
-          <Button primary onClick={this.nextData}> next page</Button>
+            {counter === this.props.candidates.pagesAmount &&
+            <Button primary disabled content="next page" />}
+            {counter !== this.props.candidates.pagesAmount &&
+            <Button primary onClick={this.nextPage} content="next page" />}
         </Button.Group>
       </div>
     );
@@ -70,5 +68,6 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   getCandidateList,
   resetCandidateList,
-  resetCurrentCandidate
+  resetCurrentCandidate,
+  reset
 })(CandidateListWrapper);

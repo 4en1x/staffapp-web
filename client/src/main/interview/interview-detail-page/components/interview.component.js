@@ -15,7 +15,11 @@ import roles from '../../../../config/config';
 export default class InterviewComponent extends React.Component {
   render() {
     const data = this.props.interview;
-
+      let date = new Date(data.date);
+      window.alert(date.toString());
+      var mm = date.getMonth() + 1;
+      var dd = date.getDate();
+      window.alert();
     return (
       <div className="main-component">
         <Header dividing as="h2" className="custom-header">
@@ -24,7 +28,7 @@ export default class InterviewComponent extends React.Component {
 
         <Card fluid className="row">
           <div className="info">
-            <Statistic className="date" value={data.time} label={data.date} />
+            <Statistic className="date" value={date.toTimeString().split(' ')[0].slice(0,5)} label={[date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-')} />
             <Divider />
             <Header textAlign="center" as="h2">
               {data.place}
@@ -44,13 +48,13 @@ export default class InterviewComponent extends React.Component {
                 <List.Header>Vacansy</List.Header>
                 {data.vacancy ? data.vacancy : 'No vacancy'}
               </List.Item>
-              {data.skills[0] !== null
+              {data.skills[0] !== null || data.skills.length !== 0
                 ? <List.Item>
                     <List.Header>Primary skill</List.Header>
                     {data.skills[0]}
                   </List.Item>
                 : null}
-              {data.skills[0] !== null
+              {data.skills[0] !== null || data.skills.length !== 0
                 ? <List.Item>
                     <List.Header>Secondary skills</List.Header>
                     <List

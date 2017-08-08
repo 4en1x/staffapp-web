@@ -43,21 +43,28 @@ class HiringComponent extends React.Component {
       return item;
     });
 
+    let candidateId = this.props.candidateId;
+    let vacancyId = this.props.vacancyId;
+    if (candidateId === null) candidateId = Number(this.props.match.params.id);
+    if (vacancyId === null) vacancyId = Number(this.props.match.params.id);
+
+    console.log(this.props);
+    console.log(vacancyId);
+    console.log(candidateId);
 
     this.props.postHiring({
-      candidateId: this.props.id,
-      vacancyId: Number(this.props.match.params.id),
+      candidateId: candidateId,
+      vacancyId: vacancyId,
       interviews: data
     });
   };
 
   render() {
 
-    console.log(this.props.formValues);
-    console.log(this.props);
-
-    if (this.props.isUploaded)
-      return <Redirect to={`/candidates/${this.props.id}`} />;
+    if (this.props.isUploaded) {
+      let id = this.props.vacancyId || this.props.candidateId;
+      return <Redirect to={`/candidates/${id}`}/>;
+    }
     return (
       <div className="hiring-page">
         <div className="page-content">
@@ -87,8 +94,8 @@ class HiringComponent extends React.Component {
                           <Label color="green" horizontal content="HR" />}
                         {interviewLine.type === 'tech' &&
                           <Label color="orange" horizontal content="tech" />}
-                        {interviewLine.type === 'owner' &&
-                          <Label color="violet" horizontal content="owner" />}
+                        {interviewLine.type === 'client' &&
+                          <Label color="violet" horizontal content="client" />}
                       </Table.Cell>
                       <Table.Cell>
                         {interviewLine.userNames.join(' ')}
@@ -149,7 +156,8 @@ const mapStateToProps = state => {
   return {
     isUploaded: state.hiring.isUploaded,
     formValues: state.hiring.formValues,
-    id: state.candidate.currentCandidate.id
+    vacancyId: state.hiring.vacancyId,
+    candidateId: state.hiring.candidateId
   };
 };
 

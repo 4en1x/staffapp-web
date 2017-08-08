@@ -25,7 +25,7 @@ const vacancyReducer = (state = {}, action) => {
       return { ...state, formValues: null, isFormSubmitted: false };
 
     case 'RESET_VACANCY_LIST':
-      return { ...state, vacancyList: null };
+      return { ...state, vacancyList: null, filter: null };
 
     case 'RESET_CURRENT_VACANCY':
       return { ...state, currentVacancy: null };
@@ -35,6 +35,9 @@ const vacancyReducer = (state = {}, action) => {
 
     case 'ADD_VACANCY_CANDIDATES':
       return { ...state, candidates: action.candidates };
+
+    case 'RESET_VACANCY_CANDIDATES':
+      return { ...state, candidates: null };
 
     default:
       return state;

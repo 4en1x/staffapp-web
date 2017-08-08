@@ -19,7 +19,7 @@ const candidateHandle = (state = {}, action) => {
       return { ...state, formValues: null, isFormSubmitted: false };
 
     case 'RESET_CANDIDATE_LIST':
-      return { ...state, candidateList: null };
+      return { ...state, candidateList: null, filter: null };
 
     case 'RESET_CURRENT_CANDIDATE':
       return { ...state, currentCandidate: null };
