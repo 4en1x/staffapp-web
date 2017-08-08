@@ -50,8 +50,6 @@ const VacanciesFilterForm = props => {
   );
 };
 
-export default reduxForm({ form: 'VacanciesFilterForm' })(VacanciesFilterForm);
-
 VacanciesFilterForm.defaultProps = {
   data: {}
 };
@@ -65,3 +63,5 @@ VacanciesFilterForm.propTypes = {
     cities: PropTypes.arrayOf(PropTypes.string)
   })
 };
+
+export default reduxForm({ form: 'VacanciesFilterForm' })(VacanciesFilterForm);
