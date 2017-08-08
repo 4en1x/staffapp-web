@@ -143,6 +143,8 @@ class InterviewComponent extends React.Component {
   };
 
   initialData = () => {
+      console.log("fffffffffffffffffff");
+    console.log(this.props);
     if (this.props.skillsList.users)
       usersList =[];
       this.props.skillsList.users.map(item => {
@@ -178,7 +180,6 @@ class InterviewComponent extends React.Component {
       let date = new Date(this.props.data.date);
         var mm = date.getMonth() + 1;
         var dd = date.getDate();
-        window.alert([date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-'));
       let initData = {
         place: this.props.data.place,
         date:[date.getFullYear(), (mm>9 ? '' : '0') + mm, (dd>9 ? '' : '0') + dd].join('-'),
