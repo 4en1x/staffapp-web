@@ -24,9 +24,9 @@ const typeList = [
     value: 'HR'
   },
   {
-    key: 'owner',
-    text: 'meeting with owner',
-    value: 'owner'
+    key: 'client',
+    text: 'meeting with client',
+    value: 'client'
   }
 ];
 let hrSkillList = [];

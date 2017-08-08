@@ -61,11 +61,12 @@ class VacancyListWrapper extends React.Component {
 
 const mapStateToProps = state => ({
   vacancies: state.vacancy.vacancyList,
-  filter: state.vacancy.filter
+  filter: state.vacancy.filter,
+  state
 });
 
 export default connect(mapStateToProps, {
   getVacancyList,
   resetVacancyList,
-  resetCurrentVacancy
+  resetCurrentVacancy,
 })(VacancyListWrapper);

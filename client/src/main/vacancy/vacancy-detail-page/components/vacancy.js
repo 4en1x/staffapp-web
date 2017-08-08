@@ -1,12 +1,8 @@
 import React from 'react';
-import { Header, Button, Label, List, Menu, Grid } from 'semantic-ui-react';
-import Collapsible from 'react-collapsible';
-import { Link } from 'react-router-dom';
+import { Header, Label } from 'semantic-ui-react';
 import InfoTab from './info/info-tab';
-import CandidatesWrapper from './candidates/candidates-wrapper';
+import CandidatesTab from './candidates/candidates-wrapper';
 import SecondaryMenu from '../../../../components/secondary-menu/secondary-menu.component';
-
-import roles from '../../../../config/config';
 
 import './vacancy.css';
 
@@ -30,7 +26,7 @@ export default class Vacancy extends React.Component {
         currentTab = <InfoTab info={this.props} url={url}/>;
         break;
       case Items[1]:
-        currentTab = <CandidatesWrapper url={url} />;
+        currentTab = <CandidatesTab url={url} />;
         break;
       default:
         currentTab = '';

@@ -11,11 +11,12 @@ class FilterComponent extends React.Component {
   }
 
   onSubmitClicked = filter => {
-    console.log(filter);
     this.props.addFilter(filter);
   };
 
   render() {
+
+    const lala = JSON.parse(localStorage.getItem('state'));
 
     return (
       <div className="filter-container">
@@ -34,7 +35,8 @@ FilterComponent.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    filterValues: state.vacancy.filterValues || {}
+    filterValues: state.vacancy.filterValues || {},
+    form: state.form
   };
 };
 

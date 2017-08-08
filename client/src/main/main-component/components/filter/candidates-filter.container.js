@@ -15,12 +15,13 @@ class FilterComponent extends React.Component {
 
   onSubmitClicked = filter => {
     console.log(filter);
+    console.log(this.props.form);
     this.props.addFilter(filter);
   };
 
   onReportClicked = () => {
     const filter = JSON.stringify(this.props.filter || {});
-    this.props.downloadReport(`http://localhost:3300/candidates/report?filter=${filter}`);
+    this.props.downloadReport(`/rest/candidates/report?filter=${filter}`);
   };
 
   render() {
@@ -39,7 +40,7 @@ class FilterComponent extends React.Component {
 const mapStateToProps = state => {
   return {
     formValues: state.candidate.formValues || {},
-    filter: state.candidate.filter
+    filter: state.candidate.filter,
   };
 };
 
