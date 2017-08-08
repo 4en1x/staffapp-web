@@ -2,7 +2,6 @@ const CRUDController = require('../crud.controller');
 
 const db = require('../../dao/dao');
 const feedbacksService = require('../../services/feedbacks.service');
-const utils = require('../../utils');
 
 class InterviewsController extends CRUDController {
   constructor() {
@@ -25,11 +24,6 @@ class InterviewsController extends CRUDController {
         allFeedbacks: interview.feedbacks,
         userFeedback: interview.userFeedback,
       } = await feedbacksService.readFeedbacks(interview.feedbacks, req.user.id));
-
-      if (interview.date) {
-        interview.time = utils.date.getTime(interview.date);
-        interview.date = utils.date.getDate(interview.date);
-      }
     };
 
     await super.readOne(req, res, onload);
@@ -56,13 +50,6 @@ class InterviewsController extends CRUDController {
         res.json([]);
         return;
       }
-
-      interviews.forEach((interview) => {
-        if (interview.date) {
-          interview.time = utils.date.getTime(interview.date);
-          interview.date = utils.date.getDate(interview.date);
-        }
-      });
 
       res.json(interviews);
     } catch (err) {

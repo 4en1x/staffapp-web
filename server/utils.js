@@ -74,29 +74,6 @@ function formatDateToSQLString(date) {
 }
 
 /**
- * Formates Date object to a "DD-MM-YYYY" string
- * @param {Date} date
- * @returns {String}
- */
-function formatDateToDateString(date) {
-  const year = getDateComponent(date, { year: 'numeric' });
-  const month = getDateComponent(date, { month: '2-digit' });
-  const day = getDateComponent(date, { day: '2-digit' });
-  return `${day}-${month}-${year}`;
-}
-
-/**
- * Formates Date object to a "HH:mm" string
- * @param {Date} date
- * @returns {String}
- */
-function formatDateToTimeString(date) {
-  const hour = `0${getDateComponent(date, { hour: '2-digit' })}`.slice(-2);
-  const minute = `0${getDateComponent(date, { minute: '2-digit' })}`.slice(-2);
-  return `${hour}:${minute}`;
-}
-
-/**
  * Formates Date object to local "HH:mm" string
  * @param {Date} date
  * @returns {String}
@@ -145,8 +122,6 @@ module.exports = {
   toSnake,
   date: {
     getSQL: formatDateToSQLString,
-    getDate: formatDateToDateString,
-    getTime: formatDateToTimeString,
     getLocalTime: formatDateToLocalTimeString,
     getLocalDate: formatDateToLocalDateString,
   },
