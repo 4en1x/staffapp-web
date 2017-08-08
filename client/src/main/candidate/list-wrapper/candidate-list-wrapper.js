@@ -46,7 +46,7 @@ class CandidateListWrapper extends React.Component {
           elements={this.props.candidates.data}
           url={`candidates`}
         />
-          {props.candidates.pagesAmount !== 0 &&
+          {this.props.candidates.pagesAmount !== 0 &&
           <Button.Group size="large" floated="right">
               {counter === 1 && <Button disabled content="previous page"/>}
               {counter !== 1 && <Button onClick={this.lastPage} content="previous page"/>}

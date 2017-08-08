@@ -45,7 +45,7 @@ class VacancyListWrapper extends React.Component {
           elements={this.props.vacancies.data}
           url={`/vacancies`}
         />
-          {props.vacancies.pagesAmount !== 0 &&
+          {this.props.vacancies.pagesAmount !== 0 &&
           <Button.Group size="large" floated="right">
               {counter === 1 && <Button disabled content="previous page"/>}
               {counter !== 1 && <Button onClick={this.lastPage} content="previous page"/>}

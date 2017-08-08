@@ -45,7 +45,7 @@ class InterviewListWrapper extends React.Component {
           elements={this.props.interviews.data}
           url={`/interviews`}
         />
-          {props.interviews.pagesAmount !== 0 &&
+          {this.props.interviews.pagesAmount !== 0 &&
           <Button.Group size="large" floated="right">
               {counter === 1 && <Button disabled content="previous page"/>}
               {counter !== 1 && <Button onClick={this.lastPage} content="previous page"/>}
