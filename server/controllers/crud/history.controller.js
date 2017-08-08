@@ -1,6 +1,5 @@
 const CRUDController = require('../crud.controller');
 const db = require('../../dao/dao');
-const utils = require('../../utils');
 
 class HistoryController extends CRUDController {
   constructor() {
@@ -16,11 +15,6 @@ class HistoryController extends CRUDController {
       } else {
         history = await this.dao.findById(req.query.page, req.user.id);
       }
-
-      history.data.forEach((element) => {
-        element.time = utils.date.getTime(element.date);
-        element.date = utils.date.getDate(element.date);
-      });
 
       res.json(history);
     } catch (err) {
