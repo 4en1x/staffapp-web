@@ -4,7 +4,6 @@ import { Field, reduxForm } from 'redux-form';
 import {
   Button,
   Dropdown,
-  Segment,
   Divider,
   Header,
   Input,
