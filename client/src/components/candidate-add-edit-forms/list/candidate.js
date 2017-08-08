@@ -44,6 +44,8 @@ class Candidate extends React.Component {
   }
 
   initialData = () => {
+    skillList =[];
+    statusList =[];
     this.props.majorSkills.map(step => {
       const temp = {
         key: step,
@@ -64,32 +66,33 @@ class Candidate extends React.Component {
     });
 
     ////////////////////////////
+      counter=0;
     if (this.props.data) {
       const links = this.state.links;
-      this.props.data.contacts.links.map(link => links.push(link));
+      this.props.data.info.contacts.links.map(link => links.push(link));
       this.setState({ links });
 
       let initData = {
         name: this.props.data.name,
         surname: this.props.data.surname,
-        email: this.props.data.contacts.email,
-        primarySkill: this.props.data.skills.primarySkill,
-        primarySkillYearStart: this.props.data.skills.primarySkillYearStart,
-        phone: this.props.data.contacts.phone,
-        englishLevel: this.props.data.skills.englishLevel,
-        secondarySkills: this.props.data.skills.secondarySkills,
-        status: this.props.data.communication.status,
-        city: this.props.data.contacts.city,
-        salary: this.props.data.communication.salary,
-        resume: this.props.data.communication.resume,
-        linkedIn: this.props.data.contacts.linkedIn,
-        skype: this.props.data.contacts.skype,
-        vacancy: this.props.data.communication.vacancy,
+        email: this.props.data.info.contacts.email,
+        primarySkill: this.props.data.info.skills.primarySkill,
+        primarySkillYearStart: this.props.data.info.skills.primarySkillYearStart,
+        phone: this.props.data.info.contacts.phone,
+        englishLevel: this.props.data.info.skills.englishLevel,
+        secondarySkills: this.props.data.info.skills.secondarySkills,
+        status: this.props.data.status,
+        city: this.props.data.city,
+        salary: this.props.data.info.communication.salary,
+        resume: this.props.data.info.communication.resume,
+        linkedIn: this.props.data.info.contacts.linkedIn,
+        skype: this.props.data.info.contacts.skype,
+        vacancy: this.props.data.info.communication.vacancy,
         links: {}
         // links: this.props.data.contacts.links
       };
 
-      this.props.data.contacts.links.map(link => {
+      this.props.data.info.contacts.links.map(link => {
         const temp = "link" + counter;
         initData.links[temp] = link;
         counter++;
