@@ -15,7 +15,7 @@ import './candidate-list-wrapper.css';
 let counter;
 class CandidateListWrapper extends React.Component {
   componentDidMount() {
-    this.props.getCandidateList(this.props.filter);
+    this.props.getCandidateList({});
     counter =1;
   }
 

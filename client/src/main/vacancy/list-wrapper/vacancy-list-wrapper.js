@@ -14,7 +14,7 @@ import { Button } from 'semantic-ui-react';
 let counter = 1;
 class VacancyListWrapper extends React.Component {
   componentDidMount() {
-    this.props.getVacancyList(this.props.filter, 1);
+    this.props.getVacancyList({}, 1);
       counter =1;
   }
 
