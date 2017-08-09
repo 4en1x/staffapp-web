@@ -1,6 +1,7 @@
 const BasicDAO = require('../basic.dao');
 const FeedbackFieldsDAO = require('./feedbackfields.dao');
 const NotificationDAO = require('./notifications.dao');
+const UsersDAO = require('./users.dao');
 
 class FeedbacksDAO extends BasicDAO {
   constructor(connection) {
@@ -43,6 +44,7 @@ class FeedbacksDAO extends BasicDAO {
 
     if (feedback) {
       feedback.fields = await FeedbackFieldsDAO.instance.findByFeedback(id);
+      feedback.username = await UsersDAO.instance.nameById(feedback.userId);
     }
 
     return feedback;
