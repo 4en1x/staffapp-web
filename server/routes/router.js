@@ -1,19 +1,19 @@
 const Router = require('express').Router;
-const auth = require('./routes/auth.route');
-const candidates = require('./routes/candidates.route');
-const hirings = require('./routes/hirings.route');
-const interviews = require('./routes/interviews.route');
-const feedbacks = require('./routes/feedbacks.route');
-const vacancies = require('./routes/vacancies.route');
-const search = require('./routes/search.route');
-const history = require('./routes/history.route');
-const skills = require('./routes/skills.route');
-const cities = require('./routes/cities.route');
-const users = require('./routes/users.route');
-const englishLevels = require('./routes/englishLevels.route');
-const vacancyStatuses = require('./routes/vacancyStatuses.route');
-const candidateStatuses = require('./routes/candidateStatuses.route');
-const notifications = require('./routes/notifications.route');
+const auth = require('./auth.route');
+const candidates = require('./candidates.route');
+const hirings = require('./hirings.route');
+const interviews = require('./interviews.route');
+const feedbacks = require('./feedbacks.route');
+const vacancies = require('./vacancies.route');
+const search = require('./search.route');
+const history = require('./history.route');
+const skills = require('./skills.route');
+const cities = require('./cities.route');
+const users = require('./users.route');
+const englishLevels = require('./englishLevels.route');
+const vacancyStatuses = require('./vacancyStatuses.route');
+const candidateStatuses = require('./candidateStatuses.route');
+const notifications = require('./notifications.route');
 
 function init(app) {
   const restRoute = new Router();

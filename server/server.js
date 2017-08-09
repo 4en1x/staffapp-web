@@ -2,7 +2,7 @@ const cluster = require('cluster');
 const os = require('os');
 
 if (cluster.isMaster) {
-  const WORKERS = process.env.WEB_CONCURRENCY || os.cpus().length;
+  const WORKERS = process.env.WEB_CONCURRENCY || 1 || os.cpus().length;
 
   for (let i = 0; i < WORKERS; i += 1) {
     cluster.fork();
