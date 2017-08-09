@@ -31,7 +31,6 @@ class HistoryPage extends React.Component {
 
   render() {
     if (!this.props.history) return <SemanticLoader />;
-
     return (
       <div className="page-content">
         <div className="content-left">
@@ -51,7 +50,7 @@ class HistoryPage extends React.Component {
                   structData = structData.replace(/\"/gi, ' ');
                   preview = item.logs.slice(0, 64);
                 }
-
+                const date = new Date(item.date);
                 return (
                   <Table.Row>
                     <Table.Cell>
@@ -81,11 +80,11 @@ class HistoryPage extends React.Component {
                       <Header as="h2" textAlign="center">
                         <Header.Content>
                           <div className="date-output">
-                            {item.time}
+                            {date.toLocaleTimeString()}
                           </div>
                           <Header.Subheader>
                             <div className="date-output">
-                              {item.date}
+                              {date.toLocaleDateString()}
                             </div>
                           </Header.Subheader>
                         </Header.Content>
