@@ -31,7 +31,7 @@ function deleteCurrentVacancy(id) {
 }
 
 function getVacancyCandidates(url) {
-  return axios.get(`/rest/${url}/pickCandidates`);
+  return axios.get(`/rest${url}/pickCandidates`);
 }
 
 const vacancyService = {

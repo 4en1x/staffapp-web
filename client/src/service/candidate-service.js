@@ -43,7 +43,7 @@ function getCandidateHiring(url) {
 }
 
 function getCandidateVacancies(url) {
-  return axios.get(`/rest/${url}/pickVacancies`);
+  return axios.get(`/rest${url}/pickVacancies`);
 }
 
 function deleteCurrentCandidate(id) {
