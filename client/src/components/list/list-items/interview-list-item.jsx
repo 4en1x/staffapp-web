@@ -1,6 +1,6 @@
-import React from "react";
-import { List, Header } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { List, Header } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 
 const InterviewListItem = props => {
   const interview = props.element;

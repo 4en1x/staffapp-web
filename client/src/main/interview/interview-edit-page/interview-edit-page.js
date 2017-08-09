@@ -19,6 +19,8 @@ class EditInterviewPage extends React.Component {
 
   showResults = values => {
     delete values.userNames;
+    console.log(values);
+    delete values.users;
     this.props.patchInterview(this.props.match.params.id, values);
   };
 

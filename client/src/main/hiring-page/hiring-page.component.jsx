@@ -48,10 +48,6 @@ class HiringComponent extends React.Component {
     if (candidateId === null) candidateId = Number(this.props.match.params.id);
     if (vacancyId === null) vacancyId = Number(this.props.match.params.id);
 
-    console.log(this.props);
-    console.log(vacancyId);
-    console.log(candidateId);
-
     this.props.postHiring({
       candidateId: candidateId,
       vacancyId: vacancyId,
@@ -60,10 +56,10 @@ class HiringComponent extends React.Component {
   };
 
   render() {
-
     if (this.props.isUploaded) {
-      let id = this.props.vacancyId || this.props.candidateId;
-      return <Redirect to={`/candidates/${id}`}/>;
+      let url = `/vacancies/${this.props.vacancyId}`;
+      if (!this.props.vacancyId) url = `/candidates/${this.props.candidateId}`;
+      return <Redirect to={url} />;
     }
     return (
       <div className="hiring-page">
@@ -138,7 +134,7 @@ class HiringComponent extends React.Component {
             <Button
               className="add-button"
               fluid
-              content="add interview"
+              content="send interviews"
               icon="add"
               labelPosition="left"
               color="twitter"

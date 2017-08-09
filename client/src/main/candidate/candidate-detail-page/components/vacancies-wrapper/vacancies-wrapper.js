@@ -24,6 +24,7 @@ class VacanciesWrapper extends React.Component {
 
     if (!this.props.vacancies) return <SemanticLoader />;
 
+
     return (
       <ListComponent
         listItem={AdvancedVacancyListItem}
