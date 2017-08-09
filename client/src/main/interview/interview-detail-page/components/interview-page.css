@@ -1,9 +1,10 @@
-.info {
-  width: 25%;
+.content-column{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5em 0;
+}
+.content-cell{
+  height: 50%;
 }
 
 .interview-content {

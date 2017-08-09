@@ -34,7 +34,7 @@ class EditVacancyPage extends React.Component {
     const lists = this.props.formValues;
 
     return (
-      <div className="edit-vacancy-page">
+      <div className="page">
         {!this.props.formValues
           ? <SemanticLoader />
           : <VacancyComponent

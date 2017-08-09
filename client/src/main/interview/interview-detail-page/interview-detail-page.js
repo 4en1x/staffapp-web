@@ -29,7 +29,7 @@ class InterviewPage extends React.Component {
     if (this.props.isInterviewDeleted) return <Redirect to="/interviews"/>;
 
     return (
-      <div className="interview-page">
+      <div className="page">
         {!this.props.interview
           ? <SemanticLoader />
           : <InterviewComponent interview={this.props.interview} role={role} url={url} onDeleteClicked={this.onDeleteClicked} />}

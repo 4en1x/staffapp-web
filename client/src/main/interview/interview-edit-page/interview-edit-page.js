@@ -35,7 +35,7 @@ class EditInterviewPage extends React.Component {
     if (this.props.isFormSubmitted) return <Redirect to="/" />;
 
     return (
-      <div className="edit-interview-page">
+      <div className="page">
         <InterviewComponent
           onSubmit={this.showResults}
           data={this.props.interview}

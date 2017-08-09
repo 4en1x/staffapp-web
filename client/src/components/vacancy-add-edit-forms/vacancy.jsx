@@ -193,21 +193,23 @@ class Vacancy extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit} className="vacancy-detail-page">
-        <div className="vacancy-content">
-          <div className="content-top">
-            <div className="data-top">
-              <Header as="h2" className="name-label">
-                {!this.props.data && 'creating vacancy form'}
-                {this.props.data && 'editing vacancy form'}
-              </Header>
-            </div>
-            <Divider />
-          </div>
-          <Segment className="content-description" raised>
+      <div className="page-content">
+        <div className="content-tab background padded">
+          <Header
+            as="h1"
+            content={this.props.data ? 'Editing vacancy' : 'Creating vacancy'}
+          />
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="content-tab background padded "
+        >
+          <div className="vacancy-content">
             <div className="first-form-line">
               <div className="left-form-block">
                 <div className="item-with-label">
@@ -262,13 +264,15 @@ class Vacancy extends React.Component {
               </div>
             </div>
             <div className="add-vacancy">
-              <Button primary disabled={submitting}>
-                Send vacancy card
-              </Button>
+              <Button
+                color="twitter"
+                disabled={submitting}
+                content={this.props.data ? 'Save' : 'Add'}
+              />
             </div>
-          </Segment>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     );
   }
 }

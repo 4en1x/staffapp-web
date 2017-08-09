@@ -27,7 +27,7 @@ export default class App extends React.Component {
     const user = this.props.user;
 
     return (
-      <div className="root-class">
+      <div className="root-class parent-size">
         <Header
           user={{ name: user.name, role: user.role }}
           itemSelected={this.itemSelected}

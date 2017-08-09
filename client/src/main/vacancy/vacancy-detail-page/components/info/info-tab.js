@@ -21,17 +21,18 @@ const InfoTab = props =>
       Description:
       <Header.Subheader>{props.info.vacancy.description}</Header.Subheader>
     </Header>
-
-    <Link to={`${props.url}/edit`}>
-      <Button className="vacancy-detail-page_edit-button">Edit</Button>
-    </Link>
-    {props.info.role === roles.ADMIN.ROLE
-      ? <Button
-          className="vacancy-detail-page_edit-button"
-          onClick={props.info.onDeletedVacancy}
-        >
-          Delete
-        </Button>
-      : null}
+    <div className="buttons">
+      <Link to={`${props.url}/edit`}>
+        <Button className="vacancy-detail-page_edit-button">Edit</Button>
+      </Link>
+      {props.info.role === roles.ADMIN.ROLE
+        ? <Button
+            className="vacancy-detail-page_edit-button"
+            onClick={props.info.onDeletedVacancy}
+          >
+            Delete
+          </Button>
+        : null}
+    </div>
   </div>;
 export default InfoTab;

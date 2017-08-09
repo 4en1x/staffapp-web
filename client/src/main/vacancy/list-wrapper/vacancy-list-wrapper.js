@@ -51,9 +51,9 @@ class VacancyListWrapper extends React.Component {
               {counter !== 1 && <Button onClick={this.lastPage} content="previous page"/>}
             <Button.Or text={counter}/>
               {counter === this.props.vacancies.pagesAmount &&
-              <Button primary disabled content="next page"/>}
+              <Button color="twitter" disabled content="next page"/>}
               {counter !== this.props.vacancies.pagesAmount &&
-              <Button primary onClick={this.nextPage} content="next page"/>}
+              <Button color="twitter" onClick={this.nextPage} content="next page"/>}
           </Button.Group>
           }
       </div>

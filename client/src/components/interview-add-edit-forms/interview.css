@@ -59,8 +59,9 @@
 
 .add-interview {
   display: flex;
-  flex-direction: row-reverse;
-  margin: 10px 30px 5px 30px;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 1em;
 }
 
 .item-with-label {

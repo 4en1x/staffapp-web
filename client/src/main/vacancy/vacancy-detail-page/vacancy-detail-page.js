@@ -27,7 +27,7 @@ class VacancyPage extends React.Component {
     if (!this.props.vacancy) return <SemanticLoader />;
 
     return (
-      <div className="vacancy-page">
+      <div className="page">
         {!this.props.vacancy
           ? <SemanticLoader />
           : <Vacancy

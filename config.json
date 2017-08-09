@@ -1,11 +1,10 @@
 {
   "db": {
-    "host": "us-cdbr-iron-east-03.cleardb.net",
-    "port": 3306,
-    "user": "b9d7bbba7d2c64",
-    "password": "f42fc68b",
-    "database": "heroku_37f37373ed5b127",
-    "timezone": "utc"
+     "host": "localhost",
+     "port": 3306,
+     "user": "root",
+     "password": "12345",
+     "database": "exadelteamdb"
   },
   "web": {
     "port": 3300,

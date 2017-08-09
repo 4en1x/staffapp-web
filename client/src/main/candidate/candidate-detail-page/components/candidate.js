@@ -5,7 +5,7 @@ import HistoryWrapper from './history-wrapper/history-wrapper';
 import HiringWrapper from './hiring-wrapper/hiring-wrapper';
 import VacanciesWrapper from './vacancies-wrapper/vacancies-wrapper';
 import SecondaryMenuComponent from '../../../../components/secondary-menu/secondary-menu.component';
-import LinkButton from '../../../../components/custom-button/link-button';
+import LinkIconButton from '../../../../components/custom-button/link-icon-button';
 import Button from '../../../../components/custom-button/button';
 
 import roles from '../../../../config/config';
@@ -22,11 +22,19 @@ export default class Candidate extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { activeItem } = this.state;
     let currentTab;
     switch (activeItem) {
       case Items[0]:
-        currentTab = <InfoTab info={this.props.candidate.info} />;
+        currentTab = (
+          <InfoTab
+            info={this.props.candidate.info}
+            role={this.props.role}
+            url={this.props.url}
+            onDeleteClicked={this.props.onDeleteClicked}
+          />
+        );
         break;
       case Items[1]:
         currentTab = <HiringWrapper url={this.props.url} />;
@@ -40,6 +48,10 @@ export default class Candidate extends React.Component {
       default:
         currentTab = '';
     }
+
+    const lastChangeDate = new Date(
+      this.props.candidate.info.communication.lastChangeDate
+    );
     return (
       <div className="page-content">
         <div className="relative content-tab background padded ">
@@ -47,8 +59,8 @@ export default class Candidate extends React.Component {
             as="h1"
             content={`${this.props.candidate.name} ${this.props.candidate
               .surname}`}
-            subheader={this.props.candidate.info.skills.primarySkill}
           />
+
           <Label
             className="custom"
             as="a"
@@ -58,26 +70,20 @@ export default class Candidate extends React.Component {
           >
             {this.props.candidate.status}
           </Label>
+
+          <div className="extra">
+            <span className="span-label">
+              {this.props.candidate.city}
+            </span>
+            <span className="span-label">
+              Last change: {lastChangeDate.toLocaleDateString()}
+            </span>
+          </div>
         </div>
-        <div className="content-left">
+        <div className="content-wide">
           {currentTab}
         </div>
-        <div className="content-right">
-          <LinkButton
-            to={`${this.props.url}/edit`}
-            content="Edit"
-            color="twitter"
-            icon="edit"
-          />
-          {this.props.role === roles.ADMIN.ROLE
-            ? <Button
-                content="Delete"
-                icon="trash outline"
-                labelPosition="left"
-                color="twitter"
-                onClick={this.props.onDeleteClicked}
-              />
-            : null}
+        <div className="content-thin">
           <SecondaryMenuComponent
             onItemClick={this.handleItemClick}
             items={Items}

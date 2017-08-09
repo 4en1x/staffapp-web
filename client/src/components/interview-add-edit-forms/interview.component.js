@@ -142,8 +142,9 @@ class InterviewComponent extends React.Component {
   };
 
   initialData = () => {
-    if (this.props.skillsList.users)
+    if (this.props.skillsList)
       usersList =[];
+
       this.props.skillsList.users.map(item => {
         let colorLabel = 'grey';
         if (item.role === 'hr') colorLabel = 'orange';
@@ -292,7 +293,6 @@ class InterviewComponent extends React.Component {
   render() {
     const { reset, handleSubmit, submitting } = this.props;
     return (
-      <div className="content-left">
       <form
         onSubmit={handleSubmit(this.prepareData.bind(this))}
         className="content-tab background padded"
@@ -393,13 +393,12 @@ class InterviewComponent extends React.Component {
             </div>}
 
           <div className="add-interview">
-            <Button type="button" onClick={reset} content='reset data'/>
-            <Button primary disabled={submitting}>
-              add interview
+            <Button type="button" onClick={reset} content='Clear'/>
+            <Button color="twitter" disabled={submitting}>
+              Add interview
             </Button>
           </div>
       </form>
-      </div>
     );
   }
 }

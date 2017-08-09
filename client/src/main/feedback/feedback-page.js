@@ -19,7 +19,7 @@ class FeedbackPage extends React.Component {
     if (this.props.isFeedbackUploaded) return <Redirect to="/" />;
 
     return (
-      <div className="feedback-page">
+      <div className="page">
         {!this.props.fields
           ? <SemanticLoader />
           : <FeedbackView

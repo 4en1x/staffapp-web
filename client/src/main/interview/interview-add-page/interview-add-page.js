@@ -31,7 +31,7 @@ class AddInterviewPage extends React.Component {
     if (!this.props.isFormLoaded) return <SemanticLoader />;
 
     return (
-      <div className="interview-page">
+      <div className="page">
         <InterviewComponent
           onSubmit={this.showResults}
           skillsList={this.props.formValues}

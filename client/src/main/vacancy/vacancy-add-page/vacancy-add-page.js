@@ -31,7 +31,7 @@ class AddVacancyPage extends React.Component {
     if (this.props.isFormSubmitted) return <Redirect to="/vacancies" />;
 
     return (
-      <div className="vacancy-page">
+      <div className="page">
         {!this.props.formValues
           ? <SemanticLoader />
           : <VacancyComponent

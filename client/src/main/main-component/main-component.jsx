@@ -7,7 +7,7 @@ import VacancyListWrapper from '../vacancy/list-wrapper/vacancy-list-wrapper';
 import InterviewsMenu from './components/menu/interviews-menu';
 import VacanciesFilterForm from './components/filter/vacancies-filter.container';
 import CandidateFilter from './components/filter/candidates-filter.container';
-import LinkButton from '../../components/custom-button/link-button';
+import LinkIconButton from '../../components/custom-button/link-icon-button';
 import HistoryPage from '../history/history-page';
 import roles from '../../config/config';
 import './main-component.css';
@@ -17,7 +17,7 @@ class MainComponent extends React.Component {
     console.log(this.props.role);
 
     return (
-      <div className="hr-page">
+      <div className="page">
         <Route
           exact
           path={`/`}
@@ -27,12 +27,14 @@ class MainComponent extends React.Component {
           path={`/interviews`}
           component={() =>
             <div className="page-content">
-              <div className="content-left">
+              <div className="content-wide">
                 <InterviewListWrapper />
               </div>
-              <div className="content-right">
-                <InterviewsMenu />
-              </div>
+              {this.props.role !== roles.WORKER.ROLE
+                ? <div className="content-thin">
+                    <InterviewsMenu />
+                  </div>
+                : null}
             </div>}
         />
         {this.props.role !== roles.WORKER.ROLE
@@ -41,15 +43,16 @@ class MainComponent extends React.Component {
                 path={`/vacancies`}
                 component={() =>
                   <div className="page-content">
-                    <div className="content-left">
+                    <div className="content-wide">
                       <VacancyListWrapper />
                     </div>
-                    <div className="content-right">
-                      <LinkButton
+                    <div className="content-thin">
+                      <LinkIconButton
                         to="/vacancies/add"
                         content="Add vacancy"
                         color="twitter"
                         icon="add"
+                        labelPosition="left"
                       />
                       <VacanciesFilterForm />
                     </div>
@@ -59,15 +62,16 @@ class MainComponent extends React.Component {
                 path={`/candidates`}
                 component={() =>
                   <div className="page-content">
-                    <div className="content-left">
+                    <div className="content-wide">
                       <CandidateListWrapper />
                     </div>
-                    <div className="content-right">
-                      <LinkButton
+                    <div className="content-thin">
+                      <LinkIconButton
                         to="/candidates/add"
                         content="Add candidate"
                         color="twitter"
                         icon="add"
+                        labelPosition="left"
                       />
                       <CandidateFilter />
                     </div>

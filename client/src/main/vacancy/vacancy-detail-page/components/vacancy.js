@@ -54,10 +54,10 @@ export default class Vacancy extends React.Component {
           </div>
         </div>
 
-        <div className="content-left">
+        <div className="content-wide">
           {currentTab}
         </div>
-        <div className="content-right">
+        <div className="content-thin">
           <SecondaryMenu items={Items} onItemClick={this.handleItemClick} />
         </div>
       </div>

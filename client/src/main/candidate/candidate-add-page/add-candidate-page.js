@@ -32,7 +32,7 @@ class AddCandidatePage extends React.Component {
     const lists = this.props.formValues;
 
     return (
-      <div className="candidate-page">
+      <div className="page">
         <Candidate
           majorSkills={lists.primarySkills}
           minorSkills={lists.secondarySkills}

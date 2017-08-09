@@ -59,133 +59,102 @@ class FeedbackView extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { handleSubmit, submitting } = this.props;
     return (
-      <div className="main-component">
-        <Header dividing as="h2" className="custom-header">
-          Feedback {this.props.data.id}
-        </Header>
+      <div className="page-content" onSubmit={handleSubmit(this.prepareData)}>
+        <div className="content-tab background padded">
+          <Header as="h1" content={`Feedback ${this.props.data.id}`} />
+        </div>
 
-        <Card fluid>
-          <Header
-            as="h1"
-            textAlign="center"
-            className="feedback-component_header"
-          >
-            Description:
+        <form className="content-tab background padded">
+          <Header as="h1" textAlign="center">
+            Results:
           </Header>
-          <div className="feedback-description">
-            <List size="massive" className="grid-list">
-              <List.Item>
-                <List.Header>Interviewee: </List.Header>
-                Name Surname
-              </List.Item>
-              <List.Item>
-                <List.Header>Interviewer: </List.Header>
-                Anatoliy Levakov
-              </List.Item>
-              <List.Item>
-                <List.Header>Vacansy: </List.Header>
-                Junior JS Developer
-              </List.Item>
-              <List.Item>
-                <List.Header>Date:</List.Header> 01.01.1991
-              </List.Item>
-            </List>
-          </div>
-          <Divider section />
-          <form
-            onSubmit={handleSubmit(this.prepareData)}
-            className="feedback-form"
-          >
-            <Header as="h1" textAlign="center">
-              Results:
-            </Header>
 
-            <List size="massive">
-              <List.Item>
-                <List.Header>Primary skill: </List.Header>
+          <List size="massive">
+            <List.Item>
+              <List.Header>Primary skill: </List.Header>
+              {this.props.data.fields.map(step => {
+                if (step.typeSkill === 'primary')
+                  return (
+                    <div className="feedback-results_primary-skill">
+                      <label>
+                        {step.name}
+                        <Field
+                          name={'primary' + step.id + '.value'}
+                          component={this.starsInput}
+                        />
+                      </label>
+                      <Field
+                        name={'primary' + step.id + '.comment'}
+                        component={this.descriptionInput}
+                      />
+                    </div>
+                  );
+              })}
+            </List.Item>
+            <List.Item>
+              <List.Header>Secondary skills: </List.Header>
+              <List>
                 {this.props.data.fields.map(step => {
-                  if (step.typeSkill === 'primary')
+                  if (step.typeSkill === 'secondary')
                     return (
-                      <div className="feedback-results_primary-skill">
-                        <label>
-                          {step.name}
+                      <List.Item className="flex-block">
+                        <Accordion fluid>
+                          <Accordion.Title className="display-accordion">
+                            {step.name}
+                          </Accordion.Title>
                           <Field
-                            name={'primary' + step.id + '.value'}
+                            name={'secondary' + step.id + '.value'}
                             component={this.starsInput}
                           />
-                        </label>
-                        <Field
-                          name={'primary' + step.id + '.comment'}
-                          component={this.descriptionInput}
-                        />
-                      </div>
+                          <Accordion.Content>
+                            <Field
+                              name={'secondary' + step.id + '.comment'}
+                              component={this.descriptionInput}
+                            />
+                          </Accordion.Content>
+                        </Accordion>
+                      </List.Item>
                     );
                 })}
-              </List.Item>
-              <List.Item>
-                <List.Header>Secondary skills: </List.Header>
-                <List>
-                  {this.props.data.fields.map(step => {
-                    if (step.typeSkill === 'secondary')
-                      return (
-                        <List.Item className="flex-block">
-                          <Accordion fluid>
-                            <Accordion.Title className="display-accordion">
-                              {step.name}
-                            </Accordion.Title>
+              </List>
+            </List.Item>
+            <List.Item className="flex-block">
+              <List.Header>Other skills: </List.Header>
+              <List>
+                {this.props.data.fields.map(step => {
+                  if (step.typeSkill === 'other')
+                    return (
+                      <List.Item className="flex-block">
+                        <Accordion fluid>
+                          <Accordion.Title className="display-accordion">
+                            {step.name}
+                          </Accordion.Title>
+                          <Field
+                            name={'other' + step.id + '.value'}
+                            component={this.starsInput}
+                          />
+                          <Accordion.Content>
                             <Field
-                              name={'secondary' + step.id + '.value'}
-                              component={this.starsInput}
+                              name={'other' + step.id + '.comment'}
+                              component={this.descriptionInput}
                             />
-                            <Accordion.Content>
-                              <Field
-                                name={'secondary' + step.id + '.comment'}
-                                component={this.descriptionInput}
-                              />
-                            </Accordion.Content>
-                          </Accordion>
-                        </List.Item>
-                      );
-                  })}
-                </List>
-              </List.Item>
-              <List.Item className="flex-block">
-                <List.Header>Other skills: </List.Header>
-                <List>
-                  {this.props.data.fields.map(step => {
-                    if (step.typeSkill === 'other')
-                      return (
-                        <List.Item className="flex-block">
-                          <Accordion fluid>
-                            <Accordion.Title className="display-accordion">
-                              {step.name}
-                            </Accordion.Title>
-                            <Field
-                              name={'other' + step.id + '.value'}
-                              component={this.starsInput}
-                            />
-                            <Accordion.Content>
-                              <Field
-                                name={'other' + step.id + '.comment'}
-                                component={this.descriptionInput}
-                              />
-                            </Accordion.Content>
-                          </Accordion>
-                        </List.Item>
-                      );
-                  })}
-                </List>
-              </List.Item>
-            </List>
-            <div className="button-container">
-              <Button color="twitter" primary disabled={submitting}>
-                Feedback
-              </Button>
-            </div>
-          </form>
-        </Card>
+                          </Accordion.Content>
+                        </Accordion>
+                      </List.Item>
+                    );
+                })}
+              </List>
+            </List.Item>
+          </List>
+          <div className="buttons">
+            <Button color="twitter" disabled={submitting}>
+              Send
+            </Button>
+          </div>
+        </form>
       </div>
     );
   }

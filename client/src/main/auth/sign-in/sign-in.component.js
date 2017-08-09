@@ -46,7 +46,7 @@ class SignInComponent extends React.Component {
       return <Redirect to={{ pathname: "/" }} />;
 
     return (
-      <div className="auth-container">
+      <div className="auth-container parent-size">
         <div className="auth-form">
           <div className="auth-form-header">
             <Image src={logos.logo1} height="30px" verticalAlign="bottom" />

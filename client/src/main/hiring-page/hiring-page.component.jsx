@@ -4,7 +4,10 @@ import { Redirect } from 'react-router-dom';
 import { Button, Header, Icon, Label, Table } from 'semantic-ui-react';
 import SemanticLoader from '../../components/loaders/semantic-loader';
 import InterviewComponent from '../../components/interview-add-edit-forms/interview.component';
+import CustomButton from '../../components/custom-button/button';
+
 import { postHiring, resetHiring, getFormValues } from './hiring-actions';
+
 const peoples = [];
 class HiringComponent extends React.Component {
   constructor(props) {
@@ -62,9 +65,9 @@ class HiringComponent extends React.Component {
       return <Redirect to={url} />;
     }
     return (
-      <div className="hiring-page">
+      <div className="page">
         <div className="page-content">
-          <div className="content-left">
+          <div className="content-wide">
             {this.props.formValues
               ? <InterviewComponent
                   onSubmit={this.showResults}
@@ -73,72 +76,72 @@ class HiringComponent extends React.Component {
               : <SemanticLoader />}
           </div>
 
-          <div className="content-right">
-            {this.state.data.length !== 0 &&
-              <Table basic="very">
-                <Table.Body>
-                  {this.state.data.map((interviewLine, move) =>
-                    <Table.Row
-                      key={
-                        interviewLine.type +
-                        interviewLine.time +
-                        interviewLine.date
-                      }
-                    >
-                      <Table.Cell>
-                        {interviewLine.type === 'HR' &&
-                          <Label color="green" horizontal content="HR" />}
-                        {interviewLine.type === 'tech' &&
-                          <Label color="orange" horizontal content="tech" />}
-                        {interviewLine.type === 'client' &&
-                          <Label color="violet" horizontal content="client" />}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {interviewLine.userNames.join(' ')}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {peoples[move]}
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Header as="h2" textAlign="center">
-                          <Header.Content>
-                            <div className="date-output">
-                              {interviewLine.time}
-                            </div>
-                            <Header.Subheader>
+          <div className="content-thin">
+            <div className="content-tab background padded">
+              {this.state.data.length !== 0 &&
+                <Table basic="very">
+                  <Table.Body>
+                    {this.state.data.map((interviewLine, move) =>
+                      <Table.Row
+                        key={
+                          interviewLine.type +
+                          interviewLine.time +
+                          interviewLine.date
+                        }
+                      >
+                        <Table.Cell>
+                          {interviewLine.type === 'HR' &&
+                            <Label color="green" horizontal content="HR" />}
+                          {interviewLine.type === 'tech' &&
+                            <Label color="orange" horizontal content="tech" />}
+                          {interviewLine.type === 'client' &&
+                            <Label
+                              color="violet"
+                              horizontal
+                              content="client"
+                            />}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {interviewLine.userNames.join(' ')}
+                        </Table.Cell>
+                        <Table.Cell>
+                          {peoples[move]}
+                        </Table.Cell>
+                        <Table.Cell>
+                          <Header as="h2" textAlign="center">
+                            <Header.Content>
                               <div className="date-output">
-                                {interviewLine.date}
+                                {interviewLine.time}
                               </div>
-                            </Header.Subheader>
-                          </Header.Content>
-                        </Header>
-                      </Table.Cell>
-                      <Table.Cell>
-                        {interviewLine.place &&
-                          <Label tag content={interviewLine.place} />}
-                      </Table.Cell>
-                    </Table.Row>
-                  )}
-                </Table.Body>
-              </Table>}
-            {this.state.data.length === 0 &&
-              <div className="margin-top-icon">
-                <Header as="h2" icon disabled textAlign="center">
-                  <Icon name="sticky note outline" />
-                  No interviews
-                  <Header.Subheader>
-                    Yoy can add interview, using add interview form
-                  </Header.Subheader>
-                </Header>
-              </div>}
-            <Button
-              className="add-button"
-              fluid
-              content="send interviews"
-              icon="add"
-              labelPosition="left"
+                              <Header.Subheader>
+                                <div className="date-output">
+                                  {interviewLine.date}
+                                </div>
+                              </Header.Subheader>
+                            </Header.Content>
+                          </Header>
+                        </Table.Cell>
+
+                      </Table.Row>
+                    )}
+                  </Table.Body>
+                </Table>}
+              {this.state.data.length === 0 &&
+                <div className="margin-top-icon">
+                  <Header as="h2" icon disabled textAlign="center">
+                    <Icon name="sticky note outline" />
+                    No interviews
+                    <Header.Subheader>
+                      You can add several interviews to the group
+                    </Header.Subheader>
+                  </Header>
+                </div>}
+            </div>
+            <CustomButton
+              content="Send group of interviews"
+              icon="share"
+              labelPosition="right"
               color="twitter"
-              type="button"
               onClick={this.sendData}
             />
           </div>

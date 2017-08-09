@@ -8,7 +8,7 @@ const CustomButton = props =>
     fluid
     content={props.content}
     icon={props.icon}
-    labelPosition="left"
+    labelPosition={props.labelPosition}
     color={props.color}
     onClick={props.onClick}
   />;

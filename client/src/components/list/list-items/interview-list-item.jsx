@@ -14,7 +14,9 @@ const InterviewListItem = props => {
             {`${interview.name} ${interview.surname}`}
           </Header>
           <Header as="h2" className="top-right">
-            {date.toLocaleTimeString()}
+            {`0${date.getHours()}`.slice(-2) +
+              ':' +
+              `0${date.getMinutes()}`.slice(-2)}
           </Header>
         </div>
         <div className="list-item-extra">
