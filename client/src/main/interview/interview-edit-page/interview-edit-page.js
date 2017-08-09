@@ -19,8 +19,9 @@ class EditInterviewPage extends React.Component {
 
   showResults = values => {
     delete values.userNames;
-    console.log(values);
-    delete values.users;
+      const dateItem = new Date(values.date + ' ' + values.time);
+      values.date = dateItem.toISOString();
+      delete values.time;
     this.props.patchInterview(this.props.match.params.id, values);
   };
 
@@ -30,9 +31,6 @@ class EditInterviewPage extends React.Component {
   }
 
   render() {
-
-    console.log(this.props.interview);
-
     if (!this.props.formValues) return <SemanticLoader />;
     if (this.props.isFormSubmitted) return <Redirect to="/" />;
 

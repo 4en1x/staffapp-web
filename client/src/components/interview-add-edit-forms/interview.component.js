@@ -142,8 +142,6 @@ class InterviewComponent extends React.Component {
   };
 
   initialData = () => {
-      console.log("fffffffffffffffffff");
-    console.log(this.props);
     if (this.props.skillsList.users)
       usersList =[];
       this.props.skillsList.users.map(item => {

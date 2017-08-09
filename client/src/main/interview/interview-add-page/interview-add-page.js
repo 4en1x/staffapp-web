@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import InterviewComponent from '../../../components/interview-add-edit-forms/interview.component';
-import { getFillList, postInterview, resetInterviewList } from '../interview-actions';
+import {
+  getFillList,
+  postInterview,
+  resetInterviewList
+} from '../interview-actions';
 import SemanticLoader from '../../../components/loaders/semantic-loader';
 
 import './interview-add-page.css';
@@ -13,6 +17,9 @@ class AddInterviewPage extends React.Component {
 
   showResults = values => {
     delete values.userNames;
+    const dateItem = new Date(values.date + ' ' + values.time);
+    values.date = dateItem.toISOString();
+    delete values.time;
     this.props.postInterview(values);
   };
 
@@ -21,7 +28,6 @@ class AddInterviewPage extends React.Component {
   }
 
   render() {
-
     if (!this.props.isFormLoaded) return <SemanticLoader />;
 
     return (
@@ -43,6 +49,8 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { getFillList, postInterview, resetInterviewList })(
-  AddInterviewPage
-);
+export default connect(mapStateToProps, {
+  getFillList,
+  postInterview,
+  resetInterviewList
+})(AddInterviewPage);
