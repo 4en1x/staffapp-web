@@ -5,6 +5,9 @@ import { List, Header } from 'semantic-ui-react';
 const AdvancedVacancyListItem = props => {
   const vacancy = props.element;
   const date = new Date(vacancy.jobStart);
+
+  const url = `/interviews?candidateId=${10}&vacancyId=${20}`;
+
   return (
     <List.Item className="flex-list-item">
       <NavLink to={`/hiring/${vacancy.id}`}>

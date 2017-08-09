@@ -395,7 +395,7 @@ class InterviewComponent extends React.Component {
           <div className="add-interview">
             <Button type="button" onClick={reset} content='reset data'/>
             <Button primary disabled={submitting}>
-              Send interview card
+              add interview
             </Button>
           </div>
       </form>

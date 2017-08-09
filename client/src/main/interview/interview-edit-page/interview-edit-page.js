@@ -22,7 +22,6 @@ class EditInterviewPage extends React.Component {
       const dateItem = new Date(values.date + ' ' + values.time);
       values.date = dateItem.toISOString();
       delete values.time;
-      window.alert(JSON.stringify(values));
     this.props.patchInterview(this.props.match.params.id, values);
   };
 
@@ -32,7 +31,6 @@ class EditInterviewPage extends React.Component {
   }
 
   render() {
-
     if (!this.props.formValues) return <SemanticLoader />;
     if (this.props.isFormSubmitted) return <Redirect to="/" />;
 
